@@ -1,0 +1,53 @@
+/*=============== REUSABLE CSS CLASSES ===============*/
+.section {
+  padding: 5.5rem 0 1rem;
+
+  &__title,
+  &__title-center {
+    font-size: var(--h2-font-size);
+    margin-bottom: var(--mb-2);
+    line-height: 140%;
+
+    &-center {
+      text-align: center;
+    }
+  }
+}
+
+.container {
+  max-width: 968px;
+  margin-left: var(--mb-1-5);
+  margin-right: var(--mb-1-5);
+
+  &-center {
+    text-align: center;
+    margin: 10px 0px;
+  }
+}
+
+.grid {
+  display: grid;
+}
+
+.main {
+  overflow: hidden; // For animation
+}
+
+.search {
+  &__container {
+    display: flex;
+    width: 100%;
+  }
+
+  &__input {
+    width: inherit;
+  }
+
+  &__button {
+    margin: 0px 5px;
+  }
+}
+
+.accordeon__container {
+  margin-top: 5px;
+}
