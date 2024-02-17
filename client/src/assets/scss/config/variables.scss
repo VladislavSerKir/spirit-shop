@@ -1,15 +1,11 @@
-/*=============== GOOGLE FONTS ===============*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-/*=============== VARIABLES CSS ===============*/
 :root {
-  --header-height: 3.5rem; // 56px
+  --header-height: 5rem;
 
-  /*========== Colors ==========*/
-  /*Color mode HSL(hue, saturation, lightness)*/
-  --hue: 152;
+  --hue: 60;
 
-  --first-color: hsl(var(--hue), 24%, 32%);
+  --first-color: hsl(var(--hue), 60%, 70%);
   --first-color-alt: hsl(var(--hue), 24%, 28%);
   --first-color-light: hsl(var(--hue), 24%, 66%);
   --first-color-lighten: hsl(var(--hue), 24%, 92%);
@@ -19,9 +15,7 @@
   --body-color: hsl(var(--hue), 0%, 100%);
   --container-color: #fff;
 
-  /*========== Font and typography ==========*/
-  /*.5rem = 8px | 1rem = 16px ...*/
-  --body-font: 'Poppins', sans-serif;
+  --body-font: "Poppins", sans-serif;
 
   --big-font-size: 2rem;
   --h1-font-size: 1.5rem;
