@@ -31,7 +31,7 @@ export const Header = () => {
     localStorage.setItem("selected-icon", getCurrentIcon());
   };
   const [isAdmin, setIsAdmin] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <header className="header scroll-header" id="header">
