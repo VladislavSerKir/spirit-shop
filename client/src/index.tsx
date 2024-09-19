@@ -4,7 +4,7 @@ import "./assets/scss/styles.scss";
 import App from "./components/app/App";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import store from "./service";
+import store from "./store";
 
 // const router = createBrowserRouter([
 //   {

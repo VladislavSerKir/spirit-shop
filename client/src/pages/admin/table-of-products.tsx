@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { getCategory } from "../../../store/category";
 // import { deleteProduct, getProducts } from "../../../store/products";
-import history from "../../utilits/history";
+import history from "../../utils/history";
 
 const TableOfProducts = () => {
   //   const dispatch = useDispatch();

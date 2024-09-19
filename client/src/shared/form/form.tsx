@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 //   getProductsError,
 //   updateProduct,
 // } from "../../store/products";
-import history from "../../utilits/history";
+import history from "../../utils/history";
 import MultiSelectField from "./multi-select-field";
 import TextField from "./text-field";
 import TextArea from "./text-area";
