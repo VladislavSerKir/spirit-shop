@@ -4,11 +4,13 @@ import { Link, NavLink } from "react-router-dom";
 
 export const Header = () => {
   const dispatch = useDispatch();
+
+  const [iconTheme, setIconTheme] = useState("ri-moon-line");
   const [showMenu, setShowMenu] = useState({
     status: false,
     style: "nav__menu",
   });
-  const [iconTheme, setIconTheme] = useState("ri-moon-line");
+
   const clickToShowMenu = () => {
     if (showMenu.status) {
       setShowMenu({ status: false, style: "nav__menu" });
@@ -30,6 +32,7 @@ export const Header = () => {
     localStorage.setItem("selected-theme", getCurrentTheme());
     localStorage.setItem("selected-icon", getCurrentIcon());
   };
+
   const [isAdmin, setIsAdmin] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isActive, setIsActive] = useState(true);

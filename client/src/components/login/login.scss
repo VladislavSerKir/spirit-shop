@@ -1,0 +1,120 @@
+.login {
+  &__container {
+    row-gap: 3.5rem;
+  }
+
+  &__data {
+    display: grid;
+    row-gap: 2rem;
+  }
+
+  &__subtitle {
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-medium);
+    color: var(--text-color);
+    margin-bottom: var(--mb-0-5);
+  }
+
+  &__description {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+  }
+
+  &__inputs {
+    display: grid;
+    row-gap: 2rem;
+    margin-bottom: var(--mb-2-5);
+  }
+
+  &__content {
+    position: relative;
+    height: 3rem;
+    border-bottom: 1px solid var(--text-color-light);
+
+    &-error {
+      position: relative;
+      height: 3rem;
+      border-bottom: 1px solid red;
+    }
+  }
+
+  &__error {
+    margin-top: 3.25rem;
+    text-align: center;
+  }
+
+  &__checked-error {
+    margin-bottom: 10px;
+  }
+
+  &__error-message {
+    color: red;
+    font-size: 12px;
+  }
+
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1rem 1rem 0;
+    background: none;
+    color: var(--text-color);
+    border: none;
+    outline: none;
+    z-index: 1;
+
+    &:focus + .login__label {
+      top: -0.75rem;
+      left: 0;
+      font-size: var(--smaller-font-size);
+      z-index: 10;
+    }
+    &:not(:placeholder-shown).login__input:not(:focus) + .login__label {
+      top: -0.75rem;
+      font-size: var(--smaller-font-size);
+      z-index: 10;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 0.75rem;
+    width: 100%;
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+    transition: 0.3s;
+  }
+
+  &__label-select {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+    position: relative;
+    bottom: 10px;
+  }
+
+  &__select-error {
+    text-align: center;
+    margin-top: 10px;
+    border-top: 1px solid red;
+    color: red;
+    font-size: 12px;
+  }
+
+  &__area {
+    height: 7rem;
+
+    & textarea {
+      resize: none;
+    }
+  }
+}

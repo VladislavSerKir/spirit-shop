@@ -1,0 +1,36 @@
+.button {
+  display: inline-block;
+  background-color: var(--first-color);
+  color: #fff;
+  padding: 1rem 1.75rem;
+  border-radius: 0.5rem;
+  font-weight: var(--font-medium);
+  transition: 0.3s;
+
+  &:hover .button__icon {
+    transform: translateX(0.25rem);
+  }
+
+  &:hover {
+    background-color: var(--first-color-alt);
+  }
+
+  &__icon {
+    transition: 0.3s;
+  }
+
+  &--flex {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.5rem;
+  }
+
+  &--link {
+    color: var(--first-color);
+    font-weight: var(--font-medium);
+
+    &:hover .button__icon {
+      transform: translateX(0.25rem);
+    }
+  }
+}

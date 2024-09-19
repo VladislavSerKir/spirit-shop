@@ -1,0 +1,31 @@
+.cart {
+  &-item {
+    display: flex;
+    justify-content: space-between;
+
+    &__info {
+      margin: auto 0px;
+    }
+  }
+
+  &-button {
+    background-color: var(--first-color);
+    color: #fff;
+    font-weight: var(--font-medium);
+    border-radius: 50%;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+
+  &__total {
+    text-align: end;
+
+    &_sum {
+      font-weight: 600;
+
+      span {
+        margin-left: 10%;
+      }
+    }
+  }
+}

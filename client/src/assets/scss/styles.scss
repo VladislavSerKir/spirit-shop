@@ -6,11 +6,15 @@
 @import "../../components/home/home";
 @import "../../components/about/about";
 @import "../../components/steps/steps";
-@import "../../components/products/products";
+@import "../../components/main-products/main-products.scss";
 @import "../../components/questions/questions";
 @import "../../components/contact/contact";
 @import "components/buttons";
 @import "../../components/footer/footer";
-@import "../../components/scroll-up/scroll";
+@import "../../components/scroll-up/scroll-up.scss";
 @import "components/breakpoints";
 @import "../../components/login/login";
+@import "../../shared/loader/loader";
+@import "../../shared/product-card/product-card.scss";
+@import "../../pages/cart/cart.scss";
+@import "../../pages/products/product.scss";

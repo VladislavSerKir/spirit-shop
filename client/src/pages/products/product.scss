@@ -1,0 +1,58 @@
+.product-solo {
+  &__container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  &__img {
+    position: relative;
+    width: 60%;
+    justify-self: center;
+    margin-bottom: var(--mb-0-75);
+    transition: 0.3s;
+  }
+
+  &__description {
+    width: 30%;
+    padding-left: 50px;
+    text-align: justify;
+  }
+
+  &__title {
+    font-size: var(--small-font-size);
+    font-weight: var(--font-semi-bold);
+    color: var(--title-color);
+    text-align: center;
+  }
+
+  &__button {
+    right: 0;
+    bottom: 0;
+    background-color: var(--first-color);
+    color: #fff;
+    padding: 0.25rem;
+    border-radius: 0.35rem;
+    font-size: 1.15rem;
+    margin-left: 10px;
+
+    &:hover {
+      background-color: var(--first-color-alt);
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    &__container {
+      display: block;
+    }
+
+    &__img {
+      width: 40%;
+    }
+
+    &__description {
+      width: 100%;
+      padding-left: 0px;
+    }
+  }
+}
