@@ -32,6 +32,7 @@ export const Header = () => {
   };
   const [isAdmin, setIsAdmin] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   return (
     <header className="header scroll-header" id="header">
@@ -45,12 +46,14 @@ export const Header = () => {
             <li className="nav__item">
               <NavLink
                 to="/"
-                className={({ isActive, isPending }) =>
-                  [
-                    isPending ? "nav__link" : "",
-                    isActive ? "active-link" : "",
-                  ].join(" ")
-                }
+                // className={({ isActive, isPending }) =>
+                //   [
+                //     isPending ? "nav__link" : "",
+                //     isActive ? "active-link" : "",
+                //   ].join(" ")
+                // }
+                className="nav__link"
+                activeClassName="active-link"
                 onClick={clickToShowMenu}
               >
                 Home
@@ -59,12 +62,14 @@ export const Header = () => {
             <li className="nav__item">
               <NavLink
                 to="/products"
-                className={({ isActive, isPending }) =>
-                  [
-                    isPending ? "nav__link" : "",
-                    isActive ? "active-link" : "",
-                  ].join(" ")
-                }
+                // className={({ isActive, isPending }) =>
+                //   [
+                //     isPending ? "nav__link" : "",
+                //     isActive ? "active-link" : "",
+                //   ].join(" ")
+                // }
+                className="nav__link"
+                activeClassName="active-link"
                 onClick={clickToShowMenu}
               >
                 Products
@@ -75,12 +80,14 @@ export const Header = () => {
                 <li className="nav__item">
                   <NavLink
                     to="/cart"
-                    className={({ isActive, isPending }) =>
-                      [
-                        isPending ? "nav__link" : "",
-                        isActive ? "active-link" : "",
-                      ].join(" ")
-                    }
+                    // className={({ isActive, isPending }) =>
+                    //   [
+                    //     isPending ? "nav__link" : "",
+                    //     isActive ? "active-link" : "",
+                    //   ].join(" ")
+                    // }
+                    className="nav__link"
+                    activeClassName="active-link"
                     onClick={clickToShowMenu}
                   >
                     Cart
@@ -90,12 +97,14 @@ export const Header = () => {
                   <li className="nav__item">
                     <NavLink
                       to="/admin"
-                      className={({ isActive, isPending }) =>
-                        [
-                          isPending ? "nav__link" : "",
-                          isActive ? "active-link" : "",
-                        ].join(" ")
-                      }
+                      // className={({ isActive, isPending }) =>
+                      //   [
+                      //     isPending ? "nav__link" : "",
+                      //     isActive ? "active-link" : "",
+                      //   ].join(" ")
+                      // }
+                      className="nav__link"
+                      activeClassName="active-link"
                       onClick={clickToShowMenu}
                     >
                       Admin
@@ -116,12 +125,14 @@ export const Header = () => {
               <li className="nav__item">
                 <NavLink
                   to="/login"
-                  className={({ isActive, isPending }) =>
-                    [
-                      isPending ? "nav__link" : "",
-                      isActive ? "active-link" : "",
-                    ].join(" ")
-                  }
+                  // className={({ isActive, isPending }) =>
+                  //   [
+                  //     isPending ? "nav__link" : "",
+                  //     isActive ? "active-link" : "",
+                  //   ].join(" ")
+                  // }
+                  className="nav__link"
+                  activeClassName="active-link"
                   onClick={clickToShowMenu}
                 >
                   LogIn

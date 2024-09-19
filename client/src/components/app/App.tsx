@@ -3,7 +3,8 @@ import { Header } from "../header/header";
 import { Main } from "../main/main";
 import { Footer } from "../footer/footer";
 import { ScrollUp } from "../scroll-up/scroll-up";
-import { Navigate, Router } from "react-router-dom";
+import { NavLink, Route, Router, Switch } from "react-router-dom";
+import LogIn from "../login/login";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState("");
@@ -12,9 +13,13 @@ function App() {
   return (
     <>
       <Header />
-      {/* {!isLoggedIn && <Navigate to="/login" replace={true} />}
-      {!isLoggedIn && <Navigate to="/register" replace={true} />} */}
-      <Main />
+      <Switch>
+        <Route path="/" component={Main} exact />
+        <Route path="/login/:type?" component={LogIn} exact />
+      </Switch>
+      {/* {!isLoggedIn && <NavLink to="/login" replace={true} />}
+      {!isLoggedIn && <NavLink to="/register" replace={true} />} */}
+      {/* <Main /> */}
       <Footer />
       <ScrollUp />
     </>
