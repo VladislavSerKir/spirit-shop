@@ -1,28 +1,23 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./assets/scss/styles.scss";
 import App from "./components/app/App";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import store from "./store";
+import { BrowserRouter, Router } from "react-router-dom";
+import history from "./utils/history";
+import createStore from "./store";
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//   },
-// ]);
+const store = createStore();
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store()}>
-      <BrowserRouter>
-        <App />
+    <Provider store={store}>
+      <BrowserRouter basename="/">
+        <Router history={history}>
+          <App />
+        </Router>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );

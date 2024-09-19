@@ -48,6 +48,7 @@ export const Header = () => {
           <ul className="nav__list">
             <li className="nav__item">
               <NavLink
+                exact
                 to="/"
                 // className={({ isActive, isPending }) =>
                 //   [
@@ -65,12 +66,6 @@ export const Header = () => {
             <li className="nav__item">
               <NavLink
                 to="/products"
-                // className={({ isActive, isPending }) =>
-                //   [
-                //     isPending ? "nav__link" : "",
-                //     isActive ? "active-link" : "",
-                //   ].join(" ")
-                // }
                 className="nav__link"
                 activeClassName="active-link"
                 onClick={clickToShowMenu}
@@ -83,12 +78,6 @@ export const Header = () => {
                 <li className="nav__item">
                   <NavLink
                     to="/cart"
-                    // className={({ isActive, isPending }) =>
-                    //   [
-                    //     isPending ? "nav__link" : "",
-                    //     isActive ? "active-link" : "",
-                    //   ].join(" ")
-                    // }
                     className="nav__link"
                     activeClassName="active-link"
                     onClick={clickToShowMenu}
@@ -100,12 +89,6 @@ export const Header = () => {
                   <li className="nav__item">
                     <NavLink
                       to="/admin"
-                      // className={({ isActive, isPending }) =>
-                      //   [
-                      //     isPending ? "nav__link" : "",
-                      //     isActive ? "active-link" : "",
-                      //   ].join(" ")
-                      // }
                       className="nav__link"
                       activeClassName="active-link"
                       onClick={clickToShowMenu}
@@ -116,24 +99,13 @@ export const Header = () => {
                 ) : null}
 
                 <li className="nav__item">
-                  <span
-                    className="nav__link"
-                    // onClick={() => dispatch(logOut())}
-                  >
-                    Logout
-                  </span>
+                  <span className="nav__link">Logout</span>
                 </li>
               </>
             ) : (
               <li className="nav__item">
                 <NavLink
                   to="/login"
-                  // className={({ isActive, isPending }) =>
-                  //   [
-                  //     isPending ? "nav__link" : "",
-                  //     isActive ? "active-link" : "",
-                  //   ].join(" ")
-                  // }
                   className="nav__link"
                   activeClassName="active-link"
                   onClick={clickToShowMenu}

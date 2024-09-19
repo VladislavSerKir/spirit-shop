@@ -3,6 +3,7 @@ import axios from "axios";
 import { TError, TRefreshData, TUser } from "../types";
 import { getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
+import { TUserData } from "../types/userType";
 
 const authService = {
   checkResponse: (res: Response) => {
@@ -73,7 +74,13 @@ const authService = {
     }).then(authService.checkResponse);
   },
 
-  registerRequest: ({ email, password, name }: TUser) => {
+  registerRequest: ({
+    firstName,
+    lastName,
+    mobileNumber,
+    email,
+    password,
+  }: TUserData) => {
     return fetch(`${config.apiEndPoint}/auth/register`, {
       method: "POST",
       cache: "no-cache",
@@ -84,14 +91,16 @@ const authService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        email: email,
-        password: password,
-        name: name,
+        firstName,
+        lastName,
+        mobileNumber,
+        email,
+        password,
       }),
     });
   },
 
-  loginRequest: async ({ email, password }: TUser) => {
+  loginRequest: async ({ email, password }: TUserData) => {
     return fetch(`${config.apiEndPoint}/auth/login`, {
       method: "POST",
       cache: "no-cache",
@@ -124,7 +133,13 @@ const authService = {
     });
   },
 
-  editRequest: async ({ email, name, password }: TUser) => {
+  editRequest: async ({
+    firstName,
+    lastName,
+    mobileNumber,
+    email,
+    password,
+  }: TUserData) => {
     return fetch(`${config.apiEndPoint}/auth/user`, {
       method: "PATCH",
       cache: "no-cache",
@@ -136,9 +151,11 @@ const authService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        email: email,
-        name: name,
-        password: password,
+        firstName,
+        lastName,
+        mobileNumber,
+        email,
+        password,
       }),
     });
   },

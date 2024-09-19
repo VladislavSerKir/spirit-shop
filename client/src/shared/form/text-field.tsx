@@ -1,4 +1,5 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
+import { TEventTarget } from "../../types";
 
 interface ITextField {
   label: string;
@@ -17,9 +18,13 @@ const TextField = ({
   onChange,
   error,
 }: ITextField) => {
-  // const handleChange = (event: ChangeEventHandler<HTMLInputElement>): void => {
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
   //   onChange({ name: event.name, value: event.value });
   // };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange({ name: event.target.name, value: event.target.value });
+  };
 
   const getInputClasses = () => {
     return `login__content${error ? "-error" : ""}`;
@@ -34,7 +39,7 @@ const TextField = ({
         id={name}
         name={name}
         value={value}
-        // onChange={handleChange}
+        onChange={handleChange}
       />
       <label htmlFor={name} className="login__label">
         {label}

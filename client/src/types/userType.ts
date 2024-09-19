@@ -1,8 +1,24 @@
 import { TError, TUser } from ".";
 
+export type TUserData = {
+  email: string;
+  password?: string;
+  firstName: string;
+  lastName: string;
+  mobileNumber?: string;
+};
+
+export type TUserDataRegister = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  mobileNumber: string;
+};
+
 export type TUserState = {
   isAuthChecked: boolean;
-  userData: { name: string; email: string };
+  userData: TUserData;
   userUpdated: boolean;
   registerError: null | undefined | TError;
   registerRequest: boolean;
@@ -23,7 +39,7 @@ export type TUserFetchResponse = {
 
 export type TUserEditResponse = {
   success: boolean;
-  user: TUser;
+  user: TUserData;
 } & TRefreshToken;
 
 export type TRefreshToken = {

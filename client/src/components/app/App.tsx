@@ -3,8 +3,11 @@ import { Header } from "../header/header";
 import { Main } from "../main/main";
 import { Footer } from "../footer/footer";
 import { ScrollUp } from "../scroll-up/scroll-up";
-import { NavLink, Route, Router, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
 import LogIn from "../login/login";
+import ProductsList from "../../pages/products/product-list";
+import Cart from "../../pages/cart/cart";
+import { ProtectedRoute } from "../../shared/hoc/protected-route/protected-route";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState("");
@@ -14,8 +17,10 @@ function App() {
     <>
       <Header />
       <Switch>
-        <Route path="/" component={Main} exact />
-        <Route path="/login/:type?" component={LogIn} exact />
+        <Route exact path="/" component={Main} />
+        <Route exact path="/login/:type?" component={LogIn} />
+        <Route exact path="/products" component={ProductsList} />
+        <Route exact path="/cart" component={Cart} />
       </Switch>
       {/* {!isLoggedIn && <NavLink to="/login" replace={true} />}
       {!isLoggedIn && <NavLink to="/register" replace={true} />} */}

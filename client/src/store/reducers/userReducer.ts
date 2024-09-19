@@ -12,8 +12,11 @@ import {
 const userState: TUserState = {
   isAuthChecked: false,
   userData: {
+    firstName: "",
+    lastName: "",
+    mobileNumber: "",
     email: "",
-    name: "",
+    password: "",
   },
   userUpdated: false,
   registerError: null,
@@ -37,7 +40,8 @@ export const userSlice = createSlice({
     },
     setUser: (state, action: PayloadAction<TUserFetchResponse>) => {
       state.userData.email = action.payload.user.email;
-      state.userData.name = action.payload.user.name;
+      state.userData.firstName = action.payload.user.firstName;
+      state.userData.lastName = action.payload.user.lastName;
       state.userError = null;
     },
     setUserRequest: (state, action: PayloadAction<boolean>) => {
@@ -57,7 +61,8 @@ export const userSlice = createSlice({
     });
     builder.addCase(onRegister.fulfilled, (state, action) => {
       state.userData.email = action.payload.user.email;
-      state.userData.name = action.payload.user.name;
+      state.userData.firstName = action.payload.user.firstName;
+      state.userData.lastName = action.payload.user.lastName;
       state.userError = null;
       state.registerRequest = false;
     });
@@ -70,7 +75,8 @@ export const userSlice = createSlice({
     });
     builder.addCase(onLogin.fulfilled, (state, action) => {
       state.userData.email = action.payload.user.email;
-      state.userData.name = action.payload.user.name;
+      state.userData.firstName = action.payload.user.firstName;
+      state.userData.lastName = action.payload.user.lastName;
       state.userError = null;
       state.loginRequest = false;
     });
@@ -83,7 +89,8 @@ export const userSlice = createSlice({
     });
     builder.addCase(onLogout.fulfilled, (state) => {
       state.userData.email = "";
-      state.userData.name = "";
+      state.userData.firstName = "";
+      state.userData.lastName = "";
       state.userUpdated = false;
       state.logoutRequest = false;
     });
@@ -96,7 +103,8 @@ export const userSlice = createSlice({
     });
     builder.addCase(onUpdateUser.fulfilled, (state, action) => {
       state.userData.email = action.payload.user.email;
-      state.userData.name = action.payload.user.name;
+      state.userData.firstName = action.payload.user.firstName;
+      state.userData.lastName = action.payload.user.lastName;
       state.userUpdated = true;
       state.updateRequest = false;
     });

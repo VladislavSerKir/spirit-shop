@@ -4,7 +4,7 @@ import { Redirect, Route, useLocation } from "react-router-dom";
 
 export const ProtectedRoute: FC<{
   children: React.ReactNode;
-  // path: string;
+  path: string;
 }> = ({ children, ...props }) => {
   const location = useLocation();
   // const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);

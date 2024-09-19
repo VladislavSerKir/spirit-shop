@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 // import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
-import { TEventTarget } from "../../types";
+import { useTypedDispatch } from "../../types";
+import { useForm } from "../../hooks/useForm";
 // import { getAuthError, signIn } from "../../../store/user";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const history = useHistory();
   //   const loginError = useSelector(getAuthError());
 
-  const [data, setData] = useState({
+  const data = {
+    firstName: "",
+    lastName: "",
+    mobileNumber: "",
     email: "",
     password: "",
-  });
+  };
 
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
+
+  const { values, handleChange, handleLogin } = useForm(data);
 
   //   const validateScheme = yup.object().shape({
   //     password: yup.string().required("Password is required"),
@@ -37,9 +42,9 @@ const LoginForm = () => {
   //     return Object.keys(errors).length === 0;
   //   };
 
-  const handleChange = (target: TEventTarget) => {
-    setData((prevState) => ({ ...prevState, [target.name]: target.value }));
-  };
+  // const handleChange = (target: TEventTarget) => {
+  //   setData((prevState) => ({ ...prevState, [target.name]: target.value }));
+  // };
 
   //   const handleSubmit = (e) => {
   //     e.preventDefault();
@@ -55,14 +60,18 @@ const LoginForm = () => {
   //     validate();
   //   }, [data]);
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    handleLogin(e);
+  };
+
   return (
-    // <form className="login__form" onSubmit={handleSubmit}>
-    <form className="login__form">
+    <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__inputs">
         <TextField
           label="Email"
           name="email"
-          value={data.email}
+          value={values.email}
           onChange={handleChange}
           error={errors.email}
         />
@@ -70,7 +79,7 @@ const LoginForm = () => {
           label="Password"
           name="password"
           type="password"
-          value={data.password}
+          value={values.password}
           onChange={handleChange}
           error={errors.password}
         />

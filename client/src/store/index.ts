@@ -5,10 +5,10 @@ export const rootReducer = combineReducers({
   user: userReducer,
 });
 
-const store = () => {
+function createStore() {
   return configureStore({
     reducer: rootReducer,
   });
-};
+}
 
-export default store;
+export default createStore;

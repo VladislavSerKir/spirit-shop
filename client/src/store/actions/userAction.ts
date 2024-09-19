@@ -15,7 +15,7 @@ import {
   setUserError,
   setUserRequest,
 } from "../reducers/userReducer";
-import { TUserEditResponse } from "../../types/userType";
+import { TUserData, TUserEditResponse } from "../../types/userType";
 
 export const checkAuth = createAsyncThunk(
   "user/checkAuth",
@@ -49,7 +49,7 @@ export const getUser = createAsyncThunk(
 
 export const onRegister = createAsyncThunk<
   TUserEditResponse,
-  TUser,
+  TUserData,
   { rejectValue: TError }
 >("user/onRegister", async function (user, { rejectWithValue }) {
   const response = await authService.registerRequest(user);
@@ -73,7 +73,7 @@ export const onRegister = createAsyncThunk<
 
 export const onLogin = createAsyncThunk<
   TUserEditResponse,
-  TUser,
+  TUserData,
   { rejectValue: TError }
 >("user/onLogin", async function (user, { rejectWithValue }) {
   const response = await authService.loginRequest(user);
@@ -119,7 +119,7 @@ export const onLogout = createAsyncThunk<
 
 export const onUpdateUser = createAsyncThunk<
   TUserEditResponse,
-  TUser,
+  TUserData,
   { rejectValue: TError }
 >("user/onUpdateUser", async function (user, { rejectWithValue }) {
   const response = await authService.editRequest(user);
