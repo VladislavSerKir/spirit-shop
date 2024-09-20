@@ -47,6 +47,13 @@ const ProductCard = ({ product, categoryState }: IProductCard) => {
   //     }
   // };
 
+  // const product = {
+  //   id: 1,
+  //   name: "product.name",
+  //   image: "product.image",
+  //   price: 42,
+  // };
+
   return (
     <article className="product__card" key={product.id}>
       <div className="product__circle" />
@@ -60,11 +67,11 @@ const ProductCard = ({ product, categoryState }: IProductCard) => {
             <h3 className="product__title">{product.name}</h3>
           </Link>
           <div className="container-center">
-            {/* {product.categories.map((p) => (
-                            <span className="product__category" key={p}>
-                                {categoryState.find((c) => c._id === p).name}
-                            </span>
-                        ))} */}
+            {/* {product.categories.map((p: string) => (
+              <span className="product__category" key={p}>
+                {categoryState.find((c: any) => c._id === p).name}
+              </span>
+            ))} */}
           </div>
           <span className="product__price">${product.price}</span>
 
