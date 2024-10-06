@@ -81,7 +81,7 @@ const authService = {
     email,
     password,
   }: TUserData) => {
-    return fetch(`${config.apiEndPoint}/auth/register`, {
+    return fetch(`${config.apiEndPoint}/auth/signup`, {
       method: "POST",
       cache: "no-cache",
       credentials: "same-origin",
@@ -101,7 +101,7 @@ const authService = {
   },
 
   loginRequest: async ({ email, password }: TUserData) => {
-    return fetch(`${config.apiEndPoint}/auth/login`, {
+    return fetch(`${config.apiEndPoint}/auth/signin`, {
       method: "POST",
       cache: "no-cache",
       credentials: "same-origin",
