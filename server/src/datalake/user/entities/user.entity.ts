@@ -57,5 +57,18 @@ export class User {
   @Column()
   @IsString()
   @IsPhoneNumber('RU')
-  phone: string;
+  mobileNumber: string;
+
+  @Column({ default: 'user' })
+  @IsString()
+  refreshToken: string;
+
+  @Column({ default: 'user' })
+  @IsString()
+  accessToken?: string;
+
+  @Column({ default: 'user' })
+  @IsString()
+  @IsNotEmpty()
+  role: string;
 }

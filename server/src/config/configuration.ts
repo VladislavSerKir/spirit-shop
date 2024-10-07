@@ -14,6 +14,8 @@ export default (): AppConfiguration => ({
     name: process.env.DATABASE_NAME || 'shop_db',
   },
   jwt: {
+    access: process.env.JWT_ACCESS_SECRET || 'access-secret',
+    refresh: process.env.JWT_REFRESH_SECRET || 'refresh-secret',
     key: process.env.JWT_KEY || 'my-secret',
     ttl: process.env.JWT_TTL || '7d',
   },

@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 // import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
-import { useTypedDispatch } from "../../types";
+import { useTypedDispatch, useTypedSelector } from "../../types";
 import { useForm } from "../../hooks/useForm";
+import { onLogout } from "../../store/actions/userAction";
+import { getCookie } from "../../utils/cookie";
 // import { getAuthError, signIn } from "../../../store/user";
 
 const LoginForm = () => {
   const dispatch = useTypedDispatch();
   const history = useHistory();
+  const userData = useTypedSelector((store) => store.user.userData);
   //   const loginError = useSelector(getAuthError());
 
   const data = {
@@ -17,6 +20,7 @@ const LoginForm = () => {
     mobileNumber: "",
     email: "",
     password: "",
+    role: "",
   };
 
   const [errors, setErrors] = useState({
@@ -65,35 +69,50 @@ const LoginForm = () => {
     handleLogin(e);
   };
 
+  const handleLogOut = (event: any) => {
+    event.preventDefault();
+    dispatch(onLogout(userData));
+  };
+
   return (
-    <form className="login__form" onSubmit={handleSubmit}>
-      <div className="login__inputs">
-        <TextField
-          label="Email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-          error={errors.email}
-        />
-        <TextField
-          label="Password"
-          name="password"
-          type="password"
-          value={values.password}
-          onChange={handleChange}
-          error={errors.password}
-        />
-      </div>
-      {/* {loginError && (
+    <>
+      <form className="login__form" onSubmit={handleSubmit}>
+        <div className="login__inputs">
+          <TextField
+            label="Email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            error={errors.email}
+          />
+          <TextField
+            label="Password"
+            name="password"
+            type="password"
+            value={values.password}
+            onChange={handleChange}
+            error={errors.password}
+          />
+        </div>
+        {/* {loginError && (
         <div className="login__checked-error">
           <span className="login__error-message">{loginError}</span>
         </div>
       )} */}
-      <button className="button button--flex" type="submit">
-        Sign In
+        <button className="button button--flex" type="submit">
+          Sign In
+          <i className="ri-arrow-right-up-line button__icon" />
+        </button>
+      </form>
+      <button
+        onClick={handleLogOut}
+        className="button button--flex"
+        type="button"
+      >
+        Log Out
         <i className="ri-arrow-right-up-line button__icon" />
       </button>
-    </form>
+    </>
   );
 };
 

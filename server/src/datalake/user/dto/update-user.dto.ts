@@ -17,5 +17,5 @@ export class UpdateUserDto {
 
   @IsString()
   @IsPhoneNumber('RU')
-  phone: string;
+  mobileNumber: string;
 }

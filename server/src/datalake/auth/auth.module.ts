@@ -9,10 +9,13 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { HashService } from 'src/common/hash/hash.service';
 import { UsersService } from '../user/users.service';
+import { AccessTokenStrategy } from 'src/config/access-token.strategy';
+import { RefreshTokenStrategy } from 'src/config/refresh-token.strategy';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
+    JwtModule.register({}),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -24,7 +27,15 @@ import { UsersService } from '../user/users.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, JwtStrategy, JwtService, HashService],
+  providers: [
+    AuthService,
+    UsersService,
+    JwtStrategy,
+    JwtService,
+    HashService,
+    AccessTokenStrategy,
+    RefreshTokenStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

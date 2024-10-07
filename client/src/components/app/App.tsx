@@ -8,10 +8,18 @@ import LogIn from "../login/login";
 import ProductsList from "../../pages/products/product-list";
 import Cart from "../../pages/cart/cart";
 import { ProtectedRoute } from "../../shared/hoc/protected-route/protected-route";
+import { useTypedDispatch } from "../../types";
+import { checkAuth } from "../../store/actions/userAction";
 
 function App() {
+  const dispatch = useTypedDispatch();
+
   const [isAdmin, setIsAdmin] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  React.useEffect(() => {
+    dispatch(checkAuth());
+  }, []);
 
   return (
     <>

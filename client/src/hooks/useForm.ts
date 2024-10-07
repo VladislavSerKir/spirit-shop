@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "../types";
 import { TUserDataRegister } from "../types/userType";
 import { onLogin, onRegister, onUpdateUser } from "../store/actions/userAction";
+import { getCookie } from "../utils/cookie";
 
 export const useForm = (inputValues: TUserDataRegister) => {
   const store = useTypedSelector((store) => store);
@@ -38,6 +39,7 @@ export const useForm = (inputValues: TUserDataRegister) => {
       mobileNumber: "",
       email: "",
       password: "",
+      role: "",
     });
   };
 
@@ -50,6 +52,7 @@ export const useForm = (inputValues: TUserDataRegister) => {
       mobileNumber: "",
       email: "",
       password: "",
+      role: "",
     });
   };
 
@@ -63,6 +66,7 @@ export const useForm = (inputValues: TUserDataRegister) => {
         mobileNumber: "",
         email: "",
         password: "",
+        role: "",
       });
       setIsFormEdited(false);
     }

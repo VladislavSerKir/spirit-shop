@@ -35,35 +35,43 @@ const authService = {
   },
 
   userRequest: async () => {
-    const url = `${config.apiEndPoint}/auth/user`;
+    const url = `${config.apiEndPoint}/auth/me`;
     const options = {
+      method: "GET",
       headers: {
         Authorization: "Bearer " + getCookie("accessToken"),
       },
     };
 
-    return fetch(url, options)
-      .then(authService.checkResponse)
-      .catch(async (error: TError) => {
-        if (error.message === "jwt expired") {
-          const refreshData: TRefreshData =
-            await authService.refreshTokenRequest();
-          if (!refreshData.success) {
-            Promise.reject(refreshData);
+    return (
+      fetch(url, options)
+        // .then(authService.checkResponse)
+        .then((res) => {
+          console.log(res);
+          return authService.checkResponse(res);
+        })
+
+        .catch(async (error: TError) => {
+          if (error.message === "jwt expired") {
+            const refreshData: TRefreshData =
+              await authService.refreshTokenRequest();
+            if (!refreshData.success) {
+              Promise.reject(refreshData);
+            }
+            setCookie("accessToken", refreshData.accessToken, {});
+            (options.headers as { [key: string]: string }).authorization =
+              refreshData.accessToken;
+            const res = await fetch(url, options);
+            return await authService.checkResponse(res);
+          } else {
+            return Promise.reject(error);
           }
-          setCookie("accessToken", refreshData.accessToken, {});
-          (options.headers as { [key: string]: string }).authorization =
-            refreshData.accessToken;
-          const res = await fetch(url, options);
-          return await authService.checkResponse(res);
-        } else {
-          return Promise.reject(error);
-        }
-      });
+        })
+    );
   },
 
   refreshTokenRequest: async () => {
-    return fetch(`${config.apiEndPoint}/auth/token`, {
+    return fetch(`${config.apiEndPoint}/auth/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -117,7 +125,7 @@ const authService = {
     });
   },
 
-  logoutRequest: async () => {
+  logoutRequest: async ({ email }: any) => {
     return fetch(`${config.apiEndPoint}/auth/logout`, {
       method: "POST",
       cache: "no-cache",
@@ -128,7 +136,8 @@ const authService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        token: getCookie("refreshToken"),
+        // token: getCookie("refreshToken"),
+        email: email,
       }),
     });
   },
@@ -162,14 +171,3 @@ const authService = {
 };
 
 export default authService;
-
-// import { checkResponse } from "../utils/api";
-
-// const httpAuth = axios.create({
-//   baseURL: `${config.apiEndPoint}/auth/`,
-// });
-// const { data } = await httpAuth.post("/auth/user", {
-//   headers: {
-//     Authorization: "Bearer " + getCookie("accessToken"),
-//   },
-// });

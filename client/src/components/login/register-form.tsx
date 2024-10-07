@@ -15,6 +15,7 @@ const RegisterForm = () => {
     mobileNumber: "",
     email: "",
     password: "",
+    role: "",
   };
 
   const [errors, setErrors] = useState<TUserData | TUserError>({

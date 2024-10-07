@@ -41,7 +41,17 @@ export class UsersService {
     }
   }
 
-  async getUser(email: string) {
+  async updateToken(id: number, userData: Partial<User>): Promise<User> {
+    const updatedUser = await this.userRepo.update(id, userData);
+
+    if (!updatedUser) {
+      throw new BadRequestException('Ошибка запроса на изменение токена');
+    } else {
+      return this.getUserById(id);
+    }
+  }
+
+  async findByEmail(email: string) {
     const user = await this.userRepo.findOne({ where: { email } });
 
     if (!user) {
@@ -74,4 +84,8 @@ export class UsersService {
       return user;
     }
   }
+
+  // async deleteUser(id: number): Promise<User> {
+  //   await this.userRepo.delete({ id });
+  // }
 }

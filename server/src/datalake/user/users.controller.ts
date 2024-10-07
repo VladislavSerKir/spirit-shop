@@ -1,6 +1,14 @@
-import { Controller, Get, Post, Body, Patch, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { JwtGuard } from 'src/config/jwt-guard';
+import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { AuthUser } from 'src/common/decorators/user.decorator';
 import { UsersService } from './users.service';
 import { FindUserDto } from './dto/find-user.dto';
@@ -10,13 +18,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtGuard)
+  @UseGuards(AccessTokenGuard)
   @Get('/profile')
   getProfileInfo(@AuthUser() user: User): Promise<User> {
     return this.usersService.getProfileInfo(user.email);
   }
 
-  @UseGuards(JwtGuard)
+  @UseGuards(AccessTokenGuard)
   @Patch('/profile')
   editProfile(
     @AuthUser() user: User,
@@ -25,9 +33,19 @@ export class UsersController {
     return this.usersService.editProfile(user, userData);
   }
 
-  @UseGuards(JwtGuard)
+  @Patch(':id')
+  updateToken(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateToken(id, updateUserDto);
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Post('/find')
   findUserInfo(@Body() body: FindUserDto): Promise<User[]> {
     return this.usersService.findUserInfo(body);
   }
+
+  // @Delete(':id')
+  // deleteUser(@Param('id') id: string) {
+  //   return this.usersService.deleteUser(id);
+  // }
 }

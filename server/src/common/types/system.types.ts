@@ -12,8 +12,15 @@ export type DatabaseConfiguration = {
   name: string;
 };
 export type JWTConfiguration = {
+  access: string;
+  refresh: string;
   key: string;
   ttl: string;
+};
+
+export type JwtPayload = {
+  sub: string;
+  username: string;
 };
 
 export type CryptoConfiguration = {

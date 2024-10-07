@@ -20,10 +20,18 @@ import { TUserData, TUserEditResponse } from "../../types/userType";
 export const checkAuth = createAsyncThunk(
   "user/checkAuth",
   async function (_, { dispatch }) {
+    console.log(
+      `checkAuth getCookie("accessToken"): ${getCookie("accessToken")}`
+    );
+    console.log(
+      `checkAuth getCookie("refreshToken"): ${getCookie("refreshToken")}`
+    );
     if (getCookie("accessToken") !== null) {
+      console.log("getUser()");
       dispatch(getUser());
       dispatch(setAuthChecked(true));
     } else {
+      // dispatch(onLogout());
       dispatch(setAuthChecked(true));
     }
   }
@@ -36,9 +44,11 @@ export const getUser = createAsyncThunk(
     return authService
       .userRequest()
       .then((user: TUserFetchResponse) => {
+        console.log(user);
         dispatch(setUser(user));
       })
       .catch((err: TError) => {
+        console.log(err);
         dispatch(setUserError(err));
       })
       .finally(() => {
@@ -86,22 +96,31 @@ export const onLogin = createAsyncThunk<
   }
 
   const data: TUserEditResponse = await response.json();
-  const accessToken = data.accessToken.split("Bearer ")[1];
+  const accessToken = data.accessToken;
   const refreshToken = data.refreshToken;
 
   setCookie("accessToken", accessToken, {});
   setCookie("refreshToken", refreshToken, {});
 
+  console.log(
+    `onLogin createAsyncThunk getCookie("accessToken"): ${getCookie(
+      "accessToken"
+    )}`
+  );
+  console.log(
+    `onLogin createAsyncThunk getCookie("refreshToken"): ${getCookie(
+      "refreshToken"
+    )}`
+  );
   return data;
 });
 
 export const onLogout = createAsyncThunk<
   TResponseWithoutPayload,
-  undefined,
+  any,
   { rejectValue: TError }
->("user/onLogout", async function (_, { rejectWithValue }) {
-  const response = await authService.logoutRequest();
-
+>("user/onLogout", async function (user: string, { rejectWithValue }) {
+  const response = await authService.logoutRequest(user);
   if (!response.ok) {
     return rejectWithValue({
       status: response.status,

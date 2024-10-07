@@ -17,6 +17,7 @@ const userState: TUserState = {
     mobileNumber: "",
     email: "",
     password: "",
+    role: "",
   },
   userUpdated: false,
   registerError: null,
@@ -42,6 +43,8 @@ export const userSlice = createSlice({
       state.userData.email = action.payload.user.email;
       state.userData.firstName = action.payload.user.firstName;
       state.userData.lastName = action.payload.user.lastName;
+      state.userData.mobileNumber = action.payload.user.mobileNumber;
+      state.userData.role = action.payload.user.role;
       state.userError = null;
     },
     setUserRequest: (state, action: PayloadAction<boolean>) => {
@@ -60,9 +63,11 @@ export const userSlice = createSlice({
       state.registerRequest = true;
     });
     builder.addCase(onRegister.fulfilled, (state, action) => {
-      state.userData.email = action.payload.user.email;
-      state.userData.firstName = action.payload.user.firstName;
-      state.userData.lastName = action.payload.user.lastName;
+      state.userData.email = action.payload.email;
+      state.userData.firstName = action.payload.firstName;
+      state.userData.lastName = action.payload.lastName;
+      state.userData.mobileNumber = action.payload.mobileNumber;
+      state.userData.role = action.payload.role;
       state.userError = null;
       state.registerRequest = false;
     });
@@ -74,9 +79,11 @@ export const userSlice = createSlice({
       state.loginRequest = true;
     });
     builder.addCase(onLogin.fulfilled, (state, action) => {
-      state.userData.email = action.payload.user.email;
-      state.userData.firstName = action.payload.user.firstName;
-      state.userData.lastName = action.payload.user.lastName;
+      state.userData.email = action.payload.email;
+      state.userData.firstName = action.payload.firstName;
+      state.userData.lastName = action.payload.lastName;
+      state.userData.mobileNumber = action.payload.mobileNumber;
+      state.userData.role = action.payload.role;
       state.userError = null;
       state.loginRequest = false;
     });
@@ -91,6 +98,8 @@ export const userSlice = createSlice({
       state.userData.email = "";
       state.userData.firstName = "";
       state.userData.lastName = "";
+      state.userData.mobileNumber = "";
+      state.userData.role = "";
       state.userUpdated = false;
       state.logoutRequest = false;
     });
@@ -102,9 +111,10 @@ export const userSlice = createSlice({
       state.updateRequest = true;
     });
     builder.addCase(onUpdateUser.fulfilled, (state, action) => {
-      state.userData.email = action.payload.user.email;
-      state.userData.firstName = action.payload.user.firstName;
-      state.userData.lastName = action.payload.user.lastName;
+      state.userData.email = action.payload.email;
+      state.userData.firstName = action.payload.firstName;
+      state.userData.lastName = action.payload.lastName;
+      state.userData.mobileNumber = action.payload.mobileNumber;
       state.userUpdated = true;
       state.updateRequest = false;
     });

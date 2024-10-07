@@ -6,6 +6,7 @@ export type TUserData = {
   firstName: string;
   lastName: string;
   mobileNumber?: string;
+  role: string;
 };
 
 export type TUserDataRegister = {
@@ -14,6 +15,7 @@ export type TUserDataRegister = {
   firstName: string;
   lastName: string;
   mobileNumber: string;
+  role: string;
 };
 
 export type TUserState = {
@@ -38,8 +40,12 @@ export type TUserFetchResponse = {
 };
 
 export type TUserEditResponse = {
-  success: boolean;
-  user: TUserData;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  mobileNumber: string;
+  role: string;
 } & TRefreshToken;
 
 export type TRefreshToken = {

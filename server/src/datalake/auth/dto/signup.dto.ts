@@ -21,5 +21,5 @@ export class SignupDto {
 
   @IsString()
   @IsPhoneNumber('RU')
-  phone: string;
+  mobileNumber: string;
 }
