@@ -15,15 +15,20 @@ import { RefreshTokenStrategy } from 'src/config/refresh-token.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    JwtModule.register({}),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt.key'),
-        signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
-      }),
-      inject: [ConfigService],
+    // JwtModule.register({}),
+    // PassportModule.register({ defaultStrategy: 'jwt' }),
+    // JwtModule.registerAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     secret: configService.get<string>('jwt.key'),
+    //     signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
+    //   }),
+    //   inject: [ConfigService],
+    // }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_ACCESS_SECRET,
+      signOptions: { expiresIn: '2m' },
     }),
   ],
   controllers: [AuthController],

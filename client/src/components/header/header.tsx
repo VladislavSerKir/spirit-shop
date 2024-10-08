@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { useTypedSelector } from "../../types";
+import { onLogout } from "../../store/actions/userAction";
 
 export const Header = () => {
   const dispatch = useDispatch();
+  const userData = useTypedSelector((store) => store.user.userData);
 
   const [iconTheme, setIconTheme] = useState("ri-moon-line");
   const [showMenu, setShowMenu] = useState({
@@ -34,8 +37,15 @@ export const Header = () => {
   };
 
   const [isAdmin, setIsAdmin] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useTypedSelector((state) => state.user.userData.email);
+
   const [isActive, setIsActive] = useState(true);
+
+  const handleLogOut = (event: any) => {
+    event.preventDefault();
+    dispatch(onLogout(userData));
+  };
 
   return (
     <header className="header scroll-header" id="header">
@@ -85,7 +95,7 @@ export const Header = () => {
                     Cart
                   </NavLink>
                 </li>
-                {isAdmin === "admin" ? (
+                {userData.role === "admin" ? (
                   <li className="nav__item">
                     <NavLink
                       to="/admin"
@@ -99,7 +109,17 @@ export const Header = () => {
                 ) : null}
 
                 <li className="nav__item">
-                  <span className="nav__link">Logout</span>
+                  <NavLink
+                    to="/logout"
+                    className="nav__link"
+                    activeClassName="active-link"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </NavLink>
+                  {/* <span onClick={handleLogOut} className="nav__link">
+                    Logout
+                  </span> */}
                 </li>
               </>
             ) : (

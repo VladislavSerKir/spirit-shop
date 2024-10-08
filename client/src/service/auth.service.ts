@@ -47,7 +47,6 @@ const authService = {
       fetch(url, options)
         // .then(authService.checkResponse)
         .then((res) => {
-          console.log(res);
           return authService.checkResponse(res);
         })
 

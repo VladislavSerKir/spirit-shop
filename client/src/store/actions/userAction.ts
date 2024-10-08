@@ -48,7 +48,6 @@ export const getUser = createAsyncThunk(
         dispatch(setUser(user));
       })
       .catch((err: TError) => {
-        console.log(err);
         dispatch(setUserError(err));
       })
       .finally(() => {

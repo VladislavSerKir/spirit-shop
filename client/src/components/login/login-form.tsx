@@ -69,11 +69,6 @@ const LoginForm = () => {
     handleLogin(e);
   };
 
-  const handleLogOut = (event: any) => {
-    event.preventDefault();
-    dispatch(onLogout(userData));
-  };
-
   return (
     <>
       <form className="login__form" onSubmit={handleSubmit}>
@@ -104,14 +99,6 @@ const LoginForm = () => {
           <i className="ri-arrow-right-up-line button__icon" />
         </button>
       </form>
-      <button
-        onClick={handleLogOut}
-        className="button button--flex"
-        type="button"
-      >
-        Log Out
-        <i className="ri-arrow-right-up-line button__icon" />
-      </button>
     </>
   );
 };

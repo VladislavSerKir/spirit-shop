@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 // import { getCategory } from "../../../store/category";
 // import { deleteProduct, getProducts } from "../../../store/products";
 import history from "../../utils/history";
+import { useTypedSelector } from "../../types";
 
 const TableOfProducts = () => {
+  const products = useTypedSelector((state) => state.products.products);
+  const categories = useTypedSelector((state) => state.products.categories);
   //   const dispatch = useDispatch();
   //   const products = useSelector(getProducts());
   //   const categories = useSelector(getCategory());
@@ -17,17 +20,17 @@ const TableOfProducts = () => {
   //     history.push(`/admin/${id}`);
   //   };
 
-  const products = [
-    {
-      id: 1,
-      name: "product.name",
-      image: "product.image",
-      price: 42,
-      categories: [],
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: 1,
+  //     name: "product.name",
+  //     image: "product.image",
+  //     price: 42,
+  //     categories: [],
+  //   },
+  // ];
 
-  const categories: any = [];
+  // const categories: any = [];
 
   const handleEdit = (id: number) => {};
 
@@ -52,7 +55,7 @@ const TableOfProducts = () => {
             <td className="table__info table__info-category">
               {product.categories.map((p) => (
                 <span className="product__category" key={p}>
-                  {categories.find((c: any) => c._id === p).name}
+                  {categories.find((category: any) => category.id === p)?.name}
                 </span>
               ))}
             </td>

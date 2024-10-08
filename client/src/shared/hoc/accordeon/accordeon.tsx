@@ -6,34 +6,32 @@ import React, {
   RefObject,
   MutableRefObject,
 } from "react";
+import { ICategory } from "../../../types/productType";
 
 interface IAccordeon {
   title: string;
   content?: string;
-  categoryProducts: Array<ICategoryProduct>;
+  categories: Array<ICategory>;
   onCategorySelected: Function;
-}
-
-interface ICategoryProduct {
-  _id: string;
-  name: string;
 }
 
 const Accordeon = ({
   title,
   content,
-  categoryProducts,
+  categories,
   onCategorySelected,
 }: IAccordeon) => {
   const [active, setActive] = useState(false);
   const [id, setId] = useState("");
-  const divRef = useRef<HTMLDivElement>();
+  const divRef = useRef<any>();
 
-  //   useEffect(() => {
-  //     divRef.current.style.height = active
-  //       ? `${divRef.current.scrollHeight}px`
-  //       : "0px";
-  //   }, [active]);
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.style.height = active
+        ? `${divRef.current.scrollHeight}px`
+        : "0px";
+    }
+  }, [active]);
 
   const toggleAccordion = () => {
     setActive(!active);
@@ -56,22 +54,21 @@ const Accordeon = ({
         <h3 className="questions__item-title">{title}</h3>
       </header>
 
-      {/* <div className="questions__content" ref={divRef}> */}
-      <div className="questions__content">
+      <div className="questions__content" ref={divRef}>
         {content ? <p className="questions__description">{content}</p> : null}
 
         <div className="container-center">
-          {categoryProducts &&
-            categoryProducts.map((p: ICategoryProduct) => (
+          {categories &&
+            categories.map((category: ICategory) => (
               <button
                 className={`product__find-category ${
-                  p._id === id ? "product__active" : ""
+                  String(category.id) === id ? "product__active" : ""
                 }`}
-                key={p._id}
+                key={category.id}
                 type="button"
-                onClick={() => handleClick(p._id)}
+                onClick={() => handleClick(String(category.id))}
               >
-                {p.name}
+                {category.name}
               </button>
             ))}
         </div>

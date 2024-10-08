@@ -95,7 +95,8 @@ export class AuthService {
   async logOut(userData: any) {
     const { email } = userData;
     const user = await this.usersService.findByEmail(email);
-    return this.usersService.updateToken(user.id, { refreshToken: '' });
+    this.usersService.updateToken(user.id, { refreshToken: '' });
+    return { success: true };
   }
 
   async getUserDataByAccessToken(accessToken: string) {
@@ -195,21 +196,23 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
-          sub: userId,
-          email,
+          sub: String(userId),
+          username: email,
         },
         {
-          secret: this.configService.get<string>('jwt.access'),
+          secret: process.env.JWT_ACCESS_SECRET,
+          // secret: this.configService.get<string>('jwt.access'),
           expiresIn: '2m',
         },
       ),
       this.jwtService.signAsync(
         {
-          sub: userId,
-          email,
+          sub: String(userId),
+          username: email,
         },
         {
-          secret: this.configService.get<string>('jwt.refresh'),
+          secret: process.env.JWT_REFRESH_SECRET,
+          // secret: this.configService.get<string>('jwt.refresh'),
           expiresIn: '5m',
         },
       ),

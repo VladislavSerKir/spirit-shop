@@ -2,16 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { IProduct } from "../../types/product";
+import { ICategory, IProduct } from "../../types/productType";
 // import { getUserCart, updateCart } from "../store/cart";
 // import { getIsLoggedIn } from "../store/user";
 
 interface IProductCard {
   product: IProduct;
-  categoryState: any;
+  categories: ICategory[] | [] | undefined;
 }
 
-const ProductCard = ({ product, categoryState }: IProductCard) => {
+const ProductCard = ({ product, categories }: IProductCard) => {
   // const userId = useSelector(getIsLoggedIn());
   // const dispatch = useDispatch();
   // const cart = useSelector(getUserCart());
@@ -46,13 +46,8 @@ const ProductCard = ({ product, categoryState }: IProductCard) => {
   //         toast.info("Sign in to add to cart!");
   //     }
   // };
-
-  // const product = {
-  //   id: 1,
-  //   name: "product.name",
-  //   image: "product.image",
-  //   price: 42,
-  // };
+  console.log(categories);
+  console.log(product.categories);
 
   return (
     <article className="product__card" key={product.id}>
@@ -61,17 +56,18 @@ const ProductCard = ({ product, categoryState }: IProductCard) => {
         <img src={product.image} alt={product.name} className="product__img" />
       </div>
 
-      {categoryState ? (
+      {categories ? (
         <>
           <Link to={`/products/${product.id}`}>
             <h3 className="product__title">{product.name}</h3>
           </Link>
           <div className="container-center">
-            {/* {product.categories.map((p: string) => (
-              <span className="product__category" key={p}>
-                {categoryState.find((c: any) => c._id === p).name}
+            {product.categories.map((category: any) => (
+              <span className="product__category" key={category.id}>
+                {/* {categories.find((c: any) => c.id === p)?.name} */}
+                {category.name}
               </span>
-            ))} */}
+            ))}
           </div>
           <span className="product__price">${product.price}</span>
 

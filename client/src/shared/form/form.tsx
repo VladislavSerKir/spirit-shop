@@ -12,6 +12,12 @@ import history from "../../utils/history";
 import MultiSelectField from "./multi-select-field";
 import TextField from "./text-field";
 import TextArea from "./text-area";
+import { useTypedDispatch, useTypedSelector } from "../../types";
+import {
+  createProduct,
+  getAllCategories,
+} from "../../store/actions/productAction";
+import { ICategory, ICreateProduct } from "../../types/productType";
 
 interface IForm {
   type: string;
@@ -19,37 +25,76 @@ interface IForm {
 }
 
 const Form: FC<IForm> = ({ type, productId }) => {
+  const dispatch = useTypedDispatch();
+  const categories = useTypedSelector((state) => state.products.categories);
+  const categoriesList = categories.map((category) => ({
+    label: category.name,
+    value: category.id,
+  }));
+
+  const initialState = {
+    name: "",
+    description: "",
+    image: "",
+    categories: [],
+    price: "",
+  };
+
+  const [data, setData] = useState(initialState);
+
+  React.useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
+  const handleChange = (target: any) => {
+    setData((prevState: any) => ({
+      ...prevState,
+      [target.name]: target.value,
+    }));
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const newData: ICreateProduct = {
+      ...data,
+      categories: data.categories.map((category: any): any => ({
+        id: category.value,
+        name: category.label,
+      })),
+      // categories: data.categories.map((category: any) => category?.value),
+    };
+    console.log(newData);
+    dispatch(createProduct(newData));
+    setData(initialState);
+    // setErrors({});
+  };
+
   //   const product = useSelector(getProductById(productId));
   //   const categories = useSelector(getCategory());
-  //   const initialState = productId
-  //     ? {
-  //         ...product,
-  //         price: String(product.price),
-  //         categories: [
-  //           ...product.categories.map(category => ({
-  //             label: categories.find(c => c._id === category).name,
-  //             value: category,
-  //           })),
-  //         ],
-  //       }
-  //     : {
-  //         name: '',
-  //         description: '',
-  //         image: '',
-  //         categories: [],
-  //         price: '',
-  //       };
+  // const initialState = productId
+  //   ? {
+  //       ...product,
+  //       price: String(product.price),
+  //       categories: [
+  //         ...product.categories.map((category: ICategory) => ({
+  //           label: categories.find((c) => c.id === category)?.name,
+  //           value: category,
+  //         })),
+  //       ],
+  //     }
+  //   : {
+  //       name: "",
+  //       description: "",
+  //       image: "",
+  //       categories: [],
+  //       price: "",
+  //     };
 
   //   const dispatch = useDispatch();
-  //   const [data, setData] = useState(initialState);
   //   const [errors, setErrors] = useState({});
 
   //   const categoriesList = categories.map(c => ({ label: c.name, value: c._id }));
   //   const productsErrors = useSelector(getProductsError());
-
-  //   const handleChange = target => {
-  //     setData(prevState => ({ ...prevState, [target.name]: target.value }));
-  //   };
 
   //   const validateScheme = yup.object().shape({
   //     categories: yup.array().min(1, 'Set minimun one category'),
@@ -70,20 +115,23 @@ const Form: FC<IForm> = ({ type, productId }) => {
   //     return Object.keys(errors).length === 0;
   //   };
 
-  //   const handleSubmit = e => {
-  //     e.preventDefault();
-  //     const isValid = validate();
-  //     if (!isValid) return;
-  //     const newData = { ...data, categories: data.categories.map(c => c.value) };
-  //     if (type === 'add') {
-  //       dispatch(createProduct(newData));
-  //       setData(initialState);
-  //       setErrors({});
-  //     } else {
-  //       dispatch(updateProduct(newData));
-  //       history.replace('/admin');
-  //     }
+  // const handleSubmit = (e: any) => {
+  //   e.preventDefault();
+  //   const isValid = validate();
+  //   if (!isValid) return;
+  //   const newData = {
+  //     ...data,
+  //     categories: data.categories.map((category: ICategory) => category.value),
   //   };
+  //   if (type === "add") {
+  //     dispatch(createProduct(newData));
+  //     setData(initialState);
+  //     setErrors({});
+  //   } else {
+  //     dispatch(updateProduct(newData));
+  //     history.replace("/admin");
+  //   }
+  // };
 
   const handleReturn = () => {
     history.replace("/admin");
@@ -93,18 +141,6 @@ const Form: FC<IForm> = ({ type, productId }) => {
   //     validate();
   //   }, [data]);
 
-  const handleChange = () => {};
-
-  const handleSubmit = () => {};
-
-  const data = {
-    name: "",
-    description: "",
-    image: "",
-    categories: [],
-    price: "",
-  };
-
   const errors = {
     name: "",
     description: "",
@@ -112,8 +148,6 @@ const Form: FC<IForm> = ({ type, productId }) => {
     categories: [],
     price: "",
   };
-
-  const categoriesList = "";
 
   return (
     <div className="login__container">
@@ -164,9 +198,9 @@ const Form: FC<IForm> = ({ type, productId }) => {
           </div>
         )} */}
 
-        <div className="login__checked-error">
+        {/* <div className="login__checked-error">
           <span className="login__error-message">productsErrors</span>
-        </div>
+        </div> */}
 
         {type === "add" ? (
           <button className="button button--flex" type="submit">

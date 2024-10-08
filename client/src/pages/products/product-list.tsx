@@ -9,107 +9,114 @@ import ProductCard from "../../shared/product-card/product-card";
 import Accordeon from "../../shared/hoc/accordeon/accordeon";
 import Loader from "../../shared/loader/loader";
 import usePagination from "../../hooks/usePagination";
+import { useTypedDispatch, useTypedSelector } from "../../types";
+import {
+  getAllCategories,
+  getAllProducts,
+} from "../../store/actions/productAction";
+import { IProduct } from "../../types/productType";
 
-// type TSortBy = {} | { order: string };
+export interface IOrderCategory {
+  // order: boolean | "asc" | "desc";
+  order: any;
+}
 
 const ProductsList = () => {
-  //   const productsState = useSelector(getProducts());
-  //   const productsError = useSelector(getProductsError());
-  //   const productsLoading = useSelector(getProductsLoadingStatus());
-  //   const categoryState = useSelector(getCategory());
-  //   const categoryError = useSelector(getCategoryError());
-  //   const categoryLoading = useSelector(getCategoryLoadingStatus());
-
+  const dispatch = useTypedDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
-  const [sortBy, setSortBy] = useState({ order: "asc" }); // {}
+  const [sortBy, setSortBy] = useState<any>({});
 
-  //   const handleSearch = ({ target }) => {
-  //     setSearchValue(target.value);
-  //   };
+  const productsState = useTypedSelector((state) => state.products.products);
+  const categories = useTypedSelector((state) => state.products.categories);
 
-  //   const handleCategorySelect = (category) => {
-  //     setSelectedCategory(category);
-  //   };
+  const productsLoading = useTypedSelector(
+    (state) => state.products.categoriesRequest
+  );
+  const categoryLoading = useTypedSelector(
+    (state) => state.products.categoriesRequest
+  );
+  const productsError = useTypedSelector(
+    (state) => state.products.productsErrorMessage
+  );
+  const categoryError = useTypedSelector(
+    (state) => state.products.categoriesErrorMessage
+  );
 
-  //   function searchProducts(data) {
-  //     if (data) {
-  //       if (selectedCategory) {
-  //         const newData = [];
-  //         data.forEach((p) => {
-  //           if (p.categories.includes(selectedCategory)) {
-  //             newData.push(p);
-  //           }
-  //         });
-  //         return newData.filter((product) =>
-  //           product.name.toLowerCase().includes(searchValue.toLowerCase())
-  //         );
-  //       }
-  //       return data.filter((product) =>
-  //         product.name.toLowerCase().includes(searchValue.toLowerCase())
-  //       );
-  //     }
-  //     return [];
-  //   }
+  React.useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
-  //   const productsList = searchProducts(productsState);
+  React.useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
 
-  const products = [
-    {
-      id: 1,
-      name: "product.name",
-      image: "product.image",
-      price: 42,
-    },
-  ];
+  const handleSearch = ({ target }: any) => {
+    setSearchValue(target.value);
+  };
 
-  //   const sortedProducts = sortBy?.order
-  //     ? _.orderBy(products, "price", [sortBy.order])
-  //     : products;
+  const handleCategorySelect = (category: any) => {
+    setSelectedCategory(category);
+  };
 
-  const sortedProducts = products;
+  function searchProducts(products: IProduct[]) {
+    if (products) {
+      if (selectedCategory) {
+        const newData: IProduct[] = [];
+        products.forEach((product) => {
+          if (product.categories.includes(selectedCategory)) {
+            newData.push(product);
+          }
+        });
+        return newData.filter((product) =>
+          product.name.toLowerCase().includes(searchValue.toLowerCase())
+        );
+      }
+      return products.filter((product) =>
+        product.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    return [];
+  }
+
+  const productsList = searchProducts(productsState);
+
+  const sortedProducts = sortBy?.order
+    ? _.orderBy(productsList, "price", [sortBy.order])
+    : productsList;
 
   const { currentPage, currentProducts, jump, maxPage, next, prev } =
-    usePagination(products, 6);
+    usePagination(sortedProducts, 6);
 
-  const categoryState = [{ name: "name", _id: "" }];
-  //   const products = currentProducts();
+  const products = currentProducts();
 
-  //   const handleSort = () => {
-  //     const updated = {
-  //       ...sortBy,
-  //       order: sortBy?.order === "asc" ? "desc" : "asc",
-  //     };
-  //     setSortBy(updated);
-  //   };
+  const handleSort = () => {
+    const updated = {
+      ...sortBy,
+      order: sortBy?.order === "asc" ? "desc" : "asc",
+    };
+    setSortBy(updated);
+  };
 
-  //   const handleSkipSort = () => {
-  //     setSortBy({});
-  //   };
+  const handleSkipSort = () => {
+    setSortBy({});
+  };
 
-  //   if (productsLoading || categoryLoading) {
-  //     return (
-  //       <section className="product section container" id="products">
-  //         <Loader />
-  //       </section>
-  //     );
-  //   }
+  if (productsLoading || categoryLoading) {
+    return (
+      <section className="product section container" id="products">
+        <Loader />
+      </section>
+    );
+  }
 
-  //   if (productsError || categoryError) {
-  //     return (
-  //       <section className="product section container">
-  //         <h3>{productsError || categoryError}</h3>
-  //       </section>
-  //     );
-  //   }
-
-  const handleSearch = () => {};
-
-  const handleSort = () => {};
-
-  const handleSkipSort = () => {};
-
-  const handleCategorySelect = () => {};
+  if (productsError || categoryError) {
+    return (
+      <section className="product section container">
+        <h3>{productsError || categoryError}</h3>
+      </section>
+    );
+  }
 
   return (
     <section className="product section container">
@@ -148,7 +155,7 @@ const ProductsList = () => {
       <div className="accordeon__container">
         <Accordeon
           title="Categories"
-          categoryProducts={categoryState}
+          categories={categories}
           onCategorySelected={handleCategorySelect}
         />
       </div>
@@ -157,7 +164,7 @@ const ProductsList = () => {
           <div className="product__container grid">
             {products.map((product) => (
               <ProductCard
-                categoryState={categoryState}
+                categories={categories}
                 product={product}
                 key={product.id}
               />

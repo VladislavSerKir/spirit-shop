@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Redirect, useLocation, useParams } from "react-router-dom";
 import LoginForm from "./login-form";
 import RegisterForm from "./register-form";
+import { IUseLocation, useTypedSelector } from "../../types";
+import Spinner from "../../pages/spinner/spinner";
 
 const LogIn = () => {
   const { type }: any = useParams();
+  // const { state } = useLocation<IUseLocation>();
+  const location = useLocation<IUseLocation>();
+  const user = useTypedSelector((state) => state.user.userData.email);
+  const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);
+  const loginRequest = useTypedSelector((state) => state.user.loginRequest);
 
   const [formType, setFormType] = useState(
     type === "register" ? type : "login"
@@ -15,6 +22,15 @@ const LogIn = () => {
       prevState === "register" ? "login" : "register"
     );
   };
+
+  if (isAuthChecked && user) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    return <Redirect to={from} />;
+  }
+
+  if (loginRequest) {
+    return <Spinner />;
+  }
 
   return (
     <section className="login section container">

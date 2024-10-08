@@ -11,12 +11,11 @@ interface ITextArea {
 }
 
 const TextArea = ({ label, name, value, onChange, error }: ITextArea) => {
-  // const handleChange = (target: TEventTarget) => {
-  //   const { value, name } = target;
-  //   onChange({ name, value });
-  // };
+  const handleChange = ({ target }: any) => {
+    onChange({ name: target.name, value: target.value });
+  };
 
-  const handleChange = () => {};
+  // const handleChange = () => {};
 
   const getInputClasses = () => {
     return `login__area login__content${error ? "-error" : ""}`;

@@ -9,6 +9,10 @@ import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './datalake/user/users.module';
 import { AuthModule } from './datalake/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
+import { ProductModule } from './datalake/product/product.module';
+import { Product } from './datalake/product/entities/product.entity';
+import { Category } from './datalake/category/entities/category.entity';
+import { CategoryModule } from './datalake/category/category.module';
 
 @Module({
   imports: [
@@ -32,7 +36,7 @@ import { LoggerModule } from 'nestjs-pino';
       username: 'student',
       password: 'student',
       database: 'shop_db',
-      entities: [User],
+      entities: [User, Product, Category],
       synchronize: true,
     }),
     // TypeOrmModule.forRootAsync({
@@ -60,6 +64,8 @@ import { LoggerModule } from 'nestjs-pino';
     }),
     UsersModule,
     AuthModule,
+    ProductModule,
+    CategoryModule,
   ],
   providers: [
     {
