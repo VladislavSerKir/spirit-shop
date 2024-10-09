@@ -25,6 +25,10 @@
     column-gap: 0.5rem;
   }
 
+  &--gap {
+    margin: 5px;
+  }
+
   &--link {
     color: var(--first-color);
     font-weight: var(--font-medium);

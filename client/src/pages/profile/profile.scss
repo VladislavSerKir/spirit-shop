@@ -1,0 +1,26 @@
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 60px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    margin-top: 20px;
+    width: 220px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+  }
+
+  &__content {
+    width: 100%;
+  }
+}

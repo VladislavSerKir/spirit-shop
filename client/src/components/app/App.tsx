@@ -49,7 +49,8 @@ function App() {
         </ProtectedRoute> */}
         <Route exact path="/products/:id?" component={ProductsLayout} />
         <Route exact path="/products" component={ProductsList} />
-        <Route exact path="/admin" component={Admin} />
+        <Route path="/admin" component={Admin} />
+        <Route path="/admin/:id?" component={Admin} />
         <ProtectedRoute path="/cart">
           <Cart />
         </ProtectedRoute>

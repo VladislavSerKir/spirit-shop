@@ -4,7 +4,7 @@ import { TUserDataRegister } from "../types/userType";
 import { onLogin, onRegister, onUpdateUser } from "../store/actions/userAction";
 import { getCookie } from "../utils/cookie";
 
-export const useForm = (inputValues: TUserDataRegister) => {
+export const useForm = (inputValues: any) => {
   const store = useTypedSelector((store) => store);
   const [values, setValues] = useState(inputValues);
   const [isFormEdited, setIsFormEdited] = useState(false);
@@ -59,15 +59,16 @@ export const useForm = (inputValues: TUserDataRegister) => {
   const handleUpdateUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (values.email) {
+      console.log(values);
       dispatch(onUpdateUser(values));
-      setValues({
-        firstName: "",
-        lastName: "",
-        mobileNumber: "",
-        email: "",
-        password: "",
-        role: "",
-      });
+      // setValues({
+      //   firstName: "",
+      //   lastName: "",
+      //   mobileNumber: "",
+      //   email: "",
+      //   password: "",
+      //   role: "",
+      // });
       setIsFormEdited(false);
     }
   };

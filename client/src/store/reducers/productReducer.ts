@@ -22,6 +22,11 @@ export const dataSlice = createSlice({
     setCategoryRequest: (state, action: PayloadAction<boolean>) => {
       state.categoriesRequest = action.payload;
     },
+    removeProduct: (state, action: PayloadAction<number>) => {
+      state.products = [...state.products].filter(
+        (item) => item.id !== action.payload
+      );
+    },
   },
 
   extraReducers: (builder) => {
@@ -57,5 +62,6 @@ export const dataSlice = createSlice({
 // export const getProductById = (productId: string) => (state: TProductData) =>
 //   state.products.find((p) => p.id === Number(productId));
 
-export const { setProductRequest, setCategoryRequest } = dataSlice.actions;
+export const { setProductRequest, setCategoryRequest, removeProduct } =
+  dataSlice.actions;
 export const productReducer = dataSlice.reducer;

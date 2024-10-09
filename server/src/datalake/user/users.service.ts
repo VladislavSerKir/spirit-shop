@@ -25,7 +25,12 @@ export class UsersService {
   }
 
   async editProfile(user: User, userData: Partial<User>): Promise<User> {
-    const { password } = userData;
+    const { password, email } = userData;
+    const userWithEmailExist = await this.findByEmail(email);
+
+    if (userWithEmailExist) {
+      throw new BadRequestException('Email занят');
+    }
 
     if (password) {
       const hashedPassword = await HashService.generateHash(password);

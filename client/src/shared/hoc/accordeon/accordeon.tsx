@@ -22,7 +22,7 @@ const Accordeon = ({
   onCategorySelected,
 }: IAccordeon) => {
   const [active, setActive] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState<string>();
   const divRef = useRef<any>();
 
   useEffect(() => {

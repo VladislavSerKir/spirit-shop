@@ -15,7 +15,7 @@ import { RefreshTokenStrategy } from 'src/config/refresh-token.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    // JwtModule.register({}),
+    JwtModule.register({}),
     // PassportModule.register({ defaultStrategy: 'jwt' }),
     // JwtModule.registerAsync({
     //   imports: [ConfigModule],
@@ -25,11 +25,11 @@ import { RefreshTokenStrategy } from 'src/config/refresh-token.strategy';
     //   }),
     //   inject: [ConfigService],
     // }),
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_ACCESS_SECRET,
-      signOptions: { expiresIn: '2m' },
-    }),
+    // JwtModule.register({
+    //   global: true,
+    //   secret: process.env.JWT_ACCESS_SECRET,
+    //   signOptions: { expiresIn: '2m' },
+    // }),
   ],
   controllers: [AuthController],
   providers: [

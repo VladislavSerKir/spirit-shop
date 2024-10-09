@@ -5,7 +5,7 @@ export type TUserData = {
   password?: string;
   firstName: string;
   lastName: string;
-  mobileNumber?: string;
+  mobileNumber: string;
   role: string;
 };
 
@@ -15,7 +15,7 @@ export type TUserDataRegister = {
   firstName: string;
   lastName: string;
   mobileNumber: string;
-  role: string;
+  role?: string;
 };
 
 export type TUserState = {

@@ -59,12 +59,15 @@ const ProductsList = () => {
     setSelectedCategory(category);
   };
 
-  function searchProducts(products: IProduct[]) {
+  function searchProducts(products: any) {
     if (products) {
       if (selectedCategory) {
         const newData: IProduct[] = [];
-        products.forEach((product) => {
-          if (product.categories.includes(selectedCategory)) {
+        products.forEach((product: any) => {
+          const productCategories = product.categories.map((category: any) =>
+            String(category.id)
+          );
+          if (productCategories.includes(selectedCategory)) {
             newData.push(product);
           }
         });
@@ -72,7 +75,8 @@ const ProductsList = () => {
           product.name.toLowerCase().includes(searchValue.toLowerCase())
         );
       }
-      return products.filter((product) =>
+
+      return products.filter((product: any) =>
         product.name.toLowerCase().includes(searchValue.toLowerCase())
       );
     }

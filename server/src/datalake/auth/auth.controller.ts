@@ -53,13 +53,13 @@ export class AuthController {
     return this.authService.refreshTokens(refreshToken);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(RefreshTokenGuard)
   @Get('/me')
   async getUserData(@Request() request: any) {
     const accessToken = request.headers.authorization;
     // this.logger.log(accessToken);
-    // return await this.authService.getUserDataByAccessToken(accessToken);
-    return request.user;
+    return await this.authService.getUserDataByAccessToken(accessToken);
+    // return request.user;
     // return accessToken;
   }
 }

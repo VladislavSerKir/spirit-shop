@@ -50,3 +50,9 @@
 .accordeon__container {
   margin-top: 5px;
 }
+
+.table {
+  &__info {
+    padding: 15px;
+  }
+}

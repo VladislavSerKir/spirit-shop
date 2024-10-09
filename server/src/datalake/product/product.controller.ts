@@ -6,12 +6,16 @@ import {
   Patch,
   UseGuards,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { AuthUser } from 'src/common/decorators/user.decorator';
 import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { DeleteProductDto } from './dto/delete-product.dto';
+import { DeleteResult } from 'typeorm';
+import { IRemoveProduct } from 'src/common/types/interfaces';
 
 @Controller('products')
 export class ProductController {
@@ -27,5 +31,10 @@ export class ProductController {
     @Body() body: CreateProductDto,
   ): Promise<Partial<Product>> {
     return this.productService.createProduct(body);
+  }
+
+  @Delete('/delete')
+  async deleteProduct(@Body() body: DeleteProductDto): Promise<IRemoveProduct> {
+    return this.productService.deleteProduct(body);
   }
 }

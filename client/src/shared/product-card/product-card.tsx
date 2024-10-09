@@ -46,8 +46,8 @@ const ProductCard = ({ product, categories }: IProductCard) => {
   //         toast.info("Sign in to add to cart!");
   //     }
   // };
-  console.log(categories);
-  console.log(product.categories);
+  // console.log(categories);
+  // console.log(product.categories);
 
   return (
     <article className="product__card" key={product.id}>

@@ -4,10 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Category } from '../category/entities/category.entity';
+import { DeleteProductDto } from './dto/delete-product.dto';
+import { IRemoveProduct } from 'src/common/types/interfaces';
 
 @Injectable()
 export class ProductService {
@@ -49,6 +51,17 @@ export class ProductService {
       return savedProduct;
     } catch {
       throw new BadRequestException(`Запрос не сработал`);
+    }
+  }
+
+  async deleteProduct(body: DeleteProductDto): Promise<IRemoveProduct> {
+    const { id } = body;
+
+    try {
+      await this.productRepo.delete(String(id));
+      return { id };
+    } catch (e) {
+      throw new NotFoundException(`Ошибка сервера: ${e}`);
     }
   }
 }

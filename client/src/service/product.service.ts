@@ -27,6 +27,22 @@ const productService = {
       }),
     });
   },
+
+  deleteProductRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/products/delete`, {
+      method: "DELETE",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
 };
 
 export default productService;

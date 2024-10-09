@@ -1,8 +1,6 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
-// import { getProductById } from "../../store/reducers/productReducer";
 import { useTypedSelector } from "../../types";
-// import { IProducts } from "../../store/actions/productAction";
+import { ICategory } from "../../types/productType";
 
 interface IProduct {
   productId: string;
@@ -11,15 +9,10 @@ interface IProduct {
 const Product: FC<IProduct> = ({ productId }) => {
   const products = useTypedSelector((state) => state.products.products);
 
-  // const product = useSelector(getProductById(productId));
-  //   const categoryState = useSelector(getCategory());
-
   const getProductById = (productId: string, products: any) =>
     products.find((p: any) => p.id === Number(productId));
 
   const currentProduct = getProductById(productId, products);
-
-  const categoryState = [{ name: "name", _id: "" }];
 
   return (
     <section className="container section">
@@ -33,11 +26,11 @@ const Product: FC<IProduct> = ({ productId }) => {
           />
 
           <div>
-            {/* {product.categories.map((p) => (
-              <span className="product__category" key={p}>
-                {categoryState.find((c) => c._id === p)?.name}
+            {currentProduct?.categories.map((category: ICategory) => (
+              <span className="product__category" key={category.id}>
+                {category.name}
               </span>
-            ))} */}
+            ))}
           </div>
         </div>
         <p className="product-solo__description">

@@ -1,11 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  removeProduct,
   setCategoryRequest,
   setProductRequest,
 } from "../reducers/productReducer";
 import { TError } from "../../types";
 import { config } from "../../utils/api";
-import { ICategory, ICreateProduct, IProduct } from "../../types/productType";
+import {
+  ICategory,
+  ICreateProduct,
+  IProduct,
+  IRemoveProduct,
+} from "../../types/productType";
 import productService from "../../service/product.service";
 
 export const getAllProducts = createAsyncThunk<
@@ -42,6 +48,24 @@ export const createProduct = createAsyncThunk<
   const data: ICreateProduct = await response.json();
 
   return data;
+});
+
+export const deleteProduct = createAsyncThunk<
+  any,
+  number,
+  { rejectValue: TError }
+>("products/create", async function (id, { dispatch, rejectWithValue }) {
+  const response = await productService.deleteProductRequest(id);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method createProduct",
+    });
+  }
+  const data: IRemoveProduct = await response.json();
+  dispatch(removeProduct(data.id));
+  // return data;
 });
 
 export const getAllCategories = createAsyncThunk<
