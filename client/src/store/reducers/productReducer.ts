@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TProductData } from "../../types/productType";
+import { ICategory, TProductData } from "../../types/productType";
 import { getAllCategories, getAllProducts } from "../actions/productAction";
 
 const productState: TProductData = {
@@ -26,6 +26,14 @@ export const dataSlice = createSlice({
       state.products = [...state.products].filter(
         (item) => item.id !== action.payload
       );
+    },
+    removeCategory: (state, action: PayloadAction<number>) => {
+      state.categories = [...state.categories].filter(
+        (item) => item.id !== action.payload
+      );
+    },
+    refreshCategories: (state, action: PayloadAction<ICategory>) => {
+      state.categories = [...state.categories, action.payload];
     },
   },
 
@@ -59,9 +67,11 @@ export const dataSlice = createSlice({
   },
 });
 
-// export const getProductById = (productId: string) => (state: TProductData) =>
-//   state.products.find((p) => p.id === Number(productId));
-
-export const { setProductRequest, setCategoryRequest, removeProduct } =
-  dataSlice.actions;
+export const {
+  setProductRequest,
+  setCategoryRequest,
+  removeProduct,
+  removeCategory,
+  refreshCategories,
+} = dataSlice.actions;
 export const productReducer = dataSlice.reducer;

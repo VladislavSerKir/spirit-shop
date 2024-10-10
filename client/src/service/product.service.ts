@@ -1,5 +1,5 @@
 import { config } from "../utils/api";
-import { ICreateProduct } from "../types/productType";
+import { ICreateCategory, ICreateProduct } from "../types/productType";
 
 const productService = {
   createProductRequest: ({
@@ -30,6 +30,38 @@ const productService = {
 
   deleteProductRequest: (id: number) => {
     return fetch(`${config.apiEndPoint}/products/delete`, {
+      method: "DELETE",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
+
+  createCategoryRequest: ({ name }: ICreateCategory) => {
+    return fetch(`${config.apiEndPoint}/category/create`, {
+      method: "POST",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        name,
+      }),
+    });
+  },
+
+  deleteCategoryRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/category/delete`, {
       method: "DELETE",
       cache: "no-cache",
       credentials: "same-origin",

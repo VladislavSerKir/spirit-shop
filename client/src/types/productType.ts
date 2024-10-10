@@ -27,7 +27,15 @@ export interface ICreateProduct {
   price: string;
 }
 
+export interface ICreateCategory {
+  name: string;
+}
+
 export interface IRemoveProduct {
+  id: number;
+}
+
+export interface IRemoveCategory {
   id: number;
 }
 

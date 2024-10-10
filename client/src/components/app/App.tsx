@@ -18,6 +18,7 @@ import { IUseLocation, useTypedDispatch } from "../../types";
 import { checkAuth } from "../../store/actions/userAction";
 import ProductsLayout from "../../pages/products/product-layout";
 import Admin from "../../pages/admin/admin";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const dispatch = useTypedDispatch();
@@ -60,6 +61,7 @@ function App() {
       {!isLoggedIn && <NavLink to="/register" replace={true} />} */}
       {/* <Main /> */}
       <Footer />
+      <ToastContainer />
       <ScrollUp />
     </>
   );

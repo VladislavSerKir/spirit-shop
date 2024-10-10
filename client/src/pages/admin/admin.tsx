@@ -1,25 +1,11 @@
-import React, { FC, useState } from "react";
-import Form from "../../shared/form/form";
-import ProductTable from "./product-table";
-import {
-  NavLink,
-  Route,
-  Switch,
-  useLocation,
-  useRouteMatch,
-} from "react-router-dom";
-import { IUseLocation } from "../../types";
-import ManageProduct from "../../components/manage-product/manage-product";
+import React, { FC } from "react";
+import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import EditProfileForm from "../../components/edit-profile-form/edit-profile-form";
+import ManageCategories from "../../components/manage-categories/manage-categories";
+import ManageProduct from "../../components/manage-product/manage-product";
 
 const Admin: FC = () => {
   const { url } = useRouteMatch();
-  const location = useLocation<IUseLocation>();
-  const [actionType, setActionType] = useState("edit");
-
-  const toggleActionType = () => {
-    setActionType((prevState) => (prevState === "add" ? "edit" : "add"));
-  };
 
   return (
     <section className="section container">
@@ -82,7 +68,9 @@ const Admin: FC = () => {
               <EditProfileForm />
             </Route>
             <Route path={`${url}/favorites`} exact></Route>
-            <Route path={`${url}/categories`} exact></Route>
+            <Route path={`${url}/categories`} exact>
+              <ManageCategories />
+            </Route>
 
             <Route path={`${url}/products`} exact>
               <ManageProduct />
@@ -90,36 +78,6 @@ const Admin: FC = () => {
             <Route path={`${url}/users`} exact></Route>
           </Switch>
         </article>
-
-        {/* {actionType === "add" ? (
-          <>
-            <div className="container-center">
-              <button
-                className="button button--flex"
-                type="button"
-                onClick={toggleActionType}
-              >
-                Edit
-                <i className="ri-arrow-left-right-line button__icon" />
-              </button>
-            </div>
-            <Form type="add" />
-          </>
-        ) : (
-          <>
-            <div className="container-center">
-              <button
-                className="button button--flex"
-                type="button"
-                onClick={toggleActionType}
-              >
-                Add
-                <i className="ri-arrow-left-right-line button__icon" />
-              </button>
-            </div>
-            <ProductTable />
-          </>
-        )} */}
       </div>
     </section>
   );

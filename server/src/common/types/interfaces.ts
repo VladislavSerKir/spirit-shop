@@ -5,3 +5,7 @@ export interface IAccessToken {
 export interface IRemoveProduct {
   id: number;
 }
+
+export interface IRemoveCategory {
+  id: number;
+}

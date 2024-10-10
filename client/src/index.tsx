@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Router } from "react-router-dom";
 import history from "./utils/history";
 import createStore from "./store";
+import "react-toastify/dist/ReactToastify.css";
 
 const store = createStore();
 

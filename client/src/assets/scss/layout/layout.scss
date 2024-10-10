@@ -52,7 +52,31 @@
 }
 
 .table {
+  margin-top: 25px;
   &__info {
+    padding: 15px;
+  }
+
+  &__gap {
+    width: 100vh;
+  }
+
+  &__title {
+    margin-top: 20px;
+    font-size: var(--h2-font-size);
+    margin-bottom: var(--mb-2);
+    line-height: 140%;
+    text-align: center;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.form {
+  &__container {
     padding: 15px;
   }
 }

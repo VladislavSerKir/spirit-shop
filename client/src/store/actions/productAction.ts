@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  refreshCategories,
+  removeCategory,
   removeProduct,
   setCategoryRequest,
   setProductRequest,
@@ -8,11 +10,14 @@ import { TError } from "../../types";
 import { config } from "../../utils/api";
 import {
   ICategory,
+  ICreateCategory,
   ICreateProduct,
   IProduct,
+  IRemoveCategory,
   IRemoveProduct,
 } from "../../types/productType";
 import productService from "../../service/product.service";
+import { toast } from "react-toastify";
 
 export const getAllProducts = createAsyncThunk<
   IProduct[],
@@ -54,7 +59,7 @@ export const deleteProduct = createAsyncThunk<
   any,
   number,
   { rejectValue: TError }
->("products/create", async function (id, { dispatch, rejectWithValue }) {
+>("products/delete", async function (id, { dispatch, rejectWithValue }) {
   const response = await productService.deleteProductRequest(id);
 
   if (!response.ok) {
@@ -88,3 +93,40 @@ export const getAllCategories = createAsyncThunk<
     return data;
   }
 );
+
+export const createCategory = createAsyncThunk<
+  ICreateCategory,
+  ICreateCategory,
+  { rejectValue: TError }
+>("category/create", async function (category, { dispatch, rejectWithValue }) {
+  const response = await productService.createCategoryRequest(category);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method createCategory",
+    });
+  }
+  const data: ICategory = await response.json();
+  dispatch(refreshCategories(data));
+  toast.info(`Category ${data.name} created!`);
+  return data;
+});
+
+export const deleteCategory = createAsyncThunk<
+  IRemoveCategory,
+  number,
+  { rejectValue: TError }
+>("category/delete", async function (id, { dispatch, rejectWithValue }) {
+  const response = await productService.deleteCategoryRequest(id);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method deleteCategory",
+    });
+  }
+  const data: any = await response.json();
+  dispatch(removeCategory(data.id));
+  return data;
+});

@@ -16,7 +16,7 @@ const Product: FC<IProduct> = ({ productId }) => {
 
   return (
     <section className="container section">
-      <h3 className="product-solo__title">{currentProduct?.name}</h3>
+      <h2 className="section__title-center">{currentProduct?.name}</h2>
       <div className="product-solo__container">
         <div className="container-center">
           <img

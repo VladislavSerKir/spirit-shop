@@ -1,10 +1,16 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+// import { getCategory } from "../../../store/category";
+// import { deleteProduct, getProducts } from "../../../store/products";
+import history from "../../utils/history";
 import { useTypedDispatch, useTypedSelector } from "../../types";
+import { ICategory } from "../../types/productType";
 import { deleteProduct } from "../../store/actions/productAction";
 
-const TableOfProducts = () => {
+const TableOfCategories = () => {
   const dispatch = useTypedDispatch();
-  const products = useTypedSelector((state) => state.products.products);
+  // const products = useTypedSelector((state) => state.products.products);
+  const categories = useTypedSelector((state) => state.products.categories);
 
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id));
@@ -12,38 +18,32 @@ const TableOfProducts = () => {
 
   const handleEdit = (id: number) => {};
 
-  if (!products.length) {
-    return <h2 className="table__title">There is no product to manage</h2>;
+  // const handleDelete = (id: number) => {
+  //   console.log(id);
+  // };
+
+  if (!categories.length) {
+    return <h2 className="table__title">There is no categories to manage</h2>;
   }
 
   return (
     <table className="table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Categories</th>
+          <th>Category name</th>
           <th />
           <th />
         </tr>
       </thead>
       <tbody>
-        {products.map((product) => (
-          <tr key={product.id}>
-            <td className="table__info">{product.name}</td>
-            <td className="table__info">{product.price}</td>
-            <td className="table__info table__info-category">
-              {product?.categories.map((category: any) => (
-                <span className="product__category" key={category.id}>
-                  {category.name}
-                </span>
-              ))}
-            </td>
+        {categories.map((category) => (
+          <tr key={category.id}>
+            <td className="table__info">{category.name}</td>
             <td>
               <button
                 className="button button--flex button--gap"
                 type="button"
-                onClick={() => handleEdit(product.id)}
+                onClick={() => handleEdit(category.id)}
               >
                 <i className="ri-pencil-line" />
               </button>
@@ -52,7 +52,7 @@ const TableOfProducts = () => {
               <button
                 className="button button--flex button--gap"
                 type="button"
-                onClick={() => handleDelete(product.id)}
+                onClick={() => handleDelete(category.id)}
               >
                 <i className="ri-close-line" />
               </button>
@@ -64,4 +64,4 @@ const TableOfProducts = () => {
   );
 };
 
-export default TableOfProducts;
+export default TableOfCategories;
