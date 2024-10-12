@@ -16,6 +16,7 @@ import {
   setUserRequest,
 } from "../reducers/userReducer";
 import { TUserData, TUserEditResponse } from "../../types/userType";
+import { toast } from "react-toastify";
 
 export const checkAuth = createAsyncThunk(
   "user/checkAuth",
@@ -43,12 +44,12 @@ export const getUser = createAsyncThunk(
     dispatch(setUserRequest(true));
     return authService
       .userRequest()
-      .then((user: TUserFetchResponse) => {
+      .then((user: TUserData) => {
         console.log(user);
         dispatch(setUser(user));
       })
-      .catch((err: TError) => {
-        dispatch(setUserError(err));
+      .catch((err: any) => {
+        dispatch(setUserError(err.message));
       })
       .finally(() => {
         dispatch(setUserRequest(false));
@@ -142,12 +143,14 @@ export const onUpdateUser = createAsyncThunk<
 >("user/onUpdateUser", async function (user, { rejectWithValue }) {
   const response = await authService.editRequest(user);
   if (!response.ok) {
+    toast.error(`Eather user with email exist or password is too short`);
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onUpdateUser",
     });
   }
   const data: TUserEditResponse = await response.json();
+  toast.success(`Profile changed`);
   return data;
 });
 

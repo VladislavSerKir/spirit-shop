@@ -8,6 +8,7 @@ import {
 } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
 import { ICategory } from "../../types/productType";
+import { useForm } from "../../hooks/useForm";
 
 const ManageCategories = () => {
   const dispatch = useTypedDispatch();
@@ -17,9 +18,16 @@ const ManageCategories = () => {
     name: "",
   };
 
+  const initialStateForCategories = categories.map((c) => ({
+    id: c.id,
+    name: c.name,
+  }));
+
+  const { values, handleChange } = useForm(initialStateForCategories);
+
   const [data, setData] = useState(initialState);
 
-  const handleChange = (target: any) => {
+  const handleChangeCategory = (target: any) => {
     setData((prevState: any) => ({
       ...prevState,
       [target.name]: target.value,
@@ -31,9 +39,11 @@ const ManageCategories = () => {
     toast.error(`Category ${name} deleted!`);
   };
 
-  const handleEdit = (id: number) => {};
+  const handleEdit = (id: number) => {
+    console.log(values);
+  };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmitCategory = (e: any) => {
     e.preventDefault();
     console.log(data);
     // const newData: ICreateProduct = {
@@ -61,13 +71,16 @@ const ManageCategories = () => {
       <div>
         <h2 className="section__title-center">Manage categories</h2>
 
-        <form className="login__form form__container" onSubmit={handleSubmit}>
+        <form
+          className="login__form form__container"
+          onSubmit={handleSubmitCategory}
+        >
           <div className="login__inputs">
             <TextField
               label="Name"
               name="name"
               value={data.name}
-              onChange={handleChange}
+              onChange={handleChangeCategory}
             />
           </div>
           <button className="button button--flex" type="submit">
@@ -93,6 +106,7 @@ const ManageCategories = () => {
                     <TextField
                       label="Name"
                       name="name"
+                      // value={values.find((v: any) => v.id === category.id).name}
                       value={category.name}
                       onChange={handleChange}
                     />

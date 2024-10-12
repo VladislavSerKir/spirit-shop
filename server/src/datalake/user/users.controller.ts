@@ -6,6 +6,7 @@ import {
   Patch,
   UseGuards,
   Param,
+  Request,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
@@ -27,10 +28,12 @@ export class UsersController {
   @UseGuards(AccessTokenGuard)
   @Patch('/profile')
   editProfile(
-    @AuthUser() user: User,
+    @Request() request: any,
     @Body() userData: UpdateUserDto,
-  ): Promise<User> {
-    return this.usersService.editProfile(user, userData);
+  ): Promise<Partial<User>> {
+    const accessToken = request.headers.authorization;
+    // return userData;
+    return this.usersService.editProfile(accessToken, userData);
   }
 
   @Patch(':id')

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsPhoneNumber, IsString, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsString,
+  Length,
+  MinLength,
+} from 'class-validator';
 
 export class UpdateUserDto {
   @IsNotEmpty()
@@ -12,10 +18,16 @@ export class UpdateUserDto {
   lastName: string;
 
   @IsString()
+  @IsPhoneNumber('RU')
   @IsNotEmpty()
-  password: string;
+  mobileNumber: string;
 
   @IsString()
-  @IsPhoneNumber('RU')
-  mobileNumber: string;
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @MinLength(6)
+  @IsNotEmpty()
+  password: string;
 }

@@ -28,6 +28,9 @@ export class Category {
   @IsString()
   name: string;
 
-  @ManyToMany(() => Product, (product) => product.categories)
+  @ManyToMany(() => Product, (product) => product.categories, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   products: Product[];
 }

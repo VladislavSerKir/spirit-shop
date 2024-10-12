@@ -100,16 +100,29 @@ export class AuthService {
   }
 
   async getUserDataByAccessToken(accessToken: string) {
+    // return accessToken;
+    // const token = accessToken.split(' ')[1];
+    // const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    // return decodedToken;
     try {
-      const decodedToken = await this.verifyAccessToken(accessToken);
-      const userId = Number(decodedToken.sub);
+      const token = accessToken.split(' ')[1];
+      const decodedToken = this.jwtService.verify(token, {
+        secret: process.env.JWT_ACCESS_SECRET,
+      });
+      // const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      // return decoded;
+      // const decodedToken = await this.verifyAccessToken(accessToken);
+      const username = decodedToken.username;
       const user = await this.userRepo.findOne({
-        where: { id: userId },
+        where: { email: username },
       });
       const { firstName, lastName, email, mobileNumber, role } = user;
 
       return { firstName, lastName, email, mobileNumber, role };
     } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        throw new Error('jwt expired');
+      }
       throw new InternalServerErrorException(
         `Внутренняя ошибка сервера: ${error}`,
       );
@@ -118,10 +131,13 @@ export class AuthService {
 
   async verifyAccessToken(accessToken: string) {
     try {
-      const decodedToken = jwt.verify(
-        accessToken,
-        this.configService.get<string>('jwt.access'),
-      );
+      // const decodedToken = jwt.verify(
+      //   accessToken,
+      //   process.env.JWT_ACCESS_SECRET,
+      // );
+      const decodedToken = this.jwtService.verifyAsync(accessToken, {
+        secret: process.env.JWT_ACCESS_SECRET,
+      });
 
       return decodedToken;
     } catch (error) {
@@ -137,10 +153,9 @@ export class AuthService {
 
   async verifyRefreshToken(refreshToken: string) {
     try {
-      const decodedToken = jwt.verify(
-        refreshToken,
-        this.configService.get<string>('jwt.refresh'),
-      );
+      const decodedToken = this.jwtService.verifyAsync(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET,
+      });
 
       return decodedToken;
     } catch (error) {
@@ -196,24 +211,24 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
-          sub: String(userId),
+          sub: userId,
           username: email,
         },
         {
           secret: process.env.JWT_ACCESS_SECRET,
           // secret: this.configService.get<string>('jwt.access'),
-          expiresIn: '2m',
+          expiresIn: '10m',
         },
       ),
       this.jwtService.signAsync(
         {
-          sub: String(userId),
+          sub: userId,
           username: email,
         },
         {
           secret: process.env.JWT_REFRESH_SECRET,
           // secret: this.configService.get<string>('jwt.refresh'),
-          expiresIn: '5m',
+          expiresIn: '7d',
         },
       ),
     ]);

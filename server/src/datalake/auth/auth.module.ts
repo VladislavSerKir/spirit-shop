@@ -4,18 +4,22 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from '../user/entities/user.entity';
-import { JwtStrategy } from 'src/config/jwt-strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { HashService } from 'src/common/hash/hash.service';
 import { UsersService } from '../user/users.service';
 import { AccessTokenStrategy } from 'src/config/access-token.strategy';
 import { RefreshTokenStrategy } from 'src/config/refresh-token.strategy';
+import { JwtStrategy } from 'src/config/jwt-strategy';
 
 @Module({
   imports: [
+    JwtModule.register({
+      secret: process.env.JWT_ACCESS_SECRET,
+      signOptions: { expiresIn: '10m' },
+    }),
     TypeOrmModule.forFeature([User]),
-    JwtModule.register({}),
+    // JwtModule.register({}),
     // PassportModule.register({ defaultStrategy: 'jwt' }),
     // JwtModule.registerAsync({
     //   imports: [ConfigModule],
@@ -25,18 +29,13 @@ import { RefreshTokenStrategy } from 'src/config/refresh-token.strategy';
     //   }),
     //   inject: [ConfigService],
     // }),
-    // JwtModule.register({
-    //   global: true,
-    //   secret: process.env.JWT_ACCESS_SECRET,
-    //   signOptions: { expiresIn: '2m' },
-    // }),
   ],
   controllers: [AuthController],
   providers: [
     AuthService,
     UsersService,
     JwtStrategy,
-    JwtService,
+    // JwtService,
     HashService,
     AccessTokenStrategy,
     RefreshTokenStrategy,

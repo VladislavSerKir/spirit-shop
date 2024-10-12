@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { RefreshTokenGuard } from 'src/config/refresh-token.guard';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
-import { AuthGuard } from 'src/config/auth.guard';
+// import { AuthGuard } from 'src/config/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -53,8 +53,8 @@ export class AuthController {
     return this.authService.refreshTokens(refreshToken);
   }
 
-  @UseGuards(RefreshTokenGuard)
   @Get('/me')
+  @UseGuards(AccessTokenGuard)
   async getUserData(@Request() request: any) {
     const accessToken = request.headers.authorization;
     // this.logger.log(accessToken);

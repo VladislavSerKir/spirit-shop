@@ -51,7 +51,7 @@ export const createProduct = createAsyncThunk<
     });
   }
   const data: ICreateProduct = await response.json();
-
+  toast.success(`Product ${data.name} with price ${data.price} created!`);
   return data;
 });
 
@@ -69,6 +69,7 @@ export const deleteProduct = createAsyncThunk<
     });
   }
   const data: IRemoveProduct = await response.json();
+  toast.error(`Product deleted`);
   dispatch(removeProduct(data.id));
   // return data;
 });
@@ -109,7 +110,7 @@ export const createCategory = createAsyncThunk<
   }
   const data: ICategory = await response.json();
   dispatch(refreshCategories(data));
-  toast.info(`Category ${data.name} created!`);
+  toast.success(`Category ${data.name} created!`);
   return data;
 });
 

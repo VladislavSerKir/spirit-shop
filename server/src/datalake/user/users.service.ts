@@ -7,10 +7,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { HashService } from 'src/common/hash/hash.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private userRepo: Repository<User>,
+    private jwtService: JwtService,
+  ) {}
 
   async getProfileInfo(email: string): Promise<User> {
     const user = await this.userRepo.findOne({
@@ -24,11 +28,20 @@ export class UsersService {
     }
   }
 
-  async editProfile(user: User, userData: Partial<User>): Promise<User> {
+  async editProfile(
+    accessToken,
+    userData: Partial<User>,
+  ): Promise<Partial<User>> {
     const { password, email } = userData;
     const userWithEmailExist = await this.findByEmail(email);
 
-    if (userWithEmailExist) {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: process.env.JWT_ACCESS_SECRET,
+    });
+    const username = decodedToken.username;
+
+    if (userWithEmailExist && username !== email) {
       throw new BadRequestException('Email занят');
     }
 
@@ -37,12 +50,17 @@ export class UsersService {
       userData = { ...userData, password: hashedPassword };
     }
 
-    const updatedUser = await this.userRepo.update(user.id, userData);
+    const updatedUser = await this.userRepo.update(
+      { email: username },
+      userData,
+    );
 
     if (!updatedUser) {
       throw new BadRequestException('Ошибка запроса на изменение профиля');
     } else {
-      return this.getUserById(user.id);
+      // const updatedUser = this.getUserByEmail(username);
+      const { firstName, lastName, email, mobileNumber } = userData;
+      return { firstName, lastName, email, mobileNumber };
     }
   }
 
@@ -88,6 +106,32 @@ export class UsersService {
     } else {
       return user;
     }
+  }
+
+  async getUserByEmail(email: string): Promise<Partial<User>> {
+    const user = await this.userRepo.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `Пользователь с email: ${JSON.stringify(email)} не существует`,
+      );
+    } else {
+      return user;
+    }
+  }
+
+  async validateUser(username: any, password: string): Promise<any> {
+    // Находим пользователя по имени пользователя
+    const user = await this.getUserByEmail(username.username);
+    if (user && (await HashService.compareHash(password, user.password))) {
+      // Если пользователь найден и пароль совпадает, возвращаем объект пользователя
+      const { password, ...result } = user;
+      return result;
+    }
+    // Если пользователь не найден или пароль неверен, возвращаем null
+    return null;
   }
 
   // async deleteUser(id: number): Promise<User> {

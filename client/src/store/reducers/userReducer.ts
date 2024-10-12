@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { TUserState } from "../../types/userType";
+import { TUserData, TUserState } from "../../types/userType";
 import { TError, TUserFetchResponse } from "../../types";
 import {
   onLogin,
@@ -39,12 +39,12 @@ export const userSlice = createSlice({
     setAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
     },
-    setUser: (state, action: PayloadAction<TUserFetchResponse>) => {
-      state.userData.email = action.payload.user.email;
-      state.userData.firstName = action.payload.user.firstName;
-      state.userData.lastName = action.payload.user.lastName;
-      state.userData.mobileNumber = action.payload.user.mobileNumber;
-      state.userData.role = action.payload.user.role;
+    setUser: (state, action: PayloadAction<TUserData>) => {
+      state.userData.email = action.payload.email;
+      state.userData.firstName = action.payload.firstName;
+      state.userData.lastName = action.payload.lastName;
+      state.userData.mobileNumber = action.payload.mobileNumber;
+      state.userData.role = action.payload.role;
       state.userError = null;
     },
     setUserRequest: (state, action: PayloadAction<boolean>) => {

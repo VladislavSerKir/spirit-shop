@@ -5,7 +5,7 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './datalake/user/entities/user.entity';
-import { APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './datalake/user/users.module';
 import { AuthModule } from './datalake/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
@@ -14,9 +14,15 @@ import { Product } from './datalake/product/entities/product.entity';
 import { Category } from './datalake/category/entities/category.entity';
 import { CategoryModule } from './datalake/category/category.module';
 import { AccessTokenGuard } from './config/access-token.guard';
+import { JwtExceptionFilter } from './common/filters/jwt-exception-filter';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+      envFilePath: `.env`,
+    }),
     LoggerModule.forRoot({
       pinoHttp: {
         customProps: () => ({
@@ -49,7 +55,6 @@ import { AccessTokenGuard } from './config/access-token.guard';
     //   }),
     //   inject: [ConfigService],
     // }),
-    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     WinstonModule.forRoot({
       levels: {
         critical_error: 0,
@@ -78,6 +83,10 @@ import { AccessTokenGuard } from './config/access-token.guard';
       useValue: new ValidationPipe({
         whitelist: true,
       }),
+    },
+    {
+      provide: APP_FILTER,
+      useClass: JwtExceptionFilter,
     },
   ],
 })

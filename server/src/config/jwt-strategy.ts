@@ -7,6 +7,7 @@ import { UsersService } from 'src/datalake/user/users.service';
 
 export interface IJwt {
   userId: number;
+  email: string;
 }
 
 @Injectable()
@@ -17,7 +18,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get<string>('jwt.key'),
+      // secretOrKey: configService.get<string>('jwt.key'),
+      secretOrKey: process.env.JWT_KEY,
+      // algorithms: ['RS256'],
     });
   }
 

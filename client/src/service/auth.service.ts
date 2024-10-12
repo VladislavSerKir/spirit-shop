@@ -39,9 +39,8 @@ const authService = {
     const options = {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        accept: "application/json",
         Authorization: "Bearer " + getCookie("accessToken"),
+        "Content-Type": "application/json",
       },
     };
 
@@ -150,7 +149,7 @@ const authService = {
     email,
     password,
   }: TUserData) => {
-    return fetch(`${config.apiEndPoint}/users/profile`, {
+    return fetch(`${config.apiEndPoint}/user/profile`, {
       method: "PATCH",
       cache: "no-cache",
       credentials: "same-origin",
