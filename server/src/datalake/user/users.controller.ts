@@ -32,7 +32,6 @@ export class UsersController {
     @Body() userData: UpdateUserDto,
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
-    // return userData;
     return this.usersService.editProfile(accessToken, userData);
   }
 
@@ -46,9 +45,4 @@ export class UsersController {
   findUserInfo(@Body() body: FindUserDto): Promise<User[]> {
     return this.usersService.findUserInfo(body);
   }
-
-  // @Delete(':id')
-  // deleteUser(@Param('id') id: string) {
-  //   return this.usersService.deleteUser(id);
-  // }
 }

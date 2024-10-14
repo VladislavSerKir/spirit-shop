@@ -26,6 +26,7 @@ export class ProductController {
     return this.productService.getAllProducts();
   }
 
+  @UseGuards(AccessTokenGuard)
   @Post('/create')
   async createProduct(
     @Body() body: CreateProductDto,
@@ -33,6 +34,7 @@ export class ProductController {
     return this.productService.createProduct(body);
   }
 
+  @UseGuards(AccessTokenGuard)
   @Delete('/delete')
   async deleteProduct(@Body() body: DeleteProductDto): Promise<IRemoveProduct> {
     return this.productService.deleteProduct(body);

@@ -1,6 +1,5 @@
 import axios from "axios";
-// import localStorageService from "./localStorage.service";
-import { TError, TRefreshData, TUser } from "../types";
+import { TError, TRefreshData } from "../types";
 import { getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import { TUserData } from "../types/userType";
@@ -44,30 +43,27 @@ const authService = {
       },
     };
 
-    return (
-      fetch(url, options)
-        // .then(authService.checkResponse)
-        .then((res) => {
-          return authService.checkResponse(res);
-        })
+    return fetch(url, options)
+      .then((res) => {
+        return authService.checkResponse(res);
+      })
 
-        .catch(async (error: TError) => {
-          if (error.message === "jwt expired") {
-            const refreshData: TRefreshData =
-              await authService.refreshTokenRequest();
-            if (!refreshData.success) {
-              Promise.reject(refreshData);
-            }
-            setCookie("accessToken", refreshData.accessToken, {});
-            (options.headers as { [key: string]: string }).authorization =
-              refreshData.accessToken;
-            const res = await fetch(url, options);
-            return await authService.checkResponse(res);
-          } else {
-            return Promise.reject(error);
+      .catch(async (error: TError) => {
+        if (error.message === "jwt expired") {
+          const refreshData: TRefreshData =
+            await authService.refreshTokenRequest();
+          if (!refreshData.success) {
+            Promise.reject(refreshData);
           }
-        })
-    );
+          setCookie("accessToken", refreshData.accessToken, {});
+          (options.headers as { [key: string]: string }).authorization =
+            refreshData.accessToken;
+          const res = await fetch(url, options);
+          return await authService.checkResponse(res);
+        } else {
+          return Promise.reject(error);
+        }
+      });
   },
 
   refreshTokenRequest: async () => {
@@ -136,7 +132,6 @@ const authService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        // token: getCookie("refreshToken"),
         email: email,
       }),
     });

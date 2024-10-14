@@ -1,5 +1,10 @@
 import { config } from "../utils/api";
-import { ICreateCategory, ICreateProduct } from "../types/productType";
+import {
+  ICategory,
+  ICreateCategory,
+  ICreateProduct,
+} from "../types/productType";
+import { getCookie } from "../utils/cookie";
 
 const productService = {
   createProductRequest: ({
@@ -35,6 +40,7 @@ const productService = {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",
@@ -51,11 +57,30 @@ const productService = {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
         name,
+      }),
+    });
+  },
+
+  editCategoryRequest: ({ name, id }: ICategory) => {
+    return fetch(`${config.apiEndPoint}/category/edit`, {
+      method: "PATCH",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        name,
+        id,
       }),
     });
   },
@@ -67,6 +92,7 @@ const productService = {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",

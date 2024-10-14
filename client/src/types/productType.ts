@@ -1,5 +1,3 @@
-import { TError } from ".";
-
 export type TProductData = {
   products: Array<IProduct>;
   categories: Array<ICategory>;

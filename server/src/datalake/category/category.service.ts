@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { DeleteCategoryDto } from './dto/delete-category.dto';
 import { IRemoveCategory } from 'src/common/types/interfaces';
+import { EditCategoryDto } from './dto/edit-category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -36,6 +37,17 @@ export class CategoryService {
       return savedCategory;
     } catch {
       throw new BadRequestException(`Запрос не сработал`);
+    }
+  }
+
+  async editCategory(body: EditCategoryDto): Promise<Partial<Category>> {
+    const { name, id } = body;
+    const updatedCategory = await this.categoryRepo.update({ id }, { name });
+
+    if (!updatedCategory) {
+      throw new BadRequestException('Ошибка запроса на изменение категории');
+    } else {
+      return { name, id };
     }
   }
 

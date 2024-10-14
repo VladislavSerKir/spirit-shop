@@ -1,10 +1,4 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 import { Category } from 'src/datalake/category/entities/category.entity';
 
 export class CreateProductDto {

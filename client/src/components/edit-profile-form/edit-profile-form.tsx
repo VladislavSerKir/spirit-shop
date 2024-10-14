@@ -1,19 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { FC, useState } from "react";
 // import * as yup from "yup";
-// import { getCategory } from "../../store/category";
-// import {
-//   createProduct,
-//   getProductById,
-//   getProductsError,
-//   updateProduct,
-// } from "../../store/products";
-import history from "../../utils/history";
-import { TUserError, useTypedDispatch, useTypedSelector } from "../../types";
-import {
-  createProduct,
-  getAllCategories,
-} from "../../store/actions/productAction";
+import { TUserError, useTypedSelector } from "../../types";
+import {} from "../../store/actions/productAction";
 import { ICategory, ICreateProduct } from "../../types/productType";
 import { TUserData } from "../../types/userType";
 import TextField from "../../shared/form/text-field";
@@ -25,17 +13,7 @@ interface IForm {
 }
 
 const EditProfileForm: FC = () => {
-  const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
-
-  // const initialState = {
-  //   firstName: "",
-  //   lastName: "",
-  //   mobileNumber: "",
-  //   email: "",
-  //   password: "",
-  //   role: "",
-  // };
 
   const initialState = {
     firstName: user.firstName,
@@ -53,14 +31,6 @@ const EditProfileForm: FC = () => {
     password: "",
     role: "",
   });
-
-  // const initialState = {
-  //   name: "",
-  //   description: "",
-  //   image: "",
-  //   categories: [],
-  //   price: "",
-  // };
 
   const [data, setData] = useState(initialState);
   const { values, handleChange, handleUpdateUser } = useForm(initialState);

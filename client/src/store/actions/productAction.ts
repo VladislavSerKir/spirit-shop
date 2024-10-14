@@ -5,6 +5,7 @@ import {
   removeProduct,
   setCategoryRequest,
   setProductRequest,
+  updateCategory,
 } from "../reducers/productReducer";
 import { TError } from "../../types";
 import { config } from "../../utils/api";
@@ -111,6 +112,26 @@ export const createCategory = createAsyncThunk<
   const data: ICategory = await response.json();
   dispatch(refreshCategories(data));
   toast.success(`Category ${data.name} created!`);
+  return data;
+});
+
+export const editCategory = createAsyncThunk<
+  ICategory,
+  ICategory,
+  { rejectValue: TError }
+>("category/edit", async function (body, { dispatch, rejectWithValue }) {
+  const response = await productService.editCategoryRequest(body);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method editCategory",
+    });
+  }
+  const data: ICategory = await response.json();
+  dispatch(updateCategory(data));
+  dispatch(getAllProducts());
+  toast.info(`Category name edited`);
   return data;
 });
 

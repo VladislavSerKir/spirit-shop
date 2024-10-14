@@ -35,6 +35,12 @@ export const dataSlice = createSlice({
     refreshCategories: (state, action: PayloadAction<ICategory>) => {
       state.categories = [...state.categories, action.payload];
     },
+    updateCategory: (state, action: PayloadAction<ICategory>) => {
+      state.categories = [
+        ...state.categories.filter((c) => c.id !== action.payload.id),
+        action.payload,
+      ];
+    },
   },
 
   extraReducers: (builder) => {
@@ -73,5 +79,6 @@ export const {
   removeProduct,
   removeCategory,
   refreshCategories,
+  updateCategory,
 } = dataSlice.actions;
 export const productReducer = dataSlice.reducer;

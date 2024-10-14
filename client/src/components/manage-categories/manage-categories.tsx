@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {} from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import {
@@ -11,6 +11,7 @@ import { ICategory } from "../../types/productType";
 import { useForm } from "../../hooks/useForm";
 
 const ManageCategories = () => {
+  const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.products.categories);
 
@@ -39,32 +40,13 @@ const ManageCategories = () => {
     toast.error(`Category ${name} deleted!`);
   };
 
-  const handleEdit = (id: number) => {
-    console.log(values);
-  };
-
   const handleSubmitCategory = (e: any) => {
     e.preventDefault();
-    console.log(data);
-    // const newData: ICreateProduct = {
-    //   ...data,
-    //   categories: data.categories.map((category: any): any => ({
-    //     id: category.value,
-    //     name: category.label,
-    //   })),
-    //   categories: data.categories.map((category: any) => category?.value),
-    // };
-    // console.log(newData);
     dispatch(createCategory(data));
-    // toast.info(`Category created!`);
 
     setData(initialState);
     // setErrors({});
   };
-
-  // if (!categories.length) {
-  //   return <h2 className="table__title">There is no categories to manage</h2>;
-  // }
 
   return (
     <>
@@ -103,22 +85,32 @@ const ManageCategories = () => {
               {categories.map((category) => (
                 <tr key={category.id}>
                   <td className="table__info table__gap">
-                    <TextField
-                      label="Name"
-                      name="name"
-                      // value={values.find((v: any) => v.id === category.id).name}
-                      value={category.name}
-                      onChange={handleChange}
-                    />
+                    <Link
+                      className={`text text_type_main-small orders-feed__link`}
+                      key={category.id}
+                      to={{ pathname: `${url}/${category.id}` }}
+                    >
+                      <TextField
+                        label="Name"
+                        name="name"
+                        value={category.name}
+                        onChange={handleChange}
+                      />
+                    </Link>
                   </td>
                   <td>
-                    <button
-                      className="button button--flex button--gap"
-                      type="button"
-                      onClick={() => handleEdit(category.id)}
+                    <Link
+                      className={`text text_type_main-small orders-feed__link`}
+                      key={category.id}
+                      to={{ pathname: `${url}/${category.id}` }}
                     >
-                      <i className="ri-pencil-line" />
-                    </button>
+                      <button
+                        className="button button--flex button--gap"
+                        type="button"
+                      >
+                        <i className="ri-pencil-line" />
+                      </button>
+                    </Link>
                   </td>
                   <td>
                     <button

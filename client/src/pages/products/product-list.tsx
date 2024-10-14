@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import _ from "lodash";
 // import { getCategory, getCategoryError, getCategoryLoadingStatus } from '../../store/category';
 // import { getProducts, getProductsError, getProductsLoadingStatus } from '../../store/products';
@@ -9,20 +8,15 @@ import ProductCard from "../../shared/product-card/product-card";
 import Accordeon from "../../shared/hoc/accordeon/accordeon";
 import Loader from "../../shared/loader/loader";
 import usePagination from "../../hooks/usePagination";
-import { useTypedDispatch, useTypedSelector } from "../../types";
-import {
-  getAllCategories,
-  getAllProducts,
-} from "../../store/actions/productAction";
+import { useTypedSelector } from "../../types";
+import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/productType";
 
 export interface IOrderCategory {
-  // order: boolean | "asc" | "desc";
   order: any;
 }
 
 const ProductsList = () => {
-  const dispatch = useTypedDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
   const [sortBy, setSortBy] = useState<any>({});
@@ -42,14 +36,6 @@ const ProductsList = () => {
   const categoryError = useTypedSelector(
     (state) => state.products.categoriesErrorMessage
   );
-
-  React.useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
 
   const handleSearch = ({ target }: any) => {
     setSearchValue(target.value);

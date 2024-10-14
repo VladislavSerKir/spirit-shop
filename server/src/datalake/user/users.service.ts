@@ -58,7 +58,6 @@ export class UsersService {
     if (!updatedUser) {
       throw new BadRequestException('Ошибка запроса на изменение профиля');
     } else {
-      // const updatedUser = this.getUserByEmail(username);
       const { firstName, lastName, email, mobileNumber } = userData;
       return { firstName, lastName, email, mobileNumber };
     }
@@ -133,8 +132,4 @@ export class UsersService {
     // Если пользователь не найден или пароль неверен, возвращаем null
     return null;
   }
-
-  // async deleteUser(id: number): Promise<User> {
-  //   await this.userRepo.delete({ id });
-  // }
 }

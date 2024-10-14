@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Category } from '../category/entities/category.entity';
@@ -47,7 +47,6 @@ export class ProductService {
 
     try {
       const savedProduct = await this.productRepo.save(newProduct);
-      // return savedProduct;
       return savedProduct;
     } catch {
       throw new BadRequestException(`Запрос не сработал`);

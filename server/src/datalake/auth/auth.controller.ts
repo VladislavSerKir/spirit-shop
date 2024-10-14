@@ -14,17 +14,11 @@ import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { RefreshTokenGuard } from 'src/config/refresh-token.guard';
-import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
-// import { AuthGuard } from 'src/config/auth.guard';
 
 @Controller('auth')
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
-  constructor(
-    // @InjectPinoLogger(AuthController.name)
-    // private readonly logger: PinoLogger,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
   async signUp(@Body() body: SignupDto): Promise<Partial<User>> {

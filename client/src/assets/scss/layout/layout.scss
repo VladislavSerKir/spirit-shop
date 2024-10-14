@@ -55,6 +55,19 @@
   margin-top: 25px;
   &__info {
     padding: 15px;
+
+    &-image {
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+
+  &__image {
+    width: 50px;
+    background-size: contain;
   }
 
   &__gap {

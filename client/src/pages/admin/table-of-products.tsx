@@ -30,7 +30,16 @@ const TableOfProducts = () => {
       <tbody>
         {products.map((product) => (
           <tr key={product.id}>
-            <td className="table__info">{product.name}</td>
+            <td className="table__info table__info-image">
+              {/* <div className="product-image-container"> */}
+              <img
+                src={product.image}
+                alt={product.name}
+                className="table__image"
+              />
+              {/* </div> */}
+              {product.name}
+            </td>
             <td className="table__info">{product.price}</td>
             <td className="table__info table__info-category">
               {product?.categories.map((category: any) => (

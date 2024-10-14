@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useTypedDispatch, useTypedSelector } from "../types";
-import { TUserDataRegister } from "../types/userType";
+import { useTypedDispatch } from "../types";
 import { onLogin, onRegister, onUpdateUser } from "../store/actions/userAction";
-import { getCookie } from "../utils/cookie";
 
 export const useForm = (inputValues: any) => {
-  const store = useTypedSelector((store) => store);
   const [values, setValues] = useState(inputValues);
   const [isFormEdited, setIsFormEdited] = useState(false);
   const dispatch = useTypedDispatch();
@@ -14,16 +11,6 @@ export const useForm = (inputValues: any) => {
     setValues({ ...values, [event.name]: event.value });
     setIsFormEdited(true);
   };
-
-  //   const handleResetForm = () => {
-  //     setValues({
-  //       firstName: store.user.userData.firstName,
-  //       lastName: store.user.userData.lastName,
-  //       email: store.user.userData.email,
-  //       password: "",
-  //     });
-  //     setIsFormEdited(false);
-  //   };
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,14 +48,6 @@ export const useForm = (inputValues: any) => {
     if (values.email) {
       console.log(values);
       dispatch(onUpdateUser(values));
-      // setValues({
-      //   firstName: "",
-      //   lastName: "",
-      //   mobileNumber: "",
-      //   email: "",
-      //   password: "",
-      //   role: "",
-      // });
       setIsFormEdited(false);
     }
   };

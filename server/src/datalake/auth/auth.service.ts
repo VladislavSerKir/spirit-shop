@@ -100,22 +100,17 @@ export class AuthService {
   }
 
   async getUserDataByAccessToken(accessToken: string) {
-    // return accessToken;
-    // const token = accessToken.split(' ')[1];
-    // const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-    // return decodedToken;
     try {
       const token = accessToken.split(' ')[1];
       const decodedToken = this.jwtService.verify(token, {
         secret: process.env.JWT_ACCESS_SECRET,
       });
-      // const decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-      // return decoded;
-      // const decodedToken = await this.verifyAccessToken(accessToken);
+
       const username = decodedToken.username;
       const user = await this.userRepo.findOne({
         where: { email: username },
       });
+
       const { firstName, lastName, email, mobileNumber, role } = user;
 
       return { firstName, lastName, email, mobileNumber, role };
@@ -131,10 +126,6 @@ export class AuthService {
 
   async verifyAccessToken(accessToken: string) {
     try {
-      // const decodedToken = jwt.verify(
-      //   accessToken,
-      //   process.env.JWT_ACCESS_SECRET,
-      // );
       const decodedToken = this.jwtService.verifyAsync(accessToken, {
         secret: process.env.JWT_ACCESS_SECRET,
       });

@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Header } from "../header/header";
 import { Main } from "../main/main";
 import { Footer } from "../footer/footer";
 import { ScrollUp } from "../scroll-up/scroll-up";
-import {
-  BrowserRouter,
-  Route,
-  Router,
-  Switch,
-  useLocation,
-} from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import LogIn from "../login/login";
 import ProductsList from "../../pages/products/product-list";
 import Cart from "../../pages/cart/cart";
@@ -19,25 +13,35 @@ import { checkAuth } from "../../store/actions/userAction";
 import ProductsLayout from "../../pages/products/product-layout";
 import Admin from "../../pages/admin/admin";
 import { ToastContainer } from "react-toastify";
+import {
+  getAllCategories,
+  getAllProducts,
+} from "../../store/actions/productAction";
+import Modal from "../../shared/modal/modal";
+import ChangeCategory from "../change-category/change-category";
 
 function App() {
+  const history = useHistory();
   const dispatch = useTypedDispatch();
   const location = useLocation<IUseLocation>();
 
-  const [isAdmin, setIsAdmin] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const background = location.state?.background;
-  // const from = location.state?.from;
 
   React.useEffect(() => {
     dispatch(checkAuth());
   }, []);
 
-  // React.useEffect(() => {
-  //   console.log(location);
-  //   console.log(`background App: ${background}`);
-  // }, []);
+  React.useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
+  const handleCloseModals = () => {
+    history.goBack();
+  };
 
   return (
     <>
@@ -63,6 +67,13 @@ function App() {
       <Footer />
       <ToastContainer />
       <ScrollUp />
+      <>
+        <ProtectedRoute path={`/admin/categories/:id`}>
+          <Modal onClose={handleCloseModals}>
+            <ChangeCategory />
+          </Modal>
+        </ProtectedRoute>
+      </>
     </>
   );
 }
