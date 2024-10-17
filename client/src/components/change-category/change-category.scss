@@ -11,6 +11,13 @@
     flex-direction: column;
     justify-content: center;
     width: 80%;
+
+    &-product {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding-bottom: 30px;
+    }
   }
 
   &__button {

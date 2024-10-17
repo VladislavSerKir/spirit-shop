@@ -20,6 +20,7 @@ const productService = {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",
@@ -29,6 +30,35 @@ const productService = {
         image,
         name,
         price,
+      }),
+    });
+  },
+
+  editProductRequest: ({
+    categories,
+    description,
+    image,
+    name,
+    price,
+    id,
+  }: ICreateProduct) => {
+    return fetch(`${config.apiEndPoint}/products/edit`, {
+      method: "PATCH",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        categories,
+        description,
+        image,
+        name,
+        price,
+        id,
       }),
     });
   },

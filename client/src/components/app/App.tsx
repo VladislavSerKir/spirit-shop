@@ -19,6 +19,7 @@ import {
 } from "../../store/actions/productAction";
 import Modal from "../../shared/modal/modal";
 import ChangeCategory from "../change-category/change-category";
+import ChangeProduct from "../change-product/change-product";
 
 function App() {
   const history = useHistory();
@@ -71,6 +72,13 @@ function App() {
         <ProtectedRoute path={`/admin/categories/:id`}>
           <Modal onClose={handleCloseModals}>
             <ChangeCategory />
+          </Modal>
+        </ProtectedRoute>
+      </>
+      <>
+        <ProtectedRoute path={`/admin/products/:id`}>
+          <Modal onClose={handleCloseModals}>
+            <ChangeProduct />
           </Modal>
         </ProtectedRoute>
       </>

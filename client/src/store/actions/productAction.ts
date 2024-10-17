@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   refreshCategories,
+  refreshProducts,
   removeCategory,
   removeProduct,
   setCategoryRequest,
@@ -13,7 +14,7 @@ import {
   ICategory,
   ICreateCategory,
   ICreateProduct,
-  IProduct,
+  IProductWithCategories,
   IRemoveCategory,
   IRemoveProduct,
 } from "../../types/productType";
@@ -21,7 +22,7 @@ import productService from "../../service/product.service";
 import { toast } from "react-toastify";
 
 export const getAllProducts = createAsyncThunk<
-  IProduct[],
+  IProductWithCategories[],
   undefined,
   { rejectValue: any }
 >("products/getAllProducts", async function (_, { dispatch, rejectWithValue }) {
@@ -33,16 +34,16 @@ export const getAllProducts = createAsyncThunk<
       message: "Server Error, take a look on method getAllProducts",
     });
   }
-  const data: IProduct[] = await response.json();
+  const data: IProductWithCategories[] = await response.json();
   dispatch(setProductRequest(false));
   return data;
 });
 
 export const createProduct = createAsyncThunk<
-  ICreateProduct,
+  IProductWithCategories,
   ICreateProduct,
   { rejectValue: TError }
->("products/create", async function (product, { rejectWithValue }) {
+>("products/create", async function (product, { dispatch, rejectWithValue }) {
   const response = await productService.createProductRequest(product);
 
   if (!response.ok) {
@@ -51,8 +52,28 @@ export const createProduct = createAsyncThunk<
       message: "Server Error, take a look on method createProduct",
     });
   }
-  const data: ICreateProduct = await response.json();
+  const data: IProductWithCategories = await response.json();
+  dispatch(refreshProducts(data));
   toast.success(`Product ${data.name} with price ${data.price} created!`);
+  return data;
+});
+
+export const editProduct = createAsyncThunk<
+  IProductWithCategories,
+  ICreateProduct,
+  { rejectValue: TError }
+>("products/edit", async function (product, { dispatch, rejectWithValue }) {
+  const response = await productService.editProductRequest(product);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method editProduct",
+    });
+  }
+  const data: IProductWithCategories = await response.json();
+  dispatch(refreshProducts(data));
+  toast.warn(`Product edited`);
   return data;
 });
 

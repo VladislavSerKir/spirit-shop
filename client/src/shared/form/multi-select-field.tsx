@@ -1,13 +1,15 @@
-import React, { FC } from "react";
-import Select from "react-select";
+import React, { FC, useState } from "react";
+import Select, { MenuPlacement } from "react-select";
 
 interface IMultiSelectField {
   label: string;
-  error: string[] | null;
+  error?: string[] | null;
   name: string;
   onChange: Function;
   defaultValue: string[];
   options: any;
+  isFixed?: boolean;
+  toTop?: boolean;
 }
 
 const MultiSelectField: FC<IMultiSelectField> = ({
@@ -17,6 +19,8 @@ const MultiSelectField: FC<IMultiSelectField> = ({
   onChange,
   name,
   defaultValue,
+  isFixed,
+  toTop,
 }) => {
   const optionsArray =
     !Array.isArray(options) && typeof options === "object"
@@ -31,7 +35,8 @@ const MultiSelectField: FC<IMultiSelectField> = ({
   };
 
   const getInputClasses = () => {
-    return `basic-multi-select`;
+    // return `basic-multi-select`;
+    return `select`;
   };
 
   return (
@@ -42,11 +47,13 @@ const MultiSelectField: FC<IMultiSelectField> = ({
         closeMenuOnSelect={false}
         options={optionsArray}
         className={getInputClasses()}
-        classNamePrefix="select"
+        classNamePrefix="react-select"
         onChange={handleChange}
         name={name}
         value={defaultValue}
         defaultValue={defaultValue}
+        // menuPosition={isFixed ? "fixed" : "absolute"}
+        menuPlacement={toTop ? "top" : "bottom"}
       />
 
       {error && <div className="login__select-error">{error}</div>}

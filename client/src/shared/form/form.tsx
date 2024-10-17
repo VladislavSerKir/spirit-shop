@@ -22,9 +22,10 @@ import { ICategory, ICreateProduct } from "../../types/productType";
 interface IForm {
   type: string;
   productId?: string;
+  changeAction?: () => void | undefined | any;
 }
 
-const Form: FC<IForm> = ({ type, productId }) => {
+const Form: FC<IForm> = ({ type, productId, changeAction }) => {
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.products.categories);
   const categoriesList = categories.map((category) => ({
@@ -66,6 +67,9 @@ const Form: FC<IForm> = ({ type, productId }) => {
     console.log(newData);
     dispatch(createProduct(newData));
     setData(initialState);
+    if (changeAction) {
+      changeAction();
+    }
     // setErrors({});
   };
 

@@ -1,5 +1,5 @@
 export type TProductData = {
-  products: Array<IProduct>;
+  products: Array<IProductWithCategories>;
   categories: Array<ICategory>;
   success: boolean;
   productsRequest: boolean;
@@ -17,12 +17,22 @@ export interface IProduct {
   price: number;
 }
 
+export interface IProductWithCategories {
+  id: number;
+  categories: ICategory[];
+  description: string;
+  image: string;
+  name: string;
+  price: number;
+}
+
 export interface ICreateProduct {
   categories: string[];
   description: string;
   image: string;
   name: string;
   price: string;
+  id?: number;
 }
 
 export interface ICreateCategory {

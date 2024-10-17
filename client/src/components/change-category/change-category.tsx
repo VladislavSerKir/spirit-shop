@@ -27,10 +27,6 @@ const ChangeCategory = () => {
     }));
   };
 
-  const handleEdit = () => {
-    console.log(data);
-  };
-
   const handleSubmitCategory = (e: any) => {
     e.preventDefault();
     dispatch(editCategory(data));
@@ -54,7 +50,6 @@ const ChangeCategory = () => {
           <button
             className="button button--gap modal-content__button"
             type="submit"
-            onClick={handleEdit}
           >
             <i className="ri-pencil-line" />
           </button>

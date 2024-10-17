@@ -8,7 +8,6 @@ import {
 } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
 import { ICategory } from "../../types/productType";
-import { useForm } from "../../hooks/useForm";
 
 const ManageCategories = () => {
   const { url } = useRouteMatch();
@@ -18,13 +17,6 @@ const ManageCategories = () => {
   const initialState = {
     name: "",
   };
-
-  const initialStateForCategories = categories.map((c) => ({
-    id: c.id,
-    name: c.name,
-  }));
-
-  const { values, handleChange } = useForm(initialStateForCategories);
 
   const [data, setData] = useState(initialState);
 
@@ -94,7 +86,7 @@ const ManageCategories = () => {
                         label="Name"
                         name="name"
                         value={category.name}
-                        onChange={handleChange}
+                        onChange={handleChangeCategory}
                       />
                     </Link>
                   </td>

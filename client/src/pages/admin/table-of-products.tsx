@@ -1,8 +1,10 @@
 import React from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { deleteProduct } from "../../store/actions/productAction";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const TableOfProducts = () => {
+  const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
 
@@ -31,13 +33,11 @@ const TableOfProducts = () => {
         {products.map((product) => (
           <tr key={product.id}>
             <td className="table__info table__info-image">
-              {/* <div className="product-image-container"> */}
               <img
                 src={product.image}
                 alt={product.name}
                 className="table__image"
               />
-              {/* </div> */}
               {product.name}
             </td>
             <td className="table__info">{product.price}</td>
@@ -49,13 +49,19 @@ const TableOfProducts = () => {
               ))}
             </td>
             <td>
-              <button
-                className="button button--flex button--gap"
-                type="button"
-                onClick={() => handleEdit(product.id)}
+              <Link
+                className={`text text_type_main-small orders-feed__link`}
+                key={product.id}
+                to={{ pathname: `${url}/${product.id}` }}
               >
-                <i className="ri-pencil-line" />
-              </button>
+                <button
+                  className="button button--flex button--gap"
+                  type="button"
+                  onClick={() => handleEdit(product.id)}
+                >
+                  <i className="ri-pencil-line" />
+                </button>
+              </Link>
             </td>
             <td>
               <button

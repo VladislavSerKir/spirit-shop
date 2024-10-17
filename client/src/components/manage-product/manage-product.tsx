@@ -26,7 +26,7 @@ const ManageProduct = () => {
               <i className="ri-arrow-left-right-line button__icon" />
             </button>
           </div>
-          <Form type="add" />
+          <Form type="add" changeAction={toggleActionType} />
         </>
       ) : (
         <>

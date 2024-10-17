@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICategory, TProductData } from "../../types/productType";
+import {
+  ICategory,
+  IProductWithCategories,
+  TProductData,
+} from "../../types/productType";
 import { getAllCategories, getAllProducts } from "../actions/productAction";
 
 const productState: TProductData = {
@@ -34,6 +38,12 @@ export const dataSlice = createSlice({
     },
     refreshCategories: (state, action: PayloadAction<ICategory>) => {
       state.categories = [...state.categories, action.payload];
+    },
+    refreshProducts: (state, action: PayloadAction<IProductWithCategories>) => {
+      state.products = [
+        ...state.products.filter((c) => c.id !== action.payload.id),
+        action.payload,
+      ];
     },
     updateCategory: (state, action: PayloadAction<ICategory>) => {
       state.categories = [
@@ -80,5 +90,6 @@ export const {
   removeCategory,
   refreshCategories,
   updateCategory,
+  refreshProducts,
 } = dataSlice.actions;
 export const productReducer = dataSlice.reducer;
