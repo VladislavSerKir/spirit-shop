@@ -1,51 +1,41 @@
 import React, { FC } from "react";
-import { useSelector } from "react-redux";
-// import { getProductById } from '../../../store/products';
+import { IProduct } from "../../types/productType";
 
 interface ICartItem {
-  productId: string;
+  product: IProduct;
   amount: number;
   onIncrement: Function;
   onDecrement: Function;
 }
 
 const CartItem: FC<ICartItem> = ({
-  productId,
+  product,
   amount,
   onIncrement,
   onDecrement,
 }) => {
-  //   const product = useSelector(getProductById(productId));
+  const handleIncrement = (product: IProduct) => {
+    onIncrement(product);
+  };
 
-  //   const handleIncrement = (id) => {
-  //     onIncrement(id);
-  //   };
-
-  //   const handleDecrement = (id) => {
-  //     onDecrement(id);
-  //   };
-
-  const handleIncrement = (id: string) => {};
-
-  const handleDecrement = (id: string) => {};
-
-  const product = {
-    id: 1,
-    name: "product.name",
-    image: "product.image",
-    price: 42,
+  const handleDecrement = (product: IProduct) => {
+    onDecrement(product);
   };
 
   return (
     <>
-      <h4>{product.name}</h4>
+      <h2>{product.name}</h2>
       <div className="cart-item">
-        <img className="product__img" src={product.image} alt={product.name} />
+        <img
+          className="product__img-cart"
+          src={product.image}
+          alt={product.name}
+        />
         <div className="cart-item__info">
           <button
             className="cart-button button--flex"
             type="button"
-            onClick={() => handleIncrement(productId)}
+            onClick={() => handleIncrement(product)}
           >
             +
           </button>
@@ -53,15 +43,18 @@ const CartItem: FC<ICartItem> = ({
           <button
             className="cart-button button--flex"
             type="button"
-            onClick={() => handleDecrement(productId)}
+            onClick={() => handleDecrement(product)}
           >
             -
           </button>
         </div>
-        <div className="cart-item__info">
-          <span>{(amount * product.price).toFixed(2)}$</span>
-        </div>
+        <h2 className="cart-item__info">
+          <span>
+            {amount} x {product.price} = {(amount * product.price).toFixed(2)} $
+          </span>
+        </h2>
       </div>
+      <hr />
     </>
   );
 };

@@ -19,6 +19,7 @@ export class UsersService {
   async getProfileInfo(email: string): Promise<User> {
     const user = await this.userRepo.findOne({
       where: { email },
+      // relations: { cart: true },
     });
 
     if (!user) {

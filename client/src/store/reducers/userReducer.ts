@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TUserData, TUserState } from "../../types/userType";
-import { TError, TUserFetchResponse } from "../../types";
+import { TError } from "../../types";
 import {
   onLogin,
   onLogout,
@@ -18,6 +18,7 @@ const userState: TUserState = {
     email: "",
     password: "",
     role: "",
+    cart: null,
   },
   userUpdated: false,
   registerError: null,
@@ -45,6 +46,7 @@ export const userSlice = createSlice({
       state.userData.lastName = action.payload.lastName;
       state.userData.mobileNumber = action.payload.mobileNumber;
       state.userData.role = action.payload.role;
+      state.userData.cart = action.payload.cart;
       state.userError = null;
     },
     setUserRequest: (state, action: PayloadAction<boolean>) => {
@@ -56,8 +58,10 @@ export const userSlice = createSlice({
     setResetUserError: (state) => {
       state.userError = null;
     },
+    refreshCart: (state, action: PayloadAction<any>) => {
+      state.userData.cart = action.payload;
+    },
   },
-
   extraReducers: (builder) => {
     builder.addCase(onRegister.pending, (state) => {
       state.registerRequest = true;
@@ -131,5 +135,6 @@ export const {
   setUserRequest,
   setUserError,
   setUser,
+  refreshCart,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

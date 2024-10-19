@@ -1,10 +1,13 @@
 import { IsNotEmpty, IsPhoneNumber, IsString, Length } from 'class-validator';
+import { Cart } from 'src/datalake/cart/entities/cart.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -71,4 +74,8 @@ export class User {
   @IsString()
   @IsNotEmpty()
   role: string;
+
+  @OneToOne(() => Cart, { cascade: true })
+  @JoinColumn()
+  cart: Cart;
 }

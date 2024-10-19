@@ -14,12 +14,14 @@ import {
   ICategory,
   ICreateCategory,
   ICreateProduct,
+  IProduct,
   IProductWithCategories,
   IRemoveCategory,
   IRemoveProduct,
 } from "../../types/productType";
 import productService from "../../service/product.service";
 import { toast } from "react-toastify";
+import { refreshCart } from "../reducers/userReducer";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],
@@ -171,5 +173,43 @@ export const deleteCategory = createAsyncThunk<
   }
   const data: any = await response.json();
   dispatch(removeCategory(data.id));
+  return data;
+});
+
+export const addProductToCart = createAsyncThunk<
+  IProduct,
+  IProduct,
+  { rejectValue: TError }
+>("cart/add", async function (product, { dispatch, rejectWithValue }) {
+  const response = await productService.addProductToCartRequest(product);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method addProductToCart",
+    });
+  }
+  const data: IProduct = await response.json();
+  dispatch(refreshCart(data));
+  toast.success(`Product added to cart`);
+  return data;
+});
+
+export const removeProductFromCart = createAsyncThunk<
+  IProduct,
+  IProduct,
+  { rejectValue: TError }
+>("cart/remove", async function (product, { dispatch, rejectWithValue }) {
+  const response = await productService.removeProductFromCartRequest(product);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method removeProductFromCart",
+    });
+  }
+  const data: IProduct = await response.json();
+  dispatch(refreshCart(data));
+  toast.warning(`Product removed from cart`);
   return data;
 });

@@ -5,16 +5,13 @@ import {
   Body,
   Patch,
   UseGuards,
-  Param,
   Delete,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
-import { AuthUser } from 'src/common/decorators/user.decorator';
 import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { DeleteProductDto } from './dto/delete-product.dto';
-import { DeleteResult } from 'typeorm';
 import { IRemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 

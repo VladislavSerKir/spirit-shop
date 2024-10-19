@@ -29,6 +29,20 @@
   }
 }
 
+@media screen and (min-width: 320px) {
+  .product {
+    &__img {
+      width: 100px;
+
+      &-cart {
+        width: 100px;
+        padding: 10px 0;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
 /* For medium devices */
 @media screen and (min-width: 576px) {
   .steps {
@@ -45,6 +59,16 @@
       grid-template-columns: repeat(2, 170px);
       justify-content: center;
       column-gap: 5rem;
+    }
+
+    &__img {
+      width: 100px;
+
+      &-cart {
+        width: 100px;
+        padding: 10px 0;
+        margin-left: 20px;
+      }
     }
   }
 }
@@ -168,6 +192,12 @@
 
     &__img {
       width: 160px;
+
+      &-cart {
+        width: 100px;
+        padding: 10px 0;
+        margin-left: 20px;
+      }
     }
 
     &__circle {

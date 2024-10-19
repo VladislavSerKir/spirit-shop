@@ -1,13 +1,7 @@
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../service/auth.service";
-import history from "../../utils/history";
 import axios from "axios";
-import {
-  TError,
-  TResponseWithoutPayload,
-  TUser,
-  TUserFetchResponse,
-} from "../../types";
+import { TError, TResponseWithoutPayload } from "../../types";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 import {
   setAuthChecked,
@@ -153,25 +147,3 @@ export const onUpdateUser = createAsyncThunk<
   toast.success(`Profile changed`);
   return data;
 });
-
-// export const refreshAccessToken = createAsyncThunk(
-//   "auth/refreshAccessToken",
-//   async (refreshToken, { dispatch, getState }) => {
-//     try {
-//       const response = await axios.post("/token", {
-//         refreshToken,
-//       });
-
-//       const newAccessToken = response.data.accessToken;
-
-//       dispatch(updateAccessToken(newAccessToken));
-
-//       return newAccessToken;
-//     } catch (error) {
-//       dispatch(logout());
-//       throw error;
-//     }
-//   }
-// );
-
-// const authRequested = createAction("users/authRequested");

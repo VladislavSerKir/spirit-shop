@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsPhoneNumber,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -16,6 +10,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Category } from '../../category/entities/category.entity';
+import { CartItem } from 'src/datalake/cart/entities/cart-item.entity';
 
 @Entity()
 export class Product {
@@ -54,4 +49,10 @@ export class Product {
   @ManyToMany(() => Category, (category) => category.id)
   @JoinTable()
   categories: Category[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  cartItems: CartItem[];
 }

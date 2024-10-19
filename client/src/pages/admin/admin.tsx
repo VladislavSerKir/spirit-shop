@@ -24,6 +24,16 @@ const Admin: FC = () => {
             </li>
             <li className="nav__item">
               <NavLink
+                to={`${url}/orders`}
+                exact
+                className={`nav__link`}
+                activeClassName={`active-link`}
+              >
+                Orders
+              </NavLink>
+            </li>
+            <li className="nav__item">
+              <NavLink
                 to={`${url}/favorites`}
                 exact
                 className={`nav__link`}

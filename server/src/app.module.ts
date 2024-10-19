@@ -5,7 +5,7 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './datalake/user/entities/user.entity';
-import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './datalake/user/users.module';
 import { AuthModule } from './datalake/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
@@ -13,8 +13,10 @@ import { ProductModule } from './datalake/product/product.module';
 import { Product } from './datalake/product/entities/product.entity';
 import { Category } from './datalake/category/entities/category.entity';
 import { CategoryModule } from './datalake/category/category.module';
-import { AccessTokenGuard } from './config/access-token.guard';
 import { JwtExceptionFilter } from './common/filters/jwt-exception-filter';
+import { Cart } from './datalake/cart/entities/cart.entity';
+import { CartModule } from './datalake/cart/cart.module';
+import { CartItem } from './datalake/cart/entities/cart-item.entity';
 
 @Module({
   imports: [
@@ -43,7 +45,7 @@ import { JwtExceptionFilter } from './common/filters/jwt-exception-filter';
       username: 'student',
       password: 'student',
       database: 'shop_db',
-      entities: [User, Product, Category],
+      entities: [User, Product, Category, Cart, CartItem],
       synchronize: true,
     }),
     // TypeOrmModule.forRootAsync({
@@ -72,12 +74,9 @@ import { JwtExceptionFilter } from './common/filters/jwt-exception-filter';
     AuthModule,
     ProductModule,
     CategoryModule,
+    CartModule,
   ],
   providers: [
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AccessTokenGuard,
-    // },
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({

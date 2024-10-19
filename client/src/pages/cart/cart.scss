@@ -1,5 +1,6 @@
 .cart {
   &-item {
+    padding-top: 10px;
     display: flex;
     justify-content: space-between;
 
@@ -13,8 +14,8 @@
     color: #fff;
     font-weight: var(--font-medium);
     border-radius: 50%;
-    padding: 5px 10px;
-    margin: 5px;
+    padding: 5px 11px;
+    margin: 15px;
   }
 
   &__total {
@@ -22,6 +23,8 @@
 
     &_sum {
       font-weight: 600;
+      padding: 15px 0;
+      font-size: 24px;
 
       span {
         margin-left: 10%;

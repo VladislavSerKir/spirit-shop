@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import _ from "lodash";
-// import { getCategory, getCategoryError, getCategoryLoadingStatus } from '../../store/category';
-// import { getProducts, getProductsError, getProductsLoadingStatus } from '../../store/products';
-// import usePagination from "../../hooks/usePagination";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import ProductCard from "../../shared/product-card/product-card";
 import Accordeon from "../../shared/hoc/accordeon/accordeon";

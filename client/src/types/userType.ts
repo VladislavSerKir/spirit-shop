@@ -1,4 +1,5 @@
 import { TError, TUser } from ".";
+import { IProduct } from "./productType";
 
 export type TUserData = {
   email: string;
@@ -7,6 +8,13 @@ export type TUserData = {
   lastName: string;
   mobileNumber: string;
   role: string;
+  cart: TCartItem | null | "" | any;
+};
+
+export type TCartItem = {
+  id: number;
+  quantity: number;
+  product: IProduct;
 };
 
 export type TUserDataRegister = {

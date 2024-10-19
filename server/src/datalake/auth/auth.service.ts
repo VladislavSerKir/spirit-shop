@@ -18,6 +18,7 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../user/users.service';
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
+import { Cart } from '../cart/entities/cart.entity';
 
 @Injectable()
 export class AuthService {
@@ -41,9 +42,14 @@ export class AuthService {
       mobileNumber,
     });
 
+    const cart = new Cart();
+
+    newUser.cart = cart;
+
     try {
       await this.userRepo.save(newUser);
-      const { id, firstName, lastName, email, mobileNumber, role } = newUser;
+      const { id, firstName, lastName, email, mobileNumber, role, cart } =
+        newUser;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
       await this.updateRefreshToken(id, refreshToken);
@@ -56,6 +62,7 @@ export class AuthService {
         accessToken,
         refreshToken,
         role,
+        cart,
       };
     } catch (e) {
       if (e.code === duplicateKeyStatusCode) {
@@ -73,7 +80,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
 
     if (user && (await HashService.compareHash(password, user.password))) {
-      const { id, firstName, lastName, email, mobileNumber, role } = user;
+      const { id, firstName, lastName, email, mobileNumber, role, cart } = user;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
       await this.updateRefreshToken(id, refreshToken);
@@ -86,6 +93,7 @@ export class AuthService {
         accessToken,
         refreshToken,
         role,
+        cart,
       };
     } else {
       throw new UnauthorizedException('Проверьте логин или пароль');
@@ -109,11 +117,17 @@ export class AuthService {
       const username = decodedToken.username;
       const user = await this.userRepo.findOne({
         where: { email: username },
+        relations: [
+          'cart',
+          'cart.cartItem',
+          'cart.cartItem.product',
+          'cart.cartItem.product.categories',
+        ],
       });
 
-      const { firstName, lastName, email, mobileNumber, role } = user;
+      const { firstName, lastName, email, mobileNumber, role, cart } = user;
 
-      return { firstName, lastName, email, mobileNumber, role };
+      return { firstName, lastName, email, mobileNumber, role, cart };
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new Error('jwt expired');
@@ -208,7 +222,7 @@ export class AuthService {
         {
           secret: process.env.JWT_ACCESS_SECRET,
           // secret: this.configService.get<string>('jwt.access'),
-          expiresIn: '10m',
+          expiresIn: '1d',
         },
       ),
       this.jwtService.signAsync(
