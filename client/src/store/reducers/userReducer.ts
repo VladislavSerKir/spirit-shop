@@ -9,17 +9,19 @@ import {
   onUpdateUser,
 } from "../actions/userAction";
 
+const initalUserData = {
+  firstName: "",
+  lastName: "",
+  mobileNumber: "",
+  email: "",
+  password: "",
+  role: "",
+  cart: null,
+};
+
 const userState: TUserState = {
   isAuthChecked: false,
-  userData: {
-    firstName: "",
-    lastName: "",
-    mobileNumber: "",
-    email: "",
-    password: "",
-    role: "",
-    cart: null,
-  },
+  userData: initalUserData,
   userUpdated: false,
   registerError: null,
   registerRequest: false,
@@ -49,6 +51,9 @@ export const userSlice = createSlice({
       state.userData.cart = action.payload.cart;
       state.userError = null;
     },
+    clearUserData: (state) => {
+      state.userData = initalUserData;
+    },
     setUserRequest: (state, action: PayloadAction<boolean>) => {
       state.userRequest = action.payload;
     },
@@ -59,7 +64,7 @@ export const userSlice = createSlice({
       state.userError = null;
     },
     refreshCart: (state, action: PayloadAction<any>) => {
-      state.userData.cart = action.payload;
+      state.userData.cart.cartItem = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -135,6 +140,7 @@ export const {
   setUserRequest,
   setUserError,
   setUser,
+  clearUserData,
   refreshCart,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

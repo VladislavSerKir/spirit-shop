@@ -6,17 +6,11 @@ import {
   removeProductFromCart,
 } from "../../store/actions/productAction";
 import { IProduct } from "../../types/productType";
-import { getUser } from "../../store/actions/userAction";
 import { TCartItem } from "../../types/userType";
 
 const Cart = () => {
   const dispatch = useTypedDispatch();
   const cart = useTypedSelector((state) => state.user.userData.cart);
-  React.useEffect(() => {
-    dispatch(getUser());
-  }, []);
-
-  //   const products = useSelector(getProducts());
 
   const getTotalSum = () => {
     const totalSum = cart.cartItem.reduce((acc: number, item: TCartItem) => {
@@ -26,21 +20,8 @@ const Cart = () => {
     return totalSum.toFixed(2);
   };
 
-  //   if (!dataStatus) {
-  //     return <Loader />;
-  //   }
-
-  if (!cart?.cartItem) {
-    return (
-      <section className="section container">
-        <h1 className="section__title-center">Your cart is empty</h1>
-      </section>
-    );
-  }
-
   const onIncrement = (product: IProduct) => {
     dispatch(addProductToCart(product));
-    // dispatch(getUser());
   };
 
   const onDecrement = (product: IProduct) => {
@@ -49,26 +30,32 @@ const Cart = () => {
 
   return (
     <section className="section container">
-      <h2 className="section__title-center">Cart</h2>
-      {cart?.cartItem?.map((item: any) => (
-        <CartItem
-          key={item.id}
-          amount={item.quantity}
-          product={item.product}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-        />
-      ))}
-      <hr />
-      <div className="cart__total">
-        <p className="cart__total_sum">
-          Total:<span>{getTotalSum()}$</span>
-        </p>
+      {!cart?.cartItem?.length ? (
+        <h1 className="section__title-center">Your cart is empty</h1>
+      ) : (
+        <>
+          <h2 className="section__title-center">Cart</h2>
+          {cart?.cartItem?.map((item: any) => (
+            <CartItem
+              key={item.id}
+              amount={item.quantity}
+              product={item.product}
+              onIncrement={onIncrement}
+              onDecrement={onDecrement}
+            />
+          ))}
+          <hr />
+          <div className="cart__total">
+            <p className="cart__total_sum">
+              Total:<span>{getTotalSum()}$</span>
+            </p>
 
-        <button className="button button--flex" type="button">
-          Buy
-        </button>
-      </div>
+            <button className="button button--flex" type="button">
+              Buy
+            </button>
+          </div>
+        </>
+      )}
     </section>
   );
 };

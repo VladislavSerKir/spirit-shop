@@ -1,15 +1,9 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { getCategory } from "../../../store/category";
-// import { deleteProduct, getProducts } from "../../../store/products";
-import history from "../../utils/history";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import { ICategory } from "../../types/productType";
 import { deleteProduct } from "../../store/actions/productAction";
 
 const TableOfCategories = () => {
   const dispatch = useTypedDispatch();
-  // const products = useTypedSelector((state) => state.products.products);
   const categories = useTypedSelector((state) => state.products.categories);
 
   const handleDelete = (id: number) => {
@@ -17,10 +11,6 @@ const TableOfCategories = () => {
   };
 
   const handleEdit = (id: number) => {};
-
-  // const handleDelete = (id: number) => {
-  //   console.log(id);
-  // };
 
   if (!categories.length) {
     return <h2 className="table__title">There is no categories to manage</h2>;

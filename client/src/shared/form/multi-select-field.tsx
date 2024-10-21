@@ -52,7 +52,6 @@ const MultiSelectField: FC<IMultiSelectField> = ({
         name={name}
         value={defaultValue}
         defaultValue={defaultValue}
-        // menuPosition={isFixed ? "fixed" : "absolute"}
         menuPlacement={toTop ? "top" : "bottom"}
       />
 

@@ -1,13 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 // import * as yup from "yup";
-// import { getCategory } from "../../store/category";
-// import {
-//   createProduct,
-//   getProductById,
-//   getProductsError,
-//   updateProduct,
-// } from "../../store/products";
 import history from "../../utils/history";
 import MultiSelectField from "./multi-select-field";
 import TextField from "./text-field";
@@ -17,7 +9,7 @@ import {
   createProduct,
   getAllCategories,
 } from "../../store/actions/productAction";
-import { ICategory, ICreateProduct } from "../../types/productType";
+import { ICreateProduct } from "../../types/productType";
 
 interface IForm {
   type: string;

@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 // import * as yup from "yup";
 import { TUserError, useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
-import { ICategory, ICreateProduct } from "../../types/productType";
 import { TUserData } from "../../types/userType";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
@@ -32,34 +31,7 @@ const EditProfileForm: FC = () => {
     role: "",
   });
 
-  const [data, setData] = useState(initialState);
   const { values, handleChange, handleUpdateUser } = useForm(initialState);
-
-  // React.useEffect(() => {
-  //   dispatch(getAllCategories());
-  // }, []);
-
-  // const handleChange = (target: any) => {
-  //   setData((prevState: any) => ({
-  //     ...prevState,
-  //     [target.name]: target.value,
-  //   }));
-  // };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(values);
-    // const newData: ICreateProduct = {
-    //   ...data,
-    //   categories: data.categories.map((category: any): any => ({
-    //     id: category.value,
-    //     name: category.label,
-    //   })),
-    // };
-    // console.log(newData);
-    // dispatch(createProduct(newData));
-    // setData(initialState);
-  };
 
   //   const product = useSelector(getProductById(productId));
   //   const categories = useSelector(getCategory());

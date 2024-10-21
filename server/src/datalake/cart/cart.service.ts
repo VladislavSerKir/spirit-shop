@@ -52,6 +52,7 @@ export class CartService {
       where: {
         id: product.id,
       },
+      relations: ['categories'],
     });
     if (!existingProduct) {
       throw new Error('Product not found');
@@ -59,7 +60,12 @@ export class CartService {
 
     const cart = await this.cartRepo.findOne({
       where: { id: user.cart.id },
-      relations: ['user', 'cartItem', 'cartItem.product'],
+      relations: [
+        'user',
+        'cartItem',
+        'cartItem.product',
+        'cartItem.product.categories',
+      ],
     });
     if (!cart) {
       throw new Error('Cart not found');
@@ -107,7 +113,12 @@ export class CartService {
 
     const cart = await this.cartRepo.findOne({
       where: { id: user.cart.id },
-      relations: ['user', 'cartItem', 'cartItem.product'],
+      relations: [
+        'user',
+        'cartItem',
+        'cartItem.product',
+        'cartItem.product.categories',
+      ],
     });
     if (!cart) {
       throw new Error('Cart not found');

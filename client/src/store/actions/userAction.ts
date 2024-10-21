@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../service/auth.service";
-import axios from "axios";
+// import axios from "axios";
 import { TError, TResponseWithoutPayload } from "../../types";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 import {
+  clearUserData,
   setAuthChecked,
   setUser,
   setUserError,
@@ -15,14 +16,7 @@ import { toast } from "react-toastify";
 export const checkAuth = createAsyncThunk(
   "user/checkAuth",
   async function (_, { dispatch }) {
-    console.log(
-      `checkAuth getCookie("accessToken"): ${getCookie("accessToken")}`
-    );
-    console.log(
-      `checkAuth getCookie("refreshToken"): ${getCookie("refreshToken")}`
-    );
     if (getCookie("accessToken") !== null) {
-      console.log("getUser()");
       dispatch(getUser());
       dispatch(setAuthChecked(true));
     } else {
@@ -79,7 +73,7 @@ export const onLogin = createAsyncThunk<
   TUserEditResponse,
   TUserData,
   { rejectValue: TError }
->("user/onLogin", async function (user, { rejectWithValue }) {
+>("user/onLogin", async function (user, { dispatch, rejectWithValue }) {
   const response = await authService.loginRequest(user);
 
   if (!response.ok) {
@@ -96,16 +90,8 @@ export const onLogin = createAsyncThunk<
   setCookie("accessToken", accessToken, {});
   setCookie("refreshToken", refreshToken, {});
 
-  console.log(
-    `onLogin createAsyncThunk getCookie("accessToken"): ${getCookie(
-      "accessToken"
-    )}`
-  );
-  console.log(
-    `onLogin createAsyncThunk getCookie("refreshToken"): ${getCookie(
-      "refreshToken"
-    )}`
-  );
+  dispatch(getUser());
+  dispatch(setAuthChecked(true));
   return data;
 });
 
@@ -113,22 +99,26 @@ export const onLogout = createAsyncThunk<
   TResponseWithoutPayload,
   any,
   { rejectValue: TError }
->("user/onLogout", async function (user: string, { rejectWithValue }) {
-  const response = await authService.logoutRequest(user);
-  if (!response.ok) {
-    return rejectWithValue({
-      status: response.status,
-      message: "Server Error, take a look on method onLogout",
-    });
+>(
+  "user/onLogout",
+  async function (user: string, { dispatch, rejectWithValue }) {
+    const response = await authService.logoutRequest(user);
+    if (!response.ok) {
+      return rejectWithValue({
+        status: response.status,
+        message: "Server Error, take a look on method onLogout",
+      });
+    }
+
+    deleteCookie("refreshToken");
+    deleteCookie("accessToken");
+
+    dispatch(clearUserData());
+    const data: TResponseWithoutPayload = await response.json();
+
+    return data;
   }
-
-  deleteCookie("refreshToken");
-  deleteCookie("accessToken");
-
-  const data: TResponseWithoutPayload = await response.json();
-
-  return data;
-});
+);
 
 export const onUpdateUser = createAsyncThunk<
   TUserEditResponse,

@@ -1,5 +1,4 @@
-import React, { ChangeEventHandler } from "react";
-import { TEventTarget } from "../../types";
+import React from "react";
 
 interface ITextField {
   label: string;
@@ -18,10 +17,6 @@ const TextField = ({
   onChange,
   error,
 }: ITextField) => {
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-  //   onChange({ name: event.name, value: event.value });
-  // };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange({ name: event.target.name, value: event.target.value });
   };

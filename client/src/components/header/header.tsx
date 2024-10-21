@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
 import { onLogout } from "../../store/actions/userAction";
+import history from "../../utils/history";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -36,15 +37,12 @@ export const Header = () => {
     localStorage.setItem("selected-icon", getCurrentIcon());
   };
 
-  const [isAdmin, setIsAdmin] = useState("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const isLoggedIn = useTypedSelector((state) => state.user.userData.email);
-
-  const [isActive, setIsActive] = useState(true);
 
   const handleLogOut = (event: any) => {
     event.preventDefault();
     dispatch(onLogout(userData));
+    history.push("/");
   };
 
   return (
@@ -60,12 +58,6 @@ export const Header = () => {
               <NavLink
                 exact
                 to="/"
-                // className={({ isActive, isPending }) =>
-                //   [
-                //     isPending ? "nav__link" : "",
-                //     isActive ? "active-link" : "",
-                //   ].join(" ")
-                // }
                 className="nav__link"
                 activeClassName="active-link"
                 onClick={clickToShowMenu}
@@ -106,8 +98,18 @@ export const Header = () => {
                       Admin
                     </NavLink>
                   </li>
-                ) : null}
-
+                ) : (
+                  <li className="nav__item">
+                    <NavLink
+                      to="/user"
+                      className="nav__link"
+                      activeClassName="active-link"
+                      onClick={clickToShowMenu}
+                    >
+                      User
+                    </NavLink>
+                  </li>
+                )}
                 <li className="nav__item">
                   <NavLink
                     to="/logout"
@@ -117,9 +119,6 @@ export const Header = () => {
                   >
                     Logout
                   </NavLink>
-                  {/* <span onClick={handleLogOut} className="nav__link">
-                    Logout
-                  </span> */}
                 </li>
               </>
             ) : (

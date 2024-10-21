@@ -1,31 +1,35 @@
 import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
-// import { getUserRole } from "../../services/localStorage.service";
+import { useTypedSelector } from "../../../types";
 
 interface IProtectedRouteForAdmin {
-  //   children: React.ReactNode;
   children: any;
-  component: any;
+  path: string;
 }
 
 const ProtectedRouteForAdmin: FC<IProtectedRouteForAdmin> = ({
-  component: Component,
   children,
-  ...rest
+  ...props
 }) => {
-  //   const isAdmin = getUserRole();
+  const user = useTypedSelector((state) => state.user.userData.email);
+  const role = useTypedSelector((state) => state.user.userData.role);
+  const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);
 
   return (
     <Route
-      {...rest}
-      render={(props) => {
-        // if (isAdmin !== "admin") {
-        //   return (
-        //     <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-        //   );
-        // }
-        return Component ? <Component {...props} /> : children;
-      }}
+      {...props}
+      render={({ location }) =>
+        isAuthChecked && user && role === "admin" ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
     />
   );
 };

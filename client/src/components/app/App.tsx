@@ -20,6 +20,8 @@ import {
 import Modal from "../../shared/modal/modal";
 import ChangeCategory from "../change-category/change-category";
 import ChangeProduct from "../change-product/change-product";
+import ProtectedRouteForAdmin from "../../shared/hoc/protected-route-for-admin/protected-route-for-admin";
+import User from "../../pages/user/user";
 
 function App() {
   const history = useHistory();
@@ -50,13 +52,14 @@ function App() {
       <Switch location={background || location}>
         <Route exact path="/" component={Main} />
         <Route exact path="/login/:type?" component={LogIn} />
-        {/* <ProtectedRoute path="/login/:type?">
-          <LogIn />
-        </ProtectedRoute> */}
         <Route exact path="/products/:id?" component={ProductsLayout} />
         <Route exact path="/products" component={ProductsList} />
-        <Route path="/admin" component={Admin} />
-        <Route path="/admin/:id?" component={Admin} />
+        <ProtectedRoute path="/user">
+          <User />
+        </ProtectedRoute>
+        <ProtectedRouteForAdmin path="/admin">
+          <Admin />
+        </ProtectedRouteForAdmin>
         <ProtectedRoute path="/cart">
           <Cart />
         </ProtectedRoute>

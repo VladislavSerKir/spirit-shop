@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  LegacyRef,
-  RefObject,
-  MutableRefObject,
-} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ICategory } from "../../../types/productType";
 
 interface IAccordeon {
