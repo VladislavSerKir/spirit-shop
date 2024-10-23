@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { ICategory, IProduct } from "../../types/productType";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { addProductToCart } from "../../store/actions/productAction";
+import gradient from "../../assets/img/product-background.png";
 
 interface IProductCard {
   product: IProduct;
@@ -24,16 +25,21 @@ const ProductCard = ({ product, categories }: IProductCard) => {
 
   return (
     <article className="product__card" key={product.id}>
-      <div className="product__circle" />
-      <div className="product-image-container">
-        <img src={product.image} alt={product.name} className="product__img" />
-      </div>
+      <Link to={`/products/${product.id}`} className="product__link">
+        <img src={gradient} alt={product.name} className="product__circle" />
+
+        <div className="product-image-container">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product__img"
+          />
+        </div>
+      </Link>
 
       {categories ? (
         <>
-          <Link to={`/products/${product.id}`}>
-            <h3 className="product__title">{product.name}</h3>
-          </Link>
+          <h3 className="product__title">{product.name}</h3>
           <div className="container-center">
             {product.categories.map((category: any) => (
               <span className="product__category" key={category.id}>

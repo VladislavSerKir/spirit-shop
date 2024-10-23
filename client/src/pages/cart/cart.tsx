@@ -7,6 +7,9 @@ import {
 } from "../../store/actions/productAction";
 import { IProduct } from "../../types/productType";
 import { TCartItem } from "../../types/userType";
+import "react-toggle/style.css";
+import Toggle from "react-toggle";
+import TextArea from "../../shared/form/text-area";
 
 const Cart = () => {
   const dispatch = useTypedDispatch();
@@ -27,6 +30,8 @@ const Cart = () => {
   const onDecrement = (product: IProduct) => {
     dispatch(removeProductFromCart(product));
   };
+
+  const handleChange = () => {};
 
   return (
     <section className="section container">
@@ -49,8 +54,35 @@ const Cart = () => {
             <p className="cart__total_sum">
               Total:<span>{getTotalSum()}$</span>
             </p>
-
-            <button className="button button--flex" type="button">
+            <div className="cart__toggle-container">
+              <Toggle
+                id="biscuit-status"
+                // defaultChecked={this.state.biscuitIsReady}
+                aria-labelledby="biscuit-label"
+                // onChange={this.handleBiscuitChange}
+              />
+              <h3 id="biscuit-label">Need delivery</h3>
+            </div>
+            <div className="cart__toggle-container">
+              <Toggle
+                id="biscuit-status"
+                // defaultChecked={this.state.biscuitIsReady}
+                aria-labelledby="biscuit-label"
+                // onChange={this.handleBiscuitChange}
+              />
+              <h3 id="biscuit-label">Need package</h3>
+            </div>
+            <TextArea
+              label="Additional comment"
+              name="comment"
+              value={""}
+              error={""}
+              onChange={handleChange}
+            />
+            <button
+              className="button button--flex cart-button-fixed"
+              type="button"
+            >
               Buy
             </button>
           </div>

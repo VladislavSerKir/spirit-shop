@@ -16,10 +16,17 @@
     border-radius: 50%;
     padding: 5px 11px;
     margin: 15px;
+
+    &-fixed {
+      width: 20%;
+    }
   }
 
   &__total {
-    text-align: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    gap: 20px;
 
     &_sum {
       font-weight: 600;
@@ -30,5 +37,12 @@
         margin-left: 10%;
       }
     }
+  }
+
+  &__toggle-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
   }
 }

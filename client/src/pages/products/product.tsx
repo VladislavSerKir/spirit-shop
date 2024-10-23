@@ -1,18 +1,30 @@
 import { FC } from "react";
-import { useTypedSelector } from "../../types";
+import { useTypedDispatch, useTypedSelector } from "../../types";
 import { ICategory } from "../../types/productType";
+import { addProductToCart } from "../../store/actions/productAction";
+import { toast } from "react-toastify";
 
 interface IProduct {
   productId: string;
 }
 
 const Product: FC<IProduct> = ({ productId }) => {
+  const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
+  const user = useTypedSelector((state) => state.user.userData.email);
 
   const getProductById = (productId: string, products: any) =>
     products.find((p: any) => p.id === Number(productId));
 
   const currentProduct = getProductById(productId, products);
+
+  const handleAdd = (product: any) => {
+    if (user) {
+      dispatch(addProductToCart(product));
+    } else {
+      toast.info("Sign in to add to cart!");
+    }
+  };
 
   return (
     <section className="container section">
@@ -41,7 +53,11 @@ const Product: FC<IProduct> = ({ productId }) => {
       <div className="container-center">
         <span className="product__price">${currentProduct?.price}</span>
 
-        <button className="button--flex product-solo__button" type="button">
+        <button
+          onClick={() => handleAdd(currentProduct)}
+          className="button--flex product-solo__button"
+          type="button"
+        >
           <i className="ri-shopping-bag-line" />
         </button>
       </div>

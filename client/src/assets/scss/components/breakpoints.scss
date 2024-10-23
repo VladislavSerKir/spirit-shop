@@ -40,6 +40,16 @@
         margin-left: 20px;
       }
     }
+
+    &__link {
+      height: 200px;
+    }
+
+    &__container {
+      grid-template-columns: repeat(1, 200px);
+      justify-content: center;
+      column-gap: 3rem;
+    }
   }
 }
 
@@ -56,9 +66,13 @@
     }
 
     &__container {
-      grid-template-columns: repeat(2, 170px);
+      grid-template-columns: repeat(2, 200px);
       justify-content: center;
-      column-gap: 5rem;
+      column-gap: 3rem;
+    }
+
+    &__link {
+      height: 200px;
     }
 
     &__img {
@@ -76,6 +90,18 @@
 @media screen and (min-width: 767px) {
   body {
     margin: 0;
+  }
+
+  .product {
+    &__container {
+      grid-template-columns: repeat(3, 200px);
+      justify-content: center;
+      column-gap: 3rem;
+    }
+
+    &__link {
+      height: 210px;
+    }
   }
 
   .nav {
@@ -133,6 +159,16 @@
   }
 }
 
+// @media screen and (max-width: 768px) {
+//   .product {
+//     &__container {
+//       grid-template-columns: repeat(2, 200px);
+//       justify-content: center;
+//       column-gap: 3rem;
+//     }
+//   }
+// }
+
 /* For large devices */
 @media screen and (min-width: 992px) {
   .container {
@@ -186,8 +222,8 @@
 
     &__container {
       padding: 4rem 0;
-      grid-template-columns: repeat(3, 185px);
-      gap: 4rem 6rem;
+      grid-template-columns: repeat(3, 250px);
+      gap: 4rem 3rem;
     }
 
     &__img {
@@ -201,8 +237,14 @@
     }
 
     &__circle {
-      width: 110px;
-      height: 110px;
+      // width: 300px;
+      // height: 300px;
+      width: 300px;
+      height: 240px;
+    }
+
+    &__link {
+      height: 260px;
     }
 
     &__title,

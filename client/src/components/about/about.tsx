@@ -36,7 +36,11 @@ export const About = () => {
             </p>
           </div>
 
-          <a href="#/" rel="noreferrer" className="button--link button--flex">
+          <a
+            href="products"
+            rel="noreferrer"
+            className="button--link button--flex"
+          >
             Shop Now <i className="ri-arrow-right-down-line button__icon"></i>
           </a>
         </div>

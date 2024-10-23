@@ -19,7 +19,7 @@
   }
 
   &-image-container {
-    height: 270px;
+    // height: 200px;
     text-align: center;
   }
 
@@ -71,7 +71,6 @@
 
   &__title {
     margin-bottom: 0.25rem;
-    height: 70px;
   }
 
   &__button {
@@ -90,12 +89,10 @@
   }
 
   &__circle {
-    width: 90px;
-    height: 90px;
-    background-color: var(--first-color-lighten);
-    border-radius: 50%;
+    width: 180px;
+    height: 180px;
     position: absolute;
-    top: 18%;
+    top: 5%;
     left: 5%;
   }
 }
