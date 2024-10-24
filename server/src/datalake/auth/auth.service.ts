@@ -48,8 +48,16 @@ export class AuthService {
 
     try {
       await this.userRepo.save(newUser);
-      const { id, firstName, lastName, email, mobileNumber, role, cart } =
-        newUser;
+      const {
+        id,
+        firstName,
+        lastName,
+        email,
+        mobileNumber,
+        role,
+        cart,
+        avatar,
+      } = newUser;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
       await this.updateRefreshToken(id, refreshToken);
@@ -63,6 +71,7 @@ export class AuthService {
         refreshToken,
         role,
         cart,
+        avatar,
       };
     } catch (e) {
       if (e.code === duplicateKeyStatusCode) {
@@ -80,7 +89,16 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
 
     if (user && (await HashService.compareHash(password, user.password))) {
-      const { id, firstName, lastName, email, mobileNumber, role, cart } = user;
+      const {
+        id,
+        firstName,
+        lastName,
+        email,
+        mobileNumber,
+        role,
+        cart,
+        avatar,
+      } = user;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
       await this.updateRefreshToken(id, refreshToken);
@@ -94,6 +112,7 @@ export class AuthService {
         refreshToken,
         role,
         cart,
+        avatar,
       };
     } else {
       throw new UnauthorizedException('Проверьте логин или пароль');
@@ -125,9 +144,10 @@ export class AuthService {
         ],
       });
 
-      const { firstName, lastName, email, mobileNumber, role, cart } = user;
+      const { firstName, lastName, email, mobileNumber, role, cart, avatar } =
+        user;
 
-      return { firstName, lastName, email, mobileNumber, role, cart };
+      return { firstName, lastName, email, mobileNumber, role, avatar, cart };
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new Error('jwt expired');

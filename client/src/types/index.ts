@@ -17,6 +17,10 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 export type AppThunkDispatch = ThunkDispatch<RootState, never, Action<string>>;
 
+export interface GenericObject {
+  [key: string]: any;
+}
+
 export interface IUseLocation {
   from: {
     pathname: string;

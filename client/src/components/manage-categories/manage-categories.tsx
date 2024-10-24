@@ -8,6 +8,8 @@ import {
 } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
 import { ICategory } from "../../types/productType";
+import Pagination from "../../shared/hoc/pagination/pagination";
+import usePagination from "../../hooks/usePagination";
 
 const ManageCategories = () => {
   const { url } = useRouteMatch();
@@ -17,6 +19,11 @@ const ManageCategories = () => {
   const initialState = {
     name: "",
   };
+
+  const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
+    usePagination(categories, 4);
+
+  const categoriesToShow = showCurrentEntity();
 
   const [data, setData] = useState(initialState);
 
@@ -74,7 +81,7 @@ const ManageCategories = () => {
               </tr>
             </thead>
             <tbody>
-              {categories.map((category) => (
+              {categoriesToShow.map((category: ICategory) => (
                 <tr key={category.id}>
                   <td className="table__info table__gap">
                     <Link
@@ -122,6 +129,13 @@ const ManageCategories = () => {
           <h2 className="table__title">There is no categories to manage</h2>
         ) : null}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        jump={jump}
+        maxPage={maxPage}
+        next={next}
+        prev={prev}
+      />
     </>
   );
 };

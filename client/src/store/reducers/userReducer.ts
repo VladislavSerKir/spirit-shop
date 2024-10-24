@@ -14,6 +14,7 @@ const initalUserData = {
   lastName: "",
   mobileNumber: "",
   email: "",
+  avatar: "",
   password: "",
   role: "",
   cart: null,
@@ -47,6 +48,7 @@ export const userSlice = createSlice({
       state.userData.firstName = action.payload.firstName;
       state.userData.lastName = action.payload.lastName;
       state.userData.mobileNumber = action.payload.mobileNumber;
+      state.userData.avatar = action.payload.avatar;
       state.userData.role = action.payload.role;
       state.userData.cart = action.payload.cart;
       state.userError = null;

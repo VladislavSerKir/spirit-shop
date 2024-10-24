@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { IProduct } from "../types/productType";
+import { GenericObject } from "../types";
 
-const usePagination = (products: IProduct[], itemsPerPage: number) => {
+const usePagination = (products: GenericObject, itemsPerPage: number) => {
   const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(products.length / itemsPerPage);
 
-  const currentProducts = () => {
+  const showCurrentEntity = () => {
     const begin = (currentPage - 1) * itemsPerPage;
     const end = begin + itemsPerPage;
     return products.slice(begin, end);
@@ -33,7 +33,7 @@ const usePagination = (products: IProduct[], itemsPerPage: number) => {
       ?.scrollIntoView({ behavior: "smooth" });
   };
 
-  return { next, prev, jump, currentProducts, currentPage, maxPage };
+  return { next, prev, jump, showCurrentEntity, currentPage, maxPage };
 };
 
 export default usePagination;

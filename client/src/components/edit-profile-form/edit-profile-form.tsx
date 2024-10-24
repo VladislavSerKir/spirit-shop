@@ -5,14 +5,11 @@ import {} from "../../store/actions/productAction";
 import { TUserData } from "../../types/userType";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
-
-interface IForm {
-  type: string;
-  productId?: string;
-}
+import { Link, useRouteMatch } from "react-router-dom";
 
 const EditProfileForm: FC = () => {
   const user = useTypedSelector((state) => state.user.userData);
+  const { url } = useRouteMatch();
 
   const initialState = {
     firstName: user.firstName,
@@ -116,6 +113,14 @@ const EditProfileForm: FC = () => {
   return (
     <div className="login__container">
       <h2 className="section__title-center">Change profile</h2>
+      <div className="profile__avatar-container">
+        <Link
+          className={`text text_type_main-small orders-feed__link`}
+          to={{ pathname: `${url}/avatar` }}
+        >
+          <img src={user.avatar} alt="avatar" className="profile__avatar-img" />
+        </Link>
+      </div>
       <form className="login__form" onSubmit={handleUpdateUser}>
         <div className="login__inputs">
           <TextField

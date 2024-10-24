@@ -22,6 +22,7 @@ import ChangeCategory from "../change-category/change-category";
 import ChangeProduct from "../change-product/change-product";
 import ProtectedRouteForAdmin from "../../shared/hoc/protected-route-for-admin/protected-route-for-admin";
 import User from "../../pages/user/user";
+import ChangeAvatar from "../change-avatar/change-avatar";
 
 function App() {
   const history = useHistory();
@@ -84,6 +85,20 @@ function App() {
             <ChangeProduct />
           </Modal>
         </ProtectedRoute>
+      </>
+      <>
+        <ProtectedRoute path={`/user/profile/avatar`}>
+          <Modal onClose={handleCloseModals}>
+            <ChangeAvatar />
+          </Modal>
+        </ProtectedRoute>
+      </>
+      <>
+        <ProtectedRouteForAdmin path={`/admin/profile/avatar`}>
+          <Modal onClose={handleCloseModals}>
+            <ChangeAvatar />
+          </Modal>
+        </ProtectedRouteForAdmin>
       </>
     </>
   );

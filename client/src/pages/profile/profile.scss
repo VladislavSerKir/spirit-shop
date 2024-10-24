@@ -23,4 +23,27 @@
   &__content {
     width: 100%;
   }
+
+  &__avatar {
+    &-img {
+      margin-bottom: 20px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: all 0.5s;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
+      }
+    }
+
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }

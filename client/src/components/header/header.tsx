@@ -120,6 +120,13 @@ export const Header = () => {
                     Logout
                   </NavLink>
                 </li>
+                <li className="nav__item nav__img">
+                  <img
+                    src={userData.avatar}
+                    alt="avatar"
+                    className="header__avatar-img"
+                  />
+                </li>
               </>
             ) : (
               <li className="nav__item">

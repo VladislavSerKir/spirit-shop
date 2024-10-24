@@ -8,6 +8,7 @@ export type TUserData = {
   lastName: string;
   mobileNumber: string;
   role: string;
+  avatar: string;
   cart: TCartItem | null | "" | any;
 };
 

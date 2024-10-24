@@ -72,10 +72,10 @@ const ProductsList = () => {
     ? _.orderBy(productsList, "price", [sortBy.order])
     : productsList;
 
-  const { currentPage, currentProducts, jump, maxPage, next, prev } =
+  const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
     usePagination(sortedProducts, 6);
 
-  const products = currentProducts();
+  const products = showCurrentEntity();
 
   const handleSort = () => {
     const updated = {
@@ -149,7 +149,7 @@ const ProductsList = () => {
       {products.length ? (
         <>
           <div className="product__container grid">
-            {products.map((product) => (
+            {products.map((product: IProduct) => (
               <ProductCard
                 categories={categories}
                 product={product}
