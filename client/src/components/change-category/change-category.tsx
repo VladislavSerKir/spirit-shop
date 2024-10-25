@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { IUseParams, useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
@@ -20,12 +20,12 @@ const ChangeCategory = () => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeCategory = (target: any) => {
+  const handleChangeCategory = useCallback((target: any) => {
     setData((prevState: any) => ({
       ...prevState,
       [target.name]: target.value,
     }));
-  };
+  }, []);
 
   const handleSubmitCategory = (e: any) => {
     e.preventDefault();

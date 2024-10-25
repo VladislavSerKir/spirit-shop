@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Header } from "../header/header";
 import { Main } from "../main/main";
 import { Footer } from "../footer/footer";
@@ -43,9 +43,9 @@ function App() {
     dispatch(getAllCategories());
   }, []);
 
-  const handleCloseModals = () => {
+  const handleCloseModals = useCallback(() => {
     history.goBack();
-  };
+  }, []);
 
   return (
     <>

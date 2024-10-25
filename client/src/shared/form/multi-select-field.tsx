@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import Select, { MenuPlacement } from "react-select";
+import React, { FC, useCallback } from "react";
+import Select from "react-select";
 
 interface IMultiSelectField {
   label: string;
@@ -30,9 +30,9 @@ const MultiSelectField: FC<IMultiSelectField> = ({
         }))
       : options;
 
-  const handleChange = (value: any) => {
+  const handleChange = useCallback((value: any) => {
     onChange({ name, value });
-  };
+  }, []);
 
   const getInputClasses = () => {
     // return `basic-multi-select`;

@@ -1,8 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import { TError, TRefreshData } from "../types";
 import { getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { TUserData } from "../types/userType";
+import { TAvatar, TUserData } from "../types/userType";
 
 const authService = {
   checkResponse: (res: Response) => {
@@ -161,6 +161,21 @@ const authService = {
         email,
         password,
       }),
+    });
+  },
+
+  editAvatarRequest: async ({ avatar }: TAvatar) => {
+    return fetch(`${config.apiEndPoint}/user/avatar`, {
+      method: "PUT",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ avatar }),
     });
   },
 };

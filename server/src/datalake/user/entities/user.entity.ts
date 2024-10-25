@@ -45,7 +45,7 @@ export class User {
   @Column({ default: 'https://i.pravatar.cc/300' })
   @IsString()
   @IsNotEmpty()
-  avatar?: string;
+  avatar: string;
 
   @Column({ unique: true })
   @IsString()

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import CartItem from "./cart-item";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import {
@@ -31,7 +31,7 @@ const Cart = () => {
     dispatch(removeProductFromCart(product));
   };
 
-  const handleChange = () => {};
+  const handleChange = useCallback(() => {}, []);
 
   return (
     <section className="section container">

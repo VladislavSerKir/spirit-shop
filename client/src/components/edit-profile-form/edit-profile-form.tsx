@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 // import * as yup from "yup";
-import { TUserError, useTypedSelector } from "../../types";
+import { TUserError, useTypedDispatch, useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
 import { TUserData } from "../../types/userType";
 import TextField from "../../shared/form/text-field";
@@ -8,6 +8,7 @@ import { useForm } from "../../hooks/useForm";
 import { Link, useRouteMatch } from "react-router-dom";
 
 const EditProfileForm: FC = () => {
+  const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
   const { url } = useRouteMatch();
 

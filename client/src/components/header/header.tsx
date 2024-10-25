@@ -4,10 +4,20 @@ import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
 import { onLogout } from "../../store/actions/userAction";
 import history from "../../utils/history";
+import shoppingCart from "../../assets/img/shopping-cart.png";
+import { TCartItem } from "../../types/userType";
+import { useResize } from "../../hooks/useResize";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const userData = useTypedSelector((store) => store.user.userData);
+
+  const countProductsInCart = () => {
+    return userData?.cart?.cartItem?.reduce((acc: number, item: TCartItem) => {
+      const sum = item.quantity;
+      return acc + sum;
+    }, 0);
+  };
 
   const [iconTheme, setIconTheme] = useState("ri-moon-line");
   const [showMenu, setShowMenu] = useState({
@@ -45,6 +55,8 @@ export const Header = () => {
     history.push("/");
   };
 
+  const { width } = useResize();
+
   return (
     <header className="header scroll-header" id="header">
       <nav className="nav container">
@@ -77,20 +89,44 @@ export const Header = () => {
             </li>
             {isLoggedIn ? (
               <>
-                <li className="nav__item">
-                  <NavLink
-                    to="/cart"
-                    className="nav__link"
-                    activeClassName="active-link"
-                    onClick={clickToShowMenu}
-                  >
-                    Cart
-                  </NavLink>
-                </li>
+                {width < 767 ? (
+                  <li className="nav__item">
+                    <NavLink
+                      to="/cart"
+                      className="nav__link"
+                      activeClassName="active-link"
+                      onClick={clickToShowMenu}
+                    >
+                      Cart
+                    </NavLink>
+                  </li>
+                ) : (
+                  <li className="nav__item">
+                    <NavLink
+                      to="/cart"
+                      className="nav__link"
+                      activeClassName="active-link"
+                      onClick={clickToShowMenu}
+                    >
+                      <div className="header__cart">
+                        <img
+                          src={shoppingCart}
+                          alt="shoppingCart"
+                          className="header__cart-img"
+                        />
+                        {countProductsInCart() !== 0 ? (
+                          <div className="header__cart-counter" role="status">
+                            {countProductsInCart()}
+                          </div>
+                        ) : null}
+                      </div>
+                    </NavLink>
+                  </li>
+                )}
                 {userData.role === "admin" ? (
                   <li className="nav__item">
                     <NavLink
-                      to="/admin"
+                      to="/admin/profile"
                       className="nav__link"
                       activeClassName="active-link"
                       onClick={clickToShowMenu}
@@ -101,7 +137,7 @@ export const Header = () => {
                 ) : (
                   <li className="nav__item">
                     <NavLink
-                      to="/user"
+                      to="/user/profile"
                       className="nav__link"
                       activeClassName="active-link"
                       onClick={clickToShowMenu}

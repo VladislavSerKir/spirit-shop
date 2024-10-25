@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Form from "../../shared/form/form";
 import {} from "react-router-dom";
 import ProductTable from "../../pages/admin/product-table";
@@ -6,9 +6,9 @@ import ProductTable from "../../pages/admin/product-table";
 const ManageProduct = () => {
   const [actionType, setActionType] = useState("edit");
 
-  const toggleActionType = () => {
+  const toggleActionType = useCallback(() => {
     setActionType((prevState) => (prevState === "add" ? "edit" : "add"));
-  };
+  }, []);
 
   return (
     <div>

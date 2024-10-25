@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 // import * as yup from "yup";
 import history from "../../utils/history";
 import MultiSelectField from "./multi-select-field";
@@ -39,12 +39,12 @@ const Form: FC<IForm> = ({ type, productId, changeAction }) => {
     dispatch(getAllCategories());
   }, []);
 
-  const handleChange = (target: any) => {
+  const handleChange = useCallback((target: any) => {
     setData((prevState: any) => ({
       ...prevState,
       [target.name]: target.value,
     }));
-  };
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();

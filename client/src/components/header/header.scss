@@ -7,6 +7,36 @@
   z-index: var(--z-fixed);
   transition: 0.4s; // For animation dark mode
 
+  &__cart {
+    position: relative;
+    font-size: 16px;
+    line-height: 2.5em;
+    margin: 0.3em;
+
+    &-counter {
+      /* circle shape, size and position */
+      position: absolute;
+      right: -0.7em;
+      top: -0.7em;
+      min-width: 1.6em; /* or width, explained below. */
+      height: 1.6em;
+      border-radius: 0.8em; /* or 50%, explained below. */
+      border: 0.05em solid white;
+      background-color: red;
+
+      /* number size and position */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8em;
+      color: white;
+    }
+
+    &-img {
+      width: 33px;
+    }
+  }
+
   &__avatar {
     &-img {
       width: 40px;

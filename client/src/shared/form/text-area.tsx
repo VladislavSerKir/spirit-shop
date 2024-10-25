@@ -1,5 +1,4 @@
-import React from "react";
-import { TEventTarget } from "../../types";
+import React, { useCallback } from "react";
 
 interface ITextArea {
   label: string;
@@ -11,11 +10,9 @@ interface ITextArea {
 }
 
 const TextArea = ({ label, name, value, onChange, error }: ITextArea) => {
-  const handleChange = ({ target }: any) => {
+  const handleChange = useCallback(({ target }: any) => {
     onChange({ name: target.name, value: target.value });
-  };
-
-  // const handleChange = () => {};
+  }, []);
 
   const getInputClasses = () => {
     return `login__area login__content${error ? "-error" : ""}`;

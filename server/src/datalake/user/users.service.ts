@@ -64,6 +64,30 @@ export class UsersService {
     }
   }
 
+  async editAvatar(
+    accessToken,
+    userData: Partial<User>,
+  ): Promise<Partial<User>> {
+    const { avatar } = userData;
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: process.env.JWT_ACCESS_SECRET,
+    });
+    const username = decodedToken.username;
+
+    const updatedUser = await this.userRepo.update(
+      { email: username },
+      { avatar },
+    );
+
+    if (!updatedUser) {
+      throw new BadRequestException('Ошибка запроса на изменение аватара');
+    } else {
+      const { avatar } = userData;
+      return { avatar };
+    }
+  }
+
   async updateToken(id: number, userData: Partial<User>): Promise<User> {
     const updatedUser = await this.userRepo.update(id, userData);
 

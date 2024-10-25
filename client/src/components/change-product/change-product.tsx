@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { IUseParams, useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
@@ -33,16 +33,12 @@ const ChangeProduct = () => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeProduct = (target: any) => {
+  const handleChangeProduct = useCallback((target: any) => {
     setData((prevState: any) => ({
       ...prevState,
       [target.name]: target.value,
     }));
-  };
-
-  const handleEdit = () => {
-    console.log(data);
-  };
+  }, []);
 
   const handleSubmitProduct = (e: any) => {
     e.preventDefault();
@@ -54,7 +50,6 @@ const ChangeProduct = () => {
       })),
     };
     dispatch(editProduct(formattedData));
-    console.log(formattedData);
     setData(initialState);
     history.goBack();
   };
@@ -102,7 +97,6 @@ const ChangeProduct = () => {
           <button
             className="button button--gap modal-content__button"
             type="submit"
-            onClick={handleEdit}
           >
             <i className="ri-pencil-line" />
           </button>

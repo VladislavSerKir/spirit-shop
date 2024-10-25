@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { TUserData, TUserState } from "../../types/userType";
+import { TAvatar, TUserData, TUserState } from "../../types/userType";
 import { TError } from "../../types";
 import {
   onLogin,
@@ -67,6 +67,9 @@ export const userSlice = createSlice({
     },
     refreshCart: (state, action: PayloadAction<any>) => {
       state.userData.cart.cartItem = action.payload;
+    },
+    setAvatar: (state, action: PayloadAction<TAvatar>) => {
+      state.userData.avatar = action.payload.avatar;
     },
   },
   extraReducers: (builder) => {
@@ -140,6 +143,7 @@ export const {
   setAuthChecked,
   setResetUserError,
   setUserRequest,
+  setAvatar,
   setUserError,
   setUser,
   clearUserData,

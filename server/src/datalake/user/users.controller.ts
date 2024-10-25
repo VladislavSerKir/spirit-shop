@@ -7,6 +7,7 @@ import {
   UseGuards,
   Param,
   Request,
+  Put,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
@@ -14,6 +15,7 @@ import { AuthUser } from 'src/common/decorators/user.decorator';
 import { UsersService } from './users.service';
 import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { EditAvatarDto } from './dto/edit-avatar.dto';
 
 @Controller('user')
 export class UsersController {
@@ -44,5 +46,15 @@ export class UsersController {
   @Post('/find')
   findUserInfo(@Body() body: FindUserDto): Promise<User[]> {
     return this.usersService.findUserInfo(body);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Put('/avatar')
+  editAvatar(
+    @Request() request: any,
+    @Body() userData: EditAvatarDto,
+  ): Promise<Partial<User>> {
+    const accessToken = request.headers.authorization;
+    return this.usersService.editAvatar(accessToken, userData);
   }
 }

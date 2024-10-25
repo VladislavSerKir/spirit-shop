@@ -12,6 +12,10 @@ export type TUserData = {
   cart: TCartItem | null | "" | any;
 };
 
+export type TAvatar = {
+  avatar: string;
+};
+
 export type TCartItem = {
   id: number;
   quantity: number;

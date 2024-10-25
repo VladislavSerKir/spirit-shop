@@ -1,30 +1,31 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
+import { editAvatar } from "../../store/actions/userAction";
 
 const ChangeAvatar = () => {
   const history = useHistory();
   const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
+  let userAvatar = user.avatar;
 
   const initialState = {
-    avatar: user?.avatar || "",
+    avatar: userAvatar || "",
   };
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeCategory = (target: any) => {
+  const handleChangeAvatar = useCallback((target: any) => {
     setData((prevState: any) => ({
       ...prevState,
       [target.name]: target.value,
     }));
-  };
+  }, []);
 
-  const handleSubmitCategory = (e: any) => {
+  const handleSubmitAvatar = (e: any) => {
     e.preventDefault();
-    console.log(data);
-    // dispatch(editCategory(data));
+    dispatch(editAvatar(data));
     setData(initialState);
     history.goBack();
   };
@@ -33,13 +34,13 @@ const ChangeAvatar = () => {
     <>
       <div className="modal-content__container">
         <h2 className="section__title-center">Change avatar</h2>
-        <form className="modal-content__form" onSubmit={handleSubmitCategory}>
+        <form className="modal-content__form" onSubmit={handleSubmitAvatar}>
           <div>
             <TextField
               label="Avatar"
-              name="name"
-              value={data.avatar ? data.avatar : ""}
-              onChange={handleChangeCategory}
+              name="avatar"
+              value={data?.avatar ? data.avatar : ""}
+              onChange={handleChangeAvatar}
             />
           </div>
           <button

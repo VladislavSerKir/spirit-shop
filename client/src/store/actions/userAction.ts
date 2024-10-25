@@ -6,11 +6,12 @@ import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 import {
   clearUserData,
   setAuthChecked,
+  setAvatar,
   setUser,
   setUserError,
   setUserRequest,
 } from "../reducers/userReducer";
-import { TUserData, TUserEditResponse } from "../../types/userType";
+import { TAvatar, TUserData, TUserEditResponse } from "../../types/userType";
 import { toast } from "react-toastify";
 
 export const checkAuth = createAsyncThunk(
@@ -135,5 +136,24 @@ export const onUpdateUser = createAsyncThunk<
   }
   const data: TUserEditResponse = await response.json();
   toast.success(`Profile changed`);
+  return data;
+});
+
+export const editAvatar = createAsyncThunk<
+  TAvatar,
+  TAvatar,
+  { rejectValue: TError }
+>("user/editAvatar", async function (user, { dispatch, rejectWithValue }) {
+  const response = await authService.editAvatarRequest(user);
+  if (!response.ok) {
+    toast.error(`Error to change avatar`);
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method editAvatar",
+    });
+  }
+  const data: TAvatar = await response.json();
+  dispatch(setAvatar(data));
+  toast.success(`Avatar changed`);
   return data;
 });
