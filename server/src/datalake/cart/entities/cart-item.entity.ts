@@ -27,7 +27,9 @@ export class CartItem {
   @ManyToOne(() => Cart, (cart) => cart.cartItem)
   cart: Cart;
 
-  @ManyToOne(() => Order, (order) => order.purchase)
+  @ManyToOne(() => Order, (order) => order.purchase, {
+    onDelete: 'CASCADE',
+  })
   purchase: Order;
 
   @ManyToOne(() => Product, (product) => product.cartItems, {

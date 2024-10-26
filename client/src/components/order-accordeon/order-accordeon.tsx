@@ -57,14 +57,33 @@ const OrderAccordeon = ({ order }: IOrderAccordeon) => {
           <i className="ri-add-line questions__icon" />
           <h2 className="order__item-title">#{order.number}</h2>
           <div>
-            <h2 className="order__item-text">{formattedDate}</h2>
-
-            {order.isNeedDelivery && (
-              <h2 className="order__item-text">Delivery needed</h2>
-            )}
-            {order.isNeedPackage && (
-              <h2 className="order__item-text">Package needed</h2>
-            )}
+            <h2 className="order__item-text order__date-text">
+              {formattedDate}
+            </h2>
+            <h2 className="order__item-text">
+              Delivery planned:{" "}
+              <span
+                className={
+                  order.isNeedDelivery
+                    ? "order__item-text-positive"
+                    : "order__item-text-negative"
+                }
+              >
+                {order.isNeedDelivery ? "yes" : "no"}
+              </span>
+            </h2>
+            <h2 className="order__item-text">
+              Package needed:{" "}
+              <span
+                className={
+                  order.isNeedPackage
+                    ? "order__item-text-positive"
+                    : "order__item-text-negative"
+                }
+              >
+                {order.isNeedPackage ? "yes" : "no"}
+              </span>
+            </h2>
           </div>
         </div>
         <ul className={`order__products`}>
@@ -139,7 +158,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeon) => {
                   <td className="order__info">{item.product.price}</td>
                   <td className="order__info">{item.quantity}</td>
                   <td className="order__info">
-                    {(item.quantity * item.product.price).toFixed(2)} $
+                    {(item.quantity * item.product.price).toFixed(1)} $
                   </td>
                 </tr>
               ))}
