@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsPhoneNumber, IsString, Length } from 'class-validator';
 import { Cart } from 'src/datalake/cart/entities/cart.entity';
+import { Order } from 'src/datalake/order/entities/order.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,6 +9,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -78,4 +80,10 @@ export class User {
   @OneToOne(() => Cart, { cascade: true })
   @JoinColumn()
   cart: Cart;
+
+  @OneToMany(() => Order, (order) => order.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  purchase: Order[];
 }

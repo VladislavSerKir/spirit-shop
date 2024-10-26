@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import EditProfileForm from "../../components/edit-profile-form/edit-profile-form";
+import { Order } from "../order/order";
 
 const User: FC = () => {
   const { url } = useRouteMatch();
@@ -47,6 +48,9 @@ const User: FC = () => {
           <Switch>
             <Route path={`${url}/profile`} exact>
               <EditProfileForm />
+            </Route>
+            <Route path={`${url}/orders`} exact>
+              <Order />
             </Route>
             <Route path={`${url}/favorites`} exact></Route>
           </Switch>

@@ -13,10 +13,12 @@ export const Header = () => {
   const userData = useTypedSelector((store) => store.user.userData);
 
   const countProductsInCart = () => {
-    return userData?.cart?.cartItem?.reduce((acc: number, item: TCartItem) => {
-      const sum = item.quantity;
-      return acc + sum;
-    }, 0);
+    return userData?.cart?.cartItem?.length
+      ? userData?.cart?.cartItem?.reduce((acc: number, item: TCartItem) => {
+          const sum = item.quantity;
+          return acc + sum;
+        }, 0)
+      : 0;
   };
 
   const [iconTheme, setIconTheme] = useState("ri-moon-line");

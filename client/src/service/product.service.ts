@@ -1,5 +1,6 @@
 import { config } from "../utils/api";
 import {
+  ICartParams,
   ICategory,
   ICreateCategory,
   ICreateProduct,
@@ -187,6 +188,29 @@ const productService = {
         image,
         name,
         price,
+      }),
+    });
+  },
+
+  submitPurchaseRequest: ({
+    comment,
+    isNeedPackage,
+    isNeedDelivery,
+  }: ICartParams) => {
+    return fetch(`${config.apiEndPoint}/order/purchase`, {
+      method: "POST",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        comment,
+        isNeedPackage,
+        isNeedDelivery,
       }),
     });
   },

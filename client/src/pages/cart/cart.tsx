@@ -1,19 +1,44 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import CartItem from "./cart-item";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import {
   addProductToCart,
   removeProductFromCart,
+  submitPurchase,
 } from "../../store/actions/productAction";
 import { IProduct } from "../../types/productType";
 import { TCartItem } from "../../types/userType";
 import "react-toggle/style.css";
 import Toggle from "react-toggle";
 import TextArea from "../../shared/form/text-area";
+import history from "../../utils/history";
 
 const Cart = () => {
   const dispatch = useTypedDispatch();
   const cart = useTypedSelector((state) => state.user.userData.cart);
+  const role = useTypedSelector((state) => state.user.userData.role);
+
+  const initialState = {
+    comment: "",
+    isNeedPackage: false,
+    isNeedDelivery: false,
+  };
+
+  const [data, setData] = useState(initialState);
+
+  const handleChangeComment = useCallback((target: any) => {
+    setData((prevState: any) => ({
+      ...prevState,
+      [target.name]: target.value,
+    }));
+  }, []);
+
+  const handleChangeToggle = useCallback((event: any) => {
+    setData((prevState: any) => ({
+      ...prevState,
+      [event.target.name]: event.target.checked,
+    }));
+  }, []);
 
   const getTotalSum = () => {
     const totalSum = cart.cartItem.reduce((acc: number, item: TCartItem) => {
@@ -31,7 +56,14 @@ const Cart = () => {
     dispatch(removeProductFromCart(product));
   };
 
-  const handleChange = useCallback(() => {}, []);
+  const handleSubmitCart = (e: any) => {
+    e.preventDefault();
+    dispatch(submitPurchase(data));
+    setData(initialState);
+    role === "admin"
+      ? history.replace("/admin/orders")
+      : history.replace("/user/orders");
+  };
 
   return (
     <section className="section container">
@@ -50,42 +82,46 @@ const Cart = () => {
             />
           ))}
           <hr />
-          <div className="cart__total">
-            <p className="cart__total_sum">
-              Total:<span>{getTotalSum()}$</span>
-            </p>
-            <div className="cart__toggle-container">
-              <Toggle
-                id="biscuit-status"
-                // defaultChecked={this.state.biscuitIsReady}
-                aria-labelledby="biscuit-label"
-                // onChange={this.handleBiscuitChange}
+          <form onSubmit={handleSubmitCart}>
+            <div className="cart__total">
+              <p className="cart__total_sum">
+                Total:<span>{getTotalSum()}$</span>
+              </p>
+              <div className="cart__toggle-container">
+                <Toggle
+                  name="isNeedDelivery"
+                  id="is-need-delivery"
+                  defaultChecked={false}
+                  aria-labelledby="biscuit-label"
+                  onChange={handleChangeToggle}
+                />
+                <h3 id="is-need-delivery">Need delivery</h3>
+              </div>
+              <div className="cart__toggle-container">
+                <Toggle
+                  name="isNeedPackage"
+                  id="is-need-package"
+                  defaultChecked={false}
+                  aria-labelledby="biscuit-label"
+                  onChange={handleChangeToggle}
+                />
+                <h3 id="is-need-package">Need package</h3>
+              </div>
+              <TextArea
+                label="Additional comment"
+                name="comment"
+                value={data.comment}
+                error={""}
+                onChange={handleChangeComment}
               />
-              <h3 id="biscuit-label">Need delivery</h3>
+              <button
+                className="button button--flex cart-button-fixed"
+                type="submit"
+              >
+                Buy
+              </button>
             </div>
-            <div className="cart__toggle-container">
-              <Toggle
-                id="biscuit-status"
-                // defaultChecked={this.state.biscuitIsReady}
-                aria-labelledby="biscuit-label"
-                // onChange={this.handleBiscuitChange}
-              />
-              <h3 id="biscuit-label">Need package</h3>
-            </div>
-            <TextArea
-              label="Additional comment"
-              name="comment"
-              value={""}
-              error={""}
-              onChange={handleChange}
-            />
-            <button
-              className="button button--flex cart-button-fixed"
-              type="button"
-            >
-              Buy
-            </button>
-          </div>
+          </form>
         </>
       )}
     </section>

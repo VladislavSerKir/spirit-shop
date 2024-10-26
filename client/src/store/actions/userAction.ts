@@ -13,6 +13,7 @@ import {
 } from "../reducers/userReducer";
 import { TAvatar, TUserData, TUserEditResponse } from "../../types/userType";
 import { toast } from "react-toastify";
+import { getOrders } from "../reducers/orderReducer";
 
 export const checkAuth = createAsyncThunk(
   "user/checkAuth",
@@ -34,8 +35,8 @@ export const getUser = createAsyncThunk(
     return authService
       .userRequest()
       .then((user: TUserData) => {
-        console.log(user);
         dispatch(setUser(user));
+        dispatch(getOrders(user.purchase));
       })
       .catch((err: any) => {
         dispatch(setUserError(err.message));

@@ -17,6 +17,8 @@ import { JwtExceptionFilter } from './common/filters/jwt-exception-filter';
 import { Cart } from './datalake/cart/entities/cart.entity';
 import { CartModule } from './datalake/cart/cart.module';
 import { CartItem } from './datalake/cart/entities/cart-item.entity';
+import { Order } from './datalake/order/entities/order.entity';
+import { OrderModule } from './datalake/order/order.module';
 
 @Module({
   imports: [
@@ -45,7 +47,7 @@ import { CartItem } from './datalake/cart/entities/cart-item.entity';
       username: 'student',
       password: 'student',
       database: 'shop_db',
-      entities: [User, Product, Category, Cart, CartItem],
+      entities: [User, Product, Category, Cart, CartItem, Order],
       synchronize: true,
     }),
     // TypeOrmModule.forRootAsync({
@@ -75,6 +77,7 @@ import { CartItem } from './datalake/cart/entities/cart-item.entity';
     ProductModule,
     CategoryModule,
     CartModule,
+    OrderModule,
   ],
   providers: [
     {

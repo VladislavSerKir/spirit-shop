@@ -11,6 +11,7 @@ import {
 import { TError } from "../../types";
 import { config } from "../../utils/api";
 import {
+  ICartParams,
   ICategory,
   ICreateCategory,
   ICreateProduct,
@@ -22,6 +23,7 @@ import {
 import productService from "../../service/product.service";
 import { toast } from "react-toastify";
 import { refreshCart } from "../reducers/userReducer";
+import { TPurchase } from "../../types/orderType";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],
@@ -211,5 +213,24 @@ export const removeProductFromCart = createAsyncThunk<
   const data: IProduct = await response.json();
   dispatch(refreshCart(data));
   toast.warning(`Product removed from cart`);
+  return data;
+});
+
+export const submitPurchase = createAsyncThunk<
+  TPurchase,
+  ICartParams,
+  { rejectValue: TError }
+>("cart/purchase", async function (params, { dispatch, rejectWithValue }) {
+  const response = await productService.submitPurchaseRequest(params);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method submitPurchase",
+    });
+  }
+  const data: TPurchase = await response.json();
+  dispatch(refreshCart(data));
+  toast.success(`Thank you for purchase`);
   return data;
 });

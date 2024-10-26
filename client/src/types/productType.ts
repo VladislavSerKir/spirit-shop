@@ -17,6 +17,12 @@ export interface IProduct {
   price: number;
 }
 
+export interface ICartParams {
+  comment: string;
+  isNeedDelivery: boolean;
+  isNeedPackage: boolean;
+}
+
 export interface IProductWithCategories {
   id: number;
   categories: ICategory[];

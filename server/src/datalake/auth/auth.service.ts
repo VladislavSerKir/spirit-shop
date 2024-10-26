@@ -98,6 +98,7 @@ export class AuthService {
         role,
         cart,
         avatar,
+        purchase,
       } = user;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
@@ -113,6 +114,7 @@ export class AuthService {
         role,
         cart,
         avatar,
+        purchase,
       };
     } else {
       throw new UnauthorizedException('Проверьте логин или пароль');
@@ -137,6 +139,9 @@ export class AuthService {
       const user = await this.userRepo.findOne({
         where: { email: username },
         relations: [
+          'purchase',
+          'purchase.purchase.product',
+          'purchase.purchase.product.categories',
           'cart',
           'cart.cartItem',
           'cart.cartItem.product',
@@ -144,10 +149,27 @@ export class AuthService {
         ],
       });
 
-      const { firstName, lastName, email, mobileNumber, role, cart, avatar } =
-        user;
+      const {
+        firstName,
+        lastName,
+        email,
+        mobileNumber,
+        role,
+        cart,
+        avatar,
+        purchase,
+      } = user;
 
-      return { firstName, lastName, email, mobileNumber, role, avatar, cart };
+      return {
+        firstName,
+        lastName,
+        email,
+        mobileNumber,
+        role,
+        avatar,
+        cart,
+        purchase,
+      };
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new Error('jwt expired');

@@ -10,6 +10,7 @@ export type TUserData = {
   role: string;
   avatar: string;
   cart: TCartItem | null | "" | any;
+  purchase?: any;
 };
 
 export type TAvatar = {

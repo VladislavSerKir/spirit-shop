@@ -3,6 +3,7 @@ import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import EditProfileForm from "../../components/edit-profile-form/edit-profile-form";
 import ManageCategories from "../../components/manage-categories/manage-categories";
 import ManageProduct from "../../components/manage-product/manage-product";
+import { Order } from "../order/order";
 
 const Admin: FC = () => {
   const { url } = useRouteMatch();
@@ -76,6 +77,9 @@ const Admin: FC = () => {
           <Switch>
             <Route path={`${url}/profile`} exact>
               <EditProfileForm />
+            </Route>
+            <Route path={`${url}/orders`} exact>
+              <Order />
             </Route>
             <Route path={`${url}/favorites`} exact></Route>
             <Route path={`${url}/categories`} exact>

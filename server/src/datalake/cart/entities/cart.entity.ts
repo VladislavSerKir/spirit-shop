@@ -1,5 +1,12 @@
 import { IsNotEmpty } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, OneToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from 'src/datalake/user/entities/user.entity';
 import { CartItem } from './cart-item.entity';
 
@@ -9,9 +16,17 @@ export class Cart {
   @IsNotEmpty()
   id: number;
 
+  @CreateDateColumn()
+  @IsNotEmpty()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  @IsNotEmpty()
+  updatedAt: Date;
+
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
     cascade: true,
-    onDelete: 'CASCADE',
+    // onDelete: 'CASCADE',
   })
   cartItem: CartItem[];
 
