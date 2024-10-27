@@ -5,6 +5,11 @@
     padding-bottom: 20px;
   }
 
+  &__icon {
+    font-size: 1.25rem;
+    color: var(--title-color);
+  }
+
   &__date-text {
     background-image: linear-gradient(63.18deg, #801ab3, #4c4cff);
     color: transparent;
@@ -142,20 +147,17 @@
 }
 
 .accordion-open {
-  // & .order__header,
   & .order__content {
     background-color: var(--first-color);
     border-radius: 20px;
     background: inherit;
   }
 
-  & .questions__item-title,
-  & .questions__description,
-  & .questions__icon {
-    color: #fff;
+  & .order__icon {
+    color: #919191;
   }
 
-  // & .questions__icon {
-  //   transform: rotate(45deg);
-  // }
+  & .order__icon {
+    transform: rotate(45deg);
+  }
 }

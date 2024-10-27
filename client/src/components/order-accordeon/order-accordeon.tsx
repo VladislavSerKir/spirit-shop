@@ -54,7 +54,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
     <div className={`order__item${active ? " accordion-open" : ""}`}>
       <header className="order__header" onClick={toggleAccordion}>
         <div className="order__header-container">
-          <i className="ri-add-line questions__icon" />
+          <i className="ri-add-line order__icon" />
           <h2 className="order__item-title">#{order.number}</h2>
           <div>
             <h2 className="order__item-text order__date-text">

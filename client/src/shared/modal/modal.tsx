@@ -16,6 +16,14 @@ const Modal: FC<IModalProps> = ({ children, onClose }) => {
     };
   }, []);
 
+  React.useEffect(() => {
+    const darkTheme = "dark-theme";
+    const currentTheme = localStorage.getItem("selected-theme");
+    if (currentTheme === "dark") {
+      document.querySelector(".modal")?.classList.add(darkTheme);
+    }
+  }, []);
+
   const handleEscKeydown = (e: { key: string }) => {
     e.key === "Escape" && onClose();
   };
