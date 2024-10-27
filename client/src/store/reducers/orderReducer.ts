@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TOrder, TPurchase } from "../../types/orderType";
-import { submitPurchase } from "../actions/productAction";
+import { submitPurchase } from "../actions/orderAction";
 
 const orderState: TOrder = {
   purchase: [],

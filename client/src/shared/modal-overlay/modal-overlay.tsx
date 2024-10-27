@@ -1,11 +1,9 @@
 import { FC } from "react";
 
-interface IModalOverlay {
-    onClick: () => void
+interface IModalOverlayProps {
+  onClick: () => void;
 }
 
-export const ModalOverlay: FC<IModalOverlay> = ({ onClick }) => {
-    return (
-        <div className={`overlay`} onClick={onClick} />
-    )
-}
+export const ModalOverlay: FC<IModalOverlayProps> = ({ onClick }) => {
+  return <div className={`overlay`} onClick={onClick} />;
+};

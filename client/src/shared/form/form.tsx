@@ -11,13 +11,13 @@ import {
 } from "../../store/actions/productAction";
 import { ICreateProduct } from "../../types/productType";
 
-interface IForm {
+interface IFormProps {
   type: string;
   productId?: string;
   changeAction?: () => void | undefined | any;
 }
 
-const Form: FC<IForm> = ({ type, productId, changeAction }) => {
+const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.products.categories);
   const categoriesList = categories.map((category) => ({

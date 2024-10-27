@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
-import { onLogout } from "../../store/actions/userAction";
 import history from "../../utils/history";
 import shoppingCart from "../../assets/img/shopping-cart.png";
 import { TCartItem } from "../../types/userType";
 import { useResize } from "../../hooks/useResize";
+import { onLogout } from "../../store/actions/authAction";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -44,6 +44,7 @@ export const Header = () => {
       iconTheme === "ri-sun-line" ? "ri-moon-line" : "ri-sun-line";
 
     document.body.classList.toggle(darkTheme);
+    document.querySelector(".modal")?.classList.toggle(darkTheme);
     setIconTheme(getCurrentIcon());
     localStorage.setItem("selected-theme", getCurrentTheme());
     localStorage.setItem("selected-icon", getCurrentIcon());

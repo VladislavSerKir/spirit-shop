@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 
-interface ITextArea {
+interface ITextAreaProps {
   label: string;
   name: string;
   type?: string;
@@ -9,7 +9,7 @@ interface ITextArea {
   error?: string;
 }
 
-const TextArea = ({ label, name, value, onChange, error }: ITextArea) => {
+const TextArea = ({ label, name, value, onChange, error }: ITextAreaProps) => {
   const handleChange = useCallback(({ target }: any) => {
     onChange({ name: target.name, value: target.value });
   }, []);

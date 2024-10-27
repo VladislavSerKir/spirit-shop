@@ -2,12 +2,12 @@ import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useTypedSelector } from "../../../types";
 
-interface IProtectedRouteForAdmin {
+interface IProtectedRouteForAdminProps {
   children: any;
   path: string;
 }
 
-const ProtectedRouteForAdmin: FC<IProtectedRouteForAdmin> = ({
+const ProtectedRouteForAdmin: FC<IProtectedRouteForAdminProps> = ({
   children,
   ...props
 }) => {

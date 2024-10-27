@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { TPurchase } from "../../types/orderType";
 
-interface IOrderAccordeon {
+interface IOrderAccordeonProps {
   order: TPurchase;
 }
 
-const OrderAccordeon = ({ order }: IOrderAccordeon) => {
+const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   const [active, setActive] = useState(false);
   const divRef = useRef<any>();
 

@@ -2,14 +2,15 @@ import React, { useCallback, useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
-import {
-  createCategory,
-  deleteCategory,
-} from "../../store/actions/productAction";
+import {} from "../../store/actions/productAction";
 import { toast } from "react-toastify";
 import { ICategory } from "../../types/productType";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
+import {
+  createCategory,
+  deleteCategory,
+} from "../../store/actions/categoryAction";
 
 const ManageCategories = () => {
   const { url } = useRouteMatch();

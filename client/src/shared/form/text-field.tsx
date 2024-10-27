@@ -1,6 +1,6 @@
 import React from "react";
 
-interface ITextField {
+interface ITextFieldProps {
   label: string;
   name: string;
   type?: string;
@@ -16,7 +16,7 @@ const TextField = ({
   value,
   onChange,
   error,
-}: ITextField) => {
+}: ITextFieldProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange({ name: event.target.name, value: event.target.value });
   };

@@ -13,6 +13,10 @@
   transition: all 0.3s;
   padding: 20px;
 
+  &.dark-theme {
+    background: hsl(var(--hue), 8%, 12%);
+  }
+
   &__button_type_close {
     position: absolute;
     top: 60px;

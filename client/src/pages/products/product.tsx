@@ -1,14 +1,14 @@
 import { FC } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { ICategory } from "../../types/productType";
-import { addProductToCart } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
+import { addProductToCart } from "../../store/actions/cartAction";
 
-interface IProduct {
+interface IProductProps {
   productId: string;
 }
 
-const Product: FC<IProduct> = ({ productId }) => {
+const Product: FC<IProductProps> = ({ productId }) => {
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
   const user = useTypedSelector((state) => state.user.userData.email);

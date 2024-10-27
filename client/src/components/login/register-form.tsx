@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
-import { TEventTarget, TUserError, useTypedDispatch } from "../../types";
+import { TUserError, useTypedDispatch } from "../../types";
 import { TUserData } from "../../types/userType";
 import { useForm } from "../../hooks/useForm";
 // import { getAuthError, signUp } from "../../../store/user";

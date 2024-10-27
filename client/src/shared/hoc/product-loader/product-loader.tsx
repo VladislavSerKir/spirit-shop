@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 // import { getDataStatus, loadProducts } from '../../store/products';
 import Loader from "../../loader/loader";
 
-interface IProductLoader {
+interface IProductLoaderProps {
   //   children: React.ReactNode;
   children: any;
 }
 
-const ProductLoader: FC<IProductLoader> = ({ children }) => {
+const ProductLoader: FC<IProductLoaderProps> = ({ children }) => {
   //   const dispatch = useDispatch();
   //   const dataStatus = useSelector(getDataStatus());
   //   useEffect(() => {

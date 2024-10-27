@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from "react";
 import Select from "react-select";
 
-interface IMultiSelectField {
+interface IMultiSelectFieldProps {
   label: string;
   error?: string[] | null;
   name: string;
@@ -12,7 +12,7 @@ interface IMultiSelectField {
   toTop?: boolean;
 }
 
-const MultiSelectField: FC<IMultiSelectField> = ({
+const MultiSelectField: FC<IMultiSelectFieldProps> = ({
   label,
   error,
   options,

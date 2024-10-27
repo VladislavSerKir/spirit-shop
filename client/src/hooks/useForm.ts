@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTypedDispatch } from "../types";
-import { onLogin, onRegister, onUpdateUser } from "../store/actions/userAction";
+import { onUpdateUser } from "../store/actions/userAction";
+import { onLogin, onRegister } from "../store/actions/authAction";
 
 export const useForm = (inputValues: any) => {
   const [values, setValues] = useState(inputValues);

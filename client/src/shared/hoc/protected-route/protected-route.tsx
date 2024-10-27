@@ -2,10 +2,15 @@ import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useTypedSelector } from "../../../types";
 
-export const ProtectedRoute: FC<{
+interface IProtectedRouteProps {
   children: React.ReactNode;
   path: string;
-}> = ({ children, ...props }) => {
+}
+
+export const ProtectedRoute: FC<IProtectedRouteProps> = ({
+  children,
+  ...props
+}) => {
   const user = useTypedSelector((state) => state.user.userData.email);
   const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);
 

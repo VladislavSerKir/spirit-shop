@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ICategory } from "../../../types/productType";
 
-interface IAccordeon {
+interface IAccordeonProps {
   title: string;
   content?: string;
   categories: Array<ICategory>;
@@ -13,7 +13,7 @@ const Accordeon = ({
   content,
   categories,
   onCategorySelected,
-}: IAccordeon) => {
+}: IAccordeonProps) => {
   const [active, setActive] = useState(false);
   const [id, setId] = useState<string>();
   const divRef = useRef<any>();

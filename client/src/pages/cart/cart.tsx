@@ -1,17 +1,18 @@
 import React, { useCallback, useState } from "react";
 import CartItem from "./cart-item";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import {
-  addProductToCart,
-  removeProductFromCart,
-  submitPurchase,
-} from "../../store/actions/productAction";
+import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/productType";
 import { TCartItem } from "../../types/userType";
 import "react-toggle/style.css";
 import Toggle from "react-toggle";
 import TextArea from "../../shared/form/text-area";
 import history from "../../utils/history";
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from "../../store/actions/cartAction";
+import { submitPurchase } from "../../store/actions/orderAction";
 
 const Cart = () => {
   const dispatch = useTypedDispatch();

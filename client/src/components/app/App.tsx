@@ -9,7 +9,6 @@ import ProductsList from "../../pages/products/product-list";
 import Cart from "../../pages/cart/cart";
 import { ProtectedRoute } from "../../shared/hoc/protected-route/protected-route";
 import { IUseLocation, useTypedDispatch } from "../../types";
-import { checkAuth } from "../../store/actions/userAction";
 import ProductsLayout from "../../pages/products/product-layout";
 import Admin from "../../pages/admin/admin";
 import { ToastContainer } from "react-toastify";
@@ -23,6 +22,7 @@ import ChangeProduct from "../change-product/change-product";
 import ProtectedRouteForAdmin from "../../shared/hoc/protected-route-for-admin/protected-route-for-admin";
 import User from "../../pages/user/user";
 import ChangeAvatar from "../change-avatar/change-avatar";
+import { checkAuth } from "../../store/actions/authAction";
 
 function App() {
   const history = useHistory();

@@ -11,12 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 // import { loadUserCart } from "../../store/cart";
 import Loader from "../../loader/loader";
 
-interface IAppLoader {
+interface IAppLoaderProps {
   //   children: React.ReactNode;
   children: any;
 }
 
-const AppLoader: FC<IAppLoader> = ({ children }) => {
+const AppLoader: FC<IAppLoaderProps> = ({ children }) => {
   //   const dispatch = useDispatch();
   //   const productsLoadingStatus = useSelector(getProductsLoadingStatus());
   //   const questionsLoadingStatus = useSelector(getQuestionsLoadingStatus());

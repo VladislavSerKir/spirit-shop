@@ -2,12 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TAvatar, TUserData, TUserState } from "../../types/userType";
 import { TError } from "../../types";
-import {
-  onLogin,
-  onLogout,
-  onRegister,
-  onUpdateUser,
-} from "../actions/userAction";
+import { onUpdateUser } from "../actions/userAction";
+import { onLogin, onLogout, onRegister } from "../actions/authAction";
 
 const initalUserData = {
   firstName: "",

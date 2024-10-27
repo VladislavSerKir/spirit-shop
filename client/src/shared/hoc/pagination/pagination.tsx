@@ -1,6 +1,6 @@
 import React from "react";
 
-interface IPagination {
+interface IPaginationProps {
   jump: Function;
   next: Function;
   prev: Function;
@@ -14,7 +14,7 @@ const Pagination = ({
   prev,
   maxPage,
   currentPage,
-}: IPagination) => {
+}: IPaginationProps) => {
   const pages = [];
 
   const getStyles = (page: number) =>

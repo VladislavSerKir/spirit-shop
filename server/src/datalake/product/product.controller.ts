@@ -15,7 +15,7 @@ import { DeleteProductDto } from './dto/delete-product.dto';
 import { IRemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 
-@Controller('products')
+@Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 

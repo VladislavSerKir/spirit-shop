@@ -1,18 +1,12 @@
 import { config } from "../utils/api";
-import { ICreateProduct } from "../types/productType";
+import { ICategory, ICreateCategory } from "../types/productType";
 import { getCookie } from "../utils/cookie";
 
-const productEndPoint = "product";
+const categoryEndPoint = "category";
 
-const productService = {
-  createProductRequest: ({
-    categories,
-    description,
-    image,
-    name,
-    price,
-  }: ICreateProduct) => {
-    return fetch(`${config.apiEndPoint}/${productEndPoint}/create`, {
+const categoryService = {
+  createCategoryRequest: ({ name }: ICreateCategory) => {
+    return fetch(`${config.apiEndPoint}/${categoryEndPoint}/create`, {
       method: "POST",
       cache: "no-cache",
       credentials: "same-origin",
@@ -23,24 +17,13 @@ const productService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        categories,
-        description,
-        image,
         name,
-        price,
       }),
     });
   },
 
-  editProductRequest: ({
-    categories,
-    description,
-    image,
-    name,
-    price,
-    id,
-  }: ICreateProduct) => {
-    return fetch(`${config.apiEndPoint}/${productEndPoint}/edit`, {
+  editCategoryRequest: ({ name, id }: ICategory) => {
+    return fetch(`${config.apiEndPoint}/${categoryEndPoint}/edit`, {
       method: "PATCH",
       cache: "no-cache",
       credentials: "same-origin",
@@ -51,18 +34,14 @@ const productService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        categories,
-        description,
-        image,
         name,
-        price,
         id,
       }),
     });
   },
 
-  deleteProductRequest: (id: number) => {
-    return fetch(`${config.apiEndPoint}/${productEndPoint}/delete`, {
+  deleteCategoryRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/${categoryEndPoint}/delete`, {
       method: "DELETE",
       cache: "no-cache",
       credentials: "same-origin",
@@ -79,4 +58,4 @@ const productService = {
   },
 };
 
-export default productService;
+export default categoryService;

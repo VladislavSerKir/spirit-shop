@@ -1,8 +1,9 @@
-// import axios from "axios";
 import { TError, TRefreshData } from "../types";
 import { getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { TAvatar, TUserData } from "../types/userType";
+import { TUserData } from "../types/userType";
+
+const authEndPoint = "auth";
 
 const authService = {
   checkResponse: (res: Response) => {
@@ -34,7 +35,7 @@ const authService = {
   },
 
   userRequest: async () => {
-    const url = `${config.apiEndPoint}/auth/me`;
+    const url = `${config.apiEndPoint}/${authEndPoint}/me`;
     const options = {
       method: "GET",
       headers: {
@@ -67,7 +68,7 @@ const authService = {
   },
 
   refreshTokenRequest: async () => {
-    return fetch(`${config.apiEndPoint}/auth/refresh`, {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -78,6 +79,22 @@ const authService = {
     }).then(authService.checkResponse);
   },
 
+  // refreshTokenRequest: async () => {
+  //   await axios
+  //     .post(
+  //       `${config.apiEndPoint}/${authEndPoint}/refresh`,
+  //       {
+  //         token: getCookie("refreshToken"),
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json;charset=utf-8",
+  //         },
+  //       }
+  //     )
+  //     .then(authService.checkResponse);
+  // },
+
   registerRequest: ({
     firstName,
     lastName,
@@ -85,7 +102,7 @@ const authService = {
     email,
     password,
   }: TUserData) => {
-    return fetch(`${config.apiEndPoint}/auth/signup`, {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/signup`, {
       method: "POST",
       cache: "no-cache",
       credentials: "same-origin",
@@ -105,7 +122,7 @@ const authService = {
   },
 
   loginRequest: async ({ email, password }: TUserData) => {
-    return fetch(`${config.apiEndPoint}/auth/signin`, {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/signin`, {
       method: "POST",
       cache: "no-cache",
       credentials: "same-origin",
@@ -122,7 +139,7 @@ const authService = {
   },
 
   logoutRequest: async ({ email }: any) => {
-    return fetch(`${config.apiEndPoint}/auth/logout`, {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/logout`, {
       method: "POST",
       cache: "no-cache",
       credentials: "same-origin",
@@ -134,48 +151,6 @@ const authService = {
       body: JSON.stringify({
         email: email,
       }),
-    });
-  },
-
-  editRequest: async ({
-    firstName,
-    lastName,
-    mobileNumber,
-    email,
-    password,
-  }: TUserData) => {
-    return fetch(`${config.apiEndPoint}/user/profile`, {
-      method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        Authorization: "Bearer " + getCookie("accessToken"),
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        mobileNumber,
-        email,
-        password,
-      }),
-    });
-  },
-
-  editAvatarRequest: async ({ avatar }: TAvatar) => {
-    return fetch(`${config.apiEndPoint}/user/avatar`, {
-      method: "PUT",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        Authorization: "Bearer " + getCookie("accessToken"),
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({ avatar }),
     });
   },
 };

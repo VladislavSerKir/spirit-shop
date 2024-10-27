@@ -1,46 +1,19 @@
 import { config } from "../utils/api";
-import { ICreateProduct } from "../types/productType";
+import { IProduct } from "../types/productType";
 import { getCookie } from "../utils/cookie";
 
-const productEndPoint = "product";
+const cartEndPoint = "cart";
 
-const productService = {
-  createProductRequest: ({
-    categories,
-    description,
-    image,
-    name,
-    price,
-  }: ICreateProduct) => {
-    return fetch(`${config.apiEndPoint}/${productEndPoint}/create`, {
-      method: "POST",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        Authorization: "Bearer " + getCookie("accessToken"),
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({
-        categories,
-        description,
-        image,
-        name,
-        price,
-      }),
-    });
-  },
-
-  editProductRequest: ({
-    categories,
-    description,
-    image,
-    name,
-    price,
+const cartService = {
+  addProductToCartRequest: ({
     id,
-  }: ICreateProduct) => {
-    return fetch(`${config.apiEndPoint}/${productEndPoint}/edit`, {
+    categories,
+    description,
+    image,
+    name,
+    price,
+  }: IProduct) => {
+    return fetch(`${config.apiEndPoint}/${cartEndPoint}/add`, {
       method: "PATCH",
       cache: "no-cache",
       credentials: "same-origin",
@@ -51,19 +24,26 @@ const productService = {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
+        id,
         categories,
         description,
         image,
         name,
         price,
-        id,
       }),
     });
   },
 
-  deleteProductRequest: (id: number) => {
-    return fetch(`${config.apiEndPoint}/${productEndPoint}/delete`, {
-      method: "DELETE",
+  removeProductFromCartRequest: ({
+    id,
+    categories,
+    description,
+    image,
+    name,
+    price,
+  }: IProduct) => {
+    return fetch(`${config.apiEndPoint}/${cartEndPoint}/remove`, {
+      method: "PATCH",
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
@@ -74,9 +54,14 @@ const productService = {
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
         id,
+        categories,
+        description,
+        image,
+        name,
+        price,
       }),
     });
   },
 };
 
-export default productService;
+export default cartService;

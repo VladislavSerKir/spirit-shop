@@ -2,8 +2,8 @@ import React, { useCallback, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { IUseParams, useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
-import { editCategory } from "../../store/actions/productAction";
 import { ICategory } from "../../types/productType";
+import { editCategory } from "../../store/actions/categoryAction";
 
 const ChangeCategory = () => {
   const history = useHistory();

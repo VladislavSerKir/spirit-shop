@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { IProduct } from "../../types/productType";
 
-interface ICartItem {
+interface ICartItemProps {
   product: IProduct;
   amount: number;
   onIncrement: Function;
   onDecrement: Function;
 }
 
-const CartItem: FC<ICartItem> = ({
+const CartItem: FC<ICartItemProps> = ({
   product,
   amount,
   onIncrement,

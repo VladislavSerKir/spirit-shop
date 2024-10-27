@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ICategory, IProduct } from "../../types/productType";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import { addProductToCart } from "../../store/actions/productAction";
 import gradient from "../../assets/img/product-background.png";
+import { addProductToCart } from "../../store/actions/cartAction";
 
-interface IProductCard {
+interface IProductCardProps {
   product: IProduct;
   categories: ICategory[] | [] | undefined;
 }
 
-const ProductCard = ({ product, categories }: IProductCard) => {
+const ProductCard = ({ product, categories }: IProductCardProps) => {
   const user = useTypedSelector((state) => state.user.userData.email);
   const dispatch = useTypedDispatch();
 
