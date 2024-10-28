@@ -39,6 +39,25 @@ export const removeProductFromCart = createAsyncThunk<
   }
   const data: IProduct = await response.json();
   dispatch(refreshCart(data));
-  toast.warning(`Product removed from cart`);
+  toast.info(`Product removed from cart`);
+  return data;
+});
+
+export const clearCart = createAsyncThunk<
+  { success: true },
+  undefined,
+  { rejectValue: TError }
+>("cart/clear", async function (_, { dispatch, rejectWithValue }) {
+  const response = await cartService.clearCartRequest();
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method clearCart",
+    });
+  }
+  const data: { success: true } = await response.json();
+  dispatch(refreshCart(data));
+  toast.info(`Cart cleared`);
   return data;
 });

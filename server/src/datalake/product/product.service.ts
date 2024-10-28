@@ -25,7 +25,7 @@ export class ProductService {
     });
 
     if (!products) {
-      throw new NotFoundException('Ошибка загрузки продуктов');
+      throw new NotFoundException('Error fetching products');
     } else {
       return products;
     }
@@ -51,7 +51,7 @@ export class ProductService {
       const savedProduct = await this.productRepo.save(newProduct);
       return savedProduct;
     } catch {
-      throw new BadRequestException(`Запрос не сработал`);
+      throw new BadRequestException(`Request did not work`);
     }
   }
 
@@ -82,7 +82,7 @@ export class ProductService {
       await this.productRepo.save(existingProduct);
       return { ...existingProduct }; // Возвращаем обновленный продукт
     } catch (error) {
-      throw new BadRequestException('Ошибка при обновлении продукта');
+      throw new BadRequestException('Error product updating');
     }
   }
 
@@ -93,7 +93,7 @@ export class ProductService {
       await this.productRepo.delete(String(id));
       return { id };
     } catch (e) {
-      throw new NotFoundException(`Ошибка сервера: ${e}`);
+      throw new NotFoundException(`Server error: ${e}`);
     }
   }
 }

@@ -50,6 +50,13 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
           <span className="product__price">${product.price}</span>
 
           <button
+            className="button--flex product__like-button"
+            type="button"
+            // onClick={() => handleAdd(product)}
+          >
+            <i className="ri-heart-add-fill" />
+          </button>
+          <button
             className="button--flex product__button"
             type="button"
             onClick={() => handleAdd(product)}

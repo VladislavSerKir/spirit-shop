@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
@@ -9,6 +9,9 @@ import { useResize } from "../../hooks/useResize";
 import { onLogout } from "../../store/actions/authAction";
 
 export const Header = () => {
+  const [active, setActive] = useState(false);
+  const divRef = useRef<any>();
+
   const dispatch = useDispatch();
   const userData = useTypedSelector((store) => store.user.userData);
 
@@ -56,6 +59,18 @@ export const Header = () => {
     event.preventDefault();
     dispatch(onLogout(userData));
     history.push("/");
+  };
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.style.height = active
+        ? `${divRef.current.scrollHeight + 20}px`
+        : "0px";
+    }
+  }, [active]);
+
+  const toggleAccordion = () => {
+    setActive(!active);
   };
 
   const { width } = useResize();
@@ -126,46 +141,85 @@ export const Header = () => {
                     </NavLink>
                   </li>
                 )}
-                {userData.role === "admin" ? (
-                  <li className="nav__item">
-                    <NavLink
-                      to="/admin/profile"
-                      className="nav__link"
-                      activeClassName="active-link"
-                      onClick={clickToShowMenu}
-                    >
-                      Admin
-                    </NavLink>
-                  </li>
-                ) : (
-                  <li className="nav__item">
-                    <NavLink
-                      to="/user/profile"
-                      className="nav__link"
-                      activeClassName="active-link"
-                      onClick={clickToShowMenu}
-                    >
-                      User
-                    </NavLink>
-                  </li>
-                )}
-                <li className="nav__item">
+                {userData.email && width > 767 && (
                   <NavLink
-                    to="/logout"
+                    to={
+                      userData.role === "admin"
+                        ? "/admin/profile"
+                        : "/user/profile"
+                    }
                     className="nav__link"
-                    activeClassName="active-link"
-                    onClick={handleLogOut}
+                    onClick={clickToShowMenu}
                   >
-                    Logout
+                    <li className="nav__item nav__img header__block">
+                      <div
+                        className={`header__item${
+                          active ? " accordion-open" : ""
+                        }`}
+                      >
+                        <header
+                          className="header__header"
+                          onClick={toggleAccordion}
+                        >
+                          <div className="header__user-button nav__link">
+                            <p>
+                              {userData.firstName}, {userData.lastName}
+                            </p>
+                            <img
+                              src={userData.avatar}
+                              alt="avatar"
+                              className="header__avatar-img"
+                            />
+                          </div>
+                        </header>
+                      </div>
+                    </li>
                   </NavLink>
-                </li>
-                <li className="nav__item nav__img">
-                  <img
-                    src={userData.avatar}
-                    alt="avatar"
-                    className="header__avatar-img"
-                  />
-                </li>
+                )}
+                {width < 767 && (
+                  <>
+                    {userData.role === "admin" ? (
+                      <li className="nav__item">
+                        <NavLink
+                          to="/admin/profile"
+                          className="nav__link"
+                          activeClassName="active-link"
+                          onClick={clickToShowMenu}
+                        >
+                          Admin
+                        </NavLink>
+                      </li>
+                    ) : (
+                      <li className="nav__item">
+                        <NavLink
+                          to="/user/profile"
+                          className="nav__link"
+                          activeClassName="active-link"
+                          onClick={clickToShowMenu}
+                        >
+                          User
+                        </NavLink>
+                      </li>
+                    )}
+                    <li className="nav__item">
+                      <NavLink
+                        to="/logout"
+                        className="nav__link"
+                        activeClassName="active-link"
+                        onClick={handleLogOut}
+                      >
+                        Logout
+                      </NavLink>
+                    </li>
+                    <li className="nav__item nav__img">
+                      <img
+                        src={userData.avatar}
+                        alt="avatar"
+                        className="header__avatar-img"
+                      />
+                    </li>
+                  </>
+                )}
               </>
             ) : (
               <li className="nav__item">
@@ -192,6 +246,14 @@ export const Header = () => {
             id="theme-button"
             onClick={changeTheme}
           />
+          {userData.email && (
+            <i
+              className={`ri-logout-box-r-line change-theme`}
+              id="theme-button"
+              onClick={handleLogOut}
+            />
+          )}
+
           <div
             className="nav__toggle"
             id="nav-toggle"

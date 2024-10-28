@@ -23,7 +23,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('Ошибка загрузки профиля');
+      throw new NotFoundException('Error profile fetching');
     } else {
       return user;
     }
@@ -43,7 +43,7 @@ export class UsersService {
     const username = decodedToken.username;
 
     if (userWithEmailExist && username !== email) {
-      throw new BadRequestException('Email занят');
+      throw new BadRequestException('Email is not available');
     }
 
     if (password) {
@@ -57,7 +57,7 @@ export class UsersService {
     );
 
     if (!updatedUser) {
-      throw new BadRequestException('Ошибка запроса на изменение профиля');
+      throw new BadRequestException('Error profile change request');
     } else {
       const { firstName, lastName, email, mobileNumber } = userData;
       return { firstName, lastName, email, mobileNumber };
@@ -81,7 +81,7 @@ export class UsersService {
     );
 
     if (!updatedUser) {
-      throw new BadRequestException('Ошибка запроса на изменение аватара');
+      throw new BadRequestException('Error avatar change request');
     } else {
       const { avatar } = userData;
       return { avatar };
@@ -92,7 +92,7 @@ export class UsersService {
     const updatedUser = await this.userRepo.update(id, userData);
 
     if (!updatedUser) {
-      throw new BadRequestException('Ошибка запроса на изменение токена');
+      throw new BadRequestException('Error token change request');
     } else {
       return this.getUserById(id);
     }
@@ -102,9 +102,7 @@ export class UsersService {
     const user = await this.userRepo.findOne({ where: { email } });
 
     if (!user) {
-      throw new NotFoundException(
-        `Пользователь с email: ${email} не существует`,
-      );
+      throw new NotFoundException(`User with email: ${email} does not exist`);
     } else {
       return user;
     }
@@ -114,7 +112,7 @@ export class UsersService {
     const user = await this.userRepo.find({ where: { email: query } });
 
     if (!user) {
-      throw new NotFoundException(`Пользователя ${query} не существует`);
+      throw new NotFoundException(`User ${query} does not exist`);
     } else {
       return user;
     }
@@ -126,7 +124,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException(`Пользователь с id: ${id} не существует`);
+      throw new NotFoundException(`User with id: ${id} does not exist`);
     } else {
       return user;
     }
@@ -139,7 +137,7 @@ export class UsersService {
 
     if (!user) {
       throw new NotFoundException(
-        `Пользователь с email: ${JSON.stringify(email)} не существует`,
+        `User with email: ${JSON.stringify(email)} does not exist`,
       );
     } else {
       return user;

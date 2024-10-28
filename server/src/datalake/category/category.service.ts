@@ -21,7 +21,7 @@ export class CategoryService {
     const categories = await this.categoryRepo.find();
 
     if (!categories) {
-      throw new NotFoundException('Ошибка загрузки категорий');
+      throw new NotFoundException('Error fetch categories');
     } else {
       return categories;
     }
@@ -36,7 +36,7 @@ export class CategoryService {
       const savedCategory = await this.categoryRepo.save(newCategory);
       return savedCategory;
     } catch {
-      throw new BadRequestException(`Запрос не сработал`);
+      throw new BadRequestException(`Request did not work`);
     }
   }
 
@@ -45,7 +45,7 @@ export class CategoryService {
     const updatedCategory = await this.categoryRepo.update({ id }, { name });
 
     if (!updatedCategory) {
-      throw new BadRequestException('Ошибка запроса на изменение категории');
+      throw new BadRequestException('Error change category request');
     } else {
       return { name, id };
     }
@@ -58,7 +58,7 @@ export class CategoryService {
       await this.categoryRepo.delete(String(id));
       return { id };
     } catch (e) {
-      throw new NotFoundException(`Ошибка сервера: ${e}`);
+      throw new NotFoundException(`Server error: ${e}`);
     }
   }
 }

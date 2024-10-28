@@ -87,7 +87,7 @@ export class OrderService {
       await this.cartRepo.save(updatedCart);
 
       if (!updatedCart) {
-        throw new BadRequestException('Ошибка обнуления корзины');
+        throw new BadRequestException('Error set bucket to null');
       }
 
       return {
@@ -100,7 +100,7 @@ export class OrderService {
         createdAt,
       };
     } catch (e) {
-      throw new InternalServerErrorException('Внутренняя ошибка сервера');
+      throw new InternalServerErrorException('Internal server error');
     }
   }
 }

@@ -9,6 +9,13 @@
     }
   }
 
+  &__buttons {
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   &-button {
     background-color: var(--first-color);
     color: #fff;

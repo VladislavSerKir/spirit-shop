@@ -3,6 +3,11 @@
     text-align: center;
   }
 
+  &__button-container {
+    display: flex;
+    flex-direction: row;
+  }
+
   &__container {
     padding: 3rem 0;
     grid-template-columns: repeat(2, 1fr);
@@ -19,7 +24,6 @@
   }
 
   &-image-container {
-    // height: 200px;
     text-align: center;
   }
 
@@ -71,6 +75,17 @@
 
   &__title {
     margin-bottom: 0.25rem;
+  }
+
+  &__like-button {
+    position: absolute;
+    background-color: var(--first-color);
+    color: #fff;
+    padding: 0.25rem;
+    border-radius: 0.35rem;
+    font-size: 1.15rem;
+    right: 30px;
+    bottom: 0;
   }
 
   &__button {

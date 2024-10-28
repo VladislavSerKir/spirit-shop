@@ -62,6 +62,20 @@ const cartService = {
       }),
     });
   },
+
+  clearCartRequest: () => {
+    return fetch(`${config.apiEndPoint}/${cartEndPoint}/clear`, {
+      method: "DELETE",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+    });
+  },
 };
 
 export default cartService;

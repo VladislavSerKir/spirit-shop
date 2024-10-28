@@ -5,6 +5,7 @@ import {
   Patch,
   UseGuards,
   Request,
+  Delete,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { CartService } from './cart.service';
@@ -38,5 +39,12 @@ export class CartController {
   ): Promise<Partial<Cart>> {
     const accessToken = request.headers.authorization;
     return this.cartService.removeFromCart(accessToken, body);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Delete('/clear')
+  clearCart(@Request() request: any): Promise<any> {
+    const accessToken = request.headers.authorization;
+    return this.cartService.clearCart(accessToken);
   }
 }

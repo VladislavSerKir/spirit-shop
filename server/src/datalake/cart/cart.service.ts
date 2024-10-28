@@ -17,6 +17,7 @@ export class CartService {
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    @InjectRepository(CartItem) private cartItemRepo: Repository<CartItem>,
     private jwtService: JwtService,
   ) {}
 
@@ -26,7 +27,7 @@ export class CartService {
     });
 
     if (!products) {
-      throw new NotFoundException('Ошибка загрузки продуктов');
+      throw new NotFoundException('Error fetching products');
     } else {
       return products;
     }
@@ -45,7 +46,7 @@ export class CartService {
     });
 
     if (!user) {
-      throw new BadRequestException('Пользователя не существует');
+      throw new BadRequestException('User does not exist');
     }
 
     const existingProduct = await this.productRepo.findOne({
@@ -99,7 +100,7 @@ export class CartService {
     });
 
     if (!user) {
-      throw new BadRequestException('Пользователя не существует');
+      throw new BadRequestException('User does not exist');
     }
 
     const existingProduct = await this.productRepo.findOne({
@@ -134,5 +135,30 @@ export class CartService {
     }
     await this.cartRepo.save(cart);
     return cart.cartItem;
+  }
+
+  async clearCart(accessToken): Promise<any> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: process.env.JWT_ACCESS_SECRET,
+    });
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      relations: ['cart', 'cart.cartItem'],
+    });
+
+    if (!user) {
+      throw new BadRequestException('Пользователя не существует');
+    }
+
+    if (!user.cart.cartItem.length) {
+      throw new BadRequestException('В корзине ничего нет');
+    }
+
+    await this.cartItemRepo.delete({ cart: user.cart });
+
+    return { success: true };
   }
 }

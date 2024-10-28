@@ -10,6 +10,7 @@ import TextArea from "../../shared/form/text-area";
 import history from "../../utils/history";
 import {
   addProductToCart,
+  clearCart,
   removeProductFromCart,
 } from "../../store/actions/cartAction";
 import { submitPurchase } from "../../store/actions/orderAction";
@@ -66,6 +67,12 @@ const Cart = () => {
       : history.replace("/user/orders");
   };
 
+  const handleClearCart = (e: any) => {
+    e.preventDefault();
+    dispatch(clearCart());
+    setData(initialState);
+  };
+
   return (
     <section className="section container">
       {!cart?.cartItem?.length ? (
@@ -115,12 +122,21 @@ const Cart = () => {
                 error={""}
                 onChange={handleChangeComment}
               />
-              <button
-                className="button button--flex cart-button-fixed"
-                type="submit"
-              >
-                Buy
-              </button>
+              <div className="cart__buttons">
+                <button
+                  className="button button--flex cart-button-fixed"
+                  type="submit"
+                >
+                  Buy
+                </button>
+                <button
+                  className="button button--flex cart-button-fixed"
+                  type="button"
+                  onClick={handleClearCart}
+                >
+                  Clear cart
+                </button>
+              </div>
             </div>
           </form>
         </>

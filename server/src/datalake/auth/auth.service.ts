@@ -75,11 +75,9 @@ export class AuthService {
       };
     } catch (e) {
       if (e.code === duplicateKeyStatusCode) {
-        throw new ConflictException(
-          'Пользователь с указанным email уже существует',
-        );
+        throw new ConflictException('User with email already exist');
       } else {
-        throw new InternalServerErrorException('Внутренняя ошибка сервера');
+        throw new InternalServerErrorException('Internal server error');
       }
     }
   }
@@ -117,7 +115,7 @@ export class AuthService {
         purchase,
       };
     } else {
-      throw new UnauthorizedException('Проверьте логин или пароль');
+      throw new UnauthorizedException('Check login or password');
     }
   }
 
@@ -174,9 +172,7 @@ export class AuthService {
       if (error.name === 'TokenExpiredError') {
         throw new Error('jwt expired');
       }
-      throw new InternalServerErrorException(
-        `Внутренняя ошибка сервера: ${error}`,
-      );
+      throw new InternalServerErrorException(`Internal server error: ${error}`);
     }
   }
 
@@ -239,13 +235,13 @@ export class AuthService {
 
     if (!user || !user.refreshToken)
       throw new ForbiddenException(
-        'Обновление токена невозможно, доступ запрещен',
+        'Token updating unavailable, access forbidden',
       );
     const refreshTokenMatches = await argon2.verify(user.refreshToken, token);
 
     if (!refreshTokenMatches)
       throw new ForbiddenException(
-        'Обновление токена невозможно, доступ запрещен',
+        'Token updating unavailable, access forbidden',
       );
     const { id, email } = user;
 
