@@ -30,7 +30,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Orders
+                My orders
               </NavLink>
             </li>
             <li className="nav__item">
@@ -40,7 +40,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Favorites
+                Favorite products
               </NavLink>
             </li>
             <li className="nav__item">
@@ -49,7 +49,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Categories
+                Manage categories
               </NavLink>
             </li>
             <li className="nav__item">
@@ -58,7 +58,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Products
+                Manage products
               </NavLink>
             </li>
             <li className="nav__item">
@@ -67,7 +67,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Users
+                All users
               </NavLink>
             </li>
           </ul>

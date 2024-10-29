@@ -1,6 +1,13 @@
-import { IsNotEmpty, IsPhoneNumber, IsString, Length } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsString,
+  Length,
+} from 'class-validator';
 import { Cart } from 'src/datalake/cart/entities/cart.entity';
 import { Order } from 'src/datalake/order/entities/order.entity';
+import { Favourite } from 'src/datalake/product/entities/favourite.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -81,9 +88,18 @@ export class User {
   @JoinColumn()
   cart: Cart;
 
+  @OneToOne(() => Favourite, { cascade: true })
+  @JoinColumn()
+  favourite: Favourite;
+
   @OneToMany(() => Order, (order) => order.user, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   purchase: Order[];
+
+  @Column({ default: true })
+  @IsBoolean()
+  @IsNotEmpty()
+  active: boolean;
 }

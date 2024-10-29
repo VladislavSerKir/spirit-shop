@@ -5,6 +5,22 @@
     margin-top: 20px;
   }
 
+  &__like-button {
+    // position: absolute;
+    background-color: var(--first-color);
+    color: #fff;
+    padding: 0.25rem;
+    border-radius: 0.35rem;
+    font-size: 1.15rem;
+    right: 30px;
+    bottom: 0;
+    margin-left: 10px;
+
+    &-active {
+      color: lightcoral;
+    }
+  }
+
   &__img {
     position: relative;
     width: 60%;

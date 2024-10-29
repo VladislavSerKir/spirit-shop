@@ -8,9 +8,11 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Category } from '../../category/entities/category.entity';
 import { CartItem } from 'src/datalake/cart/entities/cart-item.entity';
+import { Favourite } from './favourite.entity';
 
 @Entity()
 export class Product {
@@ -55,4 +57,7 @@ export class Product {
     onDelete: 'CASCADE',
   })
   cartItems: CartItem[];
+
+  @ManyToOne(() => Favourite, (item) => item.products)
+  favourites: Favourite;
 }

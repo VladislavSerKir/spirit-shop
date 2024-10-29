@@ -14,6 +14,7 @@ const initalUserData = {
   password: "",
   role: "",
   cart: null,
+  favourite: null,
 };
 
 const userState: TUserState = {
@@ -47,6 +48,7 @@ export const userSlice = createSlice({
       state.userData.avatar = action.payload.avatar;
       state.userData.role = action.payload.role;
       state.userData.cart = action.payload.cart;
+      state.userData.favourite = action.payload.favourite.products;
       state.userError = null;
     },
     clearUserData: (state) => {
@@ -67,6 +69,9 @@ export const userSlice = createSlice({
     setAvatar: (state, action: PayloadAction<TAvatar>) => {
       state.userData.avatar = action.payload.avatar;
     },
+    setLikeProduct: (state, action: any) => {
+      state.userData.favourite = [...state.userData.favourite, action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(onRegister.pending, (state) => {
@@ -78,6 +83,7 @@ export const userSlice = createSlice({
       state.userData.lastName = action.payload.lastName;
       state.userData.mobileNumber = action.payload.mobileNumber;
       state.userData.role = action.payload.role;
+      // state.userData.favourites = action.payload.f;
       state.userError = null;
       state.registerRequest = false;
     });
@@ -93,6 +99,7 @@ export const userSlice = createSlice({
       state.userData.firstName = action.payload.firstName;
       state.userData.lastName = action.payload.lastName;
       state.userData.mobileNumber = action.payload.mobileNumber;
+      state.userData.favourite = action.payload.favourite.products;
       state.userData.role = action.payload.role;
       state.userError = null;
       state.loginRequest = false;
@@ -144,5 +151,6 @@ export const {
   setUser,
   clearUserData,
   refreshCart,
+  setLikeProduct,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

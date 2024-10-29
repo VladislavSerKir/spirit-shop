@@ -5,6 +5,7 @@ import { ICategory, IProduct } from "../../types/productType";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import gradient from "../../assets/img/product-background.png";
 import { addProductToCart } from "../../store/actions/cartAction";
+import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 
 interface IProductCardProps {
   product: IProduct;
@@ -12,14 +13,27 @@ interface IProductCardProps {
 }
 
 const ProductCard = ({ product, categories }: IProductCardProps) => {
-  const user = useTypedSelector((state) => state.user.userData.email);
+  const user = useTypedSelector((state) => state.user.userData);
   const dispatch = useTypedDispatch();
+  const userLikedProducts = user?.favourite?.map((i: IProduct) => i.id);
 
   const handleAdd = (product: IProduct) => {
-    if (user) {
+    if (user.email) {
       dispatch(addProductToCart(product));
     } else {
-      toast.info("Sign in to add to cart!");
+      toast.info("Sign in to add to cart");
+    }
+  };
+
+  const handleLike = (id: number) => {
+    const likedProductsIds = user.favourite?.map((i: IProduct) => i.id);
+
+    if (user.email && !likedProductsIds.includes(id)) {
+      dispatch(likeProduct(id));
+    } else if (user.email && likedProductsIds.includes(id)) {
+      dispatch(dislikeProduct(id));
+    } else {
+      toast.info("Sign in to add product to favorites");
     }
   };
 
@@ -50,9 +64,13 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
           <span className="product__price">${product.price}</span>
 
           <button
-            className="button--flex product__like-button"
+            className={`button--flex product__like-button ${
+              userLikedProducts?.includes(product.id)
+                ? "product__like-button-active"
+                : null
+            }`}
             type="button"
-            // onClick={() => handleAdd(product)}
+            onClick={() => handleLike(product.id)}
           >
             <i className="ri-heart-add-fill" />
           </button>

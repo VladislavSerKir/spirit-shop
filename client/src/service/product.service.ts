@@ -77,6 +77,40 @@ const productService = {
       }),
     });
   },
+
+  likeProductRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/${productEndPoint}/like`, {
+      method: "PATCH",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
+
+  dislikeProductRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/${productEndPoint}/dislike`, {
+      method: "PATCH",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
 };
 
 export default productService;

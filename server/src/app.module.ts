@@ -19,6 +19,7 @@ import { CartModule } from './datalake/cart/cart.module';
 import { CartItem } from './datalake/cart/entities/cart-item.entity';
 import { Order } from './datalake/order/entities/order.entity';
 import { OrderModule } from './datalake/order/order.module';
+import { Favourite } from './datalake/product/entities/favourite.entity';
 
 @Module({
   imports: [
@@ -47,7 +48,7 @@ import { OrderModule } from './datalake/order/order.module';
       username: 'student',
       password: 'student',
       database: 'shop_db',
-      entities: [User, Product, Category, Cart, CartItem, Order],
+      entities: [User, Product, Category, Cart, CartItem, Order, Favourite],
       synchronize: true,
     }),
     // TypeOrmModule.forRootAsync({

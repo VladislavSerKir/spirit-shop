@@ -11,17 +11,23 @@ import { Category } from '../category/entities/category.entity';
 import { DeleteProductDto } from './dto/delete-product.dto';
 import { IRemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
+import { Favourite } from './entities/favourite.entity';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
+    @InjectRepository(Favourite) private favouriteRepo: Repository<Favourite>,
+    @InjectRepository(User) private userRepo: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   async getAllProducts(): Promise<Product[]> {
     const products = await this.productRepo.find({
-      relations: { categories: true },
+      relations: ['categories', 'favourites.user'],
     });
 
     if (!products) {
@@ -92,6 +98,51 @@ export class ProductService {
     try {
       await this.productRepo.delete(String(id));
       return { id };
+    } catch (e) {
+      throw new NotFoundException(`Server error: ${e}`);
+    }
+  }
+
+  async likeProduct(
+    accessToken: string,
+    body: DeleteProductDto,
+  ): Promise<Product> {
+    const { id } = body;
+
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: process.env.JWT_ACCESS_SECRET,
+    });
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      relations: ['favourite', 'favourite.products'],
+    });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    const favourite = await this.favouriteRepo.findOne({
+      where: {
+        id: user.favourite.id,
+      },
+      relations: ['user', 'products'],
+    });
+
+    const product = await this.productRepo.findOne({
+      where: {
+        id,
+      },
+      relations: ['categories'],
+    });
+
+    favourite.products = [...(favourite.products || []), product];
+
+    try {
+      await this.favouriteRepo.save(favourite);
+      return product;
     } catch (e) {
       throw new NotFoundException(`Server error: ${e}`);
     }

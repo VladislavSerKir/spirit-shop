@@ -6,6 +6,8 @@ import {
   Patch,
   UseGuards,
   Delete,
+  Put,
+  Request,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { Product } from './entities/product.entity';
@@ -14,6 +16,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { DeleteProductDto } from './dto/delete-product.dto';
 import { IRemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
+import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -42,5 +45,15 @@ export class ProductController {
   @Delete('/delete')
   async deleteProduct(@Body() body: DeleteProductDto): Promise<IRemoveProduct> {
     return this.productService.deleteProduct(body);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Patch('/like')
+  async likeProduct(
+    @Request() request: any,
+    @Body() body: LikeDislikeProductDto,
+  ): Promise<Product> {
+    const accessToken = request.headers.authorization;
+    return this.productService.likeProduct(accessToken, body);
   }
 }

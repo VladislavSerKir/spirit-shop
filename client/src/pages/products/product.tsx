@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import { ICategory } from "../../types/productType";
+import { ICategory, IProduct } from "../../types/productType";
 import { toast } from "react-toastify";
 import { addProductToCart } from "../../store/actions/cartAction";
+import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 
 interface IProductProps {
   productId: string;
@@ -11,7 +12,9 @@ interface IProductProps {
 const Product: FC<IProductProps> = ({ productId }) => {
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
-  const user = useTypedSelector((state) => state.user.userData.email);
+  const user = useTypedSelector((state) => state.user.userData);
+
+  const userLikedProducts = user?.favourite?.map((i: any) => i.id);
 
   const getProductById = (productId: string, products: any) =>
     products.find((p: any) => p.id === Number(productId));
@@ -19,10 +22,22 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const currentProduct = getProductById(productId, products);
 
   const handleAdd = (product: any) => {
-    if (user) {
+    if (user.email) {
       dispatch(addProductToCart(product));
     } else {
       toast.info("Sign in to add to cart!");
+    }
+  };
+
+  const handleLike = (id: number) => {
+    const likedProductsIds = user.favourite?.map((i: IProduct) => i.id);
+
+    if (user.email && !likedProductsIds.includes(id)) {
+      dispatch(likeProduct(id));
+    } else if (user.email && likedProductsIds.includes(id)) {
+      dispatch(dislikeProduct(id));
+    } else {
+      toast.info("Sign in to add product to favorites");
     }
   };
 
@@ -53,6 +68,17 @@ const Product: FC<IProductProps> = ({ productId }) => {
       <div className="container-center">
         <span className="product__price">${currentProduct?.price}</span>
 
+        <button
+          className={`button--flex product__like-button ${
+            userLikedProducts?.includes(productId)
+              ? "product__like-button-active"
+              : null
+          }`}
+          type="button"
+          onClick={() => handleLike(+productId)}
+        >
+          <i className="ri-heart-add-fill" />
+        </button>
         <button
           onClick={() => handleAdd(currentProduct)}
           className="button--flex product-solo__button"

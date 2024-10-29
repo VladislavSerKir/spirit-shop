@@ -2,6 +2,7 @@ import { TError, TUser } from ".";
 import { IProduct } from "./productType";
 
 export type TUserData = {
+  favourite: IProduct[] | null | "" | any;
   email: string;
   password?: string;
   firstName: string;
@@ -60,6 +61,7 @@ export type TUserEditResponse = {
   lastName: string;
   mobileNumber: string;
   role: string;
+  favourite: any;
 } & TRefreshToken;
 
 export type TRefreshToken = {

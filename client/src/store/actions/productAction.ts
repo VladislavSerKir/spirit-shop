@@ -15,6 +15,7 @@ import {
 } from "../../types/productType";
 import productService from "../../service/product.service";
 import { toast } from "react-toastify";
+import { setLikeProduct } from "../reducers/userReducer";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],
@@ -110,3 +111,40 @@ export const getAllCategories = createAsyncThunk<
     return data;
   }
 );
+
+export const likeProduct = createAsyncThunk<
+  number,
+  number,
+  { rejectValue: TError }
+>("category/delete", async function (body, { dispatch, rejectWithValue }) {
+  const response = await productService.likeProductRequest(body);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method likeProduct",
+    });
+  }
+  const data: any = await response.json();
+  dispatch(setLikeProduct(data));
+  // dispatch(refreshLikedProducts(data));
+  return data;
+});
+
+export const dislikeProduct = createAsyncThunk<
+  number,
+  number,
+  { rejectValue: TError }
+>("category/delete", async function (body, { dispatch, rejectWithValue }) {
+  const response = await productService.dislikeProductRequest(body);
+
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method dislikeProduct",
+    });
+  }
+  const data: any = await response.json();
+  // dispatch(setDisikeProduct(data));
+  return data;
+});

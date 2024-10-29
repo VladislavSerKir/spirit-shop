@@ -32,6 +32,7 @@ export const getUser = createAsyncThunk(
     return authService
       .userRequest()
       .then((user: TUserData) => {
+        // console.log(user);
         dispatch(setUser(user));
         dispatch(getOrders(user.purchase));
       })

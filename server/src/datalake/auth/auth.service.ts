@@ -19,6 +19,7 @@ import { UsersService } from '../user/users.service';
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { Cart } from '../cart/entities/cart.entity';
+import { Favourite } from '../product/entities/favourite.entity';
 
 @Injectable()
 export class AuthService {
@@ -43,8 +44,10 @@ export class AuthService {
     });
 
     const cart = new Cart();
+    const favourite = new Favourite();
 
     newUser.cart = cart;
+    newUser.favourite = favourite;
 
     try {
       await this.userRepo.save(newUser);
@@ -144,6 +147,8 @@ export class AuthService {
           'cart.cartItem',
           'cart.cartItem.product',
           'cart.cartItem.product.categories',
+          'favourite',
+          'favourite.products',
         ],
       });
 
@@ -156,6 +161,7 @@ export class AuthService {
         cart,
         avatar,
         purchase,
+        favourite,
       } = user;
 
       return {
@@ -167,6 +173,7 @@ export class AuthService {
         avatar,
         cart,
         purchase,
+        favourite,
       };
     } catch (error) {
       if (error.name === 'TokenExpiredError') {

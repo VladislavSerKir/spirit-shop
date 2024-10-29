@@ -28,7 +28,7 @@ const User: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Orders
+                My orders
               </NavLink>
             </li>
             <li className="nav__item">
@@ -38,7 +38,7 @@ const User: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Favorites
+                Favorite products
               </NavLink>
             </li>
           </ul>
