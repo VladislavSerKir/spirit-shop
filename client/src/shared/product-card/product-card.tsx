@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ICategory, IProduct } from "../../types/productType";
@@ -36,6 +36,14 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
       toast.info("Sign in to add product to favorites");
     }
   };
+
+  const countProducts = useMemo(() => {
+    if (!user.cart?.cartItem.length) return 0;
+    const counter = user?.cart?.cartItem?.find(
+      (item: any) => item.product.id === product.id
+    )?.quantity;
+    return typeof counter === "number" ? counter : 0;
+  }, [product.id, user.cart?.cartItem]);
 
   return (
     <article className="product__card" key={product.id}>
@@ -80,6 +88,11 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
             onClick={() => handleAdd(product)}
           >
             <i className="ri-shopping-bag-line" />
+            {countProducts !== 0 ? (
+              <div className="product__cart-counter" role="status">
+                {countProducts}
+              </div>
+            ) : null}
           </button>
         </>
       ) : (

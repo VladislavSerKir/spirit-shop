@@ -4,6 +4,7 @@ import EditProfileForm from "../../components/edit-profile-form/edit-profile-for
 import ManageCategories from "../../components/manage-categories/manage-categories";
 import ManageProduct from "../../components/manage-product/manage-product";
 import { Order } from "../order/order";
+import FavouriteProducts from "../favourite-products/favourite-products";
 
 const Admin: FC = () => {
   const { url } = useRouteMatch();
@@ -81,7 +82,9 @@ const Admin: FC = () => {
             <Route path={`${url}/orders`} exact>
               <Order />
             </Route>
-            <Route path={`${url}/favorites`} exact></Route>
+            <Route path={`${url}/favorites`} exact>
+              <FavouriteProducts />
+            </Route>
             <Route path={`${url}/categories`} exact>
               <ManageCategories />
             </Route>

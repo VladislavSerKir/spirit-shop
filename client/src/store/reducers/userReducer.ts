@@ -4,6 +4,7 @@ import { TAvatar, TUserData, TUserState } from "../../types/userType";
 import { TError } from "../../types";
 import { onUpdateUser } from "../actions/userAction";
 import { onLogin, onLogout, onRegister } from "../actions/authAction";
+import { IProduct } from "../../types/productType";
 
 const initalUserData = {
   firstName: "",
@@ -72,19 +73,23 @@ export const userSlice = createSlice({
     setLikeProduct: (state, action: any) => {
       state.userData.favourite = [...state.userData.favourite, action.payload];
     },
+    setDislikeProduct: (state, action: PayloadAction<number>) => {
+      state.userData.favourite = state.userData.favourite.filter(
+        (product: IProduct) => product.id !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(onRegister.pending, (state) => {
       state.registerRequest = true;
     });
     builder.addCase(onRegister.fulfilled, (state, action) => {
-      state.userData.email = action.payload.email;
-      state.userData.firstName = action.payload.firstName;
-      state.userData.lastName = action.payload.lastName;
-      state.userData.mobileNumber = action.payload.mobileNumber;
-      state.userData.role = action.payload.role;
-      // state.userData.favourites = action.payload.f;
-      state.userError = null;
+      // state.userData.email = action.payload.email;
+      // state.userData.firstName = action.payload.firstName;
+      // state.userData.lastName = action.payload.lastName;
+      // state.userData.mobileNumber = action.payload.mobileNumber;
+      // state.userData.role = action.payload.role;
+      // state.userError = null;
       state.registerRequest = false;
     });
     builder.addCase(onRegister.rejected, (state, action) => {
@@ -95,13 +100,14 @@ export const userSlice = createSlice({
       state.loginRequest = true;
     });
     builder.addCase(onLogin.fulfilled, (state, action) => {
-      state.userData.email = action.payload.email;
-      state.userData.firstName = action.payload.firstName;
-      state.userData.lastName = action.payload.lastName;
-      state.userData.mobileNumber = action.payload.mobileNumber;
-      state.userData.favourite = action.payload.favourite.products;
-      state.userData.role = action.payload.role;
-      state.userError = null;
+      // state.userData.email = action.payload.email;
+      // state.userData.firstName = action.payload.firstName;
+      // state.userData.lastName = action.payload.lastName;
+      // state.userData.mobileNumber = action.payload.mobileNumber;
+      // state.userData.favourite = action.payload.favourite.products;
+      // state.userData.role = action.payload.role;
+      // state.userData.cart = action.payload.cart;
+      // state.userError = null;
       state.loginRequest = false;
     });
     builder.addCase(onLogin.rejected, (state, action) => {
@@ -152,5 +158,6 @@ export const {
   clearUserData,
   refreshCart,
   setLikeProduct,
+  setDislikeProduct,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

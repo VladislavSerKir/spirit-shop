@@ -5,8 +5,37 @@
     margin-top: 20px;
   }
 
+  &__cart {
+    position: relative;
+    font-size: 16px;
+    line-height: 2.5em;
+    margin: 0.3em;
+
+    &-counter {
+      /* circle shape, size and position */
+      position: absolute;
+      right: -0.7em;
+      top: -0.7em;
+      min-width: 1.6em; /* or width, explained below. */
+      height: 1.6em;
+      border-radius: 0.8em; /* or 50%, explained below. */
+      border: 0.05em solid white;
+      background-color: red;
+
+      /* number size and position */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.6em;
+      color: white;
+    }
+
+    &-img {
+      width: 25px;
+    }
+  }
+
   &__like-button {
-    // position: absolute;
     background-color: var(--first-color);
     color: #fff;
     padding: 0.25rem;
@@ -43,6 +72,7 @@
   }
 
   &__button {
+    position: relative;
     right: 0;
     bottom: 0;
     background-color: var(--first-color);

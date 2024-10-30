@@ -147,4 +147,44 @@ export class ProductService {
       throw new NotFoundException(`Server error: ${e}`);
     }
   }
+
+  async dislikeProduct(
+    accessToken: string,
+    body: DeleteProductDto,
+  ): Promise<number> {
+    const { id } = body;
+
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: process.env.JWT_ACCESS_SECRET,
+    });
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      relations: ['favourite', 'favourite.products'],
+    });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    const favourite = await this.favouriteRepo.findOne({
+      where: {
+        id: user.favourite.id,
+      },
+      relations: ['user', 'products'],
+    });
+
+    favourite.products = favourite.products.filter(
+      (product) => product.id !== id,
+    );
+
+    try {
+      await this.favouriteRepo.save(favourite);
+      return id;
+    } catch (e) {
+      throw new NotFoundException(`Server error: ${e}`);
+    }
+  }
 }

@@ -17,21 +17,29 @@ export const Order = () => {
     <>
       <div className="order__page">
         <h2 className="section__title-center">Orders</h2>
-        {ordersToShow?.map((order: TPurchase) => {
-          return (
-            <div key={order.id} className="accordeon__container">
-              <OrderAccordeon order={order} />
-            </div>
-          );
-        })}
+        {ordersToShow?.length ? (
+          <>
+            {ordersToShow?.map((order: TPurchase) => {
+              return (
+                <div key={order.id} className="accordeon__container">
+                  <OrderAccordeon order={order} />
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <h3 className="container-center">There are no orders</h3>
+        )}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        jump={jump}
-        maxPage={maxPage}
-        next={next}
-        prev={prev}
-      />
+      {ordersToShow?.length && (
+        <Pagination
+          currentPage={currentPage}
+          jump={jump}
+          maxPage={maxPage}
+          next={next}
+          prev={prev}
+        />
+      )}
     </>
   );
 };

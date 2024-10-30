@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { ICategory, IProduct } from "../../types/productType";
 import { toast } from "react-toastify";
@@ -14,7 +14,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const products = useTypedSelector((state) => state.products.products);
   const user = useTypedSelector((state) => state.user.userData);
 
-  const userLikedProducts = user?.favourite?.map((i: any) => i.id);
+  const userLikedProducts = user.favourite?.map((i: any) => i.id);
 
   const getProductById = (productId: string, products: any) =>
     products.find((p: any) => p.id === Number(productId));
@@ -40,6 +40,14 @@ const Product: FC<IProductProps> = ({ productId }) => {
       toast.info("Sign in to add product to favorites");
     }
   };
+
+  const countProducts = useMemo(() => {
+    if (!user.cart?.cartItem.length) return 0;
+    const counter = user?.cart?.cartItem?.find(
+      (item: any) => item.product.id === +productId
+    )?.quantity;
+    return typeof counter === "number" ? counter : 0;
+  }, [productId, user.cart?.cartItem]);
 
   return (
     <section className="container section">
@@ -69,9 +77,9 @@ const Product: FC<IProductProps> = ({ productId }) => {
         <span className="product__price">${currentProduct?.price}</span>
 
         <button
-          className={`button--flex product__like-button ${
-            userLikedProducts?.includes(productId)
-              ? "product__like-button-active"
+          className={`button--flex product-solo__like-button ${
+            userLikedProducts?.includes(+productId)
+              ? "product-solo__like-button-active"
               : null
           }`}
           type="button"
@@ -85,6 +93,11 @@ const Product: FC<IProductProps> = ({ productId }) => {
           type="button"
         >
           <i className="ri-shopping-bag-line" />
+          {countProducts !== 0 ? (
+            <div className="product-solo__cart-counter" role="status">
+              {countProducts}
+            </div>
+          ) : null}
         </button>
       </div>
     </section>

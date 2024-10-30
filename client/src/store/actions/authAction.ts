@@ -19,7 +19,6 @@ export const checkAuth = createAsyncThunk(
       dispatch(getUser());
       dispatch(setAuthChecked(true));
     } else {
-      // dispatch(onLogout());
       dispatch(setAuthChecked(true));
     }
   }
@@ -49,7 +48,7 @@ export const onRegister = createAsyncThunk<
   TUserEditResponse,
   TUserData,
   { rejectValue: TError }
->("auth/onRegister", async function (user, { rejectWithValue }) {
+>("auth/onRegister", async function (user, { dispatch, rejectWithValue }) {
   const response = await authService.registerRequest(user);
 
   if (!response.ok) {
@@ -60,11 +59,14 @@ export const onRegister = createAsyncThunk<
   }
 
   const data: TUserEditResponse = await response.json();
-  const accessToken = data.accessToken.split("Bearer ")[1];
+  const accessToken = data.accessToken;
   const refreshToken = data.refreshToken;
 
   setCookie("accessToken", accessToken, {});
   setCookie("refreshToken", refreshToken, {});
+
+  dispatch(getUser());
+  dispatch(setAuthChecked(true));
 
   return data;
 });

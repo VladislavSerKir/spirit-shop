@@ -15,7 +15,7 @@ import {
 } from "../../types/productType";
 import productService from "../../service/product.service";
 import { toast } from "react-toastify";
-import { setLikeProduct } from "../reducers/userReducer";
+import { setDislikeProduct, setLikeProduct } from "../reducers/userReducer";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],
@@ -127,7 +127,7 @@ export const likeProduct = createAsyncThunk<
   }
   const data: any = await response.json();
   dispatch(setLikeProduct(data));
-  // dispatch(refreshLikedProducts(data));
+  toast.info(`Product added to favourites`);
   return data;
 });
 
@@ -145,6 +145,7 @@ export const dislikeProduct = createAsyncThunk<
     });
   }
   const data: any = await response.json();
-  // dispatch(setDisikeProduct(data));
+  dispatch(setDislikeProduct(data));
+  toast.info(`Product removed from favourites`);
   return data;
 });

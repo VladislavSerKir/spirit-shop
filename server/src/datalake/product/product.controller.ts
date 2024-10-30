@@ -56,4 +56,14 @@ export class ProductController {
     const accessToken = request.headers.authorization;
     return this.productService.likeProduct(accessToken, body);
   }
+
+  @UseGuards(AccessTokenGuard)
+  @Patch('/dislike')
+  async dislikeProduct(
+    @Request() request: any,
+    @Body() body: LikeDislikeProductDto,
+  ): Promise<number> {
+    const accessToken = request.headers.authorization;
+    return this.productService.dislikeProduct(accessToken, body);
+  }
 }

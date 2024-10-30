@@ -62,6 +62,7 @@ export type TUserEditResponse = {
   mobileNumber: string;
   role: string;
   favourite: any;
+  cart: TCartItem | null | "" | any;
 } & TRefreshToken;
 
 export type TRefreshToken = {

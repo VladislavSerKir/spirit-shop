@@ -87,7 +87,23 @@ export class AuthService {
 
   async signIn(signinDto: SigninDto): Promise<Partial<User>> {
     const { email, password } = signinDto;
-    const user = await this.usersService.findByEmail(email);
+    // const user = await this.usersService.findByEmail(email);
+
+    const user = await this.userRepo.findOne({
+      where: { email },
+      relations: [
+        'purchase',
+        'purchase.purchase.product',
+        'purchase.purchase.product.categories',
+        'cart',
+        'cart.cartItem',
+        'cart.cartItem.product',
+        'cart.cartItem.product.categories',
+        'favourite',
+        'favourite.products',
+        'favourite.products.categories',
+      ],
+    });
 
     if (user && (await HashService.compareHash(password, user.password))) {
       const {
@@ -149,6 +165,7 @@ export class AuthService {
           'cart.cartItem.product.categories',
           'favourite',
           'favourite.products',
+          'favourite.products.categories',
         ],
       });
 
