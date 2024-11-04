@@ -22,7 +22,6 @@ export class UsersService {
   async getProfileInfo(email: string): Promise<User> {
     const user = await this.userRepo.findOne({
       where: { email },
-      // relations: { cart: true },
     });
 
     if (!user) {
@@ -192,14 +191,13 @@ export class UsersService {
   }
 
   async validateUser(username: any, password: string): Promise<any> {
-    // Находим пользователя по имени пользователя
     const user = await this.getUserByEmail(username.username);
     if (user && (await HashService.compareHash(password, user.password))) {
-      // Если пользователь найден и пароль совпадает, возвращаем объект пользователя
       const { password, ...result } = user;
+
       return result;
     }
-    // Если пользователь не найден или пароль неверен, возвращаем null
+
     return null;
   }
 

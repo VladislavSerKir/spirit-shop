@@ -4,18 +4,18 @@ import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import {} from "../../store/actions/productAction";
 import { toast } from "react-toastify";
-import { ICategory } from "../../types/productType";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import {
   createCategory,
   deleteCategory,
 } from "../../store/actions/categoryAction";
+import { ICategory } from "../../types/store/categoryStoreType";
 
 const ManageCategories = () => {
   const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
-  const categories = useTypedSelector((state) => state.products.categories);
+  const categories = useTypedSelector((state) => state.category.categories);
 
   const initialState = {
     name: "",

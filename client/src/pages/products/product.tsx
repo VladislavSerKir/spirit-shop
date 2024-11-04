@@ -1,9 +1,10 @@
 import { FC, useMemo } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import { ICategory, IProduct } from "../../types/productType";
+import { IProduct } from "../../types/store/productStoreType";
 import { toast } from "react-toastify";
 import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
+import { ICategory } from "../../types/store/categoryStoreType";
 
 interface IProductProps {
   productId: string;
@@ -13,6 +14,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
   const user = useTypedSelector((state) => state.user.userData);
+  const cart = useTypedSelector((state) => state.cart.cart);
 
   const userLikedProducts = user.favourite?.map((i: any) => i.id);
 
@@ -42,12 +44,12 @@ const Product: FC<IProductProps> = ({ productId }) => {
   };
 
   const countProducts = useMemo(() => {
-    if (!user.cart?.cartItem.length) return 0;
-    const counter = user?.cart?.cartItem?.find(
+    if (!cart.cartItem.length) return 0;
+    const counter = cart.cartItem?.find(
       (item: any) => item.product.id === +productId
     )?.quantity;
     return typeof counter === "number" ? counter : 0;
-  }, [productId, user.cart?.cartItem]);
+  }, [productId, cart.cartItem]);
 
   return (
     <section className="container section">

@@ -2,20 +2,20 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   refreshProducts,
   removeProduct,
-  setCategoryRequest,
   setProductRequest,
 } from "../reducers/productReducer";
 import { TError } from "../../types";
 import { config } from "../../utils/api";
 import {
-  ICategory,
   ICreateProduct,
   IProductWithCategories,
   IRemoveProduct,
-} from "../../types/productType";
+} from "../../types/store/productStoreType";
 import productService from "../../service/product.service";
 import { toast } from "react-toastify";
 import { setDislikeProduct, setLikeProduct } from "../reducers/userReducer";
+import { ICategory } from "../../types/store/categoryStoreType";
+import { setCategoryRequest } from "../reducers/categoryReducer";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],

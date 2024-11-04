@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TOrder, TPurchase } from "../../types/orderType";
+import { IOrderState, IPurchase } from "../../types/store/orderStoreType";
 import { submitPurchase } from "../actions/orderAction";
 
-const orderState: TOrder = {
+const orderState: IOrderState = {
   purchase: [],
   orderError: null,
   orderRequest: false,
@@ -12,8 +12,11 @@ export const orderSlice = createSlice({
   name: "order",
   initialState: orderState,
   reducers: {
-    getOrders: (state, action: PayloadAction<TPurchase[]>) => {
+    getOrders: (state, action: PayloadAction<IPurchase[]>) => {
       state.purchase = [...action.payload];
+    },
+    setPurchaseToNull: (state) => {
+      state.purchase = [];
     },
   },
   extraReducers: (builder) => {
@@ -32,5 +35,5 @@ export const orderSlice = createSlice({
   },
 });
 
-export const { getOrders } = orderSlice.actions;
+export const { getOrders, setPurchaseToNull } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;

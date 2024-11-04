@@ -1,6 +1,6 @@
 import { getCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { TAvatar, TUserData } from "../types/userType";
+import { IUserData, TAvatar } from "../types/store/userStoreType";
 
 const userEndPoint = "user";
 
@@ -11,17 +11,13 @@ const userService = {
     mobileNumber,
     email,
     password,
-  }: TUserData) => {
+  }: IUserData) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/profile`, {
       method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         firstName,
         lastName,
@@ -35,14 +31,10 @@ const userService = {
   editAvatarRequest: async ({ avatar }: TAvatar) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/avatar`, {
       method: "PUT",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({ avatar }),
     });
   },
@@ -50,28 +42,20 @@ const userService = {
   getAllUsersRequest: async () => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/users`, {
       method: "GET",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
     });
   },
 
   assignAdminRequest: async ({ id, role }: { id: number; role: string }) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/admin`, {
       method: "PUT",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({ id, role }),
     });
   },
@@ -85,14 +69,10 @@ const userService = {
   }) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/active`, {
       method: "PUT",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({ id, active }),
     });
   },

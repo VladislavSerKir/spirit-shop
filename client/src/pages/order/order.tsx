@@ -3,7 +3,7 @@ import { useTypedSelector } from "../../types";
 import OrderAccordeon from "../../components/order-accordeon/order-accordeon";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
-import { TPurchase } from "../../types/orderType";
+import { IPurchase } from "../../types/store/orderStoreType";
 
 export const Order = () => {
   const orders = useTypedSelector((store) => store.order.purchase);
@@ -19,7 +19,7 @@ export const Order = () => {
         <h2 className="section__title-center">Orders</h2>
         {ordersToShow?.length ? (
           <>
-            {ordersToShow?.map((order: TPurchase) => {
+            {ordersToShow?.map((order: IPurchase) => {
               return (
                 <div key={order.id} className="accordeon__container">
                   <OrderAccordeon order={order} />

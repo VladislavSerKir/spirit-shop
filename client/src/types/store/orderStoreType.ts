@@ -1,18 +1,18 @@
-import { TError } from ".";
-import { TCartItem } from "./userType";
+import { TError } from "..";
+import { ICartItem } from "./cartStoreType";
 
-export type TOrder = {
-  purchase: TPurchase[];
+export interface IOrderState {
+  purchase: IPurchase[];
   orderError: null | undefined | TError;
   orderRequest: boolean;
-};
+}
 
-export type TPurchase = {
+export interface IPurchase {
   id: number;
   createdAt: string;
   number: number;
   comment: string;
   isNeedPackage: boolean;
   isNeedDelivery: boolean;
-  purchase: TCartItem[];
-};
+  purchase: ICartItem[];
+}

@@ -1,7 +1,7 @@
 import { TError, TRefreshData } from "../types";
 import { getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { TUserData } from "../types/userType";
+import { IUserData } from "../types/store/userStoreType";
 
 const authEndPoint = "auth";
 
@@ -79,38 +79,18 @@ const authService = {
     }).then(authService.checkResponse);
   },
 
-  // refreshTokenRequest: async () => {
-  //   await axios
-  //     .post(
-  //       `${config.apiEndPoint}/${authEndPoint}/refresh`,
-  //       {
-  //         token: getCookie("refreshToken"),
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json;charset=utf-8",
-  //         },
-  //       }
-  //     )
-  //     .then(authService.checkResponse);
-  // },
-
   registerRequest: ({
     firstName,
     lastName,
     mobileNumber,
     email,
     password,
-  }: TUserData) => {
+  }: IUserData) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/signup`, {
       method: "POST",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         firstName,
         lastName,
@@ -121,16 +101,12 @@ const authService = {
     });
   },
 
-  loginRequest: async ({ email, password }: TUserData) => {
+  loginRequest: async ({ email, password }: IUserData) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/signin`, {
       method: "POST",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         email: email,
         password: password,
@@ -141,13 +117,9 @@ const authService = {
   logoutRequest: async ({ email }: any) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/logout`, {
       method: "POST",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         email: email,
       }),

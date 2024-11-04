@@ -1,18 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import // ICategory,
+// ICreateCategory,
+// IRemoveCategory,
+"../../types/store/productStoreType";
+import { TError } from "../../types";
+import categoryService from "../../service/category.service";
+import // refreshCategories,
+// removeCategory,
+// updateCategory,
+"../reducers/productReducer";
+import { toast } from "react-toastify";
+import { getAllProducts } from "./productAction";
 import {
   ICategory,
   ICreateCategory,
   IRemoveCategory,
-} from "../../types/productType";
-import { TError } from "../../types";
-import categoryService from "../../service/category.service";
+} from "../../types/store/categoryStoreType";
 import {
   refreshCategories,
   removeCategory,
   updateCategory,
-} from "../reducers/productReducer";
-import { toast } from "react-toastify";
-import { getAllProducts } from "./productAction";
+} from "../reducers/categoryReducer";
 
 export const createCategory = createAsyncThunk<
   ICreateCategory,

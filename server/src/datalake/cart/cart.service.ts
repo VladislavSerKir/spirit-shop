@@ -35,6 +35,34 @@ export class CartService {
     }
   }
 
+  async getUserCart(accessToken: string): Promise<any> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      relations: ['cart'],
+    });
+
+    const cart = await this.cartRepo.findOne({
+      where: { id: user.cart.id },
+      relations: [
+        'cartItem',
+        'cartItem.product',
+        'cartItem.product.categories',
+      ],
+    });
+
+    if (!cart) {
+      throw new NotFoundException('Error fetching cart');
+    } else {
+      return cart;
+    }
+  }
+
   async addToCart(accessToken, product: Partial<Product>): Promise<any> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {

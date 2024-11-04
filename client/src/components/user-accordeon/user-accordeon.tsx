@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { TUserData } from "../../types/userType";
 import Toggle from "react-toggle";
 import { useTypedDispatch } from "../../types";
 import { assignAdmin, manageAccount } from "../../store/actions/userAction";
+import { IUserData } from "../../types/store/userStoreType";
 
 interface IUserAccordeonProps {
-  user: TUserData | any;
+  user: IUserData | any;
 }
 
 const UserAccordeon = ({ user }: IUserAccordeonProps) => {

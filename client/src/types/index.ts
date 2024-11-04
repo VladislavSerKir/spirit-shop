@@ -2,8 +2,7 @@ import { Action } from "redux";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { rootReducer } from "../store";
-import { TUserData } from "./userType";
-
+import { IUserData } from "./store/userStoreType";
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const useTypedDispatch = () => useDispatch<AppThunkDispatch>();
@@ -45,7 +44,7 @@ export type TUser = {
 
 export type TUserFetchResponse = {
   success: boolean;
-  user: TUserData;
+  user: IUserData;
 };
 
 export type TSetCookieProps = {

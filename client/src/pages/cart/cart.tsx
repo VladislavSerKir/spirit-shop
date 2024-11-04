@@ -2,8 +2,7 @@ import React, { useCallback, useState } from "react";
 import CartItem from "./cart-item";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
-import { IProduct } from "../../types/productType";
-import { TCartItem } from "../../types/userType";
+import { IProduct } from "../../types/store/productStoreType";
 import "react-toggle/style.css";
 import Toggle from "react-toggle";
 import TextArea from "../../shared/form/text-area";
@@ -14,10 +13,11 @@ import {
   removeProductFromCart,
 } from "../../store/actions/cartAction";
 import { submitPurchase } from "../../store/actions/orderAction";
+import { ICartItem } from "../../types/store/cartStoreType";
 
 const Cart = () => {
   const dispatch = useTypedDispatch();
-  const cart = useTypedSelector((state) => state.user.userData.cart);
+  const cart = useTypedSelector((state) => state.cart.cart);
   const role = useTypedSelector((state) => state.user.userData.role);
 
   const initialState = {
@@ -43,7 +43,7 @@ const Cart = () => {
   }, []);
 
   const getTotalSum = () => {
-    const totalSum = cart.cartItem.reduce((acc: number, item: TCartItem) => {
+    const totalSum = cart.cartItem.reduce((acc: number, item: ICartItem) => {
       const sum = item.product.price * item.quantity;
       return acc + sum;
     }, 0);

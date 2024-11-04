@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { ICategory } from "../../../types/productType";
+import { ICategory } from "../../../types/store/categoryStoreType";
 
 interface IAccordeonProps {
   title: string;

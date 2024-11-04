@@ -6,13 +6,17 @@ import {
   updateAccountActive,
   updateAdminRole,
 } from "../reducers/userReducer";
-import { TAvatar, TUserData, TUserEditResponse } from "../../types/userType";
+import {
+  IUserData,
+  TAvatar,
+  TUserEditResponse,
+} from "../../types/store/userStoreType";
 import { toast } from "react-toastify";
 import userService from "../../service/user.service";
 
 export const onUpdateUser = createAsyncThunk<
   TUserEditResponse,
-  TUserData,
+  IUserData,
   { rejectValue: TError }
 >("user/onUpdateUser", async function (user, { rejectWithValue }) {
   const response = await userService.editRequest(user);

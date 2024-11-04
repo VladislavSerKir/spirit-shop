@@ -1,12 +1,11 @@
-export type TProductData = {
+import { ICategory } from "./categoryStoreType";
+
+export interface IProductState {
   products: Array<IProductWithCategories>;
-  categories: Array<ICategory>;
   success: boolean;
   productsRequest: boolean;
-  categoriesRequest: boolean;
   productsErrorMessage: null | undefined | string;
-  categoriesErrorMessage: null | undefined | string;
-};
+}
 
 export interface IProduct {
   id: number;
@@ -42,19 +41,6 @@ export interface ICreateProduct {
   id?: number;
 }
 
-export interface ICreateCategory {
-  name: string;
-}
-
 export interface IRemoveProduct {
   id: number;
-}
-
-export interface IRemoveCategory {
-  id: number;
-}
-
-export interface ICategory {
-  id: number;
-  name: string;
 }

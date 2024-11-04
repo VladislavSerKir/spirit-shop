@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { TPurchase } from "../../types/orderType";
+import { IPurchase } from "../../types/store/orderStoreType";
 
 interface IOrderAccordeonProps {
-  order: TPurchase;
+  order: IPurchase;
 }
 
 const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {

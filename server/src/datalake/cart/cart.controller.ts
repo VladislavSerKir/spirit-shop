@@ -22,6 +22,13 @@ export class CartController {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Get('/cart')
+  getuserCart(@Request() request: any): Promise<Cart> {
+    const accessToken = request.headers.authorization;
+    return this.cartService.getUserCart(accessToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Patch('/add')
   addToCart(
     @Request() request: any,

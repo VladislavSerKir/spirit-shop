@@ -4,7 +4,7 @@ import { deleteProduct } from "../../store/actions/productAction";
 import { Link, useRouteMatch } from "react-router-dom";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
-import { IProduct } from "../../types/productType";
+import { IProduct } from "../../types/store/productStoreType";
 
 const TableOfProducts = () => {
   const { url } = useRouteMatch();
@@ -19,8 +19,6 @@ const TableOfProducts = () => {
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id));
   };
-
-  const handleEdit = (id: number) => {};
 
   if (!products.length) {
     return <h2 className="table__title">There is no product to manage</h2>;
@@ -67,7 +65,6 @@ const TableOfProducts = () => {
                   <button
                     className="button button--flex button--gap"
                     type="button"
-                    onClick={() => handleEdit(product.id)}
                   >
                     <i className="ri-pencil-line" />
                   </button>

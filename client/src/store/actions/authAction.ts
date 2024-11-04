@@ -2,15 +2,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 import {
   clearUserData,
-  setAuthChecked,
   setUser,
   setUserError,
   setUserRequest,
 } from "../reducers/userReducer";
 import authService from "../../service/auth.service";
-import { TUserData, TUserEditResponse } from "../../types/userType";
-import { getOrders } from "../reducers/orderReducer";
+import { IUserData, TUserEditResponse } from "../../types/store/userStoreType";
+import { getOrders, setPurchaseToNull } from "../reducers/orderReducer";
 import { TError, TResponseWithoutPayload } from "../../types";
+import { setAuthChecked } from "../reducers/authReducer";
+import { getCart } from "./cartAction";
+import { setCartToNull } from "../reducers/cartReducer";
 
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
@@ -30,10 +32,11 @@ export const getUser = createAsyncThunk(
     dispatch(setUserRequest(true));
     return authService
       .userRequest()
-      .then((user: TUserData) => {
+      .then((user: IUserData) => {
         // console.log(user);
         dispatch(setUser(user));
         dispatch(getOrders(user.purchase));
+        dispatch(getCart());
       })
       .catch((err: any) => {
         dispatch(setUserError(err.message));
@@ -46,7 +49,7 @@ export const getUser = createAsyncThunk(
 
 export const onRegister = createAsyncThunk<
   TUserEditResponse,
-  TUserData,
+  IUserData,
   { rejectValue: TError }
 >("auth/onRegister", async function (user, { dispatch, rejectWithValue }) {
   const response = await authService.registerRequest(user);
@@ -73,7 +76,7 @@ export const onRegister = createAsyncThunk<
 
 export const onLogin = createAsyncThunk<
   TUserEditResponse,
-  TUserData,
+  IUserData,
   { rejectValue: TError }
 >("auth/onLogin", async function (user, { dispatch, rejectWithValue }) {
   const response = await authService.loginRequest(user);
@@ -116,6 +119,8 @@ export const onLogout = createAsyncThunk<
     deleteCookie("accessToken");
 
     dispatch(clearUserData());
+    dispatch(setCartToNull());
+    dispatch(setPurchaseToNull());
     const data: TResponseWithoutPayload = await response.json();
 
     return data;

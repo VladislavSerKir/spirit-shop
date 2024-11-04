@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { IProduct } from "../../types/productType";
+import { IProduct } from "../../types/store/productStoreType";
 
 interface ICartItemProps {
   product: IProduct;

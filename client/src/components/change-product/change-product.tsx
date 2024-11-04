@@ -11,9 +11,11 @@ const ChangeProduct = () => {
   const { id } = useParams<IUseParams>();
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
+  const categories = useTypedSelector((state) => state.category.categories);
+
   let product: undefined | any | null = null;
   product = products?.find((i) => String(i.id) === id);
-  const categories = useTypedSelector((state) => state.products.categories);
+
   const categoriesList = categories.map((category) => ({
     label: category.name,
     value: category.id,

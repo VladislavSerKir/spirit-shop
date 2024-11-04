@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
 import { TUserError, useTypedDispatch } from "../../types";
-import { TUserData } from "../../types/userType";
 import { useForm } from "../../hooks/useForm";
-// import { getAuthError, signUp } from "../../../store/user";
+import { IUserData } from "../../types/store/userStoreType";
 
 const RegisterForm = () => {
   const dispatch = useTypedDispatch();
@@ -18,7 +17,7 @@ const RegisterForm = () => {
     role: "",
   };
 
-  const [errors, setErrors] = useState<TUserData | TUserError>({
+  const [errors, setErrors] = useState<IUserData | TUserError>({
     firstName: "",
     lastName: "",
     mobileNumber: "",

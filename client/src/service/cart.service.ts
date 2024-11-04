@@ -1,5 +1,5 @@
 import { config } from "../utils/api";
-import { IProduct } from "../types/productType";
+import { IProduct } from "../types/store/productStoreType";
 import { getCookie } from "../utils/cookie";
 
 const cartEndPoint = "cart";
@@ -15,14 +15,10 @@ const cartService = {
   }: IProduct) => {
     return fetch(`${config.apiEndPoint}/${cartEndPoint}/add`, {
       method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         id,
         categories,
@@ -44,14 +40,10 @@ const cartService = {
   }: IProduct) => {
     return fetch(`${config.apiEndPoint}/${cartEndPoint}/remove`, {
       method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         id,
         categories,
@@ -66,14 +58,20 @@ const cartService = {
   clearCartRequest: () => {
     return fetch(`${config.apiEndPoint}/${cartEndPoint}/clear`, {
       method: "DELETE",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
+    });
+  },
+
+  getCartRequest: () => {
+    return fetch(`${config.apiEndPoint}/${cartEndPoint}/cart`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
     });
   },
 };

@@ -1,5 +1,5 @@
 import { config } from "../utils/api";
-import { ICreateProduct } from "../types/productType";
+import { ICreateProduct } from "../types/store/productStoreType";
 import { getCookie } from "../utils/cookie";
 
 const productEndPoint = "product";
@@ -14,14 +14,10 @@ const productService = {
   }: ICreateProduct) => {
     return fetch(`${config.apiEndPoint}/${productEndPoint}/create`, {
       method: "POST",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         categories,
         description,
@@ -42,14 +38,10 @@ const productService = {
   }: ICreateProduct) => {
     return fetch(`${config.apiEndPoint}/${productEndPoint}/edit`, {
       method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         categories,
         description,
@@ -64,14 +56,10 @@ const productService = {
   deleteProductRequest: (id: number) => {
     return fetch(`${config.apiEndPoint}/${productEndPoint}/delete`, {
       method: "DELETE",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         id,
       }),
@@ -81,14 +69,10 @@ const productService = {
   likeProductRequest: (id: number) => {
     return fetch(`${config.apiEndPoint}/${productEndPoint}/like`, {
       method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         id,
       }),
@@ -98,14 +82,10 @@ const productService = {
   dislikeProductRequest: (id: number) => {
     return fetch(`${config.apiEndPoint}/${productEndPoint}/dislike`, {
       method: "PATCH",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
       body: JSON.stringify({
         id,
       }),

@@ -10,8 +10,9 @@ const LogIn = () => {
   // const { state } = useLocation<IUseLocation>();
   const location = useLocation<IUseLocation>();
   const user = useTypedSelector((state) => state.user.userData.email);
-  const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);
-  const loginRequest = useTypedSelector((state) => state.user.loginRequest);
+  const isAuthChecked = useTypedSelector((state) => state.auth.isAuthChecked);
+
+  const loginRequest = useTypedSelector((state) => state.auth.loginRequest);
 
   const [formType, setFormType] = useState(
     type === "register" ? type : "login"

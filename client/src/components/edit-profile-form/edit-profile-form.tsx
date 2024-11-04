@@ -2,10 +2,10 @@ import React, { FC, useState } from "react";
 // import * as yup from "yup";
 import { TUserError, useTypedDispatch, useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
-import { TUserData } from "../../types/userType";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { Link, useRouteMatch } from "react-router-dom";
+import { IUserData } from "../../types/store/userStoreType";
 
 const EditProfileForm: FC = () => {
   const dispatch = useTypedDispatch();
@@ -20,7 +20,7 @@ const EditProfileForm: FC = () => {
     password: "",
   };
 
-  const [errors, setErrors] = useState<TUserData | TUserError>({
+  const [errors, setErrors] = useState<IUserData | TUserError>({
     firstName: "",
     lastName: "",
     mobileNumber: "",

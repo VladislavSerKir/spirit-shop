@@ -13,7 +13,7 @@ const ProtectedRouteForAdmin: FC<IProtectedRouteForAdminProps> = ({
 }) => {
   const user = useTypedSelector((state) => state.user.userData.email);
   const role = useTypedSelector((state) => state.user.userData.role);
-  const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);
+  const isAuthChecked = useTypedSelector((state) => state.auth.isAuthChecked);
 
   return (
     <Route

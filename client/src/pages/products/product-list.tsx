@@ -7,7 +7,7 @@ import Loader from "../../shared/loader/loader";
 import usePagination from "../../hooks/usePagination";
 import { useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
-import { IProduct } from "../../types/productType";
+import { IProduct } from "../../types/store/productStoreType";
 
 export interface IOrderCategory {
   order: any;
@@ -19,19 +19,19 @@ const ProductsList = () => {
   const [sortBy, setSortBy] = useState<any>({});
 
   const productsState = useTypedSelector((state) => state.products.products);
-  const categories = useTypedSelector((state) => state.products.categories);
+  const categories = useTypedSelector((state) => state.category.categories);
 
   const productsLoading = useTypedSelector(
-    (state) => state.products.categoriesRequest
+    (state) => state.category.categoriesRequest
   );
   const categoryLoading = useTypedSelector(
-    (state) => state.products.categoriesRequest
+    (state) => state.category.categoriesRequest
   );
   const productsError = useTypedSelector(
     (state) => state.products.productsErrorMessage
   );
   const categoryError = useTypedSelector(
-    (state) => state.products.categoriesErrorMessage
+    (state) => state.category.categoriesErrorMessage
   );
 
   const handleSearch = ({ target }: any) => {

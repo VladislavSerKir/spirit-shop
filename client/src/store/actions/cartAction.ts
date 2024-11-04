@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IProduct } from "../../types/productType";
+import { IProduct } from "../../types/store/productStoreType";
 import { TError } from "../../types";
 import cartService from "../../service/cart.service";
-import { refreshCart } from "../reducers/userReducer";
 import { toast } from "react-toastify";
+import { refreshCart } from "../reducers/cartReducer";
 
 export const addProductToCart = createAsyncThunk<
   IProduct,
@@ -61,3 +61,20 @@ export const clearCart = createAsyncThunk<
   toast.info(`Cart cleared`);
   return data;
 });
+
+export const getCart = createAsyncThunk<any, undefined, { rejectValue: any }>(
+  "cart/getCart",
+  async function (_, { dispatch, rejectWithValue }) {
+    // dispatch(setProductRequest(true));
+    const response = await cartService.getCartRequest();
+    if (!response.ok) {
+      return rejectWithValue({
+        status: response.status,
+        message: "Server Error, take a look on method getCart",
+      });
+    }
+    const data: any = await response.json();
+    // dispatch(setProductRequest(false));
+    return data;
+  }
+);

@@ -1,7 +1,7 @@
-import { TError, TUser } from ".";
-import { IProduct } from "./productType";
+import { TError, TUser } from "..";
+import { IProduct } from "./productStoreType";
 
-export type TUserData = {
+export interface IUserData {
   favourite: IProduct[] | null | "" | any;
   email: string;
   password?: string;
@@ -10,19 +10,12 @@ export type TUserData = {
   mobileNumber: string;
   role: string;
   avatar: string;
-  cart: TCartItem | null | "" | any;
   purchase?: any;
   createdAt?: string;
-};
+}
 
 export type TAvatar = {
   avatar: string;
-};
-
-export type TCartItem = {
-  id: number;
-  quantity: number;
-  product: IProduct;
 };
 
 export type TUserDataRegister = {
@@ -34,15 +27,10 @@ export type TUserDataRegister = {
   role?: string;
 };
 
-export type TUserState = {
-  isAuthChecked: boolean;
-  userData: TUserData;
+export interface IUserState {
+  userData: IUserData;
   allUsersData: any;
   userUpdated: boolean;
-  registerError: null | undefined | TError;
-  registerRequest: boolean;
-  loginError: null | undefined | TError;
-  loginRequest: boolean;
   logoutError: null | undefined | TError;
   logoutRequest: boolean;
   updateError: null | undefined | TError;
@@ -51,7 +39,7 @@ export type TUserState = {
   userRequest: boolean;
   usersRequest: boolean;
   usersError: null | undefined | TError;
-};
+}
 
 export type TUserFetchResponse = {
   success: boolean;
@@ -66,7 +54,6 @@ export type TUserEditResponse = {
   mobileNumber: string;
   role: string;
   favourite: any;
-  cart: TCartItem | null | "" | any;
 } & TRefreshToken;
 
 export type TRefreshToken = {

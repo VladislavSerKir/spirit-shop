@@ -9,7 +9,7 @@ import {
   createProduct,
   getAllCategories,
 } from "../../store/actions/productAction";
-import { ICreateProduct } from "../../types/productType";
+import { ICreateProduct } from "../../types/store/productStoreType";
 
 interface IFormProps {
   type: string;
@@ -19,7 +19,8 @@ interface IFormProps {
 
 const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
   const dispatch = useTypedDispatch();
-  const categories = useTypedSelector((state) => state.products.categories);
+  const categories = useTypedSelector((state) => state.category.categories);
+
   const categoriesList = categories.map((category) => ({
     label: category.name,
     value: category.id,
@@ -56,7 +57,7 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
       })),
       // categories: data.categories.map((category: any) => category?.value),
     };
-    console.log(newData);
+
     dispatch(createProduct(newData));
     setData(initialState);
     if (changeAction) {

@@ -5,9 +5,9 @@ import { useTypedSelector } from "../../types";
 import history from "../../utils/history";
 import shoppingCart from "../../assets/img/shopping-cart.png";
 import shoppingCartDark from "../../assets/img/shopping-cart-dark.png";
-import { TCartItem } from "../../types/userType";
 import { useResize } from "../../hooks/useResize";
 import { onLogout } from "../../store/actions/authAction";
+import { ICartItem } from "../../types/store/cartStoreType";
 
 export const Header = () => {
   const [active, setActive] = useState(false);
@@ -15,10 +15,11 @@ export const Header = () => {
 
   const dispatch = useDispatch();
   const userData = useTypedSelector((store) => store.user.userData);
+  const cart = useTypedSelector((store) => store.cart.cart);
 
   const countProductsInCart = () => {
-    return userData?.cart?.cartItem?.length
-      ? userData?.cart?.cartItem?.reduce((acc: number, item: TCartItem) => {
+    return cart?.cartItem?.length
+      ? cart?.cartItem?.reduce((acc: number, item: ICartItem) => {
           const sum = item.quantity;
           return acc + sum;
         }, 0)

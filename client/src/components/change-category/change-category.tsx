@@ -2,14 +2,15 @@ import React, { useCallback, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { IUseParams, useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
-import { ICategory } from "../../types/productType";
 import { editCategory } from "../../store/actions/categoryAction";
+import { ICategory } from "../../types/store/categoryStoreType";
 
 const ChangeCategory = () => {
   const history = useHistory();
   const { id } = useParams<IUseParams>();
   const dispatch = useTypedDispatch();
-  const categories = useTypedSelector((state) => state.products.categories);
+  const categories = useTypedSelector((state) => state.category.categories);
+
   let category: undefined | ICategory | null = null;
   category = categories?.find((i) => String(i.id) === id);
 

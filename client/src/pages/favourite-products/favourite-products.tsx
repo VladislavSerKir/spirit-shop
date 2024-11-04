@@ -1,10 +1,9 @@
-import React from "react";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import ProductCard from "../../shared/product-card/product-card";
 import usePagination from "../../hooks/usePagination";
 import { useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
-import { IProduct } from "../../types/productType";
+import { IProduct } from "../../types/store/productStoreType";
 
 export interface IOrderCategory {
   order: any;
@@ -14,7 +13,7 @@ const FavouriteProducts = () => {
   const likedProducts = useTypedSelector(
     (state) => state.user.userData.favourite
   );
-  const categories = useTypedSelector((state) => state.products.categories);
+  const categories = useTypedSelector((state) => state.category.categories);
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
     usePagination(likedProducts, 6);

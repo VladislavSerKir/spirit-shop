@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
-import { TPurchase } from "../../types/orderType";
+import { IPurchase } from "../../types/store/orderStoreType";
 import { getAllUsers } from "../../store/actions/userAction";
 import UserAccordeon from "../../components/user-accordeon/user-accordeon";
 
@@ -51,7 +51,7 @@ export const ManageUsers = () => {
         </div>
         {usersToShow?.length ? (
           <>
-            {usersToShow?.map((user: TPurchase) => {
+            {usersToShow?.map((user: IPurchase) => {
               return (
                 <div key={user.id} className="accordeon__container">
                   <UserAccordeon user={user} />

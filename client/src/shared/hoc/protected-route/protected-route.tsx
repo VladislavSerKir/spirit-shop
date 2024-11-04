@@ -12,7 +12,7 @@ export const ProtectedRoute: FC<IProtectedRouteProps> = ({
   ...props
 }) => {
   const user = useTypedSelector((state) => state.user.userData.email);
-  const isAuthChecked = useTypedSelector((state) => state.user.isAuthChecked);
+  const isAuthChecked = useTypedSelector((state) => state.auth.isAuthChecked);
 
   return (
     <Route
