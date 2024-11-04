@@ -4,6 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -105,6 +106,14 @@ export class AuthService {
       ],
     });
 
+    if (!user) {
+      throw new NotFoundException('Profile not found');
+    }
+
+    if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
+    }
+
     if (user && (await HashService.compareHash(password, user.password))) {
       const {
         id,
@@ -149,7 +158,7 @@ export class AuthService {
     try {
       const token = accessToken.split(' ')[1];
       const decodedToken = this.jwtService.verify(token, {
-        secret: process.env.JWT_ACCESS_SECRET,
+        secret: this.configService.get<string>('jwt.access'),
       });
 
       const username = decodedToken.username;
@@ -203,7 +212,7 @@ export class AuthService {
   async verifyAccessToken(accessToken: string) {
     try {
       const decodedToken = this.jwtService.verifyAsync(accessToken, {
-        secret: process.env.JWT_ACCESS_SECRET,
+        secret: this.configService.get<string>('jwt.access'),
       });
 
       return decodedToken;
@@ -282,8 +291,7 @@ export class AuthService {
           username: email,
         },
         {
-          secret: process.env.JWT_ACCESS_SECRET,
-          // secret: this.configService.get<string>('jwt.access'),
+          secret: this.configService.get<string>('jwt.access'),
           expiresIn: '1d',
         },
       ),
@@ -293,8 +301,8 @@ export class AuthService {
           username: email,
         },
         {
-          secret: process.env.JWT_REFRESH_SECRET,
-          // secret: this.configService.get<string>('jwt.refresh'),
+          // secret: process.env.JWT_REFRESH_SECRET,
+          secret: this.configService.get<string>('jwt.refresh'),
           expiresIn: '7d',
         },
       ),

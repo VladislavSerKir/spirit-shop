@@ -5,6 +5,7 @@ import {
   Get,
   Patch,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
@@ -26,24 +27,30 @@ export class CategoryController {
   @UseGuards(AccessTokenGuard)
   @Post('/create')
   async createCategory(
+    @Request() request: any,
     @Body() body: CreateCategoryDto,
   ): Promise<Partial<Category>> {
-    return this.categoryService.createCategory(body);
+    const accessToken = request.headers.authorization;
+    return this.categoryService.createCategory(body, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/edit')
   async editCategory(
+    @Request() request: any,
     @Body() body: EditCategoryDto,
   ): Promise<Partial<Category>> {
-    return this.categoryService.editCategory(body);
+    const accessToken = request.headers.authorization;
+    return this.categoryService.editCategory(body, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Delete('/delete')
   async deleteCategory(
+    @Request() request: any,
     @Body() body: DeleteCategoryDto,
   ): Promise<IRemoveCategory> {
-    return this.categoryService.deleteCategory(body);
+    const accessToken = request.headers.authorization;
+    return this.categoryService.deleteCategory(body, accessToken);
   }
 }

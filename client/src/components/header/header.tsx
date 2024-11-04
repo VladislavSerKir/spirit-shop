@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
 import history from "../../utils/history";
 import shoppingCart from "../../assets/img/shopping-cart.png";
+import shoppingCartDark from "../../assets/img/shopping-cart-dark.png";
 import { TCartItem } from "../../types/userType";
 import { useResize } from "../../hooks/useResize";
 import { onLogout } from "../../store/actions/authAction";
@@ -53,6 +54,10 @@ export const Header = () => {
     localStorage.setItem("selected-icon", getCurrentIcon());
   };
 
+  const getTheme = () => {
+    return localStorage.getItem("selected-theme");
+  };
+
   const isLoggedIn = useTypedSelector((state) => state.user.userData.email);
 
   const handleLogOut = (event: any) => {
@@ -69,7 +74,7 @@ export const Header = () => {
     }
   }, [active]);
 
-  const toggleAccordion = () => {
+  const toggleAccordeon = () => {
     setActive(!active);
   };
 
@@ -128,7 +133,11 @@ export const Header = () => {
                     >
                       <div className="header__cart">
                         <img
-                          src={shoppingCart}
+                          src={
+                            getTheme() === "light"
+                              ? shoppingCart
+                              : shoppingCartDark
+                          }
                           alt="shoppingCart"
                           className="header__cart-img"
                         />
@@ -159,7 +168,7 @@ export const Header = () => {
                       >
                         <header
                           className="header__header"
-                          onClick={toggleAccordion}
+                          onClick={toggleAccordeon}
                         >
                           <div className="header__user-button nav__link">
                             <p>

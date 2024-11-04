@@ -16,6 +16,8 @@ import { UsersService } from './users.service';
 import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EditAvatarDto } from './dto/edit-avatar.dto';
+import { AssignAdminDto } from './dto/assign-admin.dto';
+import { ManageAccountDto } from './dto/manage-account.dto';
 
 @Controller('user')
 export class UsersController {
@@ -25,6 +27,13 @@ export class UsersController {
   @Get('/profile')
   getProfileInfo(@AuthUser() user: User): Promise<User> {
     return this.usersService.getProfileInfo(user.email);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('/users')
+  getUsers(@Request() request: any): Promise<User[]> {
+    const accessToken = request.headers.authorization;
+    return this.usersService.getUsers(accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
@@ -56,5 +65,25 @@ export class UsersController {
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
     return this.usersService.editAvatar(accessToken, userData);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Put('/admin')
+  manageAdmin(
+    @Request() request: any,
+    @Body() userData: AssignAdminDto,
+  ): Promise<Partial<User>> {
+    const accessToken = request.headers.authorization;
+    return this.usersService.manageAdmin(accessToken, userData);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Put('/active')
+  manageAccount(
+    @Request() request: any,
+    @Body() userData: ManageAccountDto,
+  ): Promise<Partial<User>> {
+    const accessToken = request.headers.authorization;
+    return this.usersService.manageAccount(accessToken, userData);
   }
 }

@@ -5,6 +5,7 @@ import ManageCategories from "../../components/manage-categories/manage-categori
 import ManageProduct from "../../components/manage-product/manage-product";
 import { Order } from "../order/order";
 import FavouriteProducts from "../favourite-products/favourite-products";
+import { ManageUsers } from "./manage-users";
 
 const Admin: FC = () => {
   const { url } = useRouteMatch();
@@ -92,7 +93,9 @@ const Admin: FC = () => {
             <Route path={`${url}/products`} exact>
               <ManageProduct />
             </Route>
-            <Route path={`${url}/users`} exact></Route>
+            <Route path={`${url}/users`} exact>
+              <ManageUsers />
+            </Route>
           </Switch>
         </article>
       </div>

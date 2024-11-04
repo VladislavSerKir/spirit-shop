@@ -10,10 +10,12 @@ import { User } from '../user/entities/user.entity';
 import { Cart } from '../cart/entities/cart.entity';
 import { Order } from './entities/order.entity';
 import { CartItem } from '../cart/entities/cart-item.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class OrderService {
   constructor(
+    private configService: ConfigService,
     @InjectRepository(Order) private orderRepo: Repository<Order>,
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(User) private userRepo: Repository<User>,
@@ -29,7 +31,7 @@ export class OrderService {
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 

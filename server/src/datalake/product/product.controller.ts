@@ -17,6 +17,7 @@ import { DeleteProductDto } from './dto/delete-product.dto';
 import { IRemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
+import { UsersService } from '../user/users.service';
 
 @Controller('product')
 export class ProductController {
@@ -30,21 +31,31 @@ export class ProductController {
   @UseGuards(AccessTokenGuard)
   @Post('/create')
   async createProduct(
+    @Request() request: any,
     @Body() body: CreateProductDto,
   ): Promise<Partial<Product>> {
-    return this.productService.createProduct(body);
+    const accessToken = request.headers.authorization;
+    return this.productService.createProduct(body, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/edit')
-  async editProduct(@Body() body: EditProductDto): Promise<Partial<Product>> {
-    return this.productService.editProduct(body);
+  async editProduct(
+    @Request() request: any,
+    @Body() body: EditProductDto,
+  ): Promise<Partial<Product>> {
+    const accessToken = request.headers.authorization;
+    return this.productService.editProduct(body, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Delete('/delete')
-  async deleteProduct(@Body() body: DeleteProductDto): Promise<IRemoveProduct> {
-    return this.productService.deleteProduct(body);
+  async deleteProduct(
+    @Request() request: any,
+    @Body() body: DeleteProductDto,
+  ): Promise<IRemoveProduct> {
+    const accessToken = request.headers.authorization;
+    return this.productService.deleteProduct(body, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)

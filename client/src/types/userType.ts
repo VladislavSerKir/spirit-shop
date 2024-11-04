@@ -12,6 +12,7 @@ export type TUserData = {
   avatar: string;
   cart: TCartItem | null | "" | any;
   purchase?: any;
+  createdAt?: string;
 };
 
 export type TAvatar = {
@@ -36,6 +37,7 @@ export type TUserDataRegister = {
 export type TUserState = {
   isAuthChecked: boolean;
   userData: TUserData;
+  allUsersData: any;
   userUpdated: boolean;
   registerError: null | undefined | TError;
   registerRequest: boolean;
@@ -47,6 +49,8 @@ export type TUserState = {
   updateRequest: boolean;
   userError: null | undefined | TError;
   userRequest: boolean;
+  usersRequest: boolean;
+  usersError: null | undefined | TError;
 };
 
 export type TUserFetchResponse = {

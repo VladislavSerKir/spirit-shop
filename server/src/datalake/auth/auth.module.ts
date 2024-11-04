@@ -14,28 +14,23 @@ import { JwtStrategy } from 'src/config/jwt-strategy';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: process.env.JWT_ACCESS_SECRET,
-      signOptions: { expiresIn: '1d' },
-    }),
     TypeOrmModule.forFeature([User]),
-    // JwtModule.register({}),
-    // PassportModule.register({ defaultStrategy: 'jwt' }),
-    // JwtModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     secret: configService.get<string>('jwt.key'),
-    //     signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
-    //   }),
-    //   inject: [ConfigService],
-    // }),
+    JwtModule.register({}),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('jwt.key'),
+        signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AuthController],
   providers: [
     AuthService,
     UsersService,
     JwtStrategy,
-    // JwtService,
     HashService,
     AccessTokenStrategy,
     RefreshTokenStrategy,

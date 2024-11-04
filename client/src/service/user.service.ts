@@ -46,6 +46,56 @@ const userService = {
       body: JSON.stringify({ avatar }),
     });
   },
+
+  getAllUsersRequest: async () => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/users`, {
+      method: "GET",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+    });
+  },
+
+  assignAdminRequest: async ({ id, role }: { id: number; role: string }) => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/admin`, {
+      method: "PUT",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ id, role }),
+    });
+  },
+
+  manageAccountRequest: async ({
+    id,
+    active,
+  }: {
+    id: number;
+    active: boolean;
+  }) => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/active`, {
+      method: "PUT",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ id, active }),
+    });
+  },
 };
 
 export default userService;

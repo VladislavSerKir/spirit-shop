@@ -11,6 +11,6 @@ import { Favourite } from '../product/entities/favourite.entity';
   imports: [TypeOrmModule.forFeature([User, Favourite])],
   controllers: [UsersController],
   providers: [UsersService, JwtService, HashService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, UsersModule],
 })
 export class UsersModule {}

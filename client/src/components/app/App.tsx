@@ -64,11 +64,7 @@ function App() {
         <ProtectedRoute path="/cart">
           <Cart />
         </ProtectedRoute>
-        {/* <Route exact path="/cart" component={Cart} /> */}
       </Switch>
-      {/* {!isLoggedIn && <NavLink to="/login" replace={true} />}
-      {!isLoggedIn && <NavLink to="/register" replace={true} />} */}
-      {/* <Main /> */}
       <Footer />
       <ToastContainer />
       <ScrollUp />

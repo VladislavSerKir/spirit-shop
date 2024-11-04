@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,10 +9,12 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { HashService } from 'src/common/hash/hash.service';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   constructor(
+    private configService: ConfigService,
     @InjectRepository(User) private userRepo: Repository<User>,
     private jwtService: JwtService,
   ) {}
@@ -24,9 +27,41 @@ export class UsersService {
 
     if (!user) {
       throw new NotFoundException('Error profile fetching');
+    } else if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
     } else {
       return user;
     }
+  }
+
+  async getUsers(accessToken: string): Promise<User[]> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+
+    const username = decodedToken.username;
+    let users = await this.userRepo.find({
+      select: [
+        'id',
+        'createdAt',
+        'firstName',
+        'lastName',
+        'avatar',
+        'email',
+        'role',
+        'active',
+        'mobileNumber',
+      ],
+    });
+    const currentUser = users.find((user) => user.email === username);
+
+    if (currentUser.role !== 'admin' && currentUser.active) {
+      throw new ForbiddenException('Show users only available for admins');
+    }
+
+    users = users.filter((user) => user.email !== username);
+    return users;
   }
 
   async editProfile(
@@ -38,7 +73,7 @@ export class UsersService {
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 
@@ -56,8 +91,14 @@ export class UsersService {
       userData,
     );
 
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+    });
+
     if (!updatedUser) {
       throw new BadRequestException('Error profile change request');
+    } else if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
     } else {
       const { firstName, lastName, email, mobileNumber } = userData;
       return { firstName, lastName, email, mobileNumber };
@@ -71,7 +112,7 @@ export class UsersService {
     const { avatar } = userData;
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 
@@ -80,8 +121,14 @@ export class UsersService {
       { avatar },
     );
 
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+    });
+
     if (!updatedUser) {
       throw new BadRequestException('Error avatar change request');
+    } else if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
     } else {
       const { avatar } = userData;
       return { avatar };
@@ -154,5 +201,62 @@ export class UsersService {
     }
     // Если пользователь не найден или пароль неверен, возвращаем null
     return null;
+  }
+
+  async hasAdminRole(accessToken: string): Promise<boolean> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+
+    const username = decodedToken.username;
+
+    const user = await this.findByEmail(username);
+
+    if (!user && user.role !== 'admin') {
+      return false;
+    }
+
+    return true;
+  }
+
+  async manageAdmin(
+    accessToken: string,
+    userData: Partial<User>,
+  ): Promise<any> {
+    const currentUserIsAdmin = await this.hasAdminRole(accessToken);
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
+    const { role, id } = userData;
+
+    try {
+      await this.userRepo.update({ id }, { role: role });
+      return { role, id };
+    } catch (error) {
+      throw new BadRequestException('Error to assign admin');
+    }
+  }
+
+  async manageAccount(
+    accessToken: string,
+    userData: Partial<User>,
+  ): Promise<any> {
+    const currentUserIsAdmin = await this.hasAdminRole(accessToken);
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
+    const { id, active } = userData;
+
+    try {
+      await this.userRepo.update({ id }, { active: active });
+      return { id, active };
+    } catch (error) {
+      throw new BadRequestException('Error to assign admin');
+    }
   }
 }

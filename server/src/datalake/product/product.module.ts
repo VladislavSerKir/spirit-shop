@@ -6,20 +6,24 @@ import { ProductService } from './product.service';
 import { CategoryModule } from '../category/category.module';
 import { Favourite } from './entities/favourite.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersModule } from '../user/users.module';
 import { User } from '../user/entities/user.entity';
+import { UsersService } from '../user/users.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: process.env.JWT_ACCESS_SECRET,
-      signOptions: { expiresIn: '1d' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('jwt.key'),
+        signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Product, Favourite, User]),
     CategoryModule,
-    UsersModule,
   ],
   controllers: [ProductController],
-  providers: [ProductService],
+  providers: [ProductService, UsersService],
 })
 export class ProductModule {}

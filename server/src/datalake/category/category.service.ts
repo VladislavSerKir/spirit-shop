@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,10 +11,12 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { DeleteCategoryDto } from './dto/delete-category.dto';
 import { IRemoveCategory } from 'src/common/types/interfaces';
 import { EditCategoryDto } from './dto/edit-category.dto';
+import { UsersService } from '../user/users.service';
 
 @Injectable()
 export class CategoryService {
   constructor(
+    private readonly usersService: UsersService,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
   ) {}
 
@@ -27,7 +30,18 @@ export class CategoryService {
     }
   }
 
-  async createCategory(body: CreateCategoryDto): Promise<Partial<Category>> {
+  async createCategory(
+    body: CreateCategoryDto,
+    accessToken: string,
+  ): Promise<Partial<Category>> {
+    const currentUserIsAdmin = await this.usersService.hasAdminRole(
+      accessToken,
+    );
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
     const { name } = body;
 
     const newCategory = await this.categoryRepo.create({ name });
@@ -40,7 +54,18 @@ export class CategoryService {
     }
   }
 
-  async editCategory(body: EditCategoryDto): Promise<Partial<Category>> {
+  async editCategory(
+    body: EditCategoryDto,
+    accessToken: string,
+  ): Promise<Partial<Category>> {
+    const currentUserIsAdmin = await this.usersService.hasAdminRole(
+      accessToken,
+    );
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
     const { name, id } = body;
     const updatedCategory = await this.categoryRepo.update({ id }, { name });
 
@@ -51,7 +76,18 @@ export class CategoryService {
     }
   }
 
-  async deleteCategory(body: DeleteCategoryDto): Promise<IRemoveCategory> {
+  async deleteCategory(
+    body: DeleteCategoryDto,
+    accessToken: string,
+  ): Promise<IRemoveCategory> {
+    const currentUserIsAdmin = await this.usersService.hasAdminRole(
+      accessToken,
+    );
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
     const { id } = body;
 
     try {

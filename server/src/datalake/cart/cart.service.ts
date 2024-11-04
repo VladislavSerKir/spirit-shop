@@ -10,10 +10,12 @@ import { Product } from '../product/entities/product.entity';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 import { CartItem } from './entities/cart-item.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CartService {
   constructor(
+    private configService: ConfigService,
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
@@ -36,7 +38,7 @@ export class CartService {
   async addToCart(accessToken, product: Partial<Product>): Promise<any> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 
@@ -90,7 +92,7 @@ export class CartService {
   async removeFromCart(accessToken, product: Partial<Product>): Promise<any> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 
@@ -140,7 +142,7 @@ export class CartService {
   async clearCart(accessToken): Promise<any> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 

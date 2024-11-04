@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -14,10 +15,14 @@ import { EditProductDto } from './dto/edit-product.dto';
 import { Favourite } from './entities/favourite.entity';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
+import { UsersService } from '../user/users.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ProductService {
   constructor(
+    private configService: ConfigService,
+    private readonly usersService: UsersService,
     @InjectRepository(Product) private productRepo: Repository<Product>,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(Favourite) private favouriteRepo: Repository<Favourite>,
@@ -37,7 +42,18 @@ export class ProductService {
     }
   }
 
-  async createProduct(body: CreateProductDto): Promise<Partial<Product>> {
+  async createProduct(
+    body: CreateProductDto,
+    accessToken: string,
+  ): Promise<Partial<Product>> {
+    const currentUserIsAdmin = await this.usersService.hasAdminRole(
+      accessToken,
+    );
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
     const { name, description, image, price, categories } = body;
     const categoryIds = categories.map(
       // (category: number) => ({category.id} as Category),
@@ -61,7 +77,18 @@ export class ProductService {
     }
   }
 
-  async editProduct(body: EditProductDto): Promise<Partial<Product>> {
+  async editProduct(
+    body: EditProductDto,
+    accessToken: string,
+  ): Promise<Partial<Product>> {
+    const currentUserIsAdmin = await this.usersService.hasAdminRole(
+      accessToken,
+    );
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
     const { name, description, image, price, categories, id } = body;
 
     const existingProduct = await this.productRepo.findOne({ where: { id } });
@@ -86,13 +113,24 @@ export class ProductService {
 
     try {
       await this.productRepo.save(existingProduct);
-      return { ...existingProduct }; // Возвращаем обновленный продукт
+      return { ...existingProduct };
     } catch (error) {
       throw new BadRequestException('Error product updating');
     }
   }
 
-  async deleteProduct(body: DeleteProductDto): Promise<IRemoveProduct> {
+  async deleteProduct(
+    body: DeleteProductDto,
+    accessToken: string,
+  ): Promise<IRemoveProduct> {
+    const currentUserIsAdmin = await this.usersService.hasAdminRole(
+      accessToken,
+    );
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
     const { id } = body;
 
     try {
@@ -111,7 +149,7 @@ export class ProductService {
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 
@@ -156,7 +194,7 @@ export class ProductService {
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
-      secret: process.env.JWT_ACCESS_SECRET,
+      secret: this.configService.get<string>('jwt.access'),
     });
     const username = decodedToken.username;
 
