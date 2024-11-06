@@ -4,8 +4,10 @@ import OrderAccordeon from "../../components/order-accordeon/order-accordeon";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { IPurchase } from "../../types/store/orderStoreType";
+import { useTranslation } from "react-i18next";
 
 export const Order = () => {
+  const { t } = useTranslation();
   const orders = useTypedSelector((store) => store.order.purchase);
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
@@ -16,7 +18,7 @@ export const Order = () => {
   return (
     <>
       <div className="order__page">
-        <h2 className="section__title-center">Orders</h2>
+        <h2 className="section__title-center">{t("My orders")}</h2>
         {ordersToShow?.length ? (
           <>
             {ordersToShow?.map((order: IPurchase) => {

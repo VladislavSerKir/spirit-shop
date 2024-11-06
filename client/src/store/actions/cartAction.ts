@@ -20,6 +20,9 @@ export const addProductToCart = createAsyncThunk<
   }
   const data: IProduct = await response.json();
   dispatch(refreshCart(data));
+  // toast.success(
+  //   `Product added to cart ${Translation("Product added to cart")}`
+  // );
   toast.success(`Product added to cart`);
   return data;
 });

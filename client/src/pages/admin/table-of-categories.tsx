@@ -1,8 +1,10 @@
 import React from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { deleteProduct } from "../../store/actions/productAction";
+import { useTranslation } from "react-i18next";
 
 const TableOfCategories = () => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.category.categories);
 
@@ -18,7 +20,7 @@ const TableOfCategories = () => {
     <table className="table">
       <thead>
         <tr>
-          <th>Category name</th>
+          <th>{t("Category name")} </th>
           <th />
           <th />
         </tr>

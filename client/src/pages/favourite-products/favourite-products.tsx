@@ -4,12 +4,14 @@ import usePagination from "../../hooks/usePagination";
 import { useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/store/productStoreType";
+import { useTranslation } from "react-i18next";
 
 export interface IOrderCategory {
   order: any;
 }
 
 const FavouriteProducts = () => {
+  const { t } = useTranslation();
   const likedProducts = useTypedSelector(
     (state) => state.user.userData.favourite
   );
@@ -22,7 +24,7 @@ const FavouriteProducts = () => {
 
   return (
     <section className="product container">
-      <h2 className="section__title-center">Favourite products</h2>
+      <h2 className="section__title-center">{t("Favourite products")}</h2>
       {products?.length ? (
         <>
           <div className="product__container grid">

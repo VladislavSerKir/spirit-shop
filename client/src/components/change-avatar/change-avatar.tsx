@@ -3,8 +3,10 @@ import { useHistory } from "react-router-dom";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import { editAvatar } from "../../store/actions/userAction";
+import { useTranslation } from "react-i18next";
 
 const ChangeAvatar = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
@@ -33,11 +35,11 @@ const ChangeAvatar = () => {
   return (
     <>
       <div className="modal-content__container">
-        <h2 className="section__title-center">Change avatar</h2>
+        <h2 className="section__title-center">{t("Change avatar")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitAvatar}>
           <div>
             <TextField
-              label="Avatar"
+              label={t("Avatar")}
               name="avatar"
               value={data?.avatar ? data.avatar : ""}
               onChange={handleChangeAvatar}

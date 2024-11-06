@@ -11,8 +11,10 @@ import {
   deleteCategory,
 } from "../../store/actions/categoryAction";
 import { ICategory } from "../../types/store/categoryStoreType";
+import { useTranslation } from "react-i18next";
 
 const ManageCategories = () => {
+  const { t } = useTranslation();
   const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.category.categories);
@@ -51,7 +53,7 @@ const ManageCategories = () => {
   return (
     <>
       <div>
-        <h2 className="section__title-center">Manage categories</h2>
+        <h2 className="section__title-center">{t("Manage categories")} </h2>
 
         <form
           className="login__form form__container"
@@ -59,14 +61,14 @@ const ManageCategories = () => {
         >
           <div className="login__inputs">
             <TextField
-              label="Name"
+              label={t("Name")}
               name="name"
               value={data.name}
               onChange={handleChangeCategory}
             />
           </div>
           <button className="button button--flex" type="submit">
-            Create
+            {t("Create")}
             <i className="ri-add-line button__icon" />
           </button>
         </form>
@@ -76,7 +78,7 @@ const ManageCategories = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>Category name</th>
+                <th>{t("Category name")} </th>
                 <th />
                 <th />
               </tr>
@@ -91,7 +93,7 @@ const ManageCategories = () => {
                       to={{ pathname: `${url}/${category.id}` }}
                     >
                       <TextField
-                        label="Name"
+                        label={t("Name")}
                         name="name"
                         value={category.name}
                         onChange={handleChangeCategory}

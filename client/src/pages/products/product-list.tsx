@@ -8,12 +8,14 @@ import usePagination from "../../hooks/usePagination";
 import { useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/store/productStoreType";
+import { useTranslation } from "react-i18next";
 
 export interface IOrderCategory {
   order: any;
 }
 
 const ProductsList = () => {
+  const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
   const [sortBy, setSortBy] = useState<any>({});
@@ -107,12 +109,12 @@ const ProductsList = () => {
 
   return (
     <section className="product section container">
-      <h2 className="section__title-center">Our products</h2>
+      <h2 className="section__title-center">{t("Our products")} </h2>
       <div className="search__container">
         <div className="footer__subscribe search__input">
           <input
             type="text"
-            placeholder="Enter plant name..."
+            placeholder={`${t("Enter plant name")}...`}
             className="footer__input"
             value={searchValue}
             onChange={handleSearch}
@@ -141,7 +143,7 @@ const ProductsList = () => {
       </div>
       <div className="accordeon__container">
         <Accordeon
-          title="Categories"
+          title={t("Categories")}
           categories={categories}
           onCategorySelected={handleCategorySelect}
         />

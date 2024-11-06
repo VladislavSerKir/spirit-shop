@@ -3,12 +3,14 @@ import Toggle from "react-toggle";
 import { useTypedDispatch } from "../../types";
 import { assignAdmin, manageAccount } from "../../store/actions/userAction";
 import { IUserData } from "../../types/store/userStoreType";
+import { useTranslation } from "react-i18next";
 
 interface IUserAccordeonProps {
   user: IUserData | any;
 }
 
 const UserAccordeon = ({ user }: IUserAccordeonProps) => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const [active, setActive] = useState(false);
   const divRef = useRef<any>();
@@ -69,7 +71,7 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
           <img src={user.avatar} alt="avatar" className="user__avatar-img" />
           <div className="user__main-column">
             <h3 className="user__item-title">
-              {user.role === "user" ? "User" : "Admin"}
+              {user.role === "user" ? t("User") : t("Admin")}
             </h3>
             <h3 className="user__date-text">
               {user.firstName}, {user.lastName}
@@ -77,14 +79,16 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
           </div>
           <div className="user__info-column">
             <h2 className="user__item-text">
-              Created:{" "}
+              {`${t("Created")}: `}
               <span className="user__item-text user__date-text">
                 {formattedDate}
               </span>
             </h2>
-            <h2 className="user__item-text">Email: {user.email}</h2>
             <h2 className="user__item-text">
-              Phone number: {user.mobileNumber}
+              {t("User")}: {user.email}
+            </h2>
+            <h2 className="user__item-text">
+              {t("Phone number")}: {user.mobileNumber}
             </h2>
           </div>
           <div>
@@ -95,7 +99,7 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
                 aria-labelledby="biscuit-label"
                 onChange={handleChangeToggle}
               />
-              <h3 id="is-need-delivery">Admin</h3>
+              <h3 id="is-need-delivery">{t("Admin")}</h3>
             </div>
             <div className="cart__toggle-container">
               <Toggle
@@ -104,7 +108,7 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
                 aria-labelledby="biscuit-label"
                 onChange={handleChangeToggle}
               />
-              <h3 id="is-need-package">Active</h3>
+              <h3 id="is-need-package">{t("Active")}</h3>
             </div>
           </div>
         </div>

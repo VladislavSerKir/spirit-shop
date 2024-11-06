@@ -14,8 +14,10 @@ import {
 } from "../../store/actions/cartAction";
 import { submitPurchase } from "../../store/actions/orderAction";
 import { ICartItem } from "../../types/store/cartStoreType";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const cart = useTypedSelector((state) => state.cart.cart);
   const role = useTypedSelector((state) => state.user.userData.role);
@@ -76,10 +78,10 @@ const Cart = () => {
   return (
     <section className="section container">
       {!cart?.cartItem?.length ? (
-        <h1 className="section__title-center">Your cart is empty</h1>
+        <h1 className="section__title-center">{t("Your cart is empty")}</h1>
       ) : (
         <>
-          <h2 className="section__title-center">Cart</h2>
+          <h2 className="section__title-center">{t("Cart")}</h2>
           {cart?.cartItem?.map((item: any) => (
             <CartItem
               key={item.id}

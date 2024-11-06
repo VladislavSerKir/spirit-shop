@@ -8,8 +8,10 @@ import shoppingCartDark from "../../assets/img/shopping-cart-dark.png";
 import { useResize } from "../../hooks/useResize";
 import { onLogout } from "../../store/actions/authAction";
 import { ICartItem } from "../../types/store/cartStoreType";
+import { useTranslation } from "react-i18next";
 
 export const Header = () => {
+  const { t, i18n } = useTranslation();
   const [active, setActive] = useState(false);
   const divRef = useRef<any>();
 
@@ -55,6 +57,36 @@ export const Header = () => {
     localStorage.setItem("selected-icon", getCurrentIcon());
   };
 
+  React.useEffect(() => {
+    localStorage.removeItem("language");
+    i18n.changeLanguage(localStorage.getItem("language") as string);
+  }, []);
+
+  const handleChangeLang = () => {
+    const currentLanguge = localStorage.getItem("language");
+    currentLanguge === "RU"
+      ? localStorage.setItem("language", "EN")
+      : localStorage.setItem("language", "RU");
+
+    i18n.changeLanguage(currentLanguge as string);
+  };
+
+  const switchLanguage = () => {
+    const currentLanguge = localStorage.getItem("language");
+    return currentLanguge === "RU" ? "EN" : "RU";
+  };
+
+  const switchToLanguage = switchLanguage();
+
+  React.useEffect(() => {
+    const initLanguage = localStorage.getItem("language");
+    if (!initLanguage) {
+      localStorage.setItem("language", "RU");
+    }
+
+    i18n.changeLanguage(localStorage.getItem("language") as string);
+  }, [switchToLanguage]);
+
   const getTheme = () => {
     return localStorage.getItem("selected-theme");
   };
@@ -98,7 +130,7 @@ export const Header = () => {
                 activeClassName="active-link"
                 onClick={clickToShowMenu}
               >
-                Home
+                {t("Home")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -108,7 +140,7 @@ export const Header = () => {
                 activeClassName="active-link"
                 onClick={clickToShowMenu}
               >
-                Products
+                {t("Products")}
               </NavLink>
             </li>
             {isLoggedIn ? (
@@ -121,7 +153,7 @@ export const Header = () => {
                       activeClassName="active-link"
                       onClick={clickToShowMenu}
                     >
-                      Cart
+                      {t("Cart")}
                     </NavLink>
                   </li>
                 ) : (
@@ -196,7 +228,7 @@ export const Header = () => {
                           activeClassName="active-link"
                           onClick={clickToShowMenu}
                         >
-                          Admin
+                          {t("Admin")}
                         </NavLink>
                       </li>
                     ) : (
@@ -207,7 +239,7 @@ export const Header = () => {
                           activeClassName="active-link"
                           onClick={clickToShowMenu}
                         >
-                          User
+                          {t("User")}
                         </NavLink>
                       </li>
                     )}
@@ -218,7 +250,7 @@ export const Header = () => {
                         activeClassName="active-link"
                         onClick={handleLogOut}
                       >
-                        Logout
+                        {t("Logout")}
                       </NavLink>
                     </li>
                     <li className="nav__item nav__img">
@@ -239,7 +271,7 @@ export const Header = () => {
                   activeClassName="active-link"
                   onClick={clickToShowMenu}
                 >
-                  LogIn
+                  {t("LogIn")}
                 </NavLink>
               </li>
             )}
@@ -251,6 +283,12 @@ export const Header = () => {
         </div>
 
         <div className="nav__btns">
+          <p
+            className="nav__item nav__link nav__lang-switch"
+            onClick={handleChangeLang}
+          >
+            {switchToLanguage}
+          </p>
           <i
             className={`${iconTheme} change-theme`}
             id="theme-button"

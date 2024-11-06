@@ -40,7 +40,7 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
   };
 
   const countProducts = useMemo(() => {
-    if (!cart?.cartItem.length) return 0;
+    if (!cart?.cartItem?.length) return 0;
     const counter = cart?.cartItem?.find(
       (item: any) => item.product.id === product.id
     )?.quantity;

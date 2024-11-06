@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { IPurchase } from "../../types/store/orderStoreType";
+import { useTranslation } from "react-i18next";
 
 interface IOrderAccordeonProps {
   order: IPurchase;
 }
 
 const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
+  const { t } = useTranslation();
   const [active, setActive] = useState(false);
   const divRef = useRef<any>();
 
@@ -61,7 +63,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
               {formattedDate}
             </h2>
             <h2 className="order__item-text">
-              Delivery planned:{" "}
+              {t("Delivery planned")}:{" "}
               <span
                 className={
                   order.isNeedDelivery
@@ -73,7 +75,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
               </span>
             </h2>
             <h2 className="order__item-text">
-              Package needed:{" "}
+              {t("Package needed")}:{" "}
               <span
                 className={
                   order.isNeedPackage
@@ -138,10 +140,10 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
           <table className="table">
             <thead>
               <tr>
-                <th>Product name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
+                <th>{t("Product name")}</th>
+                <th>{t("Price")}</th>
+                <th>{t("Quantity")}</th>
+                <th>{t("Total")}</th>
               </tr>
             </thead>
             <tbody>
@@ -167,7 +169,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
         )}
         <div className="order__summary-container">
           <h3 className="order__item-title order__summary">
-            <span>Summary:</span> {totalPrice} $
+            <span>{t("Summary")}:</span> {totalPrice} $
           </h3>
         </div>
 

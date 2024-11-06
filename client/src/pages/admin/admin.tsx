@@ -6,9 +6,11 @@ import ManageProduct from "../../components/manage-product/manage-product";
 import { Order } from "../order/order";
 import FavouriteProducts from "../favourite-products/favourite-products";
 import { ManageUsers } from "./manage-users";
+import { useTranslation } from "react-i18next";
 
 const Admin: FC = () => {
   const { url } = useRouteMatch();
+  const { t } = useTranslation();
 
   return (
     <section className="section container">
@@ -22,7 +24,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Profile
+                {t("Profile")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -32,7 +34,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                My orders
+                {t("My orders")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -42,7 +44,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Favorite products
+                {t("Favorite products")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -51,7 +53,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Manage categories
+                {t("Manage categories")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -60,7 +62,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Manage products
+                {t("Manage products")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -69,7 +71,7 @@ const Admin: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                All users
+                {t("All users")}
               </NavLink>
             </li>
           </ul>

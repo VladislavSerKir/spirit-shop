@@ -3,9 +3,11 @@ import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import EditProfileForm from "../../components/edit-profile-form/edit-profile-form";
 import { Order } from "../order/order";
 import FavouriteProducts from "../favourite-products/favourite-products";
+import { useTranslation } from "react-i18next";
 
 const User: FC = () => {
   const { url } = useRouteMatch();
+  const { t } = useTranslation();
 
   return (
     <section className="section container">
@@ -19,7 +21,7 @@ const User: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Profile
+                {t("Profile")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -29,7 +31,7 @@ const User: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                My orders
+                {t("My orders")}
               </NavLink>
             </li>
             <li className="nav__item">
@@ -39,7 +41,7 @@ const User: FC = () => {
                 className={`nav__link`}
                 activeClassName={`active-link`}
               >
-                Favorite products
+                {t("Favorite products")}
               </NavLink>
             </li>
           </ul>

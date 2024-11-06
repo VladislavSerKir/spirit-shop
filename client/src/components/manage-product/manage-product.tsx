@@ -2,8 +2,10 @@ import React, { useCallback, useState } from "react";
 import Form from "../../shared/form/form";
 import {} from "react-router-dom";
 import ProductTable from "../../pages/admin/product-table";
+import { useTranslation } from "react-i18next";
 
 const ManageProduct = () => {
+  const { t } = useTranslation();
   const [actionType, setActionType] = useState("edit");
 
   const toggleActionType = useCallback(() => {
@@ -12,7 +14,7 @@ const ManageProduct = () => {
 
   return (
     <div>
-      <h2 className="section__title-center">Manage products</h2>
+      <h2 className="section__title-center">{t("Manage products")}</h2>
 
       {actionType === "add" ? (
         <>
@@ -22,7 +24,7 @@ const ManageProduct = () => {
               type="button"
               onClick={toggleActionType}
             >
-              Edit
+              {t("Edit")}
               <i className="ri-arrow-left-right-line button__icon" />
             </button>
           </div>
@@ -36,7 +38,7 @@ const ManageProduct = () => {
               type="button"
               onClick={toggleActionType}
             >
-              Add
+              {t("Add")}
               <i className="ri-arrow-left-right-line button__icon" />
             </button>
           </div>

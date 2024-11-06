@@ -4,8 +4,10 @@ import TextField from "../../shared/form/text-field";
 import { TUserError, useTypedDispatch } from "../../types";
 import { useForm } from "../../hooks/useForm";
 import { IUserData } from "../../types/store/userStoreType";
+import { useTranslation } from "react-i18next";
 
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   //   const loginError = useSelector(getAuthError());
   const data = {
@@ -89,35 +91,35 @@ const RegisterForm = () => {
     <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__inputs">
         <TextField
-          label="First name"
+          label={t("First name")}
           name="firstName"
           value={values.firstName}
           onChange={handleChange}
           error={errors.firstName}
         />
         <TextField
-          label="Last name"
+          label={t("Last name")}
           name="lastName"
           value={values.lastName}
           onChange={handleChange}
           error={errors.lastName}
         />
         <TextField
-          label="Mobile number"
+          label={t("Mobile number")}
           name="mobileNumber"
           value={values.mobileNumber}
           onChange={handleChange}
           error={errors.mobileNumber}
         />
         <TextField
-          label="Email"
+          label={t("Email")}
           name="email"
           value={values.email}
           onChange={handleChange}
           error={errors.email}
         />
         <TextField
-          label="Password"
+          label={t("Password")}
           name="password"
           type="password"
           value={values.password}
@@ -131,7 +133,7 @@ const RegisterForm = () => {
         </div>
       )} */}
       <button className="button button--flex" type="submit">
-        Sign Up
+        {t("Sign Up")}
         <i className="ri-arrow-right-up-line button__icon" />
       </button>
     </form>

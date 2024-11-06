@@ -1,7 +1,10 @@
 import React from "react";
 import homeImg from "../../assets/img/home.png";
+import { useTranslation } from "react-i18next";
 
 export const Home = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="home" id="home">
       <div className="home__container container grid">
@@ -16,12 +19,13 @@ export const Home = () => {
             fresness to your new ideas.
           </p>
           <a href="#about" className="button button--flex">
-            Explore <i className="ri-arrow-right-down-line button__icon"></i>
+            {t("Explore")}{" "}
+            <i className="ri-arrow-right-down-line button__icon"></i>
           </a>
         </div>
 
         <div className="home__social">
-          <span className="home__social-follow">Follow Us</span>
+          <span className="home__social-follow">{t("Follow Us")}</span>
 
           <div className="home__social-links">
             <a

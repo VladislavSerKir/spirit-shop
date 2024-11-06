@@ -44,12 +44,12 @@ const Product: FC<IProductProps> = ({ productId }) => {
   };
 
   const countProducts = useMemo(() => {
-    if (!cart.cartItem.length) return 0;
-    const counter = cart.cartItem?.find(
+    if (!cart?.cartItem?.length) return 0;
+    const counter = cart?.cartItem?.find(
       (item: any) => item.product.id === +productId
     )?.quantity;
     return typeof counter === "number" ? counter : 0;
-  }, [productId, cart.cartItem]);
+  }, [productId, cart?.cartItem]);
 
   return (
     <section className="container section">

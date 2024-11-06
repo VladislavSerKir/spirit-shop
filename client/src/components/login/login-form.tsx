@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 // import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
+import { useTranslation } from "react-i18next";
 
 const LoginForm = () => {
+  const { t } = useTranslation();
+
   const data = {
     firstName: "",
     lastName: "",
@@ -30,14 +33,14 @@ const LoginForm = () => {
       <form className="login__form" onSubmit={handleSubmit}>
         <div className="login__inputs">
           <TextField
-            label="Email"
+            label={t("Email")}
             name="email"
             value={values.email}
             onChange={handleChange}
             error={errors.email}
           />
           <TextField
-            label="Password"
+            label={t("Password")}
             name="password"
             type="password"
             value={values.password}
@@ -51,7 +54,7 @@ const LoginForm = () => {
         </div>
       )} */}
         <button className="button button--flex" type="submit">
-          Sign In
+          {t("Sign In")}
           <i className="ri-arrow-right-up-line button__icon" />
         </button>
       </form>

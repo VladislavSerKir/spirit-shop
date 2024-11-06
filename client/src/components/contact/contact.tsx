@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const Contact = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="contact section container" id="contact">
       <div className="contact__container grid">
@@ -35,7 +38,7 @@ export const Contact = () => {
             <div className="contact__content">
               <input type="email" placeholder=" " className="contact__input" />
               <label htmlFor="" className="contact__label">
-                Email
+                {t("Email")}
               </label>
             </div>
 

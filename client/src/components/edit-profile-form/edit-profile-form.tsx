@@ -6,11 +6,13 @@ import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { Link, useRouteMatch } from "react-router-dom";
 import { IUserData } from "../../types/store/userStoreType";
+import { useTranslation } from "react-i18next";
 
 const EditProfileForm: FC = () => {
   const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
   const { url } = useRouteMatch();
+  const { t } = useTranslation();
 
   const initialState = {
     firstName: user.firstName,
@@ -113,7 +115,7 @@ const EditProfileForm: FC = () => {
 
   return (
     <div className="login__container">
-      <h2 className="section__title-center">Change profile</h2>
+      <h2 className="section__title-center">{t("Change profile")}</h2>
       <div className="profile__avatar-container">
         <Link
           className={`text text_type_main-small orders-feed__link`}
@@ -125,35 +127,35 @@ const EditProfileForm: FC = () => {
       <form className="login__form" onSubmit={handleUpdateUser}>
         <div className="login__inputs">
           <TextField
-            label="First name"
+            label={t("First name")}
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
             error={errors.firstName}
           />
           <TextField
-            label="Last name"
+            label={t("Last name")}
             name="lastName"
             value={values.lastName}
             onChange={handleChange}
             error={errors.lastName}
           />
           <TextField
-            label="Mobile number"
+            label={t("Mobile number")}
             name="mobileNumber"
             value={values.mobileNumber}
             onChange={handleChange}
             error={errors.mobileNumber}
           />
           <TextField
-            label="Email"
+            label={t("Email")}
             name="email"
             value={values.email}
             onChange={handleChange}
             error={errors.email}
           />
           <TextField
-            label="Password"
+            label={t("Password")}
             name="password"
             type="password"
             value={values.password}
@@ -162,7 +164,7 @@ const EditProfileForm: FC = () => {
           />
         </div>
         <button className="button button--flex" type="submit">
-          Edit
+          {t("Edit")}
           <i className="ri-add-line button__icon" />
         </button>
       </form>

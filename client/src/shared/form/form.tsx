@@ -10,6 +10,7 @@ import {
   getAllCategories,
 } from "../../store/actions/productAction";
 import { ICreateProduct } from "../../types/store/productStoreType";
+import { useTranslation } from "react-i18next";
 
 interface IFormProps {
   type: string;
@@ -18,6 +19,7 @@ interface IFormProps {
 }
 
 const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.category.categories);
 
@@ -151,21 +153,21 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
       <form className="login__form" onSubmit={handleSubmit}>
         <div className="login__inputs">
           <TextField
-            label="Name"
+            label={t("Name")}
             name="name"
             value={data.name}
             error={errors.name}
             onChange={handleChange}
           />
           <TextArea
-            label="Description"
+            label={t("Description")}
             name="description"
             value={data.description}
             error={errors.description}
             onChange={handleChange}
           />
           <TextField
-            label="Price"
+            label={t("Price")}
             name="price"
             type="number"
             value={data.price}
@@ -173,7 +175,7 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
             onChange={handleChange}
           />
           <TextField
-            label="Image"
+            label={t("Image")}
             name="image"
             value={data.image}
             error={errors.image}
@@ -184,7 +186,7 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
             onChange={handleChange}
             defaultValue={data.categories}
             name="categories"
-            label="Categories"
+            label={t("Categories")}
             error={errors.categories}
           />
         </div>
@@ -201,7 +203,7 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
 
         {type === "add" ? (
           <button className="button button--flex" type="submit">
-            Add
+            {t("Add")}
             <i className="ri-add-line button__icon" />
           </button>
         ) : (

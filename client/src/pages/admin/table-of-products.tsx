@@ -5,8 +5,10 @@ import { Link, useRouteMatch } from "react-router-dom";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { IProduct } from "../../types/store/productStoreType";
+import { useTranslation } from "react-i18next";
 
 const TableOfProducts = () => {
+  const { t } = useTranslation();
   const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
@@ -30,9 +32,9 @@ const TableOfProducts = () => {
       <table className="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Categories</th>
+            <th>{t("Name")}</th>
+            <th>{t("Price")}</th>
+            <th>{t("Categories")}</th>
             <th />
             <th />
           </tr>

@@ -4,8 +4,10 @@ import LoginForm from "./login-form";
 import RegisterForm from "./register-form";
 import { IUseLocation, useTypedSelector } from "../../types";
 import Spinner from "../../pages/spinner/spinner";
+import { useTranslation } from "react-i18next";
 
 const LogIn = () => {
+  const { t } = useTranslation();
   const { type }: any = useParams();
   // const { state } = useLocation<IUseLocation>();
   const location = useLocation<IUseLocation>();
@@ -48,13 +50,15 @@ const LogIn = () => {
             <div className="login__information">
               {formType === "login" ? (
                 <>
-                  <h3 className="login__subtitle">Don't have an account?</h3>
+                  <h3 className="login__subtitle">
+                    {t("Don't have an account")}?
+                  </h3>
                   <span
                     // type="button"
                     onClick={toggleFormType}
                     className="login__description"
                   >
-                    Sign Up
+                    {t("Sign Up")}
                   </span>
                 </>
               ) : (
@@ -65,7 +69,7 @@ const LogIn = () => {
                     onClick={toggleFormType}
                     className="login__description"
                   >
-                    Sign In
+                    {t("Sign In")}
                   </span>
                 </>
               )}

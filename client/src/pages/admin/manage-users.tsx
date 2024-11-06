@@ -5,8 +5,10 @@ import usePagination from "../../hooks/usePagination";
 import { IPurchase } from "../../types/store/orderStoreType";
 import { getAllUsers } from "../../store/actions/userAction";
 import UserAccordeon from "../../components/user-accordeon/user-accordeon";
+import { useTranslation } from "react-i18next";
 
 export const ManageUsers = () => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const users = useTypedSelector((store) => store.user.allUsersData);
 
@@ -39,11 +41,11 @@ export const ManageUsers = () => {
   return (
     <>
       <div className="order__page">
-        <h2 className="section__title-center">All users</h2>
+        <h2 className="section__title-center">{t("All users")}</h2>
         <div className="footer__subscribe search__input">
           <input
             type="text"
-            placeholder="Enter email..."
+            placeholder={t("Enter email")}
             className="footer__input"
             value={searchValue}
             onChange={handleSearch}

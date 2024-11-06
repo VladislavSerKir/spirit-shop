@@ -5,8 +5,10 @@ import TextField from "../../shared/form/text-field";
 import { editProduct } from "../../store/actions/productAction";
 import TextArea from "../../shared/form/text-area";
 import MultiSelectField from "../../shared/form/multi-select-field";
+import { useTranslation } from "react-i18next";
 
 const ChangeProduct = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { id } = useParams<IUseParams>();
   const dispatch = useTypedDispatch();
@@ -59,30 +61,30 @@ const ChangeProduct = () => {
   return (
     <>
       <div className="modal-content__container">
-        <h2 className="section__title-center">Change product</h2>
+        <h2 className="section__title-center">{t("Change product")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitProduct}>
           <div className="modal-content__form-product">
             <TextField
-              label="Name"
+              label={t("Name")}
               name="name"
               value={data.name}
               onChange={handleChangeProduct}
             />
             <TextArea
-              label="Description"
+              label={t("Description")}
               name="description"
               value={data.description ? data.description : ""}
               onChange={handleChangeProduct}
             />
             <TextField
-              label="Price"
+              label={t("Price")}
               name="price"
               type="number"
               value={data.price ? data.price : ""}
               onChange={handleChangeProduct}
             />
             <TextField
-              label="Image"
+              label={t("Image")}
               name="image"
               value={data.image ? data.image : ""}
               onChange={handleChangeProduct}
@@ -92,7 +94,7 @@ const ChangeProduct = () => {
               onChange={handleChangeProduct}
               defaultValue={data.categories}
               name="categories"
-              label="Categories"
+              label={t("Categories")}
               toTop
             />
           </div>

@@ -4,8 +4,10 @@ import { IUseParams, useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import { editCategory } from "../../store/actions/categoryAction";
 import { ICategory } from "../../types/store/categoryStoreType";
+import { useTranslation } from "react-i18next";
 
 const ChangeCategory = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { id } = useParams<IUseParams>();
   const dispatch = useTypedDispatch();
@@ -38,11 +40,11 @@ const ChangeCategory = () => {
   return (
     <>
       <div className="modal-content__container">
-        <h2 className="section__title-center">Change category name</h2>
+        <h2 className="section__title-center">{t("Change category name")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitCategory}>
           <div>
             <TextField
-              label="Name"
+              label={t("Name")}
               name="name"
               value={data.name ? data.name : ""}
               onChange={handleChangeCategory}
