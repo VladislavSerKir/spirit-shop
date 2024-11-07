@@ -40,10 +40,9 @@ const LogIn = () => {
       <div className="login__container grid">
         <div className="login__box">
           <h2 className="section__title">
-            "Happiness held is the seed
-            <br />
-            Happiness shared is the flower." <br />
-            Let's share happiness together!
+            {t(
+              "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!"
+            )}
           </h2>
 
           <div className="login__data">

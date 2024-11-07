@@ -1,6 +1,8 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const Questions = () => {
+  const { t } = useTranslation();
+
   const accordionItems = document.querySelectorAll(".questions__item");
   accordionItems.forEach((item) => {
     const accordionHeader = item.querySelector(".questions__header");
@@ -33,7 +35,7 @@ export const Questions = () => {
   return (
     <section className="questions section" id="faqs">
       <h2 className="section__title-center questions__title container">
-        Some common questions <br /> were often asked
+        {t("Some common questions were often asked")}
       </h2>
 
       <div className="questions__container container grid">
@@ -42,7 +44,7 @@ export const Questions = () => {
             <header className="questions__header">
               <i className="ri-add-line questions__icon"></i>
               <h3 className="questions__item-title">
-                My flowers are falling off or dying?
+                {t("My flowers are falling off or dying?")}
               </h3>
             </header>
 
@@ -58,7 +60,7 @@ export const Questions = () => {
             <header className="questions__header">
               <i className="ri-add-line questions__icon"></i>
               <h3 className="questions__item-title">
-                What causes leaves to become pale?
+                {t("What causes leaves to become pale?")}
               </h3>
             </header>
 
@@ -74,7 +76,7 @@ export const Questions = () => {
             <header className="questions__header">
               <i className="ri-add-line questions__icon"></i>
               <h3 className="questions__item-title">
-                What causes brown crispy leaves?
+                {t("What causes brown crispy leaves?")}
               </h3>
             </header>
 
@@ -92,7 +94,7 @@ export const Questions = () => {
             <header className="questions__header">
               <i className="ri-add-line questions__icon"></i>
               <h3 className="questions__item-title">
-                How do i choose a plant?
+                {t("How do i choose a plant?")}
               </h3>
             </header>
 
@@ -108,7 +110,7 @@ export const Questions = () => {
             <header className="questions__header">
               <i className="ri-add-line questions__icon"></i>
               <h3 className="questions__item-title">
-                How do I change the pots?
+                {t("How do I change the pots?")}
               </h3>
             </header>
 
@@ -124,7 +126,7 @@ export const Questions = () => {
             <header className="questions__header">
               <i className="ri-add-line questions__icon"></i>
               <h3 className="questions__item-title">
-                Why are gnats flying around my plant?
+                {t("Why are gnats flying around my plant?")}
               </h3>
             </header>
 

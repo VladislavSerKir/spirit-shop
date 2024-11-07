@@ -1,21 +1,22 @@
-import React from "react";
 import product1 from "../../assets/img/product1.png";
 import product2 from "../../assets/img/product2.png";
 import product3 from "../../assets/img/product3.png";
 import product4 from "../../assets/img/product4.png";
 import product5 from "../../assets/img/product5.png";
 import product6 from "../../assets/img/product6.png";
+import { useTranslation } from "react-i18next";
 
 export const MainProducts = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="product section container" id="products">
-      <h2 className="section__title-center">
-        Check out our <br /> products
-      </h2>
+      <h2 className="section__title-center">{t("Check out our products")}</h2>
 
       <p className="product__description">
-        Here are some selected plants from our showroom, all are in excellent
-        shape and has a long life span. Buy and enjoy best quality.
+        {t(
+          "Here are some selected plants from our showroom, all are in excellent shape and has a long life span. Buy and enjoy best quality"
+        )}
       </p>
 
       <div className="product__container grid">

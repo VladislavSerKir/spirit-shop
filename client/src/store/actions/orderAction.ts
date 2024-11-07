@@ -5,6 +5,7 @@ import orderService from "../../service/order.service";
 import { toast } from "react-toastify";
 import { refreshCart } from "../reducers/cartReducer";
 import { IPurchase } from "../../types/store/orderStoreType";
+import { ii18n } from "../../i18n";
 
 export const submitPurchase = createAsyncThunk<
   IPurchase,
@@ -21,6 +22,6 @@ export const submitPurchase = createAsyncThunk<
   }
   const data: IPurchase = await response.json();
   dispatch(refreshCart(data));
-  toast.success(`Thank you for purchase`);
+  toast.success(`${ii18n.t("Thank you for purchase")}`);
   return data;
 });

@@ -1,4 +1,3 @@
-import React from "react";
 import homeImg from "../../assets/img/home.png";
 import { useTranslation } from "react-i18next";
 
@@ -12,11 +11,12 @@ export const Home = () => {
 
         <div className="home__data">
           <h1 className="home__title">
-            Plants will make <br /> your life better
+            {t("Plants will make your life better")}
           </h1>
           <p className="home__description">
-            Create incredible plant design for your offices or apastaments. Add
-            fresness to your new ideas.
+            {t(
+              "Create incredible plant design for your offices or apastaments. Add fresness to your new ideas."
+            )}
           </p>
           <a href="#about" className="button button--flex">
             {t("Explore")}{" "}

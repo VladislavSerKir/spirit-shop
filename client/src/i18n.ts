@@ -1,3 +1,4 @@
+import { I18n } from "i18n-js";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
@@ -55,7 +56,6 @@ const ENtranslation = {
   "Follow Us": "Follow Us",
   "Change profile": "Change profile",
   "Your cart is empty": "Your cart is empty",
-
   "Our Address": "Our Address",
   "Contact Us": "Contact Us",
   "We accept all credit cards": "We accept all credit cards",
@@ -108,6 +108,29 @@ const ENtranslation = {
     "Why are gnats flying around my plant?",
   yes: "yes",
   no: "no",
+  "Send Message": "Send Message",
+  "Need delivery": "Need delivery",
+  "Need package": "Need package",
+  "Additional comment": "Additional comment",
+  Buy: "Buy",
+  "Clear cart": "Clear cart",
+  "Product removed from cart": "Product removed from cart",
+  "Cart cleared": "Cart cleared",
+  "Profile changed": "Profile changed",
+  "Eather user with email exist or password is too short":
+    "Eather user with email exist or password is too short",
+  "Error to change avatar": "Error to change avatar",
+  "Avatar changed": "Avatar changed",
+  "Thank you for purchase": "Thank you for purchase",
+  "Category name edited": "Category name edited",
+  "Category created": "Category created",
+  "Product created": "Product created",
+  "Product added to favourites": "Product added to favourites",
+  "Product removed from favourites": "Product removed from favourites",
+  "Product deleted": "Product deleted",
+  "Product edited": "Product edited",
+  "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!":
+    "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!",
 };
 
 const RUtranslation = {
@@ -162,11 +185,91 @@ const RUtranslation = {
   "Product added to cart": "Продукт добавлен в корзину",
   Explore: "Посмотреть",
   "Follow Us": "Подпишись на нас",
-
   "Change profile": "Изменить профиль",
-
   "Your cart is empty": "Ваша корзина пуста",
+  "Our Address": "Наш адрес",
+  "Contact Us": "Свяжитесь с нами",
+  "We accept all credit cards": "Мы принимаем все виды карт",
+  "Subscribe to our newsletter to stay update":
+    "Подпишитесь на нашу рассылку чтобы получать уведомления",
+  Subscribe: "Подписаться",
+  "Enter your email": "Введите свою почту",
+  "Write us by mail": "Напишите нам на почту",
+  "Call us htmlFor instant support": "Телефон поддержки",
+  "Reach out to us today via any of the given information":
+    "Контакты по которым можно связаться с нами",
+  Subject: "Тема",
+  Message: "Сообщение",
+  "Some common questions were often asked": "Некоторые частозадаваемые вопросы",
+  "Check out our products": "Посмотрите на наши продукты",
+  "Here are some selected plants from our showroom, all are in excellent shape and has a long life span. Buy and enjoy best quality":
+    "Вот несколько отобранных растений из нашего демонстрационного зала, все они в отличном состоянии и имеют длительный срок службы. Покупайте и наслаждайтесь лучшим качеством",
+  "Steps to start your plants off right":
+    "Шаги, которые помогут правильно посадить ваши растения",
+  "Choose Plant": "Выберите растение",
+  "Place an order": "Оформите заказ",
+  "Get plants delivered": "Получите растение через доставку",
+  "We have several varieties plants you can choose from.":
+    "У нас есть несколько разновидностей растений, из которых вы можете выбрать.",
+  "Once your order is set, we move to the next step which is the shipping.":
+    "Как только ваш заказ оформлен, мы переходим к следующему шагу - доставке.",
+  "Our delivery process is easy, you receive the plant direct to your door.":
+    "Процесс нашей доставки прост, вы получаете установку прямо к вашей двери.",
+  "Plants will make your life better": "Растения сделают вашу жизнь лучше",
+  "Create incredible plant design for your offices or apastaments. Add fresness to your new ideas.":
+    "Создайте невероятный растительный дизайн для своих офисов или квартир. Придайте свежести своим новым идеям.",
+  "Who we really are & why choose us": "Кто мы такие и почему мы",
+  "We have over 4000+ unbiased reviews and our customers trust our plant process and delivery service every time":
+    "У нас есть более 4000 объективных отзывов, и наши клиенты всегда доверяют нашему производственному процессу и службе доставки",
+  "We always deliver on time.": "Мы всегда доставляем товар вовремя.",
+  "We give you guides to protect and care for your plants.":
+    "Мы даем вам рекомендации по защите ваших растений и уходу за ними.",
+  "We always come over for a check-up after sale.":
+    "Мы всегда приезжаем на проверку после продажи.",
+  "100% money back guaranteed.": "100% гарантия возврата денег.",
+  "Shop Now": "Делайте покупки прямо сейчас",
+  "My flowers are falling off or dying?": "Мои цветы опадают или увядают?",
+  "What causes leaves to become pale?": "Что заставляет листья бледнеть?",
+  "What causes brown crispy leaves?":
+    "Что вызывает появление коричневых хрустящих листьев?",
+  "How do i choose a plant?": "Как мне выбрать растение?",
+  "How do I change the pots?": "Как мне поменять горшки?",
+  "Why are gnats flying around my plant?":
+    "Почему вокруг моего растения летают комары?",
+  yes: "да",
+  no: "нет",
+  "Send Message": "Отправить сообщение",
+  "Need delivery": "Нужна доставка",
+  "Need package": "Нужна упаковка",
+  "Additional comment": "Дополнительный комментарий",
+  Buy: "Купить",
+  "Clear cart": "Очистить корзину",
+  "Product removed from cart": "Продукт удален из корзины",
+  "Cart cleared": "Корзина очищена",
+  "Profile changed": "Профиль изменен",
+  "Eather user with email exist or password is too short":
+    "Или пользователь с указанной почтой уже существует или пароль слишком короткий",
+  "Error to change avatar": "Ошибка изменения аватара",
+  "Avatar changed": "Аватар изменен",
+  "Thank you for purchase": "Спасибо за покупку",
+  "Category name edited": "Имя категории изменено",
+  "Category created": "Категория создана",
+  "Product created": "Продукт создан",
+  "Product added to favourites": "Продукт добавлен в избранное",
+  "Product removed from favourites": "Продукт удален из избранного",
+  "Product deleted": "Продукт удален",
+  "Product edited": "Продукт изменен",
+  "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!":
+    "Сохраненное счастье - это семя, разделенное счастье - это цветок. Давайте делиться счастьем вместе!",
 };
+
+export const ii18n = new I18n({
+  EN: ENtranslation,
+  RU: RUtranslation,
+});
+
+ii18n.defaultLocale = "RU";
+ii18n.locale = "RU";
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -181,7 +284,7 @@ i18n.use(initReactI18next).init({
   fallbackLng: "EN",
   detection: {
     order: ["path", "localStorage", "htmlTag", "cookie"],
-    caches: ["localStorage", "cookie"], // cache user language on
+    caches: ["localStorage", "cookie"],
   },
 });
 

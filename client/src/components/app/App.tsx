@@ -71,28 +71,28 @@ function App() {
       <>
         <ProtectedRoute path={`/admin/categories/:id`}>
           <Modal onClose={handleCloseModals}>
-            <ChangeCategory />
+            <ChangeCategory onClose={handleCloseModals} />
           </Modal>
         </ProtectedRoute>
       </>
       <>
         <ProtectedRoute path={`/admin/products/:id`}>
           <Modal onClose={handleCloseModals}>
-            <ChangeProduct />
+            <ChangeProduct onClose={handleCloseModals} />
           </Modal>
         </ProtectedRoute>
       </>
       <>
         <ProtectedRoute path={`/user/profile/avatar`}>
           <Modal onClose={handleCloseModals}>
-            <ChangeAvatar />
+            <ChangeAvatar onClose={handleCloseModals} />
           </Modal>
         </ProtectedRoute>
       </>
       <>
         <ProtectedRouteForAdmin path={`/admin/profile/avatar`}>
           <Modal onClose={handleCloseModals}>
-            <ChangeAvatar />
+            <ChangeAvatar onClose={handleCloseModals} />
           </Modal>
         </ProtectedRouteForAdmin>
       </>

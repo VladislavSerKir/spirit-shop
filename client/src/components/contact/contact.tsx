@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 export const Contact = () => {
@@ -9,13 +8,13 @@ export const Contact = () => {
       <div className="contact__container grid">
         <div className="contact__box">
           <h2 className="section__title">
-            Reach out to us today <br /> via any of the given <br /> information
+            {t("Reach out to us today via any of the given information")}
           </h2>
 
           <div className="contact__data">
             <div className="contact__information">
               <h3 className="contact__subtitle">
-                Call us htmlFor instant support
+                {t("Call us htmlFor instant support")}
               </h3>
               <span className="contact__description">
                 <i className="ri-phone-line contact__icon"></i>
@@ -24,7 +23,7 @@ export const Contact = () => {
             </div>
 
             <div className="contact__information">
-              <h3 className="contact__subtitle">Write us by mail</h3>
+              <h3 className="contact__subtitle">{t("Write us by mail")}</h3>
               <span className="contact__description">
                 <i className="ri-mail-line contact__icon"></i>
                 user@email.com
@@ -45,7 +44,7 @@ export const Contact = () => {
             <div className="contact__content">
               <input type="text" placeholder=" " className="contact__input" />
               <label htmlFor="" className="contact__label">
-                Subject
+                {t("Subject")}
               </label>
             </div>
 
@@ -56,13 +55,13 @@ export const Contact = () => {
                 className="contact__input"
               ></textarea>
               <label htmlFor="" className="contact__label">
-                Message
+                {t("Message")}
               </label>
             </div>
           </div>
 
           <button className="button button--flex">
-            Send Message
+            {t("Send Message")}
             <i className="ri-arrow-right-up-line button__icon"></i>
           </button>
         </form>

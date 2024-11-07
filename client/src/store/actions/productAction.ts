@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { setDislikeProduct, setLikeProduct } from "../reducers/userReducer";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { setCategoryRequest } from "../reducers/categoryReducer";
+import { ii18n } from "../../i18n";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],
@@ -50,7 +51,7 @@ export const createProduct = createAsyncThunk<
   }
   const data: IProductWithCategories = await response.json();
   dispatch(refreshProducts(data));
-  toast.success(`Product ${data.name} with price ${data.price} created!`);
+  toast.success(`${ii18n.t("Product created")}`);
   return data;
 });
 
@@ -69,7 +70,7 @@ export const editProduct = createAsyncThunk<
   }
   const data: IProductWithCategories = await response.json();
   dispatch(refreshProducts(data));
-  toast.warn(`Product edited`);
+  toast.warn(`${ii18n.t("Product edited")}`);
   return data;
 });
 
@@ -87,7 +88,7 @@ export const deleteProduct = createAsyncThunk<
     });
   }
   const data: IRemoveProduct = await response.json();
-  toast.error(`Product deleted`);
+  toast.error(`${ii18n.t("Product deleted")}`);
   dispatch(removeProduct(data.id));
 });
 
@@ -127,7 +128,7 @@ export const likeProduct = createAsyncThunk<
   }
   const data: any = await response.json();
   dispatch(setLikeProduct(data));
-  toast.info(`Product added to favourites`);
+  toast.info(`${ii18n.t("Product added to favourites")}`);
   return data;
 });
 
@@ -146,6 +147,6 @@ export const dislikeProduct = createAsyncThunk<
   }
   const data: any = await response.json();
   dispatch(setDislikeProduct(data));
-  toast.info(`Product removed from favourites`);
+  toast.info(`${ii18n.t("Product removed from favourites")}`);
   return data;
 });

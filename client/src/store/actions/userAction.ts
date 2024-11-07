@@ -13,6 +13,7 @@ import {
 } from "../../types/store/userStoreType";
 import { toast } from "react-toastify";
 import userService from "../../service/user.service";
+import { ii18n } from "../../i18n";
 
 export const onUpdateUser = createAsyncThunk<
   TUserEditResponse,
@@ -21,14 +22,16 @@ export const onUpdateUser = createAsyncThunk<
 >("user/onUpdateUser", async function (user, { rejectWithValue }) {
   const response = await userService.editRequest(user);
   if (!response.ok) {
-    toast.error(`Eather user with email exist or password is too short`);
+    toast.error(
+      `${ii18n.t("Eather user with email exist or password is too short")}`
+    );
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onUpdateUser",
     });
   }
   const data: TUserEditResponse = await response.json();
-  toast.success(`Profile changed`);
+  toast.success(`${ii18n.t("Profile changed")}`);
   return data;
 });
 
@@ -39,7 +42,7 @@ export const editAvatar = createAsyncThunk<
 >("user/editAvatar", async function (user, { dispatch, rejectWithValue }) {
   const response = await userService.editAvatarRequest(user);
   if (!response.ok) {
-    toast.error(`Error to change avatar`);
+    toast.error(`${ii18n.t("Error to change avatar")}`);
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method editAvatar",
@@ -47,7 +50,7 @@ export const editAvatar = createAsyncThunk<
   }
   const data: TAvatar = await response.json();
   dispatch(setAvatar(data));
-  toast.success(`Avatar changed`);
+  toast.success(`${ii18n.t("Avatar changed")}`);
   return data;
 });
 

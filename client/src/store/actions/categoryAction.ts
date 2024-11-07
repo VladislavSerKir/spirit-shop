@@ -21,6 +21,7 @@ import {
   removeCategory,
   updateCategory,
 } from "../reducers/categoryReducer";
+import { ii18n } from "../../i18n";
 
 export const createCategory = createAsyncThunk<
   ICreateCategory,
@@ -37,7 +38,7 @@ export const createCategory = createAsyncThunk<
   }
   const data: ICategory = await response.json();
   dispatch(refreshCategories(data));
-  toast.success(`Category ${data.name} created!`);
+  toast.success(`${ii18n.t("Category created")}`);
   return data;
 });
 
@@ -57,7 +58,7 @@ export const editCategory = createAsyncThunk<
   const data: ICategory = await response.json();
   dispatch(updateCategory(data));
   dispatch(getAllProducts());
-  toast.info(`Category name edited`);
+  toast.info(`${ii18n.t("Category name edited")}`);
   return data;
 });
 

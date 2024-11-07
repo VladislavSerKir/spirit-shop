@@ -6,7 +6,11 @@ import { editCategory } from "../../store/actions/categoryAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
 
-const ChangeCategory = () => {
+interface IChangeCategoryProps {
+  onClose: () => void;
+}
+
+const ChangeCategory = ({ onClose }: IChangeCategoryProps) => {
   const { t } = useTranslation();
   const history = useHistory();
   const { id } = useParams<IUseParams>();
@@ -40,6 +44,7 @@ const ChangeCategory = () => {
   return (
     <>
       <div className="modal-content__container">
+        <i className="ri-close-line modal-content__cross" onClick={onClose} />
         <h2 className="section__title-center">{t("Change category name")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitCategory}>
           <div>

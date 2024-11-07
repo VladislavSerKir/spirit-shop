@@ -4,6 +4,7 @@ import { TError } from "../../types";
 import cartService from "../../service/cart.service";
 import { toast } from "react-toastify";
 import { refreshCart } from "../reducers/cartReducer";
+import { ii18n } from "../../i18n";
 
 export const addProductToCart = createAsyncThunk<
   IProduct,
@@ -20,10 +21,7 @@ export const addProductToCart = createAsyncThunk<
   }
   const data: IProduct = await response.json();
   dispatch(refreshCart(data));
-  // toast.success(
-  //   `Product added to cart ${Translation("Product added to cart")}`
-  // );
-  toast.success(`Product added to cart`);
+  toast.success(`${ii18n.t("Product added to cart")}`);
   return data;
 });
 
@@ -42,7 +40,7 @@ export const removeProductFromCart = createAsyncThunk<
   }
   const data: IProduct = await response.json();
   dispatch(refreshCart(data));
-  toast.info(`Product removed from cart`);
+  toast.success(`${ii18n.t("Product removed from cart")}`);
   return data;
 });
 
@@ -61,7 +59,7 @@ export const clearCart = createAsyncThunk<
   }
   const data: { success: true } = await response.json();
   dispatch(refreshCart(data));
-  toast.info(`Cart cleared`);
+  toast.info(`${ii18n.t("Cart cleared")}`);
   return data;
 });
 

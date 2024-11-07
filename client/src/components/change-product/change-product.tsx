@@ -7,7 +7,11 @@ import TextArea from "../../shared/form/text-area";
 import MultiSelectField from "../../shared/form/multi-select-field";
 import { useTranslation } from "react-i18next";
 
-const ChangeProduct = () => {
+interface IChangeProductProps {
+  onClose: () => void;
+}
+
+const ChangeProduct = ({ onClose }: IChangeProductProps) => {
   const { t } = useTranslation();
   const history = useHistory();
   const { id } = useParams<IUseParams>();
@@ -61,6 +65,7 @@ const ChangeProduct = () => {
   return (
     <>
       <div className="modal-content__container">
+        <i className="ri-close-line modal-content__cross" onClick={onClose} />
         <h2 className="section__title-center">{t("Change product")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitProduct}>
           <div className="modal-content__form-product">

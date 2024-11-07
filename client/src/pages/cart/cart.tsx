@@ -95,7 +95,7 @@ const Cart = () => {
           <form onSubmit={handleSubmitCart}>
             <div className="cart__total">
               <p className="cart__total_sum">
-                Total:<span>{getTotalSum()}$</span>
+                {t("Total")}:<span>{getTotalSum()}$</span>
               </p>
               <div className="cart__toggle-container">
                 <Toggle
@@ -105,7 +105,7 @@ const Cart = () => {
                   aria-labelledby="biscuit-label"
                   onChange={handleChangeToggle}
                 />
-                <h3 id="is-need-delivery">Need delivery</h3>
+                <h3 id="is-need-delivery">{t("Need delivery")}</h3>
               </div>
               <div className="cart__toggle-container">
                 <Toggle
@@ -115,10 +115,10 @@ const Cart = () => {
                   aria-labelledby="biscuit-label"
                   onChange={handleChangeToggle}
                 />
-                <h3 id="is-need-package">Need package</h3>
+                <h3 id="is-need-package">{t("Need package")}</h3>
               </div>
               <TextArea
-                label="Additional comment"
+                label={t("Additional comment")}
                 name="comment"
                 value={data.comment}
                 error={""}
@@ -129,14 +129,14 @@ const Cart = () => {
                   className="button button--flex cart-button-fixed"
                   type="submit"
                 >
-                  Buy
+                  {t("Buy")}
                 </button>
                 <button
                   className="button button--flex cart-button-fixed"
                   type="button"
                   onClick={handleClearCart}
                 >
-                  Clear cart
+                  {t("Clear cart")}
                 </button>
               </div>
             </div>

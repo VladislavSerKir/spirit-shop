@@ -71,7 +71,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
                     : "order__item-text-negative"
                 }
               >
-                {order.isNeedDelivery ? "yes" : "no"}
+                {order.isNeedDelivery ? t("yes") : t("no")}
               </span>
             </h2>
             <h2 className="order__item-text">
@@ -83,7 +83,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
                     : "order__item-text-negative"
                 }
               >
-                {order.isNeedPackage ? "yes" : "no"}
+                {order.isNeedPackage ? t("yes") : t("no")}
               </span>
             </h2>
           </div>

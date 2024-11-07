@@ -9,6 +9,7 @@ import { useResize } from "../../hooks/useResize";
 import { onLogout } from "../../store/actions/authAction";
 import { ICartItem } from "../../types/store/cartStoreType";
 import { useTranslation } from "react-i18next";
+import { ii18n } from "../../i18n";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -64,9 +65,17 @@ export const Header = () => {
 
   const handleChangeLang = () => {
     const currentLanguge = localStorage.getItem("language");
-    currentLanguge === "RU"
-      ? localStorage.setItem("language", "EN")
-      : localStorage.setItem("language", "RU");
+    // currentLanguge === "RU"
+    //   ? localStorage.setItem("language", "EN")
+    //   : localStorage.setItem("language", "RU");
+
+    if (currentLanguge === "RU") {
+      localStorage.setItem("language", "EN");
+      ii18n.locale = "EN";
+    } else {
+      localStorage.setItem("language", "RU");
+      ii18n.locale = "RU";
+    }
 
     i18n.changeLanguage(currentLanguge as string);
   };
@@ -82,6 +91,7 @@ export const Header = () => {
     const initLanguage = localStorage.getItem("language");
     if (!initLanguage) {
       localStorage.setItem("language", "RU");
+      ii18n.locale = "RU";
     }
 
     i18n.changeLanguage(localStorage.getItem("language") as string);

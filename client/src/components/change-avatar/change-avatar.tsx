@@ -5,7 +5,11 @@ import TextField from "../../shared/form/text-field";
 import { editAvatar } from "../../store/actions/userAction";
 import { useTranslation } from "react-i18next";
 
-const ChangeAvatar = () => {
+interface IChangeAvatarProps {
+  onClose: () => void;
+}
+
+const ChangeAvatar = ({ onClose }: IChangeAvatarProps) => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useTypedDispatch();
@@ -35,6 +39,7 @@ const ChangeAvatar = () => {
   return (
     <>
       <div className="modal-content__container">
+        <i className="ri-close-line modal-content__cross" onClick={onClose} />
         <h2 className="section__title-center">{t("Change avatar")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitAvatar}>
           <div>
