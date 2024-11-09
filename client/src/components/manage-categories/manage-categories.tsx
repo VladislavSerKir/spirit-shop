@@ -39,7 +39,6 @@ const ManageCategories = () => {
 
   const handleDelete = ({ id, name }: ICategory) => {
     dispatch(deleteCategory(id));
-    toast.error(`Category ${name} deleted!`);
   };
 
   const handleSubmitCategory = (e: any) => {

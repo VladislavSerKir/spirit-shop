@@ -10,7 +10,6 @@ import Cart from "../../pages/cart/cart";
 import { ProtectedRoute } from "../../shared/hoc/protected-route/protected-route";
 import { IUseLocation, useTypedDispatch } from "../../types";
 import ProductsLayout from "../../pages/products/product-layout";
-import Admin from "../../pages/admin/admin";
 import { ToastContainer } from "react-toastify";
 import {
   getAllCategories,
@@ -19,10 +18,10 @@ import {
 import Modal from "../../shared/modal/modal";
 import ChangeCategory from "../change-category/change-category";
 import ChangeProduct from "../change-product/change-product";
-import ProtectedRouteForAdmin from "../../shared/hoc/protected-route-for-admin/protected-route-for-admin";
 import User from "../../pages/user/user";
 import ChangeAvatar from "../change-avatar/change-avatar";
 import { checkAuth } from "../../store/actions/authAction";
+import { NotFound } from "../../shared/not-found/not-found";
 
 function App() {
   const history = useHistory();
@@ -58,25 +57,25 @@ function App() {
         <ProtectedRoute path="/user">
           <User />
         </ProtectedRoute>
-        <ProtectedRouteForAdmin path="/admin">
-          <Admin />
-        </ProtectedRouteForAdmin>
         <ProtectedRoute path="/cart">
           <Cart />
         </ProtectedRoute>
+        <Route path="*">
+          <NotFound />
+        </Route>
       </Switch>
       <Footer />
       <ToastContainer />
       <ScrollUp />
       <>
-        <ProtectedRoute path={`/admin/categories/:id`}>
+        <ProtectedRoute path={`/user/categories/:id`}>
           <Modal onClose={handleCloseModals}>
             <ChangeCategory onClose={handleCloseModals} />
           </Modal>
         </ProtectedRoute>
       </>
       <>
-        <ProtectedRoute path={`/admin/products/:id`}>
+        <ProtectedRoute path={`/user/products/:id`}>
           <Modal onClose={handleCloseModals}>
             <ChangeProduct onClose={handleCloseModals} />
           </Modal>
@@ -88,13 +87,6 @@ function App() {
             <ChangeAvatar onClose={handleCloseModals} />
           </Modal>
         </ProtectedRoute>
-      </>
-      <>
-        <ProtectedRouteForAdmin path={`/admin/profile/avatar`}>
-          <Modal onClose={handleCloseModals}>
-            <ChangeAvatar onClose={handleCloseModals} />
-          </Modal>
-        </ProtectedRouteForAdmin>
       </>
     </>
   );

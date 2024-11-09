@@ -46,7 +46,7 @@ const FavouriteProducts = () => {
           />
         </>
       ) : (
-        <h3 className="container-center">There are no products</h3>
+        <h3 className="container-center">{t("There are no products")}</h3>
       )}
     </section>
   );

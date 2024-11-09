@@ -161,3 +161,35 @@
     transform: rotate(45deg);
   }
 }
+
+@media screen and (max-width: 600px) {
+  .order {
+    &__products {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 766px) {
+  .order {
+    &__products {
+      right: 210px;
+      left: auto;
+    }
+
+    &__product {
+      width: 40px;
+      height: 40px;
+
+      &-image {
+        width: 35px;
+        height: 35px;
+      }
+
+      &-counter {
+        top: 8px;
+        left: 10px;
+      }
+    }
+  }
+}

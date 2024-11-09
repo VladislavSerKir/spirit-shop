@@ -13,10 +13,16 @@ import {
 } from "../../types/store/productStoreType";
 import productService from "../../service/product.service";
 import { toast } from "react-toastify";
-import { setDislikeProduct, setLikeProduct } from "../reducers/userReducer";
+import {
+  clearUserData,
+  setDislikeProduct,
+  setLikeProduct,
+} from "../reducers/userReducer";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { setCategoryRequest } from "../reducers/categoryReducer";
 import { ii18n } from "../../i18n";
+import { setCartToNull } from "../reducers/cartReducer";
+import { setPurchaseToNull } from "../reducers/orderReducer";
 
 export const getAllProducts = createAsyncThunk<
   IProductWithCategories[],
@@ -44,6 +50,15 @@ export const createProduct = createAsyncThunk<
   const response = await productService.createProductRequest(product);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product card has not been created, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method createProduct",
@@ -63,6 +78,15 @@ export const editProduct = createAsyncThunk<
   const response = await productService.editProductRequest(product);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product card has not been edited, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method editProduct",
@@ -82,6 +106,15 @@ export const deleteProduct = createAsyncThunk<
   const response = await productService.deleteProductRequest(id);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product has not been removed from shop, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method createProduct",
@@ -117,10 +150,19 @@ export const likeProduct = createAsyncThunk<
   number,
   number,
   { rejectValue: TError }
->("category/delete", async function (body, { dispatch, rejectWithValue }) {
+>("product/like", async function (body, { dispatch, rejectWithValue }) {
   const response = await productService.likeProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product has not been added to favourites, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method likeProduct",
@@ -136,10 +178,19 @@ export const dislikeProduct = createAsyncThunk<
   number,
   number,
   { rejectValue: TError }
->("category/delete", async function (body, { dispatch, rejectWithValue }) {
+>("product/dislike", async function (body, { dispatch, rejectWithValue }) {
   const response = await productService.dislikeProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product has not been removed from favourites, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method dislikeProduct",

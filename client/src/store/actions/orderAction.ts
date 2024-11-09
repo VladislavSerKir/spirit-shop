@@ -3,9 +3,11 @@ import { ICartParams } from "../../types/store/productStoreType";
 import { TError } from "../../types";
 import orderService from "../../service/order.service";
 import { toast } from "react-toastify";
-import { refreshCart } from "../reducers/cartReducer";
+import { refreshCart, setCartToNull } from "../reducers/cartReducer";
 import { IPurchase } from "../../types/store/orderStoreType";
 import { ii18n } from "../../i18n";
+import { clearUserData } from "../reducers/userReducer";
+import { setPurchaseToNull } from "../reducers/orderReducer";
 
 export const submitPurchase = createAsyncThunk<
   IPurchase,
@@ -15,6 +17,15 @@ export const submitPurchase = createAsyncThunk<
   const response = await orderService.submitPurchaseRequest(params);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Order has not been placed, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method submitPurchase",

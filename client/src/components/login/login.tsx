@@ -62,7 +62,9 @@ const LogIn = () => {
                 </>
               ) : (
                 <>
-                  <h3 className="login__subtitle">Already have an account?</h3>
+                  <h3 className="login__subtitle">
+                    {t("Already have an account?")}
+                  </h3>
                   <span
                     // type="button"
                     onClick={toggleFormType}

@@ -3,8 +3,10 @@ import { IProduct } from "../../types/store/productStoreType";
 import { TError } from "../../types";
 import cartService from "../../service/cart.service";
 import { toast } from "react-toastify";
-import { refreshCart } from "../reducers/cartReducer";
+import { refreshCart, setCartToNull } from "../reducers/cartReducer";
 import { ii18n } from "../../i18n";
+import { clearUserData } from "../reducers/userReducer";
+import { setPurchaseToNull } from "../reducers/orderReducer";
 
 export const addProductToCart = createAsyncThunk<
   IProduct,
@@ -14,6 +16,15 @@ export const addProductToCart = createAsyncThunk<
   const response = await cartService.addProductToCartRequest(product);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product has not been added to cart, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method addProductToCart",
@@ -33,11 +44,21 @@ export const removeProductFromCart = createAsyncThunk<
   const response = await cartService.removeProductFromCartRequest(product);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Product has not been removed from cart, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method removeProductFromCart",
     });
   }
+
   const data: IProduct = await response.json();
   dispatch(refreshCart(data));
   toast.success(`${ii18n.t("Product removed from cart")}`);
@@ -52,11 +73,21 @@ export const clearCart = createAsyncThunk<
   const response = await cartService.clearCartRequest();
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Cart has not been cleared, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method clearCart",
     });
   }
+
   const data: { success: true } = await response.json();
   dispatch(refreshCart(data));
   toast.info(`${ii18n.t("Cart cleared")}`);

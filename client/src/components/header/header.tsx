@@ -65,9 +65,6 @@ export const Header = () => {
 
   const handleChangeLang = () => {
     const currentLanguge = localStorage.getItem("language");
-    // currentLanguge === "RU"
-    //   ? localStorage.setItem("language", "EN")
-    //   : localStorage.setItem("language", "RU");
 
     if (currentLanguge === "RU") {
       localStorage.setItem("language", "EN");
@@ -195,11 +192,7 @@ export const Header = () => {
                 )}
                 {userData.email && width > 767 && (
                   <NavLink
-                    to={
-                      userData.role === "admin"
-                        ? "/admin/profile"
-                        : "/user/profile"
-                    }
+                    to={"/user/profile"}
                     className="nav__link"
                     onClick={clickToShowMenu}
                   >
@@ -230,29 +223,16 @@ export const Header = () => {
                 )}
                 {width < 767 && (
                   <>
-                    {userData.role === "admin" ? (
-                      <li className="nav__item">
-                        <NavLink
-                          to="/admin/profile"
-                          className="nav__link"
-                          activeClassName="active-link"
-                          onClick={clickToShowMenu}
-                        >
-                          {t("Admin")}
-                        </NavLink>
-                      </li>
-                    ) : (
-                      <li className="nav__item">
-                        <NavLink
-                          to="/user/profile"
-                          className="nav__link"
-                          activeClassName="active-link"
-                          onClick={clickToShowMenu}
-                        >
-                          {t("User")}
-                        </NavLink>
-                      </li>
-                    )}
+                    <li className="nav__item">
+                      <NavLink
+                        to="/user/profile"
+                        className="nav__link"
+                        activeClassName="active-link"
+                        onClick={clickToShowMenu}
+                      >
+                        {t("User")}
+                      </NavLink>
+                    </li>
                     <li className="nav__item">
                       <NavLink
                         to="/logout"

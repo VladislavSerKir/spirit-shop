@@ -5,12 +5,15 @@ import { toast } from "react-toastify";
 import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
+import { NotFound } from "../../shared/not-found/not-found";
+import { useTranslation } from "react-i18next";
 
 interface IProductProps {
   productId: string;
 }
 
 const Product: FC<IProductProps> = ({ productId }) => {
+  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
   const user = useTypedSelector((state) => state.user.userData);
@@ -27,7 +30,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
     if (user.email) {
       dispatch(addProductToCart(product));
     } else {
-      toast.info("Sign in to add to cart!");
+      toast.info(t("Sign in to add to cart"));
     }
   };
 
@@ -39,7 +42,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
     } else if (user.email && likedProductsIds.includes(id)) {
       dispatch(dislikeProduct(id));
     } else {
-      toast.info("Sign in to add product to favorites");
+      toast.info(t("Sign in to add product to favorites"));
     }
   };
 
@@ -51,7 +54,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
     return typeof counter === "number" ? counter : 0;
   }, [productId, cart?.cartItem]);
 
-  return (
+  return currentProduct ? (
     <section className="container section">
       <h2 className="section__title-center">{currentProduct?.name}</h2>
       <div className="product-solo__container">
@@ -103,6 +106,8 @@ const Product: FC<IProductProps> = ({ productId }) => {
         </button>
       </div>
     </section>
+  ) : (
+    <NotFound />
   );
 };
 

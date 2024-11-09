@@ -16,6 +16,7 @@ export const ProtectedRoute: FC<IProtectedRouteProps> = ({
 
   return (
     <Route
+      exact
       {...props}
       render={({ location }) =>
         isAuthChecked && user ? (

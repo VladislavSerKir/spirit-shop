@@ -1,14 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import // ICategory,
-// ICreateCategory,
-// IRemoveCategory,
-"../../types/store/productStoreType";
 import { TError } from "../../types";
 import categoryService from "../../service/category.service";
-import // refreshCategories,
-// removeCategory,
-// updateCategory,
-"../reducers/productReducer";
 import { toast } from "react-toastify";
 import { getAllProducts } from "./productAction";
 import {
@@ -22,6 +14,9 @@ import {
   updateCategory,
 } from "../reducers/categoryReducer";
 import { ii18n } from "../../i18n";
+import { clearUserData } from "../reducers/userReducer";
+import { setCartToNull } from "../reducers/cartReducer";
+import { setPurchaseToNull } from "../reducers/orderReducer";
 
 export const createCategory = createAsyncThunk<
   ICreateCategory,
@@ -31,11 +26,21 @@ export const createCategory = createAsyncThunk<
   const response = await categoryService.createCategoryRequest(category);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Category has not been created, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method createCategory",
     });
   }
+
   const data: ICategory = await response.json();
   dispatch(refreshCategories(data));
   toast.success(`${ii18n.t("Category created")}`);
@@ -50,11 +55,21 @@ export const editCategory = createAsyncThunk<
   const response = await categoryService.editCategoryRequest(body);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Category has not been edited, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method editCategory",
     });
   }
+
   const data: ICategory = await response.json();
   dispatch(updateCategory(data));
   dispatch(getAllProducts());
@@ -70,6 +85,15 @@ export const deleteCategory = createAsyncThunk<
   const response = await categoryService.deleteCategoryRequest(id);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Category has not been deleted, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method deleteCategory",
@@ -77,5 +101,6 @@ export const deleteCategory = createAsyncThunk<
   }
   const data: any = await response.json();
   dispatch(removeCategory(data.id));
+  toast.info(`${ii18n.t("Category has been deleted")}`);
   return data;
 });

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { IPurchase } from "../../types/store/orderStoreType";
 import { useTranslation } from "react-i18next";
+import { useResize } from "../../hooks/useResize";
 
 interface IOrderAccordeonProps {
   order: IPurchase;
@@ -10,6 +11,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   const { t } = useTranslation();
   const [active, setActive] = useState(false);
   const divRef = useRef<any>();
+  const { width } = useResize();
 
   const returnUniqueOrder = useCallback(() => {
     return order?.purchase?.map((item) => {
@@ -29,7 +31,8 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
 
   const mapUniqueOrder = returnUniqueOrder();
 
-  let offset = -45;
+  let offset = width < 767 ? 0 : -45;
+  let enlarger = width < 767 ? 25 : 45;
 
   useEffect(() => {
     if (divRef.current) {
@@ -90,7 +93,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
         </div>
         <ul className={`order__products`}>
           {mapUniqueOrder?.map((order, index) => {
-            offset = offset + 45;
+            offset = offset + enlarger;
             if (index > 5) {
               return null;
             } else if (index === 5) {

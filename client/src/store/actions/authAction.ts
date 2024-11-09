@@ -33,7 +33,6 @@ export const getUser = createAsyncThunk(
     return authService
       .userRequest()
       .then((user: IUserData) => {
-        // console.log(user);
         dispatch(setUser(user));
         dispatch(getOrders(user.purchase));
         dispatch(getCart());

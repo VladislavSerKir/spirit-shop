@@ -14,9 +14,9 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UsersService {
   constructor(
+    private jwtService: JwtService,
     private configService: ConfigService,
     @InjectRepository(User) private userRepo: Repository<User>,
-    private jwtService: JwtService,
   ) {}
 
   async getProfileInfo(email: string): Promise<User> {

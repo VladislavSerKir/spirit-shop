@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { TError, TUser } from "../../types";
 import {
+  clearUserData,
   setAvatar,
   setUsersRequest,
   updateAccountActive,
@@ -14,6 +15,8 @@ import {
 import { toast } from "react-toastify";
 import userService from "../../service/user.service";
 import { ii18n } from "../../i18n";
+import { setCartToNull } from "../reducers/cartReducer";
+import { setPurchaseToNull } from "../reducers/orderReducer";
 
 export const onUpdateUser = createAsyncThunk<
   TUserEditResponse,
@@ -42,7 +45,13 @@ export const editAvatar = createAsyncThunk<
 >("user/editAvatar", async function (user, { dispatch, rejectWithValue }) {
   const response = await userService.editAvatarRequest(user);
   if (!response.ok) {
-    toast.error(`${ii18n.t("Error to change avatar")}`);
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.error(`${ii18n.t("Error to change avatar")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method editAvatar",
@@ -78,14 +87,26 @@ export const assignAdmin = createAsyncThunk<
   { rejectValue: any }
 >("user/assignAdmin", async function (body, { dispatch, rejectWithValue }) {
   const response = await userService.assignAdminRequest(body);
+
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Admin has not been assigned or not assigned, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method assignAdmin",
     });
   }
+
   const data: { id: number; role: string } = await response.json();
   dispatch(updateAdminRole(data));
+  toast.info(`${ii18n.t("Admin has been assigned or not assigned")}`);
   return data;
 });
 
@@ -95,13 +116,25 @@ export const manageAccount = createAsyncThunk<
   { rejectValue: any }
 >("user/manageAccount", async function (body, { dispatch, rejectWithValue }) {
   const response = await userService.manageAccountRequest(body);
+
   if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("User has not been activeted or deactivated, check if you are logged in")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method manageAccount",
     });
   }
+
   const data: { id: number; active: boolean } = await response.json();
   dispatch(updateAccountActive(data));
+  toast.info(`${ii18n.t("User has been activeted or deactivated")}`);
   return data;
 });

@@ -53,3 +53,20 @@
     align-items: center;
   }
 }
+
+@media screen and (max-width: 690px) {
+  .cart {
+    &-item {
+      &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+  .cart-button {
+    &-fixed {
+      width: 50%;
+    }
+  }
+}

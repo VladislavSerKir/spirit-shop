@@ -3,6 +3,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 const ENtranslation = {
+  Menu: "Menu",
   Cart: "Cart",
   Home: "Home",
   Admin: "Admin",
@@ -131,9 +132,47 @@ const ENtranslation = {
   "Product edited": "Product edited",
   "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!":
     "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!",
+  "Page not found": "Page not found",
+  "Product has not been added to cart, check if you are logged in":
+    "Product has not been added to cart, check if you are logged in",
+  "Product has not been added to favourites, check if you are logged in":
+    "Product has not been added to favourites, check if you are logged in",
+  "Product has not been removed from favourites, check if you are logged in":
+    "Product has not been removed from favourites, check if you are logged in",
+  "Product has not been removed from cart, check if you are logged in":
+    "Product has not been removed from cart, check if you are logged in",
+  "Order has not been placed, check if you are logged in":
+    "Order has not been placed, check if you are logged in",
+  "Cart has not been cleared, check if you are logged in":
+    "Cart has not been cleared, check if you are logged in",
+  "Category has not been created, check if you are logged in":
+    "Category has not been created, check if you are logged in",
+  "Category has not been edited, check if you are logged in":
+    "Category has not been created, check if you are logged in",
+  "Category has not been deleted, check if you are logged in":
+    "Category has not been created, check if you are logged in",
+  "Product card has not been created, check if you are logged in":
+    "Product card has not been created, check if you are logged in",
+  "Product card has not been edited, check if you are logged in":
+    "Product card has not been edited, check if you are logged in",
+  "Product has not been removed from shop, check if you are logged in":
+    "Product has not been removed from shop, check if you are logged in",
+  "Admin has not been assigned or not assigned, check if you are logged in":
+    "Admin has not been assigned or not assigned, check if you are logged in",
+  "User has not been activeted or deactivated, check if you are logged in":
+    "User has not been activeted or deactivated, check if you are logged in",
+  "Already have an account?": "Already have an account?",
+  "Sign in to add to cart": "Sign in to add to cart",
+  "Sign in to add product to favorites": "Sign in to add product to favorites",
+  "User has been activeted or deactivated":
+    "User has been activeted or deactivated",
+  "Admin has been assigned or not assigned":
+    "Admin has been assigned or not assigned",
+  "There are no products": "There are no products",
 };
 
 const RUtranslation = {
+  Menu: "Меню",
   Cart: "Корзина",
   Home: "Домой",
   Admin: "Админ",
@@ -261,6 +300,45 @@ const RUtranslation = {
   "Product edited": "Продукт изменен",
   "Happiness held is the seed Happiness shared is the flower. Let's share happiness together!":
     "Сохраненное счастье - это семя, разделенное счастье - это цветок. Давайте делиться счастьем вместе!",
+  "Page not found": "Страница не найдена",
+  "Product has not been added to cart, check if you are logged in":
+    "Продукт не добавлен в корзину, проверьте что вы вошли в аккаунт",
+  "Product has not been added to favourites, check if you are logged in":
+    "Продукт не добавлен избранное, проверьте что вы вошли в аккаунт",
+  "Product has not been removed from favourites, check if you are logged in":
+    "Продукт не удален из избранного, проверьте что вы вошли в аккаунт",
+  "Product has not been removed from cart, check if you are logged in":
+    "Продукт не удален из корзины, проверьте что вы вошли в аккаунт",
+  "Order has not been placed, check if you are logged in":
+    "Заказ не был размещен, проверьте что вы вошли в аккаунт",
+  "Cart has not been cleared, check if you are logged in":
+    "Корзина не была очищена, проверьте что вы вошли в аккаунт",
+  "Category has not been created, check if you are logged in":
+    "Категория не была создана, проверьте что вы вошли в аккаунт",
+  "Category has not been edited, check if you are logged in":
+    "Категория не была отредактирована, проверьте что вы вошли в аккаунт",
+  "Category has not been deleted, check if you are logged in":
+    "Категория не была удалена, проверьте что вы вошли в аккаунт",
+  "Product card has not been created, check if you are logged in":
+    "Карточка продукта не была создана, проверьте что вы вошли в аккаунт",
+  "Product card has not been edited, check if you are logged in":
+    "Карточка продукта не была изменена, проверьте что вы вошли в аккаунт",
+  "Product has not been removed from shop, check if you are logged in":
+    "Продукт не был уделен из магазина, проверьте что вы вошли в аккаунт",
+  "Admin has not been assigned or not assigned, check if you are logged in":
+    "Роль админа не была назначена или не назначена, проверьте что вы вошли в аккаунт",
+  "User has not been activeted or deactivated, check if you are logged in":
+    "Пользователь не был активирован или деактивирован, проверьте что вы вошли в аккаунт",
+  "Already have an account?": "Уже есть аккаунт?",
+  "Sign in to add to cart":
+    "Зайдите или зарегистрируйтесь для добавления в корзину",
+  "Sign in to add product to favorites":
+    "Зайдите или зарегистрируйтесь для добавления в избранное",
+  "User has been activeted or deactivated":
+    "Пользователь был активирован или деактивирован",
+  "Admin has been assigned or not assigned":
+    "Роль админа была назначена или не назначена на пользователя",
+  "There are no products": "Продуктов нет",
 };
 
 export const ii18n = new I18n({

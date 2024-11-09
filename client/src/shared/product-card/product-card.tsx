@@ -7,6 +7,7 @@ import gradient from "../../assets/img/product-background.png";
 import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
+import { useTranslation } from "react-i18next";
 
 interface IProductCardProps {
   product: IProduct;
@@ -14,6 +15,7 @@ interface IProductCardProps {
 }
 
 const ProductCard = ({ product, categories }: IProductCardProps) => {
+  const { t } = useTranslation();
   const user = useTypedSelector((state) => state.user.userData);
   const cart = useTypedSelector((state) => state.cart.cart);
   const dispatch = useTypedDispatch();
@@ -23,7 +25,7 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
     if (user.email) {
       dispatch(addProductToCart(product));
     } else {
-      toast.info("Sign in to add to cart");
+      toast.info(t("Sign in to add to cart"));
     }
   };
 
@@ -35,7 +37,7 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
     } else if (user.email && likedProductsIds.includes(id)) {
       dispatch(dislikeProduct(id));
     } else {
-      toast.info("Sign in to add product to favorites");
+      toast.info(t("Sign in to add product to favorites"));
     }
   };
 

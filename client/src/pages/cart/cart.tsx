@@ -64,9 +64,7 @@ const Cart = () => {
     e.preventDefault();
     dispatch(submitPurchase(data));
     setData(initialState);
-    role === "admin"
-      ? history.replace("/admin/orders")
-      : history.replace("/user/orders");
+    history.replace("/user/orders");
   };
 
   const handleClearCart = (e: any) => {
