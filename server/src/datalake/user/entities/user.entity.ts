@@ -71,7 +71,7 @@ export class User {
   @IsPhoneNumber('RU')
   mobileNumber: string;
 
-  @Column({ default: 'user' })
+  @Column({ default: '' })
   @IsString()
   refreshToken: string;
 

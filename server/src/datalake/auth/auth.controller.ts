@@ -13,7 +13,6 @@ import { SigninDto } from './dto/signin.dto';
 import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
-import { RefreshTokenGuard } from 'src/config/refresh-token.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -37,23 +36,19 @@ export class AuthController {
     return this.authService.logOut(body);
   }
 
-  @UseGuards(RefreshTokenGuard)
   @Post('/refresh')
   refreshTokens(@Request() req, @Body() body: any) {
-    // const accessToken = req.headers.authorization;
-    // const userId = req.user['sub'];
-    // const refreshToken = req.user['refreshToken'];
+    const accessToken = req.headers.authorization;
     const { refreshToken } = body;
-    return this.authService.refreshTokens(refreshToken);
+
+    return this.authService.refreshTokens(accessToken, refreshToken);
   }
 
-  @Get('/me')
   @UseGuards(AccessTokenGuard)
+  @Get('/me')
   async getUserData(@Request() request: any) {
     const accessToken = request.headers.authorization;
-    // this.logger.log(accessToken);
+
     return await this.authService.getUserDataByAccessToken(accessToken);
-    // return request.user;
-    // return accessToken;
   }
 }

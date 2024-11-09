@@ -15,7 +15,7 @@ export type JWTConfiguration = {
   access: string;
   refresh: string;
   key: string;
-  ttl: string;
+  ttl: string | number;
 };
 
 export type JwtPayload = {

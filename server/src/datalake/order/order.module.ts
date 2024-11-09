@@ -10,17 +10,12 @@ import { Product } from '../product/entities/product.entity';
 import { Cart } from '../cart/entities/cart.entity';
 import { User } from '../user/entities/user.entity';
 import { CartItem } from '../cart/entities/cart-item.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt.key'),
-        signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
-      }),
-      inject: [ConfigService],
+    JwtModule.register({
+      secret: 'access-secret',
+      signOptions: { expiresIn: 60 },
     }),
     TypeOrmModule.forFeature([Order, Cart, Product, User, CartItem]),
     UsersModule,

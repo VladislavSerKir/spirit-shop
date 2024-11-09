@@ -52,30 +52,14 @@ export class AuthService {
 
     try {
       await this.userRepo.save(newUser);
-      const {
-        id,
-        firstName,
-        lastName,
-        email,
-        mobileNumber,
-        role,
-        cart,
-        avatar,
-      } = newUser;
+      const { id, email } = newUser;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
       await this.updateRefreshToken(id, refreshToken);
 
       return {
-        firstName,
-        lastName,
-        email,
-        mobileNumber,
         accessToken,
         refreshToken,
-        role,
-        cart,
-        avatar,
       };
     } catch (e) {
       if (e.code === duplicateKeyStatusCode) {
@@ -88,7 +72,6 @@ export class AuthService {
 
   async signIn(signinDto: SigninDto): Promise<Partial<User>> {
     const { email, password } = signinDto;
-    // const user = await this.usersService.findByEmail(email);
 
     const user = await this.userRepo.findOne({
       where: { email },
@@ -115,32 +98,14 @@ export class AuthService {
     }
 
     if (user && (await HashService.compareHash(password, user.password))) {
-      const {
-        id,
-        firstName,
-        lastName,
-        email,
-        mobileNumber,
-        role,
-        cart,
-        avatar,
-        purchase,
-      } = user;
+      const { id, email } = user;
 
       const { accessToken, refreshToken } = await this.getTokens(id, email);
       await this.updateRefreshToken(id, refreshToken);
 
       return {
-        firstName,
-        lastName,
-        email,
-        mobileNumber,
         accessToken,
         refreshToken,
-        role,
-        cart,
-        avatar,
-        purchase,
       };
     } else {
       throw new UnauthorizedException('Check login or password');
@@ -205,78 +170,61 @@ export class AuthService {
     }
   }
 
-  async verifyAccessToken(accessToken: string) {
-    try {
-      const decodedToken = this.jwtService.verifyAsync(accessToken, {
-        secret: this.configService.get<string>('jwt.access'),
-      });
-
-      return decodedToken;
-    } catch (error) {
-      if (error.name === 'TokenExpiredError') {
-        throw new Error('Access token has expired');
-      } else if (error.name === 'JsonWebTokenError') {
-        throw new Error('Invalid access token');
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  async verifyRefreshToken(refreshToken: string) {
-    try {
-      const decodedToken = this.jwtService.verifyAsync(refreshToken, {
-        secret: process.env.JWT_REFRESH_SECRET,
-      });
-
-      return decodedToken;
-    } catch (error) {
-      if (error.name === 'TokenExpiredError') {
-        throw new Error('Refresh token has expired');
-      } else if (error.name === 'JsonWebTokenError') {
-        throw new Error('Invalid refresh token');
-      } else {
-        throw error;
-      }
-    }
-  }
-
   hashToken(data: string) {
     return argon2.hash(data);
   }
 
   async updateRefreshToken(userId: number, refreshToken: string) {
-    const hashedRefreshToken = await this.hashToken(refreshToken);
-
     await this.usersService.updateToken(userId, {
-      refreshToken: hashedRefreshToken,
+      refreshToken: refreshToken,
     });
   }
 
-  async refreshTokens(token: string) {
-    // const user = await this.usersService.getUserById(userId);
+  async refreshTokens(accessToken: string, refreshToken: string) {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = jwt.decode(token);
+    const username = decodedToken['username'];
 
-    const decodedToken = await this.verifyAccessToken(token);
-    const userId = Number(decodedToken.sub);
     const user = await this.userRepo.findOne({
-      where: { id: userId },
+      where: { email: username },
     });
 
-    if (!user || !user.refreshToken)
+    if (!user) {
       throw new ForbiddenException(
         'Token updating unavailable, access forbidden',
       );
-    const refreshTokenMatches = await argon2.verify(user.refreshToken, token);
+    }
 
-    if (!refreshTokenMatches)
+    // const hashedRefreshToken = await argon2.hash(refreshToken);
+
+    if (refreshToken !== user.refreshToken) {
       throw new ForbiddenException(
         'Token updating unavailable, access forbidden',
       );
+    }
+
+    const decodedRefreshToken = jwt.decode(refreshToken);
+    const isRefreshTokenExpired = this.validateTokenExpired(
+      decodedRefreshToken['exp'],
+    );
+
+    if (isRefreshTokenExpired) {
+      const newRefreshToken = '';
+      await this.userRepo.update(
+        { email: username },
+        { refreshToken: newRefreshToken },
+      );
+      throw new ForbiddenException('Refresh token expired');
+    }
+
     const { id, email } = user;
+    const { accessToken: updatedAccessToken } = await this.getTokens(id, email);
+    return { updatedAccessToken };
+  }
 
-    const { accessToken, refreshToken } = await this.getTokens(id, email);
-    await this.updateRefreshToken(id, refreshToken);
-    return { accessToken, refreshToken };
+  validateTokenExpired(exp: number): boolean {
+    const currentTime = Date.now() / 1000; // Получаем текущее время в секундах
+    return currentTime > exp; // Сравниваем текущее время с exp
   }
 
   async getTokens(userId: number, email: string) {
@@ -288,7 +236,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>('jwt.access'),
-          expiresIn: '1d',
+          expiresIn: 15,
         },
       ),
       this.jwtService.signAsync(
@@ -299,7 +247,7 @@ export class AuthService {
         {
           // secret: process.env.JWT_REFRESH_SECRET,
           secret: this.configService.get<string>('jwt.refresh'),
-          expiresIn: '7d',
+          expiresIn: 30,
         },
       ),
     ]);

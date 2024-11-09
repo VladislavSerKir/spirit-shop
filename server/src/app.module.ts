@@ -87,10 +87,10 @@ import { Favourite } from './datalake/product/entities/favourite.entity';
         whitelist: true,
       }),
     },
-    {
-      provide: APP_FILTER,
-      useClass: JwtExceptionFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: JwtExceptionFilter,
+    // },
   ],
 })
 export class AppModule {}

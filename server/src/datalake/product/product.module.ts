@@ -8,17 +8,12 @@ import { Favourite } from './entities/favourite.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 import { UsersService } from '../user/users.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt.key'),
-        signOptions: { expiresIn: configService.get<string>('jwt.ttl') },
-      }),
-      inject: [ConfigService],
+    JwtModule.register({
+      secret: 'access-secret',
+      signOptions: { expiresIn: 60 },
     }),
     TypeOrmModule.forFeature([Product, Favourite, User]),
     CategoryModule,

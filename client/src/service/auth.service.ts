@@ -1,37 +1,16 @@
-import { TError, TRefreshData } from "../types";
-import { getCookie, setCookie } from "../utils/cookie";
+import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import { IUserData } from "../types/store/userStoreType";
 
 const authEndPoint = "auth";
 
 const authService = {
-  checkResponse: (res: Response) => {
+  checkResponse: async (res: any) => {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка ${res.status}`);
-  },
-
-  onRefreshToken: async (url: string, options: RequestInit) => {
-    return fetch(url, options)
-      .then(authService.checkResponse)
-      .catch(async (error: TError) => {
-        if (error.message === "jwt expired") {
-          const refreshData: TRefreshData =
-            await authService.refreshTokenRequest();
-          if (!refreshData.success) {
-            Promise.reject(refreshData);
-          }
-          setCookie("accessToken", refreshData.accessToken, {});
-          (options.headers as { [key: string]: string }).authorization =
-            refreshData.accessToken;
-          const res = await fetch(url, options);
-          return await authService.checkResponse(res);
-        } else {
-          return Promise.reject(error);
-        }
-      });
+    const errorData = await res.json();
+    return Promise.reject(errorData);
   },
 
   userRequest: async () => {
@@ -48,17 +27,11 @@ const authService = {
       .then((res) => {
         return authService.checkResponse(res);
       })
-
-      .catch(async (error: TError) => {
-        if (error.message === "jwt expired") {
-          const refreshData: TRefreshData =
-            await authService.refreshTokenRequest();
-          if (!refreshData.success) {
-            Promise.reject(refreshData);
-          }
-          setCookie("accessToken", refreshData.accessToken, {});
-          (options.headers as { [key: string]: string }).authorization =
-            refreshData.accessToken;
+      .catch(async (error: any) => {
+        if (error.error.message.message === "Access token has expired") {
+          const refreshData: any = await authService.refreshTokenRequest();
+          setCookie("accessToken", refreshData.updatedAccessToken, {});
+          options.headers.Authorization = "Bearer " + getCookie("accessToken");
           const res = await fetch(url, options);
           return await authService.checkResponse(res);
         } else {
@@ -72,11 +45,20 @@ const authService = {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
       },
       body: JSON.stringify({
-        token: getCookie("refreshToken"),
+        refreshToken: getCookie("refreshToken"),
       }),
-    }).then(authService.checkResponse);
+    })
+      .then(authService.checkResponse)
+      .catch((error) => {
+        if (error.error.message.message === "Refresh token expired") {
+          deleteCookie("refreshToken");
+          deleteCookie("accessToken");
+        }
+        throw new Error("Access denied");
+      });
   },
 
   registerRequest: ({
