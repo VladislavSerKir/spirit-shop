@@ -40,6 +40,11 @@
 
   &__input {
     width: inherit;
+    transition: all 0.3s;
+
+    &:hover {
+      box-shadow: 0px 0px 37px 2px hsla(var(--hue), 34%, 32%, 0.5);
+    }
   }
 
   &__button {

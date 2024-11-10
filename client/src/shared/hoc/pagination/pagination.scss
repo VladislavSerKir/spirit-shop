@@ -17,12 +17,14 @@ ul {
     margin: 2.5px;
     font-size: 1.4rem;
     cursor: pointer;
+    transition: all 0.3s;
   }
 
   &__numbers {
     width: 2.6rem;
     height: 2.6rem;
     border-radius: 0.4rem;
+    transition: all 0.3s;
 
     &:hover {
       color: var(--first-color-lighten);

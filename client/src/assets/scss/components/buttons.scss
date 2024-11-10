@@ -5,7 +5,7 @@
   padding: 1rem 1.75rem;
   border-radius: 0.5rem;
   font-weight: var(--font-medium);
-  transition: 0.3s;
+  transition: all 0.3s;
 
   &:hover .button__icon {
     transform: translateX(0.25rem);
@@ -23,6 +23,11 @@
     display: inline-flex;
     align-items: center;
     column-gap: 0.5rem;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: var(--first-color-alt);
+    }
   }
 
   &--gap {

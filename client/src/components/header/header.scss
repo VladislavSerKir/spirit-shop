@@ -85,6 +85,10 @@
 
     &-img {
       width: 33px;
+      transition: all 0.3s;
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
 
@@ -112,6 +116,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &__item {
+    transition: all 0.5s;
+
+    &:hover {
+      transition: all 0.5s;
+      color: var(--title-color);
+    }
+  }
 
   &__lang-switch {
     cursor: pointer;
@@ -146,6 +159,11 @@
     display: inline-flex;
     font-size: 1.25rem;
     cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 
   &__menu {
@@ -170,6 +188,11 @@
     top: 1rem;
     right: 1.25rem;
     cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 
   &__list {
