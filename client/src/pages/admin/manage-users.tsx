@@ -62,7 +62,7 @@ export const ManageUsers = () => {
             })}
           </>
         ) : (
-          <h3 className="container-center">There are no users</h3>
+          <h3 className="container-center">{t("There are no users")}</h3>
         )}
       </div>
       {usersToShow?.length ? (

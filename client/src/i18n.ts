@@ -169,6 +169,7 @@ const ENtranslation = {
   "Admin has been assigned or not assigned":
     "Admin has been assigned or not assigned",
   "There are no products": "There are no products",
+  "There are no users": "There are no users",
 };
 
 const RUtranslation = {
@@ -339,6 +340,7 @@ const RUtranslation = {
   "Admin has been assigned or not assigned":
     "Роль админа была назначена или не назначена на пользователя",
   "There are no products": "Продуктов нет",
+  "There are no users": "Пользователей нет",
 };
 
 export const ii18n = new I18n({
