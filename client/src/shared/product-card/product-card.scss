@@ -3,6 +3,13 @@
     text-align: center;
   }
 
+  &__rating {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin: 4px 0;
+  }
+
   &__cart {
     position: relative;
     font-size: 16px;

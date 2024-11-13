@@ -5,6 +5,18 @@
     margin-top: 20px;
   }
 
+  &__rating {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+
+    &-counter {
+      font-size: var(--h3-font-size);
+    }
+  }
+
   &__cart {
     position: relative;
     font-size: 16px;

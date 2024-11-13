@@ -8,6 +8,7 @@ import {
 import { Cart } from 'src/datalake/cart/entities/cart.entity';
 import { Order } from 'src/datalake/order/entities/order.entity';
 import { Favourite } from 'src/datalake/product/entities/favourite.entity';
+import { Review } from 'src/datalake/review/entities/review.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -97,6 +98,12 @@ export class User {
     onDelete: 'CASCADE',
   })
   purchase: Order[];
+
+  @OneToMany(() => Review, (review) => review.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  reviews: Review[];
 
   @Column({ default: true })
   @IsBoolean()

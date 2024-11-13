@@ -7,6 +7,7 @@ import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { NotFound } from "../../shared/not-found/not-found";
 import { useTranslation } from "react-i18next";
+import StarRatings from "react-star-ratings";
 
 interface IProductProps {
   productId: string;
@@ -72,6 +73,17 @@ const Product: FC<IProductProps> = ({ productId }) => {
               </span>
             ))}
           </div>
+          <div className="product-solo__rating">
+            <StarRatings
+              rating={2.4}
+              starRatedColor="orange"
+              changeRating={() => {}}
+              starDimension="30px"
+              numberOfStars={5}
+              name="rating"
+            />
+            <p className="product-solo__rating-counter">(2)</p>
+          </div>
         </div>
         <p className="product-solo__description">
           {currentProduct?.description}
@@ -79,8 +91,18 @@ const Product: FC<IProductProps> = ({ productId }) => {
       </div>
 
       <div className="container-center">
-        <span className="product__price">${currentProduct?.price}</span>
+        <div className="product-solo__rating">
+          {/* <StarRatings
+            rating={2.4}
+            starRatedColor="orange"
+            changeRating={() => {}}
+            starDimension="30px"
+            numberOfStars={5}
+            name="rating"
+          /> */}
+        </div>
 
+        <span className="product__price">${currentProduct?.price}</span>
         <button
           className={`button--flex product-solo__like-button ${
             userLikedProducts?.includes(+productId)

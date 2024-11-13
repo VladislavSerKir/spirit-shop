@@ -8,6 +8,7 @@ import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
+import StarRatings from "react-star-ratings";
 
 interface IProductCardProps {
   product: IProduct;
@@ -72,6 +73,18 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
                 {category.name}
               </span>
             ))}
+          </div>
+          <div className="product__rating">
+            <StarRatings
+              rating={2.4}
+              starRatedColor="orange"
+              changeRating={() => {}}
+              numberOfStars={5}
+              name="rating"
+              starDimension="20px"
+              starSpacing="2px"
+            />
+            <span className="product__price">(2)</span>
           </div>
           <span className="product__price">${product.price}</span>
 

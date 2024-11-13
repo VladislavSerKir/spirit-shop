@@ -13,6 +13,7 @@ import {
 import { Category } from '../../category/entities/category.entity';
 import { CartItem } from 'src/datalake/cart/entities/cart-item.entity';
 import { Favourite } from './favourite.entity';
+import { Review } from 'src/datalake/review/entities/review.entity';
 
 @Entity()
 export class Product {
@@ -60,4 +61,10 @@ export class Product {
 
   @ManyToOne(() => Favourite, (item) => item.products)
   favourites: Favourite;
+
+  @OneToMany(() => Review, (review) => review.product, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  reviews: Review[];
 }
