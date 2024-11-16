@@ -4,18 +4,24 @@ import EditProfileForm from "../../components/edit-profile-form/edit-profile-for
 import { Order } from "../order/order";
 import FavouriteProducts from "../favourite-products/favourite-products";
 import { useTranslation } from "react-i18next";
-import { useTypedSelector } from "../../types";
+import { useTypedDispatch, useTypedSelector } from "../../types";
 import ManageCategories from "../../components/manage-categories/manage-categories";
 import ManageProduct from "../../components/manage-product/manage-product";
 import { ManageUsers } from "../admin/manage-users";
 import { NotFound } from "../../shared/not-found/not-found";
 import { useResize } from "../../hooks/useResize";
 import MenuAccordeon from "../../components/menu-accordeon/menu-accordeon";
+import { getUserOrders } from "../../store/actions/orderAction";
 
 const User: FC = () => {
   const { url } = useRouteMatch();
   const { t } = useTranslation();
   const user = useTypedSelector((state) => state.user.userData);
+  const dispatch = useTypedDispatch();
+
+  React.useEffect(() => {
+    dispatch(getUserOrders());
+  }, []);
 
   const { width } = useResize();
 

@@ -92,6 +92,13 @@ export class UsersService {
 
     const user = await this.userRepo.findOne({
       where: { email: username },
+      select: {
+        firstName: true,
+        lastName: true,
+        email: true,
+        mobileNumber: true,
+        active: true,
+      },
     });
 
     if (!updatedUser) {
@@ -122,6 +129,9 @@ export class UsersService {
 
     const user = await this.userRepo.findOne({
       where: { email: username },
+      select: {
+        active: true,
+      },
     });
 
     if (!updatedUser) {
@@ -145,7 +155,13 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    const user = await this.userRepo.findOne({ where: { email } });
+    const user = await this.userRepo.findOne({
+      where: { email },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with email: ${email} does not exist`);
@@ -167,6 +183,9 @@ export class UsersService {
   async getUserById(id: number): Promise<User> {
     const user = await this.userRepo.findOne({
       where: { id },
+      select: {
+        id: true,
+      },
     });
 
     if (!user) {

@@ -33,6 +33,23 @@ export class ProductService {
   async getAllProducts(): Promise<Product[]> {
     const products = await this.productRepo.find({
       relations: ['categories', 'favourites.user'],
+      select: {
+        id: true,
+        description: true,
+        image: true,
+        name: true,
+        price: true,
+        categories: {
+          id: true,
+          name: true,
+        },
+        favourites: {
+          id: true,
+          user: {
+            id: true,
+          },
+        },
+      },
     });
 
     if (!products) {
@@ -91,7 +108,20 @@ export class ProductService {
 
     const { name, description, image, price, categories, id } = body;
 
-    const existingProduct = await this.productRepo.findOne({ where: { id } });
+    const existingProduct = await this.productRepo.findOne({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        image: true,
+        price: true,
+        categories: {
+          id: true,
+          name: true,
+        },
+      },
+    });
     if (!existingProduct) {
       throw new NotFoundException(`Product with id ${id} not found`);
     }
@@ -102,6 +132,10 @@ export class ProductService {
     const updatedCategories = await this.categoryRepo.find({
       where: {
         id: In(categoryIds),
+      },
+      select: {
+        id: true,
+        name: true,
       },
     });
 
@@ -155,7 +189,13 @@ export class ProductService {
 
     const user = await this.userRepo.findOne({
       where: { email: username },
-      relations: ['favourite', 'favourite.products'],
+      relations: ['favourite'],
+      select: {
+        id: true,
+        favourite: {
+          id: true,
+        },
+      },
     });
 
     if (!user) {
@@ -166,7 +206,13 @@ export class ProductService {
       where: {
         id: user.favourite.id,
       },
-      relations: ['user', 'products'],
+      relations: ['products'],
+      select: {
+        id: true,
+        products: {
+          id: true,
+        },
+      },
     });
 
     const product = await this.productRepo.findOne({
@@ -174,6 +220,16 @@ export class ProductService {
         id,
       },
       relations: ['categories'],
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        image: true,
+        categories: {
+          id: true,
+          name: true,
+        },
+      },
     });
 
     favourite.products = [...(favourite.products || []), product];
@@ -200,7 +256,13 @@ export class ProductService {
 
     const user = await this.userRepo.findOne({
       where: { email: username },
-      relations: ['favourite', 'favourite.products'],
+      relations: ['favourite'],
+      select: {
+        id: true,
+        favourite: {
+          id: true,
+        },
+      },
     });
 
     if (!user) {
@@ -211,7 +273,13 @@ export class ProductService {
       where: {
         id: user.favourite.id,
       },
-      relations: ['user', 'products'],
+      relations: ['products'],
+      select: {
+        id: true,
+        products: {
+          id: true,
+        },
+      },
     });
 
     favourite.products = favourite.products.filter(

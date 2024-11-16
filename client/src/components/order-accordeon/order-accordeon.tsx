@@ -150,8 +150,8 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
               </tr>
             </thead>
             <tbody>
-              {order?.purchase.map((item: any) => (
-                <tr key={item.id}>
+              {order?.purchase?.map((item: any, i) => (
+                <tr key={i}>
                   <td className="order__info table__info-image">
                     <img
                       src={item.product.image}

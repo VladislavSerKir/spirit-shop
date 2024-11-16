@@ -17,6 +17,13 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @UseGuards(AccessTokenGuard)
+  @Get('/')
+  getUserOrders(@Request() request: any): Promise<Order[]> {
+    const accessToken = request.headers.authorization;
+    return this.orderService.getUserOrders(accessToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Post('/purchase')
   purchaseOrder(
     @Request() request: any,

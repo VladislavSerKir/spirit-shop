@@ -13,7 +13,7 @@ import { UsersService } from '../user/users.service';
   imports: [
     JwtModule.register({
       secret: 'access-secret',
-      signOptions: { expiresIn: 60 },
+      signOptions: { expiresIn: '1d' },
     }),
     TypeOrmModule.forFeature([Product, Favourite, User]),
     CategoryModule,

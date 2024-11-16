@@ -6,7 +6,6 @@ import {
   Patch,
   UseGuards,
   Delete,
-  Put,
   Request,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
@@ -17,7 +16,6 @@ import { DeleteProductDto } from './dto/delete-product.dto';
 import { IRemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
-import { UsersService } from '../user/users.service';
 
 @Controller('product')
 export class ProductController {

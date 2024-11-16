@@ -13,7 +13,7 @@ import { CartItem } from './entities/cart-item.entity';
   imports: [
     JwtModule.register({
       secret: 'access-secret',
-      signOptions: { expiresIn: 60 },
+      signOptions: { expiresIn: '1d' },
     }),
     TypeOrmModule.forFeature([Cart, Product, CartItem]),
     UsersModule,

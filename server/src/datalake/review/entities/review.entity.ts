@@ -1,17 +1,4 @@
-import {
-  IsBoolean,
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
-  IsPhoneNumber,
-  IsString,
-  Length,
-  Max,
-  Min,
-} from 'class-validator';
-import { Cart } from 'src/datalake/cart/entities/cart.entity';
-import { Order } from 'src/datalake/order/entities/order.entity';
-import { Favourite } from 'src/datalake/product/entities/favourite.entity';
+import { IsInt, IsNotEmpty, IsString, Length, Max, Min } from 'class-validator';
 import { Product } from 'src/datalake/product/entities/product.entity';
 import { User } from 'src/datalake/user/entities/user.entity';
 import {
@@ -20,8 +7,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
   OneToMany,
   ManyToOne,
 } from 'typeorm';
@@ -46,9 +31,9 @@ export class Review {
   @Max(5, { message: 'Rate must not exceed 5' })
   rate: number;
 
-  @Column()
+  @Column({ default: '' })
   @IsString()
-  @Length(2, 200)
+  @Length(0, 200)
   comment: string;
 
   @ManyToOne(() => User, (user) => user.id, {
@@ -56,6 +41,9 @@ export class Review {
   })
   user: User;
 
-  @ManyToOne(() => Product, (product) => product.id)
+  @ManyToOne(() => Product, (product) => product.reviews)
   product: Product;
+
+  // @OneToMany(() => User, (user) => user.id)
+  // helpful: User[];
 }

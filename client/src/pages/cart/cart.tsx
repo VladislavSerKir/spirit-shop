@@ -20,7 +20,6 @@ const Cart = () => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const cart = useTypedSelector((state) => state.cart.cart);
-  const role = useTypedSelector((state) => state.user.userData.role);
 
   const initialState = {
     comment: "",

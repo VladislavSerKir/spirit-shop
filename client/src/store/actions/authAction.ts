@@ -8,7 +8,7 @@ import {
 } from "../reducers/userReducer";
 import authService from "../../service/auth.service";
 import { IUserData, TUserEditResponse } from "../../types/store/userStoreType";
-import { getOrders, setPurchaseToNull } from "../reducers/orderReducer";
+import { setPurchaseToNull } from "../reducers/orderReducer";
 import { TError, TResponseWithoutPayload } from "../../types";
 import { setAuthChecked } from "../reducers/authReducer";
 import { getCart } from "./cartAction";
@@ -34,7 +34,6 @@ export const getUser = createAsyncThunk(
       .userRequest()
       .then((user: IUserData) => {
         dispatch(setUser(user));
-        dispatch(getOrders(user.purchase));
         dispatch(getCart());
       })
       .catch((err: any) => {

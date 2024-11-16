@@ -9,6 +9,8 @@ import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
+import { rateProduct } from "../../store/actions/reviewAction";
+import { IReview } from "../../types/store/reviewStoreType";
 
 interface IProductCardProps {
   product: IProduct;
@@ -19,6 +21,9 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
   const { t } = useTranslation();
   const user = useTypedSelector((state) => state.user.userData);
   const cart = useTypedSelector((state) => state.cart.cart);
+  const reviews = useTypedSelector((state) => state.review.review);
+  const currentReviews = reviews.filter((i) => i.product?.id === product?.id);
+
   const dispatch = useTypedDispatch();
   const userLikedProducts = user?.favourite?.map((i: IProduct) => i.id);
 
@@ -42,6 +47,10 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
     }
   };
 
+  const handleRate = (id: number, rate: number) => {
+    dispatch(rateProduct({ productId: id, rate }));
+  };
+
   const countProducts = useMemo(() => {
     if (!cart?.cartItem?.length) return 0;
     const counter = cart?.cartItem?.find(
@@ -49,6 +58,16 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
     )?.quantity;
     return typeof counter === "number" ? counter : 0;
   }, [product.id, cart?.cartItem]);
+
+  const countAverageRate = useMemo(() => {
+    if (!currentReviews?.length) return 0;
+    const counter =
+      currentReviews?.reduce(
+        (acc, item: IReview) => (acc += item.rate ? item.rate : 0),
+        0
+      ) / currentReviews.length;
+    return typeof counter === "number" ? counter : 0;
+  }, [reviews.length, currentReviews.length, handleRate]);
 
   return (
     <article className="product__card" key={product.id}>
@@ -76,15 +95,15 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
           </div>
           <div className="product__rating">
             <StarRatings
-              rating={2.4}
+              rating={countAverageRate}
               starRatedColor="orange"
-              changeRating={() => {}}
+              changeRating={(rate) => handleRate(product.id, rate)}
               numberOfStars={5}
               name="rating"
               starDimension="20px"
               starSpacing="2px"
             />
-            <span className="product__price">(2)</span>
+            <span className="product__price">({currentReviews.length})</span>
           </div>
           <span className="product__price">${product.price}</span>
 

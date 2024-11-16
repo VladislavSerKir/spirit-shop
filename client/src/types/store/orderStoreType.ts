@@ -3,6 +3,7 @@ import { ICartItem } from "./cartStoreType";
 
 export interface IOrderState {
   purchase: IPurchase[];
+  success: boolean;
   orderError: null | undefined | TError;
   orderRequest: boolean;
 }

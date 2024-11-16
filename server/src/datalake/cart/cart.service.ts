@@ -54,6 +54,23 @@ export class CartService {
         'cartItem.product',
         'cartItem.product.categories',
       ],
+      select: {
+        id: true,
+        cartItem: {
+          id: true,
+          quantity: true,
+          product: {
+            id: true,
+            name: true,
+            image: true,
+            price: true,
+            description: true,
+            categories: {
+              id: true,
+            },
+          },
+        },
+      },
     });
 
     if (!cart) {
@@ -73,6 +90,12 @@ export class CartService {
     const user = await this.userRepo.findOne({
       where: { email: username },
       relations: ['cart'],
+      select: {
+        id: true,
+        cart: {
+          id: true,
+        },
+      },
     });
 
     if (!user) {
@@ -84,6 +107,16 @@ export class CartService {
         id: product.id,
       },
       relations: ['categories'],
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        price: true,
+        description: true,
+        categories: {
+          id: true,
+        },
+      },
     });
     if (!existingProduct) {
       throw new Error('Product not found');
@@ -92,11 +125,27 @@ export class CartService {
     const cart = await this.cartRepo.findOne({
       where: { id: user.cart.id },
       relations: [
-        'user',
         'cartItem',
         'cartItem.product',
         'cartItem.product.categories',
       ],
+      select: {
+        id: true,
+        cartItem: {
+          id: true,
+          quantity: true,
+          product: {
+            id: true,
+            name: true,
+            image: true,
+            price: true,
+            description: true,
+            categories: {
+              id: true,
+            },
+          },
+        },
+      },
     });
     if (!cart) {
       throw new Error('Cart not found');
@@ -105,6 +154,7 @@ export class CartService {
     let cartItem = cart.cartItem.find(
       (item) => item.product.id === existingProduct.id,
     );
+
     if (cartItem) {
       cartItem.quantity += 1;
     } else {
@@ -127,6 +177,12 @@ export class CartService {
     const user = await this.userRepo.findOne({
       where: { email: username },
       relations: ['cart'],
+      select: {
+        id: true,
+        cart: {
+          id: true,
+        },
+      },
     });
 
     if (!user) {
@@ -137,7 +193,11 @@ export class CartService {
       where: {
         id: product.id,
       },
+      select: {
+        id: true,
+      },
     });
+
     if (!existingProduct) {
       throw new Error('Product not found');
     }
@@ -145,12 +205,29 @@ export class CartService {
     const cart = await this.cartRepo.findOne({
       where: { id: user.cart.id },
       relations: [
-        'user',
         'cartItem',
         'cartItem.product',
         'cartItem.product.categories',
       ],
+      select: {
+        id: true,
+        cartItem: {
+          id: true,
+          quantity: true,
+          product: {
+            id: true,
+            name: true,
+            image: true,
+            price: true,
+            description: true,
+            categories: {
+              id: true,
+            },
+          },
+        },
+      },
     });
+
     if (!cart) {
       throw new Error('Cart not found');
     }
@@ -164,6 +241,7 @@ export class CartService {
       cart.cartItem = cart.cartItem.filter((item) => item.id !== cartItem.id);
     }
     await this.cartRepo.save(cart);
+
     return cart.cartItem;
   }
 
@@ -177,6 +255,15 @@ export class CartService {
     const user = await this.userRepo.findOne({
       where: { email: username },
       relations: ['cart', 'cart.cartItem'],
+      select: {
+        id: true,
+        cart: {
+          id: true,
+          cartItem: {
+            id: true,
+          },
+        },
+      },
     });
 
     if (!user) {

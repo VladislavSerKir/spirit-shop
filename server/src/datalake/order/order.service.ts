@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
@@ -23,6 +24,52 @@ export class OrderService {
     private jwtService: JwtService,
   ) {}
 
+  async getUserOrders(accessToken: string): Promise<Order[]> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    const userOrders = await this.orderRepo.find({
+      where: { user: user as User },
+      relations: ['purchase', 'purchase.product'],
+      select: {
+        id: true,
+        createdAt: true,
+        number: true,
+        isNeedDelivery: true,
+        isNeedPackage: true,
+        comment: true,
+        purchase: {
+          quantity: true,
+          product: {
+            name: true,
+            createdAt: true,
+            image: true,
+            price: true,
+          },
+        },
+      },
+    });
+
+    if (!userOrders.length) {
+      throw new NotFoundException('Error fetch orders');
+    } else {
+      return userOrders;
+    }
+  }
+
   async purchaseOrder(
     accessToken,
     order: Partial<Order>,
@@ -37,12 +84,19 @@ export class OrderService {
 
     const user = await this.userRepo.findOne({
       where: { email: username },
-      relations: [
-        'cart',
-        'cart.cartItem',
-        'cart.cartItem.product',
-        'cart.cartItem.product.categories',
-      ],
+      relations: ['cart', 'cart.cartItem', 'cart.cartItem.product'],
+      select: {
+        id: true,
+        cart: {
+          id: true,
+          cartItem: {
+            id: true,
+            product: {
+              id: true,
+            },
+          },
+        },
+      },
     });
 
     if (!user.cart.cartItem.length) {
@@ -56,7 +110,13 @@ export class OrderService {
       where: {
         id: In(cartItemIds),
       },
-      relations: ['product', 'product.categories'],
+      relations: ['product'],
+      select: {
+        id: true,
+        product: {
+          id: true,
+        },
+      },
     });
 
     const newOrder = this.orderRepo.create({
@@ -84,7 +144,14 @@ export class OrderService {
       const updatedCart = await this.cartRepo.findOne({
         where: { id: user.cart.id },
         relations: ['cartItem'],
+        select: {
+          id: true,
+          cartItem: {
+            id: true,
+          },
+        },
       });
+
       updatedCart.cartItem = [];
       await this.cartRepo.save(updatedCart);
 

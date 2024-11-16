@@ -75,18 +75,12 @@ export class AuthService {
 
     const user = await this.userRepo.findOne({
       where: { email },
-      relations: [
-        'purchase',
-        'purchase.purchase.product',
-        'purchase.purchase.product.categories',
-        'cart',
-        'cart.cartItem',
-        'cart.cartItem.product',
-        'cart.cartItem.product.categories',
-        'favourite',
-        'favourite.products',
-        'favourite.products.categories',
-      ],
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        active: true,
+      },
     });
 
     if (!user) {
@@ -130,13 +124,33 @@ export class AuthService {
       const user = await this.userRepo.findOne({
         where: { email: username },
         relations: [
-          'purchase',
-          'purchase.purchase.product',
-          'purchase.purchase.product.categories',
           'favourite',
           'favourite.products',
           'favourite.products.categories',
         ],
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          mobileNumber: true,
+          role: true,
+          avatar: true,
+          favourite: {
+            id: true,
+            products: {
+              id: true,
+              name: true,
+              price: true,
+              image: true,
+              description: true,
+              categories: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       });
 
       const {
@@ -147,7 +161,6 @@ export class AuthService {
         role,
         cart,
         avatar,
-        purchase,
         favourite,
       } = user;
 
@@ -159,7 +172,6 @@ export class AuthService {
         role,
         avatar,
         cart,
-        purchase,
         favourite,
       };
     } catch (error) {
@@ -187,6 +199,11 @@ export class AuthService {
 
     const user = await this.userRepo.findOne({
       where: { email: username },
+      select: {
+        id: true,
+        email: true,
+        refreshToken: true,
+      },
     });
 
     if (!user) {
@@ -236,7 +253,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>('jwt.access'),
-          expiresIn: 15,
+          expiresIn: '1d',
         },
       ),
       this.jwtService.signAsync(
@@ -247,7 +264,7 @@ export class AuthService {
         {
           // secret: process.env.JWT_REFRESH_SECRET,
           secret: this.configService.get<string>('jwt.refresh'),
-          expiresIn: 30,
+          expiresIn: '7d',
         },
       ),
     ]);

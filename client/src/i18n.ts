@@ -170,6 +170,10 @@ const ENtranslation = {
     "Admin has been assigned or not assigned",
   "There are no products": "There are no products",
   "There are no users": "There are no users",
+  "Rate has not been added, check if you are logged in":
+    "Rate has not been added, check if you are logged in",
+  "Product rated": "Product rated",
+  "There are no orders": "There are no orders",
 };
 
 const RUtranslation = {
@@ -341,6 +345,10 @@ const RUtranslation = {
     "Роль админа была назначена или не назначена на пользователя",
   "There are no products": "Продуктов нет",
   "There are no users": "Пользователей нет",
+  "Rate has not been added, check if you are logged in":
+    "Оценка не была добавлена, проверьте что вы вошли в аккаунт",
+  "Product rated": "Оценка добавлена",
+  "There are no orders": "Заказов нет",
 };
 
 export const ii18n = new I18n({

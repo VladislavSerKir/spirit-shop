@@ -5,6 +5,16 @@ import { getCookie } from "../utils/cookie";
 const orderEndPoint = "order";
 
 const orderService = {
+  getUserOrdersRequest: () => {
+    return fetch(`${config.apiEndPoint}/${orderEndPoint}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+    });
+  },
+
   submitPurchaseRequest: ({
     comment,
     isNeedPackage,

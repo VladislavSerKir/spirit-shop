@@ -21,7 +21,12 @@ export class CategoryService {
   ) {}
 
   async getAllCategories(): Promise<Category[]> {
-    const categories = await this.categoryRepo.find();
+    const categories = await this.categoryRepo.find({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
 
     if (!categories) {
       throw new NotFoundException('Error fetch categories');

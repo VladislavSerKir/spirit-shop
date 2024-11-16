@@ -9,6 +9,22 @@ import { ii18n } from "../../i18n";
 import { clearUserData } from "../reducers/userReducer";
 import { setPurchaseToNull } from "../reducers/orderReducer";
 
+export const getUserOrders = createAsyncThunk<
+  IPurchase[],
+  undefined,
+  { rejectValue: any }
+>("order/getUserOrders", async function (_, { dispatch, rejectWithValue }) {
+  const response = await orderService.getUserOrdersRequest();
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method getUserOrders",
+    });
+  }
+  const data: IPurchase[] = await response.json();
+  return data;
+});
+
 export const submitPurchase = createAsyncThunk<
   IPurchase,
   ICartParams,

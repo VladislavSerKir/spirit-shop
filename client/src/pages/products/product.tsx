@@ -8,6 +8,8 @@ import { ICategory } from "../../types/store/categoryStoreType";
 import { NotFound } from "../../shared/not-found/not-found";
 import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
+import { rateProduct } from "../../store/actions/reviewAction";
+import { IReview } from "../../types/store/reviewStoreType";
 
 interface IProductProps {
   productId: string;
@@ -19,6 +21,8 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const products = useTypedSelector((state) => state.products.products);
   const user = useTypedSelector((state) => state.user.userData);
   const cart = useTypedSelector((state) => state.cart.cart);
+  const reviews = useTypedSelector((state) => state.review.review);
+  const currentReviews = reviews?.filter((i) => i.product?.id === +productId);
 
   const userLikedProducts = user.favourite?.map((i: any) => i.id);
 
@@ -47,6 +51,10 @@ const Product: FC<IProductProps> = ({ productId }) => {
     }
   };
 
+  const handleRate = (id: number, rate: number) => {
+    dispatch(rateProduct({ productId: id, rate }));
+  };
+
   const countProducts = useMemo(() => {
     if (!cart?.cartItem?.length) return 0;
     const counter = cart?.cartItem?.find(
@@ -54,6 +62,16 @@ const Product: FC<IProductProps> = ({ productId }) => {
     )?.quantity;
     return typeof counter === "number" ? counter : 0;
   }, [productId, cart?.cartItem]);
+
+  const countAverageRate = useMemo(() => {
+    if (!currentReviews?.length) return 0;
+    const counter =
+      currentReviews?.reduce(
+        (acc, item: IReview) => (acc += item.rate ? item.rate : 0),
+        0
+      ) / currentReviews.length;
+    return typeof counter === "number" ? counter : 0;
+  }, [currentReviews.length, handleRate]);
 
   return currentProduct ? (
     <section className="container section">
@@ -75,14 +93,16 @@ const Product: FC<IProductProps> = ({ productId }) => {
           </div>
           <div className="product-solo__rating">
             <StarRatings
-              rating={2.4}
+              rating={countAverageRate}
               starRatedColor="orange"
-              changeRating={() => {}}
+              changeRating={(rate) => handleRate(+productId, rate)}
               starDimension="30px"
               numberOfStars={5}
               name="rating"
             />
-            <p className="product-solo__rating-counter">(2)</p>
+            <p className="product-solo__rating-counter">
+              ({currentReviews.length})
+            </p>
           </div>
         </div>
         <p className="product-solo__description">
@@ -91,16 +111,8 @@ const Product: FC<IProductProps> = ({ productId }) => {
       </div>
 
       <div className="container-center">
-        <div className="product-solo__rating">
-          {/* <StarRatings
-            rating={2.4}
-            starRatedColor="orange"
-            changeRating={() => {}}
-            starDimension="30px"
-            numberOfStars={5}
-            name="rating"
-          /> */}
-        </div>
+        {/* <div className="product-solo__rating">
+        </div> */}
 
         <span className="product__price">${currentProduct?.price}</span>
         <button

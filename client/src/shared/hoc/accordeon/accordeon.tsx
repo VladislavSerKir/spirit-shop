@@ -52,12 +52,12 @@ const Accordeon = ({
 
         <div className="container-center">
           {categories &&
-            categories.map((category: ICategory) => (
+            categories.map((category: ICategory, i) => (
               <button
                 className={`product__find-category ${
                   String(category.id) === id ? "product__active" : ""
                 }`}
-                key={category.id}
+                key={i}
                 type="button"
                 onClick={() => handleClick(String(category.id))}
               >

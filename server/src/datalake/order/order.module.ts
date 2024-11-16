@@ -15,7 +15,7 @@ import { CartItem } from '../cart/entities/cart-item.entity';
   imports: [
     JwtModule.register({
       secret: 'access-secret',
-      signOptions: { expiresIn: 60 },
+      signOptions: { expiresIn: '1d' },
     }),
     TypeOrmModule.forFeature([Order, Cart, Product, User, CartItem]),
     UsersModule,

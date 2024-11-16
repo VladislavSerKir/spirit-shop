@@ -1,4 +1,3 @@
-import React from "react";
 import { useTypedSelector } from "../../types";
 import OrderAccordeon from "../../components/order-accordeon/order-accordeon";
 import Pagination from "../../shared/hoc/pagination/pagination";
@@ -28,20 +27,18 @@ export const Order = () => {
                 </div>
               );
             })}
+            <Pagination
+              currentPage={currentPage}
+              jump={jump}
+              maxPage={maxPage}
+              next={next}
+              prev={prev}
+            />
           </>
         ) : (
-          <h3 className="container-center">There are no orders</h3>
+          <h3 className="container-center">{t("There are no orders")}</h3>
         )}
       </div>
-      {ordersToShow?.length && (
-        <Pagination
-          currentPage={currentPage}
-          jump={jump}
-          maxPage={maxPage}
-          next={next}
-          prev={prev}
-        />
-      )}
     </>
   );
 };

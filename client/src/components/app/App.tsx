@@ -22,6 +22,7 @@ import User from "../../pages/user/user";
 import ChangeAvatar from "../change-avatar/change-avatar";
 import { checkAuth } from "../../store/actions/authAction";
 import { NotFound } from "../../shared/not-found/not-found";
+import { getAllReviews } from "../../store/actions/reviewAction";
 
 function App() {
   const history = useHistory();
@@ -40,6 +41,10 @@ function App() {
 
   React.useEffect(() => {
     dispatch(getAllCategories());
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(getAllReviews());
   }, []);
 
   const handleCloseModals = useCallback(() => {
