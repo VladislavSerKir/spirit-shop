@@ -82,7 +82,6 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
           />
         </div>
       </Link>
-
       {categories ? (
         <>
           <h3 className="product__title">{product.name}</h3>

@@ -174,6 +174,8 @@ const ENtranslation = {
     "Rate has not been added, check if you are logged in",
   "Product rated": "Product rated",
   "There are no orders": "There are no orders",
+  Reviews: "Reviews",
+  "left review": "left review",
 };
 
 const RUtranslation = {
@@ -349,6 +351,8 @@ const RUtranslation = {
     "Оценка не была добавлена, проверьте что вы вошли в аккаунт",
   "Product rated": "Оценка добавлена",
   "There are no orders": "Заказов нет",
+  Reviews: "Отзывы",
+  "left review": "оставил отзыв",
 };
 
 export const ii18n = new I18n({

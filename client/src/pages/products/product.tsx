@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
 import { rateProduct } from "../../store/actions/reviewAction";
 import { IReview } from "../../types/store/reviewStoreType";
+import { ReviewFeed } from "../../components/review-feed/review-feed";
 
 interface IProductProps {
   productId: string;
@@ -109,7 +110,6 @@ const Product: FC<IProductProps> = ({ productId }) => {
           {currentProduct?.description}
         </p>
       </div>
-
       <div className="container-center">
         {/* <div className="product-solo__rating">
         </div> */}
@@ -139,6 +139,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
           ) : null}
         </button>
       </div>
+      <ReviewFeed />
     </section>
   ) : (
     <NotFound />
