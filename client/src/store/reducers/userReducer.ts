@@ -32,6 +32,7 @@ const userState: IUserState = {
   userError: null,
   userRequest: false,
   usersRequest: false,
+  allUsersRequest: false,
   usersError: null,
 };
 
@@ -134,15 +135,15 @@ export const userSlice = createSlice({
       state.updateRequest = false;
     });
     builder.addCase(getAllUsers.pending, (state) => {
-      state.usersRequest = true;
+      state.allUsersRequest = true;
     });
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.allUsersData = [...action.payload];
-      state.usersRequest = false;
+      state.allUsersRequest = false;
     });
     builder.addCase(getAllUsers.rejected, (state, action) => {
       state.usersError = action.payload;
-      state.usersRequest = false;
+      state.allUsersRequest = false;
     });
   },
 });

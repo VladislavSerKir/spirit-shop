@@ -176,6 +176,9 @@ const ENtranslation = {
   "There are no orders": "There are no orders",
   Reviews: "Reviews",
   "left review": "left review",
+  "Leave review": "Leave review",
+  "My review": "My review",
+  "My rate": "My rate",
 };
 
 const RUtranslation = {
@@ -353,6 +356,9 @@ const RUtranslation = {
   "There are no orders": "Заказов нет",
   Reviews: "Отзывы",
   "left review": "оставил отзыв",
+  "Leave review": "Оставить отзыв",
+  "My review": "Мой отзыв",
+  "My rate": "Моя оценка",
 };
 
 export const ii18n = new I18n({

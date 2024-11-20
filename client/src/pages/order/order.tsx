@@ -4,10 +4,12 @@ import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { IPurchase } from "../../types/store/orderStoreType";
 import { useTranslation } from "react-i18next";
+import Spinner from "../spinner/spinner";
 
 export const Order = () => {
   const { t } = useTranslation();
   const orders = useTypedSelector((store) => store.order.purchase);
+  const orderRequest = useTypedSelector((store) => store.order.orderRequest);
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
     usePagination(orders, 5);
@@ -16,29 +18,35 @@ export const Order = () => {
 
   return (
     <>
-      <div className="order__page">
-        <h2 className="section__title-center">{t("My orders")}</h2>
-        {ordersToShow?.length ? (
-          <>
-            {ordersToShow?.map((order: IPurchase) => {
-              return (
-                <div key={order.id} className="accordeon__container">
-                  <OrderAccordeon order={order} />
-                </div>
-              );
-            })}
-            <Pagination
-              currentPage={currentPage}
-              jump={jump}
-              maxPage={maxPage}
-              next={next}
-              prev={prev}
-            />
-          </>
-        ) : (
-          <h3 className="container-center">{t("There are no orders")}</h3>
-        )}
-      </div>
+      {orderRequest ? (
+        <Spinner />
+      ) : (
+        <>
+          <div className="order__page">
+            <h2 className="section__title-center">{t("My orders")}</h2>
+            {ordersToShow?.length ? (
+              <>
+                {ordersToShow?.map((order: IPurchase) => {
+                  return (
+                    <div key={order.id} className="accordeon__container">
+                      <OrderAccordeon order={order} />
+                    </div>
+                  );
+                })}
+                <Pagination
+                  currentPage={currentPage}
+                  jump={jump}
+                  maxPage={maxPage}
+                  next={next}
+                  prev={prev}
+                />
+              </>
+            ) : (
+              <h3 className="container-center">{t("There are no orders")}</h3>
+            )}
+          </div>
+        </>
+      )}
     </>
   );
 };

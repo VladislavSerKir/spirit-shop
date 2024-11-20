@@ -5,6 +5,22 @@
     margin-top: 20px;
   }
 
+  &__own-comment {
+    overflow: auto;
+
+    /* = Убираем увеличение */
+    resize: none;
+    width: 100%;
+    height: 50px;
+
+    /* = Добавим фон, рамку, отступ*/
+    background: #f6f6f6;
+    border: 2px solid #cecece;
+    border-radius: 8px;
+    padding: 8px 0 8px 10px;
+    box-shadow: 0px 0px 23px -4px hsla(var(--hue), 34%, 32%, 0.5);
+  }
+
   &__rating {
     margin-top: 15px;
     display: flex;
@@ -71,7 +87,7 @@
   }
 
   &__description {
-    width: 40%;
+    width: 50%;
     padding-left: 50px;
     text-align: justify;
   }

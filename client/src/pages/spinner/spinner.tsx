@@ -1,9 +1,7 @@
-import { FC } from 'react';
+import { FC } from "react";
 
 const Spinner: FC = () => {
-    return (
-        <div className={`spinner`} />
-    );
-}
+  return <div className={`spinner`} />;
+};
 
 export default Spinner;

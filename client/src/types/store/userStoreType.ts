@@ -38,6 +38,7 @@ export interface IUserState {
   userError: null | undefined | TError;
   userRequest: boolean;
   usersRequest: boolean;
+  allUsersRequest: boolean;
   usersError: null | undefined | TError;
 }
 

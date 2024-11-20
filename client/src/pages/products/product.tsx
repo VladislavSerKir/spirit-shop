@@ -11,6 +11,7 @@ import StarRatings from "react-star-ratings";
 import { rateProduct } from "../../store/actions/reviewAction";
 import { IReview } from "../../types/store/reviewStoreType";
 import { ReviewFeed } from "../../components/review-feed/review-feed";
+import MyReview from "../../components/my-review/my-review";
 
 interface IProductProps {
   productId: string;
@@ -139,6 +140,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
           ) : null}
         </button>
       </div>
+      <MyReview />
       <ReviewFeed />
     </section>
   ) : (
