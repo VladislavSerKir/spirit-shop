@@ -179,6 +179,11 @@ const ENtranslation = {
   "Leave review": "Leave review",
   "My review": "My review",
   "My rate": "My rate",
+  "Comment has not been added, check if you are logged in":
+    "Comment has not been added, check if you are logged in",
+  "Product commented": "Product commented",
+  "You can not rate product you have not bought yet":
+    "You can not rate product you have not bought yet",
 };
 
 const RUtranslation = {
@@ -359,6 +364,11 @@ const RUtranslation = {
   "Leave review": "Оставить отзыв",
   "My review": "Мой отзыв",
   "My rate": "Моя оценка",
+  "Comment has not been added, check if you are logged in":
+    "Комментарий не был добавлен, проверьте что вы вошли в аккаунт",
+  "Product commented": "Комментарий добавлен",
+  "You can not rate product you have not bought yet":
+    "Вы не можете указать рейтинг торару, который вы еще не купили",
 };
 
 export const ii18n = new I18n({

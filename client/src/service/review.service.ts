@@ -33,6 +33,26 @@ const reviewService = {
       }),
     });
   },
+
+  commentProductRequest: ({
+    productId,
+    comment,
+  }: {
+    productId: number;
+    comment: string;
+  }) => {
+    return fetch(`${config.apiEndPoint}/${reviewEndPoint}/comment`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({
+        productId,
+        comment,
+      }),
+    });
+  },
 };
 
 export default reviewService;

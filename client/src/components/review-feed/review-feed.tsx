@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { Review } from "../review/review";
+import { IReview } from "../../types/store/reviewStoreType";
 
-export const ReviewFeed = () => {
+interface IReviewFeedProps {
+  reviews: IReview[];
+}
+
+export const ReviewFeed = ({ reviews }: IReviewFeedProps) => {
   const { t } = useTranslation();
 
   return (
@@ -9,7 +14,9 @@ export const ReviewFeed = () => {
       <h3 className="section__title-center questions__title container">
         {t("Reviews")}
       </h3>
-      <Review />
+      {reviews?.map((review: IReview) => {
+        return <Review key={review.id} review={review} />;
+      })}
     </section>
   );
 };

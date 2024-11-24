@@ -29,6 +29,7 @@ export class Favourite {
 
   @OneToMany(() => Product, (product) => product.favourites, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   products: Product[];
 }

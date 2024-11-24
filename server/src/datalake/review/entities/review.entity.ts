@@ -41,7 +41,9 @@ export class Review {
   })
   user: User;
 
-  @ManyToOne(() => Product, (product) => product.reviews)
+  @ManyToOne(() => Product, (product) => product.reviews, {
+    onDelete: 'CASCADE',
+  })
   product: Product;
 
   // @OneToMany(() => User, (user) => user.id)

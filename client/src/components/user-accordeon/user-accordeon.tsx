@@ -4,6 +4,7 @@ import { useTypedDispatch } from "../../types";
 import { assignAdmin, manageAccount } from "../../store/actions/userAction";
 import { IUserData } from "../../types/store/userStoreType";
 import { useTranslation } from "react-i18next";
+import useFarmatDate from "../../hooks/useFormatDate";
 
 interface IUserAccordeonProps {
   user: IUserData | any;
@@ -54,13 +55,7 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
     setActive(!active);
   };
 
-  const returnFormattedDate = useCallback(() => {
-    if (!user.createdAt) return "";
-    let formattedDate = user.createdAt.split("T");
-    let time = formattedDate[1].split(".")[0].split(":");
-    time.pop();
-    return `${formattedDate[0]}, ${time[0]}:${time[1]}`;
-  }, [user]);
+  const { returnFormattedDate } = useFarmatDate(user?.createdAt);
 
   const formattedDate = returnFormattedDate();
 

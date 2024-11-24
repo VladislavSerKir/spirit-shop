@@ -47,6 +47,12 @@ export const rateProduct = createAsyncThunk<any, any, { rejectValue: TError }>(
         );
       }
 
+      if (response.status === 403) {
+        toast.warn(
+          `${ii18n.t("You can not rate product you have not bought yet")}`
+        );
+      }
+
       return rejectWithValue({
         status: response.status,
         message: "Server Error, take a look on method rateProduct",
@@ -59,3 +65,32 @@ export const rateProduct = createAsyncThunk<any, any, { rejectValue: TError }>(
     return data;
   }
 );
+
+export const commentProduct = createAsyncThunk<
+  any,
+  any,
+  { rejectValue: TError }
+>("review/comment", async function (body, { dispatch, rejectWithValue }) {
+  const response = await reviewService.commentProductRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Comment has not been added, check if you are logged in")}`
+      );
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method commentProduct",
+    });
+  }
+
+  const data: any = await response.json();
+  // dispatch(updateReview(data));
+  toast.info(`${ii18n.t("Product commented")}`);
+  return data;
+});

@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -10,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { Review } from './entities/review.entity';
 import { User } from '../user/entities/user.entity';
 import { Product } from '../product/entities/product.entity';
+import { Order } from '../order/entities/order.entity';
 
 @Injectable()
 export class ReviewService {
@@ -19,6 +22,7 @@ export class ReviewService {
     @InjectRepository(Review) private reviewRepo: Repository<Review>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    @InjectRepository(Order) private orderRepo: Repository<Order>,
   ) {}
 
   async getAllReviews(): Promise<Review[]> {
@@ -30,6 +34,9 @@ export class ReviewService {
         rate: true,
         user: {
           email: true,
+          avatar: true,
+          firstName: true,
+          lastName: true,
         },
         product: {
           id: true,
@@ -62,6 +69,32 @@ export class ReviewService {
 
     if (!user) {
       throw new BadRequestException('User does not exist');
+    }
+
+    const userBoughtProduct = await this.orderRepo.find({
+      where: {
+        user: user as User,
+        purchase: {
+          product: {
+            id: productId,
+          },
+        },
+      },
+      relations: ['purchase', 'purchase.product'],
+      select: {
+        id: true,
+        purchase: {
+          product: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (!userBoughtProduct.length) {
+      throw new ForbiddenException(
+        'You cannot rate have not bought product yet',
+      );
     }
 
     const existingProduct = await this.productRepo.findOne({

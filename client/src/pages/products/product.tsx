@@ -25,6 +25,9 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const cart = useTypedSelector((state) => state.cart.cart);
   const reviews = useTypedSelector((state) => state.review.review);
   const currentReviews = reviews?.filter((i) => i.product?.id === +productId);
+  const myReviewOnProduct = reviews?.filter(
+    (i) => i.product?.id === +productId && i.user?.email === user.email
+  );
 
   const userLikedProducts = user.favourite?.map((i: any) => i.id);
 
@@ -140,8 +143,10 @@ const Product: FC<IProductProps> = ({ productId }) => {
           ) : null}
         </button>
       </div>
-      <MyReview />
-      <ReviewFeed />
+      {myReviewOnProduct.length ? (
+        <MyReview review={myReviewOnProduct} />
+      ) : null}
+      <ReviewFeed reviews={currentReviews} />
     </section>
   ) : (
     <NotFound />

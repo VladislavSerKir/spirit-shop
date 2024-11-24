@@ -1,10 +1,17 @@
-import React, { FC, useRef } from "react";
-import { useTypedDispatch, useTypedSelector } from "../../types";
+import React, { useRef, useState } from "react";
+import { useTypedDispatch } from "../../types";
 import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
+import { IReview } from "../../types/store/reviewStoreType";
+import { commentProduct } from "../../store/actions/reviewAction";
 
-const MyReview: FC = () => {
+interface IMyReviewProps {
+  review: IReview[];
+}
+
+const MyReview = ({ review }: IMyReviewProps) => {
   const { t } = useTranslation();
+  const dispatch = useTypedDispatch();
   const textareaRef = useRef<any>();
 
   React.useEffect(() => {
@@ -13,8 +20,6 @@ const MyReview: FC = () => {
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + 5 + "px";
     });
-
-    // return () => window.removeEventListener("input");
   }, []);
 
   const getTheme = () => {
@@ -23,32 +28,43 @@ const MyReview: FC = () => {
 
   const currentTheme = getTheme();
 
-  const dispatch = useTypedDispatch();
-  const products = useTypedSelector((state) => state.products.products);
-  const user = useTypedSelector((state) => state.user.userData);
-  const cart = useTypedSelector((state) => state.cart.cart);
-  const reviews = useTypedSelector((state) => state.review.review);
+  const [comment, setComment] = useState(review[0]?.comment || "");
+
+  React.useEffect(() => {
+    console.log(comment);
+  }, [comment]);
+
+  const handleComment = () => {
+    dispatch(commentProduct({ productId: review[0]?.product?.id, comment }));
+    setComment("");
+  };
 
   return (
     <div className="my-review__content">
       <h3 className="section__title-center">{t("My review")}</h3>
       <textarea
         ref={textareaRef}
+        onChange={(e) => setComment(e.target.value)}
         placeholder={t("Leave review")}
         className={`my-review__textarea ${currentTheme === "dark" ? "my-review__textarea-dark" : null}`}
       ></textarea>
-      <div className="my-review__rate">
-        <p className="review__text">{t("My rate")}:</p>
-        <StarRatings
-          rating={5}
-          starRatedColor="orange"
-          starDimension="20px"
-          starSpacing="2px"
-          numberOfStars={5}
-          name="rating"
-        />
-      </div>
-      <button className="button button--flex my-review__submit">
+      {review[0]?.rate ? (
+        <div className="my-review__rate">
+          <p className="review__text">{t("My rate")}:</p>
+          <StarRatings
+            rating={review[0].rate}
+            starRatedColor="orange"
+            starDimension="20px"
+            starSpacing="2px"
+            numberOfStars={5}
+            name="rating"
+          />
+        </div>
+      ) : null}
+      <button
+        onClick={handleComment}
+        className="button button--flex my-review__submit"
+      >
         {t("Leave review")}
         <i className="ri-arrow-right-down-line button__icon"></i>
       </button>

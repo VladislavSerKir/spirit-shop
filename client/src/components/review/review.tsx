@@ -1,38 +1,42 @@
 import { useTranslation } from "react-i18next";
-import { useTypedSelector } from "../../types";
 import StarRatings from "react-star-ratings";
+import { IReview } from "../../types/store/reviewStoreType";
+import useFarmatDate from "../../hooks/useFormatDate";
 
-export const Review = () => {
+interface IReviewProps {
+  review: IReview;
+}
+
+export const Review = ({ review }: IReviewProps) => {
   const { t } = useTranslation();
-  const userData = useTypedSelector((store) => store.user.userData);
+
+  const { returnFormattedDate } = useFarmatDate(review?.createdAt);
+
+  const farmattedDate = returnFormattedDate();
 
   return (
     <div className="review">
       <img
-        src={userData.avatar}
+        src={review.user.avatar}
         alt="avatar"
         className="review__user-img review-item"
       />
       <div className="review__title review-item">
         <p className="review__title-content">
           <span className="review__username">
-            {userData.firstName} {userData.lastName}
+            {review.user.firstName} {review.user.lastName}
           </span>
           &nbsp;&nbsp;{t("left review")}
-          <span className="review__date">&nbsp;&nbsp;&nbsp; 3 days ago</span>
+          <span className="review__date">
+            &nbsp;&nbsp;&nbsp; {farmattedDate}
+          </span>
         </p>
       </div>
-      <p className="review__text review-item">
-        Наша жизнь - постоянный повтор. Мы все время возвращаемся к тому, с чего
-        мы начали, а затем начинаем все заново. Даже если мы не проведем лишние
-        кружки в тот день, мы обязательно вернемся к тому же еще в тот же день в
-        ближайшее время.
-      </p>
+      <p className="review__text review-item">{review?.comment}</p>
       <div className="review__rate review-item">
         <StarRatings
-          rating={5}
+          rating={review?.rate}
           starRatedColor="orange"
-          changeRating={() => {}}
           starDimension="20px"
           starSpacing="2px"
           numberOfStars={5}
