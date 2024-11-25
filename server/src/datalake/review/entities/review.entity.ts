@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity()
@@ -46,6 +47,9 @@ export class Review {
   })
   product: Product;
 
-  // @OneToMany(() => User, (user) => user.id)
-  // helpful: User[];
+  @ManyToMany(() => User, (user) => user.likedReviews, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  helpful: User[];
 }

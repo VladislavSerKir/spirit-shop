@@ -73,7 +73,7 @@ const ManageCategories = () => {
         </form>
       </div>
       <div className="table__container">
-        {categories.length ? (
+        {categoriesToShow.length ? (
           <table className="table">
             <thead>
               <tr>
@@ -127,17 +127,21 @@ const ManageCategories = () => {
             </tbody>
           </table>
         ) : null}
-        {!categories.length ? (
-          <h2 className="table__title">There is no categories to manage</h2>
+        {!categoriesToShow.length ? (
+          <h2 className="table__title">
+            {t("There is no categories to manage")}
+          </h2>
         ) : null}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        jump={jump}
-        maxPage={maxPage}
-        next={next}
-        prev={prev}
-      />
+      {categoriesToShow?.length ? (
+        <Pagination
+          currentPage={currentPage}
+          jump={jump}
+          maxPage={maxPage}
+          next={next}
+          prev={prev}
+        />
+      ) : null}
     </>
   );
 };

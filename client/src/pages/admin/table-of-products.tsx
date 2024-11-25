@@ -23,7 +23,9 @@ const TableOfProducts = () => {
   };
 
   if (!products.length) {
-    return <h2 className="table__title">There is no product to manage</h2>;
+    return (
+      <h2 className="table__title">{t("There is no product to manage")}</h2>
+    );
   }
 
   return (
@@ -86,13 +88,15 @@ const TableOfProducts = () => {
         </tbody>
       </table>
       <hr />
-      <Pagination
-        currentPage={currentPage}
-        jump={jump}
-        maxPage={maxPage}
-        next={next}
-        prev={prev}
-      />
+      {products?.length ? (
+        <Pagination
+          currentPage={currentPage}
+          jump={jump}
+          maxPage={maxPage}
+          next={next}
+          prev={prev}
+        />
+      ) : null}
     </>
   );
 };

@@ -19,6 +19,8 @@ import {
   JoinColumn,
   OneToMany,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -106,10 +108,11 @@ export class User {
   })
   reviews: Review[];
 
-  // @ManyToOne(() => Review, (review) => review.helpful, {
-  //   onDelete: 'CASCADE',
-  // })
-  // liked: Review;
+  @ManyToMany(() => Review, (review) => review.helpful, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  likedReviews: Review[];
 
   @Column({ default: true })
   @IsBoolean()

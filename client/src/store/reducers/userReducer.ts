@@ -77,28 +77,24 @@ export const userSlice = createSlice({
       state.usersRequest = action.payload;
     },
     updateAdminRole: (state, action: PayloadAction<any>) => {
-      const updatedUser = state.allUsersData.find(
-        (user: any) => user.id === action.payload.id
-      );
-      updatedUser.role = action.payload.role;
-      state.allUsersData = [
-        ...state.allUsersData.filter(
-          (user: any) => user.id !== action.payload.id
-        ),
-        updatedUser,
-      ];
+      state.allUsersData = state.allUsersData.map((user: any) => {
+        if (user.id === action.payload.id) {
+          return {
+            ...user,
+            role: action.payload.role,
+          };
+        }
+
+        return user;
+      });
     },
     updateAccountActive: (state, action: PayloadAction<any>) => {
-      const updatedUser = state.allUsersData.find(
-        (user: any) => user.id === action.payload.id
-      );
-      updatedUser.active = action.payload.active;
-      state.allUsersData = [
-        ...state.allUsersData.filter(
-          (user: any) => user.id !== action.payload.id
-        ),
-        updatedUser,
-      ];
+      state.allUsersData = state.allUsersData.map((user: any) => {
+        if (user.id === action.payload.id) {
+          return { ...user, active: action.payload.active };
+        }
+        return user;
+      });
     },
   },
   extraReducers: (builder) => {

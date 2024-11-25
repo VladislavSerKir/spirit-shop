@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getAllReviews } from "../actions/reviewAction";
-import { IReview, IReviewState } from "../../types/store/reviewStoreType";
+import {
+  IReview,
+  IReviewLikePayload,
+  IReviewState,
+} from "../../types/store/reviewStoreType";
 
 const reviewState: IReviewState = {
   review: [],
@@ -16,7 +20,7 @@ export const reviewSlice = createSlice({
     setReviewRequest: (state, action: PayloadAction<boolean>) => {
       state.reviewRequest = action.payload;
     },
-    updateReview: (state, action: PayloadAction<Partial<IReview>>) => {
+    updateRateReview: (state, action: PayloadAction<Partial<IReview>>) => {
       const updatedReview = state.review.filter(
         (c) => c.id === action.payload.id
       ) as any;
@@ -30,6 +34,59 @@ export const reviewSlice = createSlice({
           { ...updatedReview[0] } as IReview,
         ];
       }
+    },
+    updateCommentReview: (state, action: PayloadAction<Partial<IReview>>) => {
+      const updatedReview = state.review.filter(
+        (c) => c.id === action.payload.id
+      ) as any;
+      if (updatedReview.length === 0) {
+        state.review = [...state.review, { ...action.payload } as IReview];
+      } else {
+        updatedReview[0].comment = action.payload.comment;
+
+        state.review = [
+          ...state.review.filter((c) => c.id !== action.payload.id),
+          { ...updatedReview[0] } as IReview,
+        ];
+      }
+    },
+    setLikeReview: (
+      state,
+      action: PayloadAction<Partial<IReviewLikePayload>>
+    ) => {
+      const updatedReview = state.review.map((review) => {
+        if (review.id === action.payload.id) {
+          return {
+            ...review,
+            helpful: [...review.helpful, { email: action.payload.email }],
+          };
+        }
+
+        return review;
+      });
+
+      state.review = updatedReview;
+    },
+    setDislikeReview: (
+      state,
+      action: PayloadAction<Partial<IReviewLikePayload>>
+    ) => {
+      const updatedReview = state.review.map((review) => {
+        if (review.id === action.payload.id) {
+          const newUserLikesArr = review.helpful.filter(
+            (user) => user.email !== action.payload.email
+          );
+
+          return {
+            ...review,
+            helpful: newUserLikesArr,
+          };
+        }
+
+        return review;
+      });
+
+      state.review = updatedReview;
     },
   },
 
@@ -50,5 +107,11 @@ export const reviewSlice = createSlice({
   },
 });
 
-export const { setReviewRequest, updateReview } = reviewSlice.actions;
+export const {
+  setReviewRequest,
+  updateRateReview,
+  updateCommentReview,
+  setLikeReview,
+  setDislikeReview,
+} = reviewSlice.actions;
 export const reviewReducer = reviewSlice.reducer;

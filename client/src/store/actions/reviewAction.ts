@@ -6,7 +6,12 @@ import { clearUserData } from "../reducers/userReducer";
 import { setCartToNull } from "../reducers/cartReducer";
 import { setPurchaseToNull } from "../reducers/orderReducer";
 import reviewService from "../../service/review.service";
-import { updateReview } from "../reducers/reviewReducer";
+import {
+  setDislikeReview,
+  setLikeReview,
+  updateCommentReview,
+  updateRateReview,
+} from "../reducers/reviewReducer";
 
 export const getAllReviews = createAsyncThunk<
   any,
@@ -60,7 +65,7 @@ export const rateProduct = createAsyncThunk<any, any, { rejectValue: TError }>(
     }
 
     const data: any = await response.json();
-    dispatch(updateReview(data));
+    dispatch(updateRateReview(data));
     toast.info(`${ii18n.t("Product rated")}`);
     return data;
   }
@@ -83,6 +88,12 @@ export const commentProduct = createAsyncThunk<
       );
     }
 
+    if (response.status === 403) {
+      toast.warn(
+        `${ii18n.t("You can not comment product you have not bought yet")}`
+      );
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method commentProduct",
@@ -90,7 +101,63 @@ export const commentProduct = createAsyncThunk<
   }
 
   const data: any = await response.json();
-  // dispatch(updateReview(data));
+  dispatch(updateCommentReview(data));
   toast.info(`${ii18n.t("Product commented")}`);
+  return data;
+});
+
+export const likeReview = createAsyncThunk<
+  number,
+  number,
+  { rejectValue: TError }
+>("product/like", async function (body, { dispatch, rejectWithValue }) {
+  const response = await reviewService.likeReviewRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Review has not been liked, check if you are logged in")}`
+      );
+    }
+
+    if (response.status === 400) {
+      toast.warn(`${ii18n.t("You can not like your own review")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method likeReview",
+    });
+  }
+  const data: any = await response.json();
+  dispatch(setLikeReview(data));
+  toast.info(`${ii18n.t("Review liked")}`);
+  return data;
+});
+
+export const dislikeReview = createAsyncThunk<
+  number,
+  number,
+  { rejectValue: TError }
+>("product/dislike", async function (body, { dispatch, rejectWithValue }) {
+  const response = await reviewService.dislikeReviewRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method dislikeReview",
+    });
+  }
+  const data: any = await response.json();
+  dispatch(setDislikeReview(data));
   return data;
 });

@@ -63,7 +63,6 @@ const Cart = () => {
     e.preventDefault();
     dispatch(submitPurchase(data));
     setData(initialState);
-    history.replace("/user/orders");
   };
 
   const handleClearCart = (e: any) => {

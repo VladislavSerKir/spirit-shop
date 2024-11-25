@@ -13,6 +13,8 @@ import { TError, TResponseWithoutPayload } from "../../types";
 import { setAuthChecked } from "../reducers/authReducer";
 import { getCart } from "./cartAction";
 import { setCartToNull } from "../reducers/cartReducer";
+import { toast } from "react-toastify";
+import { ii18n } from "../../i18n";
 
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
@@ -80,6 +82,14 @@ export const onLogin = createAsyncThunk<
   const response = await authService.loginRequest(user);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      toast.error(`${ii18n.t("Incorrect email or password")}`);
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onLogin",

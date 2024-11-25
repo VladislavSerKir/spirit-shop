@@ -113,8 +113,12 @@ export class OrderService {
       relations: ['product'],
       select: {
         id: true,
+        quantity: true,
         product: {
           id: true,
+          image: true,
+          price: true,
+          name: true,
         },
       },
     });
@@ -148,6 +152,8 @@ export class OrderService {
           id: true,
           cartItem: {
             id: true,
+            quantity: true,
+            product: { id: true, image: true, price: true, name: true },
           },
         },
       });

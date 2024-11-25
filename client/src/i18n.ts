@@ -184,6 +184,21 @@ const ENtranslation = {
   "Product commented": "Product commented",
   "You can not rate product you have not bought yet":
     "You can not rate product you have not bought yet",
+  "No one left review": "No one left review",
+  "You can not comment product you have not bought yet":
+    "You can not comment product you have not bought yet",
+  "User deactivated": "User deactivated",
+  "Incorrect email or password": "Incorrect email or password",
+  like: "like",
+  "Sign in to like reviews": "Sign in to like reviews",
+
+  "Review has not been liked, check if you are logged in":
+    "Review has not been liked, check if you are logged in",
+  "Review liked": "Review liked",
+  "You can not like your own review": "You can not like your own review",
+  "Category has been deleted": "Category has been deleted",
+  "There is no categories to manage": "There is no categories to manage",
+  "There is no product to manage": "There is no product to manage",
 };
 
 const RUtranslation = {
@@ -368,7 +383,24 @@ const RUtranslation = {
     "Комментарий не был добавлен, проверьте что вы вошли в аккаунт",
   "Product commented": "Комментарий добавлен",
   "You can not rate product you have not bought yet":
-    "Вы не можете указать рейтинг торару, который вы еще не купили",
+    "Вы не можете указать рейтинг товару, который вы еще не купили",
+  "No one left review": "Никто не оставил отзыв",
+  "You can not comment product you have not bought yet":
+    "Вы не можете оставить отзыв на товар, который вы еще не купили",
+  "User deactivated": "Пользователь деактивирован",
+  "Incorrect email or password":
+    "Некорректный адрес электронной почты или пароль",
+  like: "понравилось",
+  "Sign in to like reviews": "Войдите чтобы оценивать отзывы",
+
+  "Review has not been liked, check if you are logged in":
+    "Ревью не помечено полезным, проверьте что вы вошли в аккаунт",
+  "Review liked": "Ревью помечено полезным",
+  "You can not like your own review":
+    "Вы не можете помечать полезным свой собственный отзыв",
+  "Category has been deleted": "Категория была удалена",
+  "There is no categories to manage": "Категорий для управления нет",
+  "There is no product to manage": "Продуктов для управления нет",
 };
 
 export const ii18n = new I18n({

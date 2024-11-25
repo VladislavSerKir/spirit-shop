@@ -53,6 +53,32 @@ const reviewService = {
       }),
     });
   },
+
+  likeReviewRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/${reviewEndPoint}/like`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
+
+  dislikeReviewRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/${reviewEndPoint}/dislike`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
 };
 
 export default reviewService;

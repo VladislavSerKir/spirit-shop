@@ -30,10 +30,6 @@ const MyReview = ({ review }: IMyReviewProps) => {
 
   const [comment, setComment] = useState(review[0]?.comment || "");
 
-  React.useEffect(() => {
-    console.log(comment);
-  }, [comment]);
-
   const handleComment = () => {
     dispatch(commentProduct({ productId: review[0]?.product?.id, comment }));
     setComment("");

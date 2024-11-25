@@ -22,13 +22,16 @@ export const categorySlice = createSlice({
       );
     },
     refreshCategories: (state, action: PayloadAction<ICategory>) => {
-      state.categories = [...state.categories, action.payload];
+      state.categories = [action.payload, ...state.categories];
     },
     updateCategory: (state, action: PayloadAction<ICategory>) => {
-      state.categories = [
-        ...state.categories.filter((c) => c.id !== action.payload.id),
-        action.payload,
-      ];
+      state.categories = state.categories.map((category) => {
+        if (category.id === action.payload.id) {
+          return { ...category, ...action.payload };
+        }
+
+        return category;
+      });
     },
   },
 

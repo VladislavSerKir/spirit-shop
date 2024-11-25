@@ -97,6 +97,7 @@ export const Header = () => {
   const getTheme = () => {
     return localStorage.getItem("selected-theme");
   };
+  let currentCartTheme = getTheme();
 
   const isLoggedIn = useTypedSelector((state) => state.user.userData.email);
 
@@ -174,7 +175,7 @@ export const Header = () => {
                       <div className="header__cart">
                         <img
                           src={
-                            getTheme() === "light"
+                            currentCartTheme === "light"
                               ? shoppingCart
                               : shoppingCartDark
                           }

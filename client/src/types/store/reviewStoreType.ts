@@ -14,4 +14,15 @@ export interface IReview {
   rate?: number;
   comment?: string;
   product: { id: number };
+  helpful: IReviewUser[] | [];
+}
+
+export interface IReviewUser {
+  // id: number;
+  email: string | undefined;
+}
+
+export interface IReviewLikePayload {
+  id: number;
+  email: string;
 }
