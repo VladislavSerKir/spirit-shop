@@ -2,8 +2,6 @@ import React, { useCallback, useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
-import {} from "../../store/actions/productAction";
-import { toast } from "react-toastify";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import {
@@ -37,7 +35,7 @@ const ManageCategories = () => {
     }));
   }, []);
 
-  const handleDelete = ({ id, name }: ICategory) => {
+  const handleDelete = ({ id }: ICategory) => {
     dispatch(deleteCategory(id));
   };
 
@@ -46,7 +44,6 @@ const ManageCategories = () => {
     dispatch(createCategory(data));
 
     setData(initialState);
-    // setErrors({});
   };
 
   return (

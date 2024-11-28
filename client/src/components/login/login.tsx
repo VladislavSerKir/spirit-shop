@@ -52,7 +52,6 @@ const LogIn = () => {
                       {t("Don't have an account")}?
                     </h3>
                     <span
-                      // type="button"
                       onClick={toggleFormType}
                       className="login__description"
                     >
@@ -65,7 +64,6 @@ const LogIn = () => {
                       {t("Already have an account?")}
                     </h3>
                     <span
-                      // type="button"
                       onClick={toggleFormType}
                       className="login__description"
                     >

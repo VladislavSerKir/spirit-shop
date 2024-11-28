@@ -24,7 +24,7 @@ const ProductsList = () => {
   const categories = useTypedSelector((state) => state.category.categories);
 
   const productsLoading = useTypedSelector(
-    (state) => state.category.categoriesRequest
+    (state) => state.products.productsRequest
   );
   const categoryLoading = useTypedSelector(
     (state) => state.category.categoriesRequest

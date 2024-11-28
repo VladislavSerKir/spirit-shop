@@ -1,10 +1,10 @@
-import React, { FC, useCallback, useState } from "react";
-// import * as yup from "yup";
+import React, { FC, useState } from "react";
+import * as yup from "yup";
 import history from "../../utils/history";
 import MultiSelectField from "./multi-select-field";
 import TextField from "./text-field";
 import TextArea from "./text-area";
-import { useTypedDispatch, useTypedSelector } from "../../types";
+import { GenericObject, useTypedDispatch, useTypedSelector } from "../../types";
 import {
   createProduct,
   getAllCategories,
@@ -18,7 +18,7 @@ interface IFormProps {
   changeAction?: () => void | undefined | any;
 }
 
-const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
+const Form: FC<IFormProps> = ({ type, changeAction }) => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.category.categories);
@@ -38,26 +38,31 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
 
   const [data, setData] = useState(initialState);
 
+  const [errors, setErrors] = useState<GenericObject>({});
+
   React.useEffect(() => {
     dispatch(getAllCategories());
   }, []);
 
-  const handleChange = useCallback((target: any) => {
+  const handleChange = (target: any) => {
     setData((prevState: any) => ({
       ...prevState,
       [target.name]: target.value,
     }));
-  }, []);
+    validate();
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    const isValid = validate();
+    if (!isValid) return;
     const newData: ICreateProduct = {
       ...data,
       categories: data.categories.map((category: any): any => ({
         id: category.value,
         name: category.label,
       })),
-      // categories: data.categories.map((category: any) => category?.value),
     };
 
     dispatch(createProduct(newData));
@@ -65,87 +70,33 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
     if (changeAction) {
       changeAction();
     }
-    // setErrors({});
+    setErrors({});
   };
 
-  //   const product = useSelector(getProductById(productId));
-  //   const categories = useSelector(getCategory());
-  // const initialState = productId
-  //   ? {
-  //       ...product,
-  //       price: String(product.price),
-  //       categories: [
-  //         ...product.categories.map((category: ICategory) => ({
-  //           label: categories.find((c) => c.id === category)?.name,
-  //           value: category,
-  //         })),
-  //       ],
-  //     }
-  //   : {
-  //       name: "",
-  //       description: "",
-  //       image: "",
-  //       categories: [],
-  //       price: "",
-  //     };
+  const validateScheme = yup.object().shape({
+    categories: yup.array().min(1, t("Set minimum one category")),
+    image: yup.string().required(t("Set url for image")),
+    price: yup
+      .string()
+      .required(t("Set price"))
+      .matches(/^[0-9]+\.?[0-9]*$/, t("Price entered incorrectly")),
+    description: yup.string().required(t("Set description")),
+    name: yup
+      .string()
+      .required(t("Set name"))
+      .min(4, t("Name must be at least 4 characters long")),
+  });
 
-  //   const dispatch = useDispatch();
-  //   const [errors, setErrors] = useState({});
-
-  //   const categoriesList = categories.map(c => ({ label: c.name, value: c._id }));
-  //   const productsErrors = useSelector(getProductsError());
-
-  //   const validateScheme = yup.object().shape({
-  //     categories: yup.array().min(1, 'Set minimun one category'),
-  //     image: yup.string().required('Set url for image'),
-  //     price: yup
-  //       .string()
-  //       .matches(/^[0-9]+\.?[0-9]*$/, 'Price entered incorrectly')
-  //       .required('Set price'),
-  //     description: yup.string().required('Set description'),
-  //     name: yup.string().required('Set name'),
-  //   });
-
-  //   const validate = () => {
-  //     validateScheme
-  //       .validate(data)
-  //       .then(() => setErrors({}))
-  //       .catch(err => setErrors({ [err.path]: err.message }));
-  //     return Object.keys(errors).length === 0;
-  //   };
-
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   const isValid = validate();
-  //   if (!isValid) return;
-  //   const newData = {
-  //     ...data,
-  //     categories: data.categories.map((category: ICategory) => category.value),
-  //   };
-  //   if (type === "add") {
-  //     dispatch(createProduct(newData));
-  //     setData(initialState);
-  //     setErrors({});
-  //   } else {
-  //     dispatch(updateProduct(newData));
-  //     history.replace("/admin");
-  //   }
-  // };
+  const validate = () => {
+    validateScheme
+      .validate(data)
+      .then(() => setErrors({}))
+      .catch((err) => setErrors({ [err.path]: err.message }));
+    return Object.keys(errors).length === 0;
+  };
 
   const handleReturn = () => {
     history.replace("/admin");
-  };
-
-  //   useEffect(() => {
-  //     validate();
-  //   }, [data]);
-
-  const errors = {
-    name: "",
-    description: "",
-    image: "",
-    categories: [],
-    price: "",
   };
 
   return (
@@ -190,16 +141,6 @@ const Form: FC<IFormProps> = ({ type, productId, changeAction }) => {
             error={errors.categories}
           />
         </div>
-
-        {/* {productsErrors && (
-          <div className="login__checked-error">
-            <span className="login__error-message">{productsErrors}</span>
-          </div>
-        )} */}
-
-        {/* <div className="login__checked-error">
-          <span className="login__error-message">productsErrors</span>
-        </div> */}
 
         {type === "add" ? (
           <button className="button button--flex" type="submit">

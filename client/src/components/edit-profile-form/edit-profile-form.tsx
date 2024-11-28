@@ -1,15 +1,13 @@
 import React, { FC, useState } from "react";
-// import * as yup from "yup";
-import { TUserError, useTypedDispatch, useTypedSelector } from "../../types";
+import * as yup from "yup";
+import { GenericObject, useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { Link, useRouteMatch } from "react-router-dom";
-import { IUserData } from "../../types/store/userStoreType";
 import { useTranslation } from "react-i18next";
 
 const EditProfileForm: FC = () => {
-  const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
   const { url } = useRouteMatch();
   const { t } = useTranslation();
@@ -22,96 +20,49 @@ const EditProfileForm: FC = () => {
     password: "",
   };
 
-  const [errors, setErrors] = useState<IUserData | TUserError>({
-    firstName: "",
-    lastName: "",
-    mobileNumber: "",
-    email: "",
-    password: "",
-    role: "",
-  });
+  const [errors, setErrors] = useState<GenericObject>({});
 
   const { values, handleChange, handleUpdateUser } = useForm(initialState);
 
-  //   const product = useSelector(getProductById(productId));
-  //   const categories = useSelector(getCategory());
-  // const initialState = productId
-  //   ? {
-  //       ...product,
-  //       price: String(product.price),
-  //       categories: [
-  //         ...product.categories.map((category: ICategory) => ({
-  //           label: categories.find((c) => c.id === category)?.name,
-  //           value: category,
-  //         })),
-  //       ],
-  //     }
-  //   : {
-  //       name: "",
-  //       description: "",
-  //       image: "",
-  //       categories: [],
-  //       price: "",
-  //     };
+  const validateScheme = yup.object().shape({
+    password: yup
+      .string()
+      .required(t("Password is required"))
+      .min(2, t("Password must be at least 2 characters long")),
+    email: yup
+      .string()
+      .required(t("Email is required"))
+      .email(t("Email entered incorrectly")),
+    mobileNumber: yup
+      .string()
+      .required(t("Mobile is required"))
+      .matches(/^[0-9]+$/, t("Mobile number entered incorrectly"))
+      .max(15, t("Mobile number must be maximum 15 characters long"))
+      .min(7, t("Mobile number must be at least 7 characters long")),
+    lastName: yup
+      .string()
+      .required(t("Last name is required"))
+      .min(2, t("Last name must be at least 2 characters long"))
+      .max(20, t("Last name must not exceed 20 characters")),
+    firstName: yup
+      .string()
+      .required(t("First name is required"))
+      .min(2, t("First name must be at least 2 characters long"))
+      .max(20, t("First name must not exceed 20 characters")),
+  });
 
-  //   const dispatch = useDispatch();
-  //   const [errors, setErrors] = useState({});
+  const validate = () => {
+    validateScheme
+      .validate(values)
+      .then(() => setErrors({}))
+      .catch((err) => setErrors({ [err.path]: err.message }));
+    return Object.keys(errors).length === 0;
+  };
 
-  //   const categoriesList = categories.map(c => ({ label: c.name, value: c._id }));
-  //   const productsErrors = useSelector(getProductsError());
-
-  //   const validateScheme = yup.object().shape({
-  //     categories: yup.array().min(1, 'Set minimun one category'),
-  //     image: yup.string().required('Set url for image'),
-  //     price: yup
-  //       .string()
-  //       .matches(/^[0-9]+\.?[0-9]*$/, 'Price entered incorrectly')
-  //       .required('Set price'),
-  //     description: yup.string().required('Set description'),
-  //     name: yup.string().required('Set name'),
-  //   });
-
-  //   const validate = () => {
-  //     validateScheme
-  //       .validate(data)
-  //       .then(() => setErrors({}))
-  //       .catch(err => setErrors({ [err.path]: err.message }));
-  //     return Object.keys(errors).length === 0;
-  //   };
-
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   const isValid = validate();
-  //   if (!isValid) return;
-  //   const newData = {
-  //     ...data,
-  //     categories: data.categories.map((category: ICategory) => category.value),
-  //   };
-  //   if (type === "add") {
-  //     dispatch(createProduct(newData));
-  //     setData(initialState);
-  //     setErrors({});
-  //   } else {
-  //     dispatch(updateProduct(newData));
-  //     history.replace("/admin");
-  //   }
-  // };
-
-  // const handleReturn = () => {
-  //   history.replace("/admin");
-  // };
-
-  //   useEffect(() => {
-  //     validate();
-  //   }, [data]);
-
-  // const errors = {
-  //   name: "",
-  //   description: "",
-  //   image: "",
-  //   categories: [],
-  //   price: "",
-  // };
+  const handleChangeFields = (e: React.FormEvent<HTMLFormElement>) => {
+    validate();
+    handleChange(e);
+  };
 
   return (
     <div className="login__container">
@@ -130,28 +81,28 @@ const EditProfileForm: FC = () => {
             label={t("First name")}
             name="firstName"
             value={values.firstName}
-            onChange={handleChange}
+            onChange={handleChangeFields}
             error={errors.firstName}
           />
           <TextField
             label={t("Last name")}
             name="lastName"
             value={values.lastName}
-            onChange={handleChange}
+            onChange={handleChangeFields}
             error={errors.lastName}
           />
           <TextField
             label={t("Mobile number")}
             name="mobileNumber"
             value={values.mobileNumber}
-            onChange={handleChange}
+            onChange={handleChangeFields}
             error={errors.mobileNumber}
           />
           <TextField
             label={t("Email")}
             name="email"
             value={values.email}
-            onChange={handleChange}
+            onChange={handleChangeFields}
             error={errors.email}
           />
           <TextField
@@ -159,7 +110,7 @@ const EditProfileForm: FC = () => {
             name="password"
             type="password"
             value={values.password}
-            onChange={handleChange}
+            onChange={handleChangeFields}
             error={errors.password}
           />
         </div>

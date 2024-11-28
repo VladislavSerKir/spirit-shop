@@ -14,6 +14,10 @@ export const ProtectedRoute: FC<IProtectedRouteProps> = ({
   const user = useTypedSelector((state) => state.user.userData.email);
   const isAuthChecked = useTypedSelector((state) => state.auth.isAuthChecked);
 
+  //   const redirect = history.location.state
+  //     ? history.location.state.from.pathname
+  //     : "/";
+
   return (
     <Route
       exact

@@ -4,7 +4,6 @@ import {
   Get,
   Logger,
   Post,
-  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';

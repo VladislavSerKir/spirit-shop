@@ -40,6 +40,7 @@ export interface IUserState {
   usersRequest: boolean;
   allUsersRequest: boolean;
   usersError: null | undefined | TError;
+  isFadingOut: boolean;
 }
 
 export type TUserFetchResponse = {

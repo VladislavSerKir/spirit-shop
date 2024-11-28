@@ -2,11 +2,9 @@ import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
-  OneToOne,
   OneToMany,
   ManyToOne,
   Column,
-  Generated,
   BeforeInsert,
   CreateDateColumn,
   UpdateDateColumn,

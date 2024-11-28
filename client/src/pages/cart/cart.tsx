@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from "react";
 import CartItem from "./cart-item";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/store/productStoreType";
 import "react-toggle/style.css";
 import Toggle from "react-toggle";
 import TextArea from "../../shared/form/text-area";
-import history from "../../utils/history";
 import {
   addProductToCart,
   clearCart,

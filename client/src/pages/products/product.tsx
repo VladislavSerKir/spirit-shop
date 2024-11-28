@@ -115,9 +115,6 @@ const Product: FC<IProductProps> = ({ productId }) => {
         </p>
       </div>
       <div className="container-center">
-        {/* <div className="product-solo__rating">
-        </div> */}
-
         <span className="product__price">${currentProduct?.price}</span>
         <button
           className={`button--flex product-solo__like-button ${

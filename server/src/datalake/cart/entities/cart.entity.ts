@@ -26,7 +26,6 @@ export class Cart {
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
     cascade: true,
-    // onDelete: 'CASCADE',
   })
   cartItem: CartItem[];
 

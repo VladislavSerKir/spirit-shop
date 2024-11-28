@@ -177,7 +177,9 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
         </div>
 
         {order.comment && (
-          <p className="order__info">Comment: {order.comment}</p>
+          <p className="order__info">
+            {t("Comment")}: {order.comment}
+          </p>
         )}
       </div>
     </div>

@@ -1,25 +1,19 @@
-import React, { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { getDataStatus, loadProducts } from '../../store/products';
+import React, { FC } from "react";
 import Loader from "../../loader/loader";
+import { useTypedSelector } from "../../../types";
 
 interface IProductLoaderProps {
-  //   children: React.ReactNode;
   children: any;
 }
 
 const ProductLoader: FC<IProductLoaderProps> = ({ children }) => {
-  //   const dispatch = useDispatch();
-  //   const dataStatus = useSelector(getDataStatus());
-  //   useEffect(() => {
-  //     if (!dataStatus) {
-  //       dispatch(loadProducts());
-  //     }
-  //   }, []);
+  const productsLoading = useTypedSelector(
+    (state) => state.products.productsRequest
+  );
 
-  //   if (!dataStatus) {
-  //     return <Loader />;
-  //   }
+  if (productsLoading) {
+    return <Loader />;
+  }
 
   return children;
 };

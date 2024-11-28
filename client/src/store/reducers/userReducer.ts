@@ -34,6 +34,7 @@ const userState: IUserState = {
   usersRequest: false,
   allUsersRequest: false,
   usersError: null,
+  isFadingOut: false,
 };
 
 export const userSlice = createSlice({
@@ -96,6 +97,9 @@ export const userSlice = createSlice({
         return user;
       });
     },
+    setIsFadingOut: (state, action) => {
+      state.isFadingOut = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(onLogout.pending, (state) => {
@@ -156,5 +160,6 @@ export const {
   setUsersRequest,
   updateAdminRole,
   updateAccountActive,
+  setIsFadingOut,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

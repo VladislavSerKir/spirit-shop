@@ -108,10 +108,6 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
           </div>
         </div>
       </header>
-
-      {/* <div className="user__content" ref={divRef}>
-        <hr />
-      </div> */}
     </div>
   );
 };

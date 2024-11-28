@@ -6,6 +6,7 @@ import { editProduct } from "../../store/actions/productAction";
 import TextArea from "../../shared/form/text-area";
 import MultiSelectField from "../../shared/form/multi-select-field";
 import { useTranslation } from "react-i18next";
+import { setIsFadingOut } from "../../store/reducers/userReducer";
 
 interface IChangeProductProps {
   onClose: () => void;
@@ -62,10 +63,21 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
     history.goBack();
   };
 
+  const handleClose = () => {
+    dispatch(setIsFadingOut(true));
+    setTimeout(() => {
+      onClose();
+      dispatch(setIsFadingOut(false));
+    }, 300);
+  };
+
   return (
     <>
       <div className="modal-content__container">
-        <i className="ri-close-line modal-content__cross" onClick={onClose} />
+        <i
+          className="ri-close-line modal-content__cross"
+          onClick={handleClose}
+        />
         <h2 className="section__title-center">{t("Change product")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitProduct}>
           <div className="modal-content__form-product">

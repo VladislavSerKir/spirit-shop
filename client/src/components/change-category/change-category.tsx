@@ -5,6 +5,7 @@ import TextField from "../../shared/form/text-field";
 import { editCategory } from "../../store/actions/categoryAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
+import { setIsFadingOut } from "../../store/reducers/userReducer";
 
 interface IChangeCategoryProps {
   onClose: () => void;
@@ -41,10 +42,21 @@ const ChangeCategory = ({ onClose }: IChangeCategoryProps) => {
     history.goBack();
   };
 
+  const handleClose = () => {
+    dispatch(setIsFadingOut(true));
+    setTimeout(() => {
+      onClose();
+      dispatch(setIsFadingOut(false));
+    }, 300);
+  };
+
   return (
     <>
       <div className="modal-content__container">
-        <i className="ri-close-line modal-content__cross" onClick={onClose} />
+        <i
+          className="ri-close-line modal-content__cross"
+          onClick={handleClose}
+        />
         <h2 className="section__title-center">{t("Change category name")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitCategory}>
           <div>

@@ -2,7 +2,6 @@ import Pagination from "../../shared/hoc/pagination/pagination";
 import ProductCard from "../../shared/product-card/product-card";
 import usePagination from "../../hooks/usePagination";
 import { useTypedSelector } from "../../types";
-import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTranslation } from "react-i18next";
 

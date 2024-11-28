@@ -18,7 +18,6 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
-  ManyToOne,
   ManyToMany,
   JoinTable,
 } from 'typeorm';

@@ -4,6 +4,7 @@ import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import { editAvatar } from "../../store/actions/userAction";
 import { useTranslation } from "react-i18next";
+import { setIsFadingOut } from "../../store/reducers/userReducer";
 
 interface IChangeAvatarProps {
   onClose: () => void;
@@ -36,10 +37,21 @@ const ChangeAvatar = ({ onClose }: IChangeAvatarProps) => {
     history.goBack();
   };
 
+  const handleClose = () => {
+    dispatch(setIsFadingOut(true));
+    setTimeout(() => {
+      onClose();
+      dispatch(setIsFadingOut(false));
+    }, 300);
+  };
+
   return (
     <>
       <div className="modal-content__container">
-        <i className="ri-close-line modal-content__cross" onClick={onClose} />
+        <i
+          className="ri-close-line modal-content__cross"
+          onClick={handleClose}
+        />
         <h2 className="section__title-center">{t("Change avatar")}</h2>
         <form className="modal-content__form" onSubmit={handleSubmitAvatar}>
           <div>

@@ -191,7 +191,6 @@ const ENtranslation = {
   "Incorrect email or password": "Incorrect email or password",
   like: "like",
   "Sign in to like reviews": "Sign in to like reviews",
-
   "Review has not been liked, check if you are logged in":
     "Review has not been liked, check if you are logged in",
   "Review liked": "Review liked",
@@ -199,6 +198,36 @@ const ENtranslation = {
   "Category has been deleted": "Category has been deleted",
   "There is no categories to manage": "There is no categories to manage",
   "There is no product to manage": "There is no product to manage",
+  "Email is required": "Email is required",
+  "Email entered incorrectly": "Email entered incorrectly",
+  "Password is required": "Password is required",
+  "Password must be at least 2 characters long":
+    "Password must be at least 2 characters long",
+  "Mobile is required": "Mobile is required",
+  "Mobile number entered incorrectly": "Mobile number entered incorrectly",
+  "Mobile number must be maximum 15 characters long":
+    "Mobile number must be maximum 15 characters long",
+  "Mobile number must be at least 7 characters long":
+    "Mobile number must be at least 7 characters long",
+  "Last name is required": "Last name is required",
+  "First name is required": "First name is required",
+  "Last name must be at least 2 characters long":
+    "Last name must be at least 2 characters long",
+  "Last name must not exceed 20 characters":
+    "Last name must not exceed 20 characters",
+  "First name must be at least 2 characters long":
+    "First name must be at least 2 characters long",
+  "First name must not exceed 20 characters":
+    "First name must not exceed 20 characters",
+  Comment: "Comment",
+  "Set minimum one category": "Set minimum one category",
+  "Set url for image": "Set url for image",
+  "Set price": "Set price",
+  "Price entered incorrectly": "Price entered incorrectly",
+  "Set description": "Set description",
+  "Set name": "Set name",
+  "Name must be at least 4 characters long":
+    "Name must be at least 4 characters long",
 };
 
 const RUtranslation = {
@@ -392,7 +421,6 @@ const RUtranslation = {
     "Некорректный адрес электронной почты или пароль",
   like: "понравилось",
   "Sign in to like reviews": "Войдите чтобы оценивать отзывы",
-
   "Review has not been liked, check if you are logged in":
     "Ревью не помечено полезным, проверьте что вы вошли в аккаунт",
   "Review liked": "Ревью помечено полезным",
@@ -401,6 +429,36 @@ const RUtranslation = {
   "Category has been deleted": "Категория была удалена",
   "There is no categories to manage": "Категорий для управления нет",
   "There is no product to manage": "Продуктов для управления нет",
+  "Email is required": "Почта обязательна к заполнению",
+  "Email entered incorrectly": "Почта введена неккоректно",
+  "Password is required": "Пароль обязателен",
+  "Password must be at least 2 characters long":
+    "Пароль должен быть как минимум 2 символа",
+  "Mobile is required": "Телефон обязателен",
+  "Mobile number entered incorrectly": "Телефон введен неккоректно",
+  "Mobile number must be maximum 15 characters long":
+    "Телефон должен быть максимум 15 символов",
+  "Mobile number must be at least 7 characters long":
+    "Телефон должен быть минимум 7 символов",
+  "Last name is required": "Фамилия обязательна",
+  "First name is required": "Имя обязательно",
+  "Last name must be at least 2 characters long":
+    "Фамилия должно быть минимум 2 символа",
+  "Last name must not exceed 20 characters":
+    "Фамилия не должна превышать 20 симвовлов",
+  "First name must be at least 2 characters long":
+    "Имя должно быть как минимум 2 символа",
+  "First name must not exceed 20 characters":
+    "Имя не должно превышать 20 симвовлов",
+  Comment: "Комментарий",
+  "Set minimum one category": "Выберите как минимум одну категорию",
+  "Set url for image": "Задайте адрес картинки",
+  "Set price": "Укажите цену",
+  "Price entered incorrectly": "Цена введена некорректно",
+  "Set description": "Укажите описание",
+  "Set name": "Укажите имя",
+  "Name must be at least 4 characters long":
+    "Имя должно быть как минимум 4 символа длинной",
 };
 
 export const ii18n = new I18n({

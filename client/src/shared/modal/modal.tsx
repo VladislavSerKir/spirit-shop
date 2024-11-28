@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import ReactDOM from "react-dom";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
+import { useTypedSelector } from "../../types";
 const modalsContainer = document.querySelector("#modals") as HTMLElement;
 
 interface IModalProps {
@@ -9,6 +10,8 @@ interface IModalProps {
 }
 
 const Modal: FC<IModalProps> = ({ children, onClose }) => {
+  const isFadingOut = useTypedSelector((state) => state.user.isFadingOut);
+
   React.useEffect(() => {
     document.addEventListener("keydown", handleEscKeydown);
     return () => {
@@ -30,13 +33,7 @@ const Modal: FC<IModalProps> = ({ children, onClose }) => {
 
   return ReactDOM.createPortal(
     <>
-      <div className={`modal`}>
-        <div className={`modal__button_type_close`}>
-          {/* <CloseIcon type="primary" onClick={onClose} /> */}
-          <i className="eva-close" onClick={onClose} />
-        </div>
-        {children}
-      </div>
+      <div className={`modal ${isFadingOut ? "fade-out" : ""}`}>{children}</div>
       <ModalOverlay onClick={onClose} />
     </>,
     modalsContainer

@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
-import { TUserError, useTypedDispatch } from "../../types";
+import { GenericObject } from "../../types";
 import { useForm } from "../../hooks/useForm";
-import { IUserData } from "../../types/store/userStoreType";
 import { useTranslation } from "react-i18next";
 
 const RegisterForm = () => {
   const { t } = useTranslation();
-  const dispatch = useTypedDispatch();
-  //   const loginError = useSelector(getAuthError());
   const data = {
     firstName: "",
     lastName: "",
@@ -19,73 +16,57 @@ const RegisterForm = () => {
     role: "",
   };
 
-  const [errors, setErrors] = useState<IUserData | TUserError>({
-    firstName: "",
-    lastName: "",
-    mobileNumber: "",
-    email: "",
-    password: "",
-  });
+  const [errors, setErrors] = useState<GenericObject>({});
+
   const { values, handleChange, handleRegister } = useForm(data);
 
-  // const validateScheme = yup.object().shape({
-  //   password: yup
-  //     .string()
-  //     .required("Password is required")
-  //     .matches(/(?=.*[0-9])/, "Password must consist a number")
-  //     .min(8, "Password must be at least 8 characters long"),
-  //   email: yup
-  //     .string()
-  //     .required("Email is required")
-  //     .email("Email entered incorrectly"),
-  //   mobileNumber: yup
-  //     .string()
-  //     .required("Mobile is required")
-  //     .matches(/^[0-9]+$/, "Mobile number entered incorrectly")
-  //     .max(15, "Mobile number must be maximum 15 characters long")
-  //     .min(7, "Mobile number must be at least 7 characters long"),
-  //   lastName: yup
-  //     .string()
-  //     .required("Last name is required")
-  //     .min(3, "Last name must be at least 3 characters long"),
-  //   firstName: yup
-  //     .string()
-  //     .required("First name is required")
-  //     .min(2, "First name must be at least 2 characters long"),
-  // });
+  const validateScheme = yup.object().shape({
+    password: yup
+      .string()
+      .required(t("Password is required"))
+      .min(2, t("Password must be at least 2 characters long")),
+    email: yup
+      .string()
+      .required(t("Email is required"))
+      .email(t("Email entered incorrectly")),
+    mobileNumber: yup
+      .string()
+      .required(t("Mobile is required"))
+      .matches(/^[0-9]+$/, t("Mobile number entered incorrectly"))
+      .max(15, t("Mobile number must be maximum 15 characters long"))
+      .min(7, t("Mobile number must be at least 7 characters long")),
+    lastName: yup
+      .string()
+      .required(t("Last name is required"))
+      .min(2, t("Last name must be at least 2 characters long"))
+      .max(20, t("Last name must not exceed 20 characters")),
+    firstName: yup
+      .string()
+      .required(t("First name is required"))
+      .min(2, t("First name must be at least 2 characters long"))
+      .max(20, t("First name must not exceed 20 characters")),
+  });
 
-  // const validate = () => {
-  //   validateScheme
-  //     .validate(data)
-  //     .then(() =>
-  //       setErrors({
-  //         firstName: "",
-  //         lastName: "",
-  //         mobileNumber: "",
-  //         email: "",
-  //         password: "",
-  //       })
-  //     )
-  //     .catch((err) => setErrors({ [err.path]: err.message }));
-  //   return Object.keys(errors).length === 0;
-  // };
+  const validate = () => {
+    validateScheme
+      .validate(values)
+      .then(() => setErrors({}))
+      .catch((err) => setErrors({ [err.path]: err.message }));
+    return Object.keys(errors).length === 0;
+  };
 
-  // const handleChange = (target: TEventTarget) => {
-  //   setData((prevState) => ({ ...prevState, [target.name]: target.value }));
-  // };
+  const handleChangeFields = (e: React.FormEvent<HTMLFormElement>) => {
+    validate();
+    handleChange(e);
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // const isValid = validate();
-    // console.log("work");
-    // if (!isValid) return;
-    // console.log("handleRegister");
+
+    const isValid = validate();
+    if (!isValid) return;
     handleRegister(e);
   };
-
-  // useEffect(() => {
-  //   validate();
-  // }, [data]);
 
   return (
     <form className="login__form" onSubmit={handleSubmit}>
@@ -94,28 +75,28 @@ const RegisterForm = () => {
           label={t("First name")}
           name="firstName"
           value={values.firstName}
-          onChange={handleChange}
+          onChange={handleChangeFields}
           error={errors.firstName}
         />
         <TextField
           label={t("Last name")}
           name="lastName"
           value={values.lastName}
-          onChange={handleChange}
+          onChange={handleChangeFields}
           error={errors.lastName}
         />
         <TextField
           label={t("Mobile number")}
           name="mobileNumber"
           value={values.mobileNumber}
-          onChange={handleChange}
+          onChange={handleChangeFields}
           error={errors.mobileNumber}
         />
         <TextField
           label={t("Email")}
           name="email"
           value={values.email}
-          onChange={handleChange}
+          onChange={handleChangeFields}
           error={errors.email}
         />
         <TextField
@@ -123,15 +104,10 @@ const RegisterForm = () => {
           name="password"
           type="password"
           value={values.password}
-          onChange={handleChange}
+          onChange={handleChangeFields}
           error={errors.password}
         />
       </div>
-      {/* {loginError && (
-        <div className="login__checked-error">
-          <span className="login__error-message">{loginError}</span>
-        </div>
-      )} */}
       <button className="button button--flex" type="submit">
         {t("Sign Up")}
         <i className="ri-arrow-right-up-line button__icon" />

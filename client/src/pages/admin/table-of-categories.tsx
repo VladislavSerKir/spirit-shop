@@ -13,7 +13,9 @@ const TableOfCategories = () => {
   };
 
   if (!categories.length) {
-    return <h2 className="table__title">There is no categories to manage</h2>;
+    return (
+      <h2 className="table__title">{t("There is no categories to manage")}</h2>
+    );
   }
 
   return (

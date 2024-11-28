@@ -19,7 +19,6 @@ const MultiSelectField: FC<IMultiSelectFieldProps> = ({
   onChange,
   name,
   defaultValue,
-  isFixed,
   toTop,
 }) => {
   const optionsArray =
