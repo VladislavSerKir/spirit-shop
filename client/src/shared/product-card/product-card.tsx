@@ -71,7 +71,12 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
 
   return (
     <article className="product__card" key={product.id}>
-      <Link to={`/products/${product.id}`} className="product__link">
+      <Link
+        to={{
+          pathname: `/products/${product.id}`,
+        }}
+        className="product__link"
+      >
         <img src={gradient} alt={product.name} className="product__circle" />
 
         <div className="product-image-container">

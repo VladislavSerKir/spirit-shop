@@ -113,6 +113,10 @@ export class User {
   @JoinTable()
   likedReviews: Review[];
 
+  @Column({ default: '' })
+  @IsString()
+  resetCode?: string;
+
   @Column({ default: true })
   @IsBoolean()
   @IsNotEmpty()

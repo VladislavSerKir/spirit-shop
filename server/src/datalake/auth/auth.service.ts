@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -21,6 +22,10 @@ import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { Cart } from '../cart/entities/cart.entity';
 import { Favourite } from '../product/entities/favourite.entity';
+import { SendCodeDto } from './dto/send-code.dto';
+import { MailerService } from '@nestjs-modules/mailer';
+import { ValidateCodeDto } from './dto/validate-code.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +35,7 @@ export class AuthService {
     private jwtService: JwtService,
     private usersService: UsersService,
     private configService: ConfigService,
+    private mailerService: MailerService,
   ) {}
 
   async signUp(signupDto: SignupDto): Promise<Partial<User>> {
@@ -273,5 +279,109 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async sendResetCode(resetPasswordDto: SendCodeDto) {
+    const { email } = resetPasswordDto;
+
+    const user = await this.userRepo.findOne({
+      where: { email },
+      select: {
+        email: true,
+        active: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid email');
+    }
+
+    if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const token = this.jwtService.sign({ email, code }, { expiresIn: '15m' });
+    const url = `example.com/auth/confirm?token=${token}`;
+
+    const updatedUser = await this.userRepo.update(
+      { email },
+      { resetCode: code },
+    );
+
+    if (!updatedUser) {
+      throw new BadRequestException('Error to update reset code');
+    }
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Сброс пароля',
+      template: `Ваш код для сброса пароля: ${code}`,
+      text: 'welcome',
+    });
+    // .then(() => {})
+    // .catch(() => {});
+    // .then(() => {
+    //   return 'dfgdfhdfh';
+    // })
+    // .catch((e) => {
+    //   return 'dfgdf';
+    // });
+  }
+
+  async validateResetCode(
+    validateCodeDto: ValidateCodeDto,
+  ): Promise<{ success: boolean }> {
+    const { email, code } = validateCodeDto;
+
+    const user = await this.userRepo.findOne({
+      where: { email },
+      select: {
+        email: true,
+        password: true,
+        resetCode: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid email');
+    }
+
+    if (user.resetCode === code) {
+      return { success: true };
+    } else {
+      throw new BadRequestException('Invalid code');
+    }
+  }
+
+  async resetPassword(
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<{ success: boolean }> {
+    const { newPassword, email } = resetPasswordDto;
+
+    const user = await this.userRepo.findOne({
+      where: { email },
+      select: {
+        email: true,
+        password: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid email');
+    }
+
+    const hashedPassword = await HashService.generateHash(newPassword);
+
+    const updatedUser = await this.userRepo.update(
+      { email },
+      { password: hashedPassword },
+    );
+
+    if (updatedUser) {
+      return { success: true };
+    } else {
+      throw new BadRequestException('Error to update password');
+    }
   }
 }

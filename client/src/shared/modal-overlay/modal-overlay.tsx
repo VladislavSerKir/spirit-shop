@@ -15,7 +15,7 @@ export const ModalOverlay: FC<IModalOverlayProps> = ({ onClick }) => {
     setTimeout(() => {
       onClick();
       dispatch(setIsFadingOut(false));
-    }, 300);
+    }, 500);
   };
 
   return (

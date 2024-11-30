@@ -7,9 +7,14 @@ import { AuthService } from './auth.service';
 import { HashService } from 'src/common/hash/hash.service';
 import { UsersService } from '../user/users.service';
 import { JwtStrategy } from 'src/config/jwt-strategy';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PassportModule } from '@nestjs/passport';
+import { YandexAuthStrategy } from 'src/config/yandex.strategy';
 
 @Module({
   imports: [
+    MailerModule,
+    PassportModule,
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: 'access-secret',
@@ -17,7 +22,13 @@ import { JwtStrategy } from 'src/config/jwt-strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, JwtStrategy, HashService],
+  providers: [
+    AuthService,
+    UsersService,
+    JwtStrategy,
+    HashService,
+    YandexAuthStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

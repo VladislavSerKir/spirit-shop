@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import Pagination from "../../shared/hoc/pagination/pagination";
@@ -16,6 +16,7 @@ const ManageCategories = () => {
   const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
   const categories = useTypedSelector((state) => state.category.categories);
+  const location = useLocation();
 
   const initialState = {
     name: "",
@@ -86,7 +87,10 @@ const ManageCategories = () => {
                     <Link
                       className={`text text_type_main-small orders-feed__link`}
                       key={category.id}
-                      to={{ pathname: `${url}/${category.id}` }}
+                      to={{
+                        pathname: `${url}/${category.id}`,
+                        state: { background: location },
+                      }}
                     >
                       <TextField
                         label={t("Name")}
@@ -100,7 +104,10 @@ const ManageCategories = () => {
                     <Link
                       className={`text text_type_main-small orders-feed__link`}
                       key={category.id}
-                      to={{ pathname: `${url}/${category.id}` }}
+                      to={{
+                        pathname: `${url}/${category.id}`,
+                        state: { background: location },
+                      }}
                     >
                       <button
                         className="button button--flex button--gap"

@@ -1,6 +1,7 @@
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import { IUserData } from "../types/store/userStoreType";
+import { GenericObject } from "../types";
 
 const authEndPoint = "auth";
 
@@ -105,6 +106,51 @@ const authService = {
       body: JSON.stringify({
         email: email,
       }),
+    });
+  },
+
+  sendCodeRequest: async ({ email }: IUserData) => {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/send-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+  },
+
+  loginYandexRequest: async () => {
+    const data: GenericObject = {
+      grant_type: "authorization_code",
+      code: "jpdtgtvxt5dcwvqr",
+      client_id: config.clientId,
+      client_secret: config.clientSecret,
+    };
+
+    const formBody = Object.keys(data)
+      .map(
+        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
+      )
+      .join("&");
+    return fetch(`https://oauth.yandex.ru/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": "1024",
+      },
+      body: formBody,
+    });
+  },
+
+  receiveInfoYandexRequest: async () => {
+    return fetch(`https://login.yandex.ru/info?format=json`, {
+      method: "GET",
+      headers: {
+        Authorization:
+          "OAuth y0_AgAAAAAE78NKAAze-QAAAAEaj6j4AAA3EsijxEhKZIAgo6OcChLOoHpmYQ",
+      },
     });
   },
 };

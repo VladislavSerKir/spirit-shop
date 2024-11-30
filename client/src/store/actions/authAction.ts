@@ -134,3 +134,67 @@ export const onLogout = createAsyncThunk<
     return data;
   }
 );
+
+export const sendCode = createAsyncThunk<
+  TUserEditResponse,
+  IUserData,
+  { rejectValue: TError }
+>("auth/send-code", async function (user, { dispatch, rejectWithValue }) {
+  const response = await authService.sendCodeRequest(user);
+
+  if (!response.ok) {
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method sendCode",
+    });
+  }
+
+  const data: TUserEditResponse = await response.json();
+  return data;
+});
+
+export const loginYandex = createAsyncThunk(
+  "auth/yandex",
+  async function (_, { dispatch, rejectWithValue }) {
+    const response = await authService.loginYandexRequest();
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        toast.error(`${ii18n.t("User deactivated")}`);
+      }
+
+      return rejectWithValue({
+        status: response.status,
+        message: "Server Error, take a look on method loginYandex",
+      });
+    }
+
+    const data: TUserEditResponse = await response.json();
+    return data;
+  }
+);
+
+export const receiveInfoYandex = createAsyncThunk(
+  "auth/yandex",
+  async function (_, { dispatch, rejectWithValue }) {
+    const response = await authService.receiveInfoYandexRequest();
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        toast.error(`${ii18n.t("User deactivated")}`);
+      }
+
+      return rejectWithValue({
+        status: response.status,
+        message: "Server Error, take a look on method receiveInfoYandex",
+      });
+    }
+
+    const data: TUserEditResponse = await response.json();
+    return data;
+  }
+);

@@ -5,6 +5,7 @@ import RegisterForm from "./register-form";
 import { IUseLocation, useTypedSelector } from "../../types";
 import { useTranslation } from "react-i18next";
 import Loader from "../../shared/loader/loader";
+import SendCodeForm from "./send-code-form";
 
 const LogIn = () => {
   const { t } = useTranslation();
@@ -20,10 +21,8 @@ const LogIn = () => {
     type === "register" ? type : "login"
   );
 
-  const toggleFormType = () => {
-    setFormType((prevState: string) =>
-      prevState === "register" ? "login" : "register"
-    );
+  const changeFormType = (type: string) => {
+    setFormType(type);
   };
 
   if (isAuthChecked && user) {
@@ -52,7 +51,7 @@ const LogIn = () => {
                       {t("Don't have an account")}?
                     </h3>
                     <span
-                      onClick={toggleFormType}
+                      onClick={() => changeFormType("register")}
                       className="login__description"
                     >
                       {t("Sign Up")}
@@ -64,7 +63,7 @@ const LogIn = () => {
                       {t("Already have an account?")}
                     </h3>
                     <span
-                      onClick={toggleFormType}
+                      onClick={() => changeFormType("login")}
                       className="login__description"
                     >
                       {t("Sign In")}
@@ -72,9 +71,21 @@ const LogIn = () => {
                   </>
                 )}
               </div>
+              <span
+                onClick={() => changeFormType("send-code")}
+                className="login__description"
+              >
+                {t("Forgot password")}
+              </span>
             </div>
           </div>
-          {formType === "login" ? <LoginForm /> : <RegisterForm />}
+          {formType === "login" ? (
+            <LoginForm />
+          ) : formType === "register" ? (
+            <RegisterForm />
+          ) : (
+            <SendCodeForm />
+          )}
         </div>
       )}
     </section>

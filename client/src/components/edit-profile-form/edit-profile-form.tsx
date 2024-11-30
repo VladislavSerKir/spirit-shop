@@ -4,13 +4,14 @@ import { GenericObject, useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const EditProfileForm: FC = () => {
   const user = useTypedSelector((state) => state.user.userData);
   const { url } = useRouteMatch();
   const { t } = useTranslation();
+  const location = useLocation();
 
   const initialState = {
     firstName: user.firstName,
@@ -70,7 +71,7 @@ const EditProfileForm: FC = () => {
       <div className="profile__avatar-container">
         <Link
           className={`text text_type_main-small orders-feed__link`}
-          to={{ pathname: `${url}/avatar` }}
+          to={{ pathname: `${url}/avatar`, state: { background: location } }}
         >
           <img src={user.avatar} alt="avatar" className="profile__avatar-img" />
         </Link>

@@ -68,7 +68,15 @@ export class UsersService {
     userData: Partial<User>,
   ): Promise<Partial<User>> {
     const { password, email } = userData;
-    const userWithEmailExist = await this.findByEmail(email);
+    // const userWithEmailExist = await this.findByEmail(email);
+
+    const userWithEmailExist = await this.userRepo.findOne({
+      where: { email },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
@@ -275,5 +283,13 @@ export class UsersService {
     } catch (error) {
       throw new BadRequestException('Error to assign admin');
     }
+  }
+
+  async findByYandexID(yandexProfile): Promise<any> {
+    return yandexProfile.email;
+  }
+
+  async createFromYandex(yandexProfile): Promise<any> {
+    return yandexProfile;
   }
 }

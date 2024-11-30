@@ -19,6 +19,11 @@ export default (): AppConfiguration => ({
     key: process.env.JWT_KEY || 'my-secret',
     ttl: process.env.JWT_TTL || 60,
   },
+  yandex: {
+    client_id: process.env.YANDEX_CLIENT_ID,
+    client_secret: process.env.YANDEX_CLIENT_SECRET,
+    redirect_uri: process.env.YANDEX_REDIRECT_URI,
+  },
   password: {
     saltRounds: Number(process.env.SALT) || 10,
   },

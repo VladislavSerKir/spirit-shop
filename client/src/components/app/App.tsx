@@ -57,8 +57,8 @@ function App() {
       <Switch location={background || location}>
         <Route exact path="/" component={Main} />
         <Route exact path="/login/:type?" component={LogIn} />
-        <Route exact path="/products/:id?" component={ProductsLayout} />
         <Route exact path="/products" component={ProductsList} />
+        <Route exact path="/products/:id?" component={ProductsLayout} />
         <ProtectedRoute path="/user">
           <User />
         </ProtectedRoute>
@@ -72,27 +72,33 @@ function App() {
       <Footer />
       <ToastContainer />
       <ScrollUp />
-      <>
-        <ProtectedRoute path={`/user/categories/:id`}>
-          <Modal onClose={handleCloseModals}>
-            <ChangeCategory onClose={handleCloseModals} />
-          </Modal>
-        </ProtectedRoute>
-      </>
-      <>
-        <ProtectedRoute path={`/user/products/:id`}>
-          <Modal onClose={handleCloseModals}>
-            <ChangeProduct onClose={handleCloseModals} />
-          </Modal>
-        </ProtectedRoute>
-      </>
-      <>
-        <ProtectedRoute path={`/user/profile/avatar`}>
-          <Modal onClose={handleCloseModals}>
-            <ChangeAvatar onClose={handleCloseModals} />
-          </Modal>
-        </ProtectedRoute>
-      </>
+      {background && (
+        <>
+          <ProtectedRoute path={`/user/categories/:id`}>
+            <Modal onClose={handleCloseModals}>
+              <ChangeCategory onClose={handleCloseModals} />
+            </Modal>
+          </ProtectedRoute>
+        </>
+      )}
+      {background && (
+        <>
+          <ProtectedRoute path={`/user/products/:id`}>
+            <Modal onClose={handleCloseModals}>
+              <ChangeProduct onClose={handleCloseModals} />
+            </Modal>
+          </ProtectedRoute>
+        </>
+      )}
+      {background && (
+        <>
+          <ProtectedRoute path={`/user/profile/avatar`}>
+            <Modal onClose={handleCloseModals}>
+              <ChangeAvatar onClose={handleCloseModals} />
+            </Modal>
+          </ProtectedRoute>
+        </>
+      )}
     </>
   );
 }

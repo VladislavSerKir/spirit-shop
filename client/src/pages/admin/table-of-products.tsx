@@ -1,7 +1,7 @@
 import React from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { deleteProduct } from "../../store/actions/productAction";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { IProduct } from "../../types/store/productStoreType";
@@ -12,6 +12,7 @@ const TableOfProducts = () => {
   const { url } = useRouteMatch();
   const dispatch = useTypedDispatch();
   const products = useTypedSelector((state) => state.products.products);
+  const location = useLocation();
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
     usePagination(products, 4);
@@ -64,7 +65,10 @@ const TableOfProducts = () => {
                 <Link
                   className={`text text_type_main-small orders-feed__link`}
                   key={product.id}
-                  to={{ pathname: `${url}/${product.id}` }}
+                  to={{
+                    pathname: `${url}/${product.id}`,
+                    state: { background: location },
+                  }}
                 >
                   <button
                     className="button button--flex button--gap"

@@ -3,10 +3,15 @@ import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
-import { GenericObject } from "../../types";
+import { GenericObject, useTypedDispatch } from "../../types";
+import { loginYandex, receiveInfoYandex } from "../../store/actions/authAction";
+import { Redirect } from "react-router-dom";
+import history from "../../utils/history";
+import { config } from "../../utils/api";
 
 const LoginForm = () => {
   const { t } = useTranslation();
+  const dispatch = useTypedDispatch();
 
   const data = {
     firstName: "",
@@ -53,6 +58,20 @@ const LoginForm = () => {
     handleLogin(e);
   };
 
+  const handleYandexLogin = () => {
+    window.location.replace(
+      `https://oauth.yandex.ru/authorize?response_type=code&client_id=${config.clientId}`
+    );
+  };
+
+  const handleReceiveLogin = () => {
+    dispatch(loginYandex());
+  };
+
+  const handleReceiveInfo = () => {
+    dispatch(receiveInfoYandex());
+  };
+
   return (
     <>
       <form className="login__form" onSubmit={handleSubmit}>
@@ -75,6 +94,31 @@ const LoginForm = () => {
         </div>
         <button className="button button--flex" type="submit">
           {t("Sign In")}
+          <i className="ri-arrow-right-up-line button__icon" />
+        </button>
+
+        <button
+          className="button button--flex"
+          onClick={handleYandexLogin}
+          type="button"
+        >
+          Войти через Yandex
+          <i className="ri-arrow-right-up-line button__icon" />
+        </button>
+        <button
+          className="button button--flex"
+          onClick={handleReceiveLogin}
+          type="button"
+        >
+          Получить токен Yandex
+          <i className="ri-arrow-right-up-line button__icon" />
+        </button>
+        <button
+          className="button button--flex"
+          onClick={handleReceiveInfo}
+          type="button"
+        >
+          Получить информацию Yandex
           <i className="ri-arrow-right-up-line button__icon" />
         </button>
       </form>

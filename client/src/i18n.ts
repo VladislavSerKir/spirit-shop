@@ -228,6 +228,8 @@ const ENtranslation = {
   "Set name": "Set name",
   "Name must be at least 4 characters long":
     "Name must be at least 4 characters long",
+  "Forgot password": "Forgot password",
+  "Send code": "Send code",
 };
 
 const RUtranslation = {
@@ -459,6 +461,8 @@ const RUtranslation = {
   "Set name": "Укажите имя",
   "Name must be at least 4 characters long":
     "Имя должно быть как минимум 4 символа длинной",
+  "Forgot password": "Забыл пароль",
+  "Send code": "Отправить код",
 };
 
 export const ii18n = new I18n({

@@ -32,7 +32,9 @@ export const ManageUsers = () => {
   const userList = searchUsers(users);
 
   React.useEffect(() => {
-    dispatch(getAllUsers());
+    if (!users.length) {
+      dispatch(getAllUsers());
+    }
   }, []);
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
