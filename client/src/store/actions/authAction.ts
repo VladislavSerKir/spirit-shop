@@ -137,10 +137,10 @@ export const onLogout = createAsyncThunk<
 
 export const sendCode = createAsyncThunk<
   TUserEditResponse,
-  IUserData,
+  any,
   { rejectValue: TError }
->("auth/send-code", async function (user, { dispatch, rejectWithValue }) {
-  const response = await authService.sendCodeRequest(user);
+>("auth/send-code", async function (body, { dispatch, rejectWithValue }) {
+  const response = await authService.sendCodeRequest(body);
 
   if (!response.ok) {
     if (response.status === 403) {
@@ -157,44 +157,32 @@ export const sendCode = createAsyncThunk<
   return data;
 });
 
-export const loginYandex = createAsyncThunk(
-  "auth/yandex",
-  async function (_, { dispatch, rejectWithValue }) {
-    const response = await authService.loginYandexRequest();
+export const loginYandex = createAsyncThunk<
+  TUserEditResponse,
+  any,
+  { rejectValue: TError }
+>("auth/login-yandex", async function (body, { dispatch, rejectWithValue }) {
+  const response = await authService.loginYandexRequest(body);
 
-    if (!response.ok) {
-      if (response.status === 403) {
-        toast.error(`${ii18n.t("User deactivated")}`);
-      }
-
-      return rejectWithValue({
-        status: response.status,
-        message: "Server Error, take a look on method loginYandex",
-      });
+  if (!response.ok) {
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
     }
 
-    const data: TUserEditResponse = await response.json();
-    return data;
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method loginYandex",
+    });
   }
-);
 
-export const receiveInfoYandex = createAsyncThunk(
-  "auth/yandex",
-  async function (_, { dispatch, rejectWithValue }) {
-    const response = await authService.receiveInfoYandexRequest();
+  const data: TUserEditResponse = await response.json();
+  const accessToken = data.accessToken;
+  const refreshToken = data.refreshToken;
 
-    if (!response.ok) {
-      if (response.status === 403) {
-        toast.error(`${ii18n.t("User deactivated")}`);
-      }
+  setCookie("accessToken", accessToken, {});
+  setCookie("refreshToken", refreshToken, {});
 
-      return rejectWithValue({
-        status: response.status,
-        message: "Server Error, take a look on method receiveInfoYandex",
-      });
-    }
-
-    const data: TUserEditResponse = await response.json();
-    return data;
-  }
-);
+  dispatch(getUser());
+  dispatch(setAuthChecked(true));
+  return data;
+});

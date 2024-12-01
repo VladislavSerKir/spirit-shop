@@ -60,7 +60,7 @@ export class ReviewService {
     accessToken: string,
     productId: number,
     rate: number,
-  ): Promise<any> {
+  ): Promise<Partial<Review>> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
       secret: this.configService.get<string>('jwt.access'),
@@ -186,7 +186,7 @@ export class ReviewService {
     accessToken: string,
     productId: number,
     comment: string,
-  ): Promise<any> {
+  ): Promise<Partial<Review>> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
       secret: this.configService.get<string>('jwt.access'),
@@ -307,9 +307,9 @@ export class ReviewService {
 
   async likeReview(
     accessToken: string,
-    body: LikeDislikeReviewDto,
+    likeDislikeReviewDto: LikeDislikeReviewDto,
   ): Promise<{ id: number; email: string }> {
-    const { id } = body;
+    const { id } = likeDislikeReviewDto;
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
@@ -372,9 +372,9 @@ export class ReviewService {
 
   async dislikeReview(
     accessToken: string,
-    body: LikeDislikeReviewDto,
+    likeDislikeReviewDto: LikeDislikeReviewDto,
   ): Promise<{ id: number; email: string }> {
-    const { id } = body;
+    const { id } = likeDislikeReviewDto;
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {

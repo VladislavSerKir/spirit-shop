@@ -13,7 +13,10 @@ import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { DeleteProductDto } from './dto/delete-product.dto';
-import { IRemoveProduct } from 'src/common/types/interfaces';
+import {
+  IHeadersAuthorizationRequest,
+  IRemoveProduct,
+} from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
 
@@ -29,50 +32,53 @@ export class ProductController {
   @UseGuards(AccessTokenGuard)
   @Post('/create')
   async createProduct(
-    @Request() request: any,
-    @Body() body: CreateProductDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() createProductDto: CreateProductDto,
   ): Promise<Partial<Product>> {
     const accessToken = request.headers.authorization;
-    return this.productService.createProduct(body, accessToken);
+    return this.productService.createProduct(createProductDto, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/edit')
   async editProduct(
-    @Request() request: any,
-    @Body() body: EditProductDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() editProductDto: EditProductDto,
   ): Promise<Partial<Product>> {
     const accessToken = request.headers.authorization;
-    return this.productService.editProduct(body, accessToken);
+    return this.productService.editProduct(editProductDto, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Delete('/delete')
   async deleteProduct(
-    @Request() request: any,
-    @Body() body: DeleteProductDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() deleteProductDto: DeleteProductDto,
   ): Promise<IRemoveProduct> {
     const accessToken = request.headers.authorization;
-    return this.productService.deleteProduct(body, accessToken);
+    return this.productService.deleteProduct(deleteProductDto, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/like')
   async likeProduct(
-    @Request() request: any,
-    @Body() body: LikeDislikeProductDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() likeDislikeProductDto: LikeDislikeProductDto,
   ): Promise<Product> {
     const accessToken = request.headers.authorization;
-    return this.productService.likeProduct(accessToken, body);
+    return this.productService.likeProduct(accessToken, likeDislikeProductDto);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/dislike')
   async dislikeProduct(
-    @Request() request: any,
-    @Body() body: LikeDislikeProductDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() likeDislikeProductDto: LikeDislikeProductDto,
   ): Promise<number> {
     const accessToken = request.headers.authorization;
-    return this.productService.dislikeProduct(accessToken, body);
+    return this.productService.dislikeProduct(
+      accessToken,
+      likeDislikeProductDto,
+    );
   }
 }

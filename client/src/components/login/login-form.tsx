@@ -3,15 +3,11 @@ import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
-import { GenericObject, useTypedDispatch } from "../../types";
-import { loginYandex, receiveInfoYandex } from "../../store/actions/authAction";
-import { Redirect } from "react-router-dom";
-import history from "../../utils/history";
+import { GenericObject } from "../../types";
 import { config } from "../../utils/api";
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const dispatch = useTypedDispatch();
 
   const data = {
     firstName: "",
@@ -59,17 +55,7 @@ const LoginForm = () => {
   };
 
   const handleYandexLogin = () => {
-    window.location.replace(
-      `https://oauth.yandex.ru/authorize?response_type=code&client_id=${config.clientId}`
-    );
-  };
-
-  const handleReceiveLogin = () => {
-    dispatch(loginYandex());
-  };
-
-  const handleReceiveInfo = () => {
-    dispatch(receiveInfoYandex());
+    window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${config.clientId}`;
   };
 
   return (
@@ -92,35 +78,21 @@ const LoginForm = () => {
             error={errors.password}
           />
         </div>
-        <button className="button button--flex" type="submit">
-          {t("Sign In")}
-          <i className="ri-arrow-right-up-line button__icon" />
-        </button>
+        <div className="login__buttons">
+          <button className="button button--flex" type="submit">
+            {t("Sign In")}
+            <i className="ri-arrow-right-up-line button__icon" />
+          </button>
 
-        <button
-          className="button button--flex"
-          onClick={handleYandexLogin}
-          type="button"
-        >
-          Войти через Yandex
-          <i className="ri-arrow-right-up-line button__icon" />
-        </button>
-        <button
-          className="button button--flex"
-          onClick={handleReceiveLogin}
-          type="button"
-        >
-          Получить токен Yandex
-          <i className="ri-arrow-right-up-line button__icon" />
-        </button>
-        <button
-          className="button button--flex"
-          onClick={handleReceiveInfo}
-          type="button"
-        >
-          Получить информацию Yandex
-          <i className="ri-arrow-right-up-line button__icon" />
-        </button>
+          <button
+            className="button button__yandex button--flex"
+            onClick={handleYandexLogin}
+            type="button"
+          >
+            {t("Sign In via Yandex")}
+            <i className="ri-arrow-right-up-line button__icon" />
+          </button>
+        </div>
       </form>
     </>
   );

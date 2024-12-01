@@ -12,6 +12,10 @@ import { GiveRateDto } from './dto/give-rate.dto';
 import { Review } from './entities/review.entity';
 import { GiveCommentDto } from './dto/give-comment.dto';
 import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
+import {
+  IHeadersAuthorizationRequest,
+  ILikeDislikeProductResponse,
+} from 'src/common/types/interfaces';
 
 @Controller('review')
 export class ReviewController {
@@ -25,42 +29,42 @@ export class ReviewController {
   @UseGuards(AccessTokenGuard)
   @Patch('/rate')
   rateProduct(
-    @Request() request: any,
-    @Body() body: GiveRateDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() giveRateDto: GiveRateDto,
   ): Promise<Partial<Review>> {
     const accessToken = request.headers.authorization;
-    const { productId, rate } = body;
+    const { productId, rate } = giveRateDto;
     return this.reviewService.rateProduct(accessToken, productId, rate);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/comment')
   commentProduct(
-    @Request() request: any,
-    @Body() body: GiveCommentDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() giveCommentDto: GiveCommentDto,
   ): Promise<Partial<Review>> {
     const accessToken = request.headers.authorization;
-    const { productId, comment } = body;
+    const { productId, comment } = giveCommentDto;
     return this.reviewService.commentProduct(accessToken, productId, comment);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/like')
   async likeProduct(
-    @Request() request: any,
-    @Body() body: LikeDislikeReviewDto,
-  ): Promise<{ id: number; email: string }> {
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() likeDislikeReviewDto: LikeDislikeReviewDto,
+  ): Promise<ILikeDislikeProductResponse> {
     const accessToken = request.headers.authorization;
-    return this.reviewService.likeReview(accessToken, body);
+    return this.reviewService.likeReview(accessToken, likeDislikeReviewDto);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/dislike')
   async dislikeProduct(
-    @Request() request: any,
-    @Body() body: LikeDislikeReviewDto,
-  ): Promise<{ id: number; email: string }> {
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() likeDislikeReviewDto: LikeDislikeReviewDto,
+  ): Promise<ILikeDislikeProductResponse> {
     const accessToken = request.headers.authorization;
-    return this.reviewService.dislikeReview(accessToken, body);
+    return this.reviewService.dislikeReview(accessToken, likeDislikeReviewDto);
   }
 }

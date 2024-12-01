@@ -3,6 +3,12 @@
     row-gap: 3.5rem;
   }
 
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
   &__data {
     display: grid;
     row-gap: 2rem;

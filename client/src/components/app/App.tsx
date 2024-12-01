@@ -23,6 +23,7 @@ import ChangeAvatar from "../change-avatar/change-avatar";
 import { checkAuth } from "../../store/actions/authAction";
 import { NotFound } from "../../shared/not-found/not-found";
 import { getAllReviews } from "../../store/actions/reviewAction";
+import AuthCallback from "../login/auth-callback";
 
 function App() {
   const history = useHistory();
@@ -59,6 +60,7 @@ function App() {
         <Route exact path="/login/:type?" component={LogIn} />
         <Route exact path="/products" component={ProductsList} />
         <Route exact path="/products/:id?" component={ProductsLayout} />
+        <Route path="/oauth/callback" component={AuthCallback} />
         <ProtectedRoute path="/user">
           <User />
         </ProtectedRoute>

@@ -230,6 +230,7 @@ const ENtranslation = {
     "Name must be at least 4 characters long",
   "Forgot password": "Forgot password",
   "Send code": "Send code",
+  "Sign In via Yandex": "Sign In via Yandex",
 };
 
 const RUtranslation = {
@@ -463,6 +464,7 @@ const RUtranslation = {
     "Имя должно быть как минимум 4 символа длинной",
   "Forgot password": "Забыл пароль",
   "Send code": "Отправить код",
+  "Sign In via Yandex": "Войти через Yandex",
 };
 
 export const ii18n = new I18n({

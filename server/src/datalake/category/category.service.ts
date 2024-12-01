@@ -36,7 +36,7 @@ export class CategoryService {
   }
 
   async createCategory(
-    body: CreateCategoryDto,
+    createCategoryDto: CreateCategoryDto,
     accessToken: string,
   ): Promise<Partial<Category>> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
@@ -47,7 +47,7 @@ export class CategoryService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { name } = body;
+    const { name } = createCategoryDto;
 
     const newCategory = await this.categoryRepo.create({ name });
 
@@ -60,7 +60,7 @@ export class CategoryService {
   }
 
   async editCategory(
-    body: EditCategoryDto,
+    editCategoryDto: EditCategoryDto,
     accessToken: string,
   ): Promise<Partial<Category>> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
@@ -71,7 +71,7 @@ export class CategoryService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { name, id } = body;
+    const { name, id } = editCategoryDto;
     const updatedCategory = await this.categoryRepo.update({ id }, { name });
 
     if (!updatedCategory) {
@@ -82,7 +82,7 @@ export class CategoryService {
   }
 
   async deleteCategory(
-    body: DeleteCategoryDto,
+    deleteCategoryDto: DeleteCategoryDto,
     accessToken: string,
   ): Promise<IRemoveCategory> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
@@ -93,7 +93,7 @@ export class CategoryService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { id } = body;
+    const { id } = deleteCategoryDto;
 
     try {
       await this.categoryRepo.delete(String(id));

@@ -12,7 +12,10 @@ import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { DeleteCategoryDto } from './dto/delete-category.dto';
-import { IRemoveCategory } from 'src/common/types/interfaces';
+import {
+  IHeadersAuthorizationRequest,
+  IRemoveCategory,
+} from 'src/common/types/interfaces';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { EditCategoryDto } from './dto/edit-category.dto';
 
@@ -27,30 +30,30 @@ export class CategoryController {
   @UseGuards(AccessTokenGuard)
   @Post('/create')
   async createCategory(
-    @Request() request: any,
-    @Body() body: CreateCategoryDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() createCategoryDto: CreateCategoryDto,
   ): Promise<Partial<Category>> {
     const accessToken = request.headers.authorization;
-    return this.categoryService.createCategory(body, accessToken);
+    return this.categoryService.createCategory(createCategoryDto, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Patch('/edit')
   async editCategory(
-    @Request() request: any,
-    @Body() body: EditCategoryDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() editCategoryDto: EditCategoryDto,
   ): Promise<Partial<Category>> {
     const accessToken = request.headers.authorization;
-    return this.categoryService.editCategory(body, accessToken);
+    return this.categoryService.editCategory(editCategoryDto, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Delete('/delete')
   async deleteCategory(
-    @Request() request: any,
-    @Body() body: DeleteCategoryDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() deleteCategoryDto: DeleteCategoryDto,
   ): Promise<IRemoveCategory> {
     const accessToken = request.headers.authorization;
-    return this.categoryService.deleteCategory(body, accessToken);
+    return this.categoryService.deleteCategory(deleteCategoryDto, accessToken);
   }
 }

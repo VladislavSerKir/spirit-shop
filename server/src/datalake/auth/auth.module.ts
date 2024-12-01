@@ -10,11 +10,13 @@ import { JwtStrategy } from 'src/config/jwt-strategy';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PassportModule } from '@nestjs/passport';
 import { YandexAuthStrategy } from 'src/config/yandex.strategy';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
     MailerModule,
     PassportModule,
+    HttpModule,
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: 'access-secret',

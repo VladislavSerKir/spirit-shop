@@ -4,7 +4,6 @@ import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
-  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -26,16 +25,25 @@ import { SendCodeDto } from './dto/send-code.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ValidateCodeDto } from './dto/validate-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { LoginYandexDto } from './dto/login-yandex.dto';
+import { HttpService } from '@nestjs/axios';
+import { AxiosError, AxiosResponse } from 'axios';
+import {
+  YandexResponseOKInterface,
+  YandexUserResponseOKInterface,
+} from 'src/common/types/interfaces';
+import { firstValueFrom } from 'rxjs';
+import { LogoutDto } from './dto/logout.dto';
 
 @Injectable()
 export class AuthService {
-  private readonly logger = new Logger(AuthService.name);
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
     private jwtService: JwtService,
     private usersService: UsersService,
     private configService: ConfigService,
     private mailerService: MailerService,
+    private readonly httpService: HttpService,
   ) {}
 
   async signUp(signupDto: SignupDto): Promise<Partial<User>> {
@@ -112,8 +120,8 @@ export class AuthService {
     }
   }
 
-  async logOut(userData: any) {
-    const { email } = userData;
+  async logOut(logoutDto: LogoutDto) {
+    const { email } = logoutDto;
     const user = await this.usersService.findByEmail(email);
     this.usersService.updateToken(user.id, { refreshToken: '' });
     return { success: true };
@@ -268,7 +276,6 @@ export class AuthService {
           username: email,
         },
         {
-          // secret: process.env.JWT_REFRESH_SECRET,
           secret: this.configService.get<string>('jwt.refresh'),
           expiresIn: '7d',
         },
@@ -319,14 +326,6 @@ export class AuthService {
       template: `Ваш код для сброса пароля: ${code}`,
       text: 'welcome',
     });
-    // .then(() => {})
-    // .catch(() => {});
-    // .then(() => {
-    //   return 'dfgdfhdfh';
-    // })
-    // .catch((e) => {
-    //   return 'dfgdf';
-    // });
   }
 
   async validateResetCode(
@@ -383,5 +382,154 @@ export class AuthService {
     } else {
       throw new BadRequestException('Error to update password');
     }
+  }
+
+  async loginYandex(loginYandexDto: LoginYandexDto): Promise<Partial<User>> {
+    const { code } = loginYandexDto;
+
+    const clientID = this.configService.get<string>('yandex.client_id');
+    const clientSecret = this.configService.get<string>('yandex.client_secret');
+
+    const yandexAuthUrl = `https://oauth.yandex.ru/token`;
+    const yandexAuthConfig = {
+      'Content-type': 'application/x-www-form-urlencoded',
+    };
+
+    const body = new URLSearchParams();
+    body.append('grant_type', 'authorization_code');
+    body.append('code', code);
+    body.append('client_id', clientID);
+    body.append('client_secret', clientSecret);
+
+    let access_token: string;
+
+    try {
+      const { data, status }: AxiosResponse<YandexResponseOKInterface> =
+        await firstValueFrom(
+          this.httpService.post<YandexResponseOKInterface>(
+            yandexAuthUrl,
+            body.toString(),
+            yandexAuthConfig as any,
+          ),
+        );
+
+      if (status === 200) {
+        ({ access_token } = data);
+      } else {
+        throw new InternalServerErrorException();
+      }
+    } catch (err) {
+      const {
+        response: { status, statusText },
+      } = err as AxiosError;
+      switch (status) {
+        case 401:
+          throw new UnauthorizedException(statusText);
+        default:
+          throw new InternalServerErrorException({
+            message: 'Unexpected error occured',
+          });
+      }
+    }
+
+    const yandexUserUrl = `https://login.yandex.ru/info?format=json`;
+    const yandexUserConfig = {
+      headers: {
+        Authorization: `OAuth ${access_token}`,
+      },
+    };
+
+    let yandexUserData;
+
+    try {
+      const { data, status }: AxiosResponse<YandexUserResponseOKInterface> =
+        await firstValueFrom(
+          this.httpService.get<YandexUserResponseOKInterface>(
+            yandexUserUrl,
+            yandexUserConfig,
+          ),
+        );
+
+      if (status === 200) {
+        yandexUserData = data;
+      } else {
+        throw new InternalServerErrorException();
+      }
+    } catch (err) {
+      const {
+        response: { status, statusText },
+      } = err as AxiosError;
+      switch (status) {
+        case 401:
+          throw new UnauthorizedException(statusText);
+        default:
+          throw new InternalServerErrorException({
+            message: 'Unexpected error occured',
+          });
+      }
+    }
+
+    const { default_email, first_name, last_name } = yandexUserData;
+
+    const user = await this.userRepo.findOne({
+      where: { email: default_email },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        active: true,
+        firstName: true,
+        lastName: true,
+      },
+    });
+
+    if (!user) {
+      const hashedPassword = await HashService.generateHash('password');
+      const newUser = this.userRepo.create({
+        firstName: first_name,
+        lastName: last_name,
+        email: default_email,
+        password: hashedPassword,
+        mobileNumber: '',
+      });
+
+      const cart = new Cart();
+      const favourite = new Favourite();
+
+      newUser.cart = cart;
+      newUser.favourite = favourite;
+
+      try {
+        await this.userRepo.save(newUser);
+        const { id, email } = newUser;
+
+        const { accessToken, refreshToken } = await this.getTokens(id, email);
+        await this.updateRefreshToken(id, refreshToken);
+
+        return {
+          accessToken,
+          refreshToken,
+        };
+      } catch (e) {
+        if (e.code === duplicateKeyStatusCode) {
+          throw new ConflictException('User with email already exist');
+        } else {
+          throw new InternalServerErrorException('Internal server error');
+        }
+      }
+    }
+
+    if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
+    }
+
+    const { id, email } = user;
+    const { accessToken, refreshToken } = await this.getTokens(id, email);
+    await this.updateRefreshToken(id, refreshToken);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }

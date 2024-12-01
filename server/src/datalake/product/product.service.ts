@@ -17,6 +17,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 import { UsersService } from '../user/users.service';
 import { ConfigService } from '@nestjs/config';
+import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -60,7 +61,7 @@ export class ProductService {
   }
 
   async createProduct(
-    body: CreateProductDto,
+    createProductDto: CreateProductDto,
     accessToken: string,
   ): Promise<Partial<Product>> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
@@ -71,7 +72,7 @@ export class ProductService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { name, description, image, price, categories } = body;
+    const { name, description, image, price, categories } = createProductDto;
     const categoryIds = categories.map(
       // (category: number) => ({category.id} as Category),
 
@@ -95,7 +96,7 @@ export class ProductService {
   }
 
   async editProduct(
-    body: EditProductDto,
+    editProductDto: EditProductDto,
     accessToken: string,
   ): Promise<Partial<Product>> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
@@ -106,7 +107,7 @@ export class ProductService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { name, description, image, price, categories, id } = body;
+    const { name, description, image, price, categories, id } = editProductDto;
 
     const existingProduct = await this.productRepo.findOne({
       where: { id },
@@ -154,7 +155,7 @@ export class ProductService {
   }
 
   async deleteProduct(
-    body: DeleteProductDto,
+    deleteProductDto: DeleteProductDto,
     accessToken: string,
   ): Promise<IRemoveProduct> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
@@ -165,7 +166,7 @@ export class ProductService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { id } = body;
+    const { id } = deleteProductDto;
 
     try {
       await this.productRepo.delete(String(id));
@@ -177,9 +178,9 @@ export class ProductService {
 
   async likeProduct(
     accessToken: string,
-    body: DeleteProductDto,
+    likeDislikeProductDto: LikeDislikeProductDto,
   ): Promise<Product> {
-    const { id } = body;
+    const { id } = likeDislikeProductDto;
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
@@ -244,9 +245,9 @@ export class ProductService {
 
   async dislikeProduct(
     accessToken: string,
-    body: DeleteProductDto,
+    likeDislikeProductDto: LikeDislikeProductDto,
   ): Promise<number> {
-    const { id } = body;
+    const { id } = likeDislikeProductDto;
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {

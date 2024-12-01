@@ -10,6 +10,9 @@ import { Repository } from 'typeorm';
 import { HashService } from 'src/common/hash/hash.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { EditAvatarDto } from './dto/edit-avatar.dto';
+import { AssignAdminDto } from './dto/assign-admin.dto';
+import { ManageAccountDto } from './dto/manage-account.dto';
 
 @Injectable()
 export class UsersService {
@@ -64,10 +67,10 @@ export class UsersService {
   }
 
   async editProfile(
-    accessToken,
-    userData: Partial<User>,
+    accessToken: string,
+    updateUserDto: Partial<User>,
   ): Promise<Partial<User>> {
-    const { password, email } = userData;
+    const { password, email } = updateUserDto;
     // const userWithEmailExist = await this.findByEmail(email);
 
     const userWithEmailExist = await this.userRepo.findOne({
@@ -90,12 +93,12 @@ export class UsersService {
 
     if (password) {
       const hashedPassword = await HashService.generateHash(password);
-      userData = { ...userData, password: hashedPassword };
+      updateUserDto = { ...updateUserDto, password: hashedPassword };
     }
 
     const updatedUser = await this.userRepo.update(
       { email: username },
-      userData,
+      updateUserDto,
     );
 
     const user = await this.userRepo.findOne({
@@ -114,16 +117,16 @@ export class UsersService {
     } else if (!user.active) {
       throw new ForbiddenException('User is not available or diactivated');
     } else {
-      const { firstName, lastName, email, mobileNumber } = userData;
+      const { firstName, lastName, email, mobileNumber } = updateUserDto;
       return { firstName, lastName, email, mobileNumber };
     }
   }
 
   async editAvatar(
-    accessToken,
-    userData: Partial<User>,
+    accessToken: string,
+    editAvatarDto: EditAvatarDto,
   ): Promise<Partial<User>> {
-    const { avatar } = userData;
+    const { avatar } = editAvatarDto;
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
       secret: this.configService.get<string>('jwt.access'),
@@ -147,7 +150,7 @@ export class UsersService {
     } else if (!user.active) {
       throw new ForbiddenException('User is not available or diactivated');
     } else {
-      const { avatar } = userData;
+      const { avatar } = editAvatarDto;
       return { avatar };
     }
   }
@@ -247,7 +250,7 @@ export class UsersService {
 
   async manageAdmin(
     accessToken: string,
-    userData: Partial<User>,
+    assignAdminDto: AssignAdminDto,
   ): Promise<any> {
     const currentUserIsAdmin = await this.hasAdminRole(accessToken);
 
@@ -255,7 +258,7 @@ export class UsersService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { role, id } = userData;
+    const { role, id } = assignAdminDto;
 
     try {
       await this.userRepo.update({ id }, { role: role });
@@ -267,7 +270,7 @@ export class UsersService {
 
   async manageAccount(
     accessToken: string,
-    userData: Partial<User>,
+    manageAccountDto: ManageAccountDto,
   ): Promise<any> {
     const currentUserIsAdmin = await this.hasAdminRole(accessToken);
 
@@ -275,7 +278,7 @@ export class UsersService {
       throw new ForbiddenException('This action only available for admins');
     }
 
-    const { id, active } = userData;
+    const { id, active } = manageAccountDto;
 
     try {
       await this.userRepo.update({ id }, { active: active });

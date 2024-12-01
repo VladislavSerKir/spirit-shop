@@ -18,6 +18,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { EditAvatarDto } from './dto/edit-avatar.dto';
 import { AssignAdminDto } from './dto/assign-admin.dto';
 import { ManageAccountDto } from './dto/manage-account.dto';
+import { IHeadersAuthorizationRequest } from 'src/common/types/interfaces';
 
 @Controller('user')
 export class UsersController {
@@ -31,7 +32,7 @@ export class UsersController {
 
   @UseGuards(AccessTokenGuard)
   @Get('/users')
-  getUsers(@Request() request: any): Promise<User[]> {
+  getUsers(@Request() request: IHeadersAuthorizationRequest): Promise<User[]> {
     const accessToken = request.headers.authorization;
     return this.usersService.getUsers(accessToken);
   }
@@ -39,11 +40,11 @@ export class UsersController {
   @UseGuards(AccessTokenGuard)
   @Patch('/profile')
   editProfile(
-    @Request() request: any,
-    @Body() userData: UpdateUserDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
-    return this.usersService.editProfile(accessToken, userData);
+    return this.usersService.editProfile(accessToken, updateUserDto);
   }
 
   @Patch(':id')
@@ -53,37 +54,37 @@ export class UsersController {
 
   @UseGuards(AccessTokenGuard)
   @Post('/find')
-  findUserInfo(@Body() body: FindUserDto): Promise<User[]> {
-    return this.usersService.findUserInfo(body);
+  findUserInfo(@Body() findUserDto: FindUserDto): Promise<User[]> {
+    return this.usersService.findUserInfo(findUserDto);
   }
 
   @UseGuards(AccessTokenGuard)
   @Put('/avatar')
   editAvatar(
-    @Request() request: any,
-    @Body() userData: EditAvatarDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() editAvatarDto: EditAvatarDto,
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
-    return this.usersService.editAvatar(accessToken, userData);
+    return this.usersService.editAvatar(accessToken, editAvatarDto);
   }
 
   @UseGuards(AccessTokenGuard)
   @Put('/admin')
   manageAdmin(
-    @Request() request: any,
-    @Body() userData: AssignAdminDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() assignAdminDto: AssignAdminDto,
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
-    return this.usersService.manageAdmin(accessToken, userData);
+    return this.usersService.manageAdmin(accessToken, assignAdminDto);
   }
 
   @UseGuards(AccessTokenGuard)
   @Put('/active')
   manageAccount(
-    @Request() request: any,
-    @Body() userData: ManageAccountDto,
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() manageAccountDto: ManageAccountDto,
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
-    return this.usersService.manageAccount(accessToken, userData);
+    return this.usersService.manageAccount(accessToken, manageAccountDto);
   }
 }

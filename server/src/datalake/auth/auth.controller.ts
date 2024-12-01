@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Logger,
   Post,
   Request,
   UseGuards,
@@ -15,74 +14,73 @@ import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { SendCodeDto } from './dto/send-code.dto';
 import { ValidateCodeDto } from './dto/validate-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { LoginYandexDto } from './dto/login-yandex.dto';
+import {
+  IHeadersAuthorizationRequest,
+  ISuccessResponse,
+} from 'src/common/types/interfaces';
+import { LogoutDto } from './dto/logout.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Controller('auth')
 export class AuthController {
-  private readonly logger = new Logger(AuthController.name);
   constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
-  async signUp(@Body() body: SignupDto): Promise<Partial<User>> {
-    return await this.authService.signUp(body);
+  async signUp(@Body() signupDto: SignupDto): Promise<Partial<User>> {
+    return await this.authService.signUp(signupDto);
   }
 
   @Post('/signin')
-  async signIn(@Body() body: SigninDto): Promise<Partial<User>> {
-    return this.authService.signIn(body);
+  async signIn(@Body() signinDto: SigninDto): Promise<Partial<User>> {
+    return this.authService.signIn(signinDto);
   }
 
   @Post('/logout')
-  logOut(@Body() body: any): Promise<{ success: boolean }> {
-    this.logger.log(body);
-
-    return this.authService.logOut(body);
+  logOut(@Body() logoutDto: LogoutDto): Promise<{ success: boolean }> {
+    return this.authService.logOut(logoutDto);
   }
 
   @Post('/refresh')
-  refreshTokens(@Request() req, @Body() body: any) {
-    const accessToken = req.headers.authorization;
-    const { refreshToken } = body;
+  refreshTokens(
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() refreshTokenDto: RefreshTokenDto,
+  ) {
+    const accessToken = request.headers.authorization;
+    const { refreshToken } = refreshTokenDto;
 
     return this.authService.refreshTokens(accessToken, refreshToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('/me')
-  async getUserData(@Request() request: any) {
+  async getUserData(@Request() request: IHeadersAuthorizationRequest) {
     const accessToken = request.headers.authorization;
 
     return await this.authService.getUserDataByAccessToken(accessToken);
   }
 
   @Post('/send-code')
-  sendResetCode(@Body() body: SendCodeDto): Promise<any> {
-    return this.authService.sendResetCode(body);
+  sendResetCode(@Body() sendCodeDto: SendCodeDto): Promise<any> {
+    return this.authService.sendResetCode(sendCodeDto);
   }
 
   @Post('validate-code')
   async validateResetCode(
-    @Body() body: ValidateCodeDto,
-  ): Promise<{ success: boolean }> {
-    return await this.authService.validateResetCode(body);
+    @Body() validateCodeDto: ValidateCodeDto,
+  ): Promise<ISuccessResponse> {
+    return await this.authService.validateResetCode(validateCodeDto);
   }
 
   @Post('reset-password')
   async resetPassword(
-    @Body() body: ResetPasswordDto,
-  ): Promise<{ success: boolean }> {
-    return await this.authService.resetPassword(body);
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ): Promise<ISuccessResponse> {
+    return await this.authService.resetPassword(resetPasswordDto);
   }
 
-  @UseGuards(AuthGuard('yandex'))
-  @Get('yandex')
-  yandex() {
-    /* Этот метод можно оставить пустым, так как Passport перенаправит пользователя в Яндекс */
-  }
-
-  @UseGuards(AuthGuard('yandex'))
-  @Get('yandex/callback')
-  yandexCallback(@Request() request: any) {
-    return this.authService.getTokens(request.user.email, request.user.userId);
+  @Post('/login-yandex')
+  loginYandex(@Body() loginYandexDto: LoginYandexDto): Promise<Partial<User>> {
+    return this.authService.loginYandex(loginYandexDto);
   }
 }

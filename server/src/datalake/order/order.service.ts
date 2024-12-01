@@ -12,6 +12,7 @@ import { Cart } from '../cart/entities/cart.entity';
 import { Order } from './entities/order.entity';
 import { CartItem } from '../cart/entities/cart-item.entity';
 import { ConfigService } from '@nestjs/config';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
 export class OrderService {
@@ -71,10 +72,10 @@ export class OrderService {
   }
 
   async purchaseOrder(
-    accessToken,
-    order: Partial<Order>,
+    accessToken: string,
+    createOrderDto: CreateOrderDto,
   ): Promise<Partial<Order>> {
-    const { comment, isNeedDelivery, isNeedPackage } = order;
+    const { comment, isNeedDelivery, isNeedPackage } = createOrderDto;
 
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
