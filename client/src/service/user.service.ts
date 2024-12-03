@@ -1,6 +1,11 @@
 import { getCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { IUserData, TAvatar } from "../types/store/userStoreType";
+import {
+  AssignAdminDto,
+  IUserData,
+  ManageAccountDto,
+  TAvatar,
+} from "../types/store/userStoreType";
 
 const userEndPoint = "user";
 
@@ -49,7 +54,7 @@ const userService = {
     });
   },
 
-  assignAdminRequest: async ({ id, role }: { id: number; role: string }) => {
+  assignAdminRequest: async ({ id, role }: AssignAdminDto) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/admin`, {
       method: "PUT",
       headers: {
@@ -60,13 +65,7 @@ const userService = {
     });
   },
 
-  manageAccountRequest: async ({
-    id,
-    active,
-  }: {
-    id: number;
-    active: boolean;
-  }) => {
+  manageAccountRequest: async ({ id, active }: ManageAccountDto) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/active`, {
       method: "PUT",
       headers: {

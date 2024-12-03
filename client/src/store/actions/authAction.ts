@@ -7,7 +7,15 @@ import {
   setUserRequest,
 } from "../reducers/userReducer";
 import authService from "../../service/auth.service";
-import { IUserData, TUserEditResponse } from "../../types/store/userStoreType";
+import {
+  IUserData,
+  LoginYandexDto,
+  LogoutDto,
+  SigninDto,
+  SignupDto,
+  TUserEditResponse,
+  ValidateCodeDto,
+} from "../../types/store/userStoreType";
 import { setPurchaseToNull } from "../reducers/orderReducer";
 import { TError, TResponseWithoutPayload } from "../../types";
 import { setAuthChecked } from "../reducers/authReducer";
@@ -49,7 +57,7 @@ export const getUser = createAsyncThunk(
 
 export const onRegister = createAsyncThunk<
   TUserEditResponse,
-  IUserData,
+  SignupDto,
   { rejectValue: TError }
 >("auth/onRegister", async function (user, { dispatch, rejectWithValue }) {
   const response = await authService.registerRequest(user);
@@ -76,7 +84,7 @@ export const onRegister = createAsyncThunk<
 
 export const onLogin = createAsyncThunk<
   TUserEditResponse,
-  IUserData,
+  SigninDto,
   { rejectValue: TError }
 >("auth/onLogin", async function (user, { dispatch, rejectWithValue }) {
   const response = await authService.loginRequest(user);
@@ -110,34 +118,31 @@ export const onLogin = createAsyncThunk<
 
 export const onLogout = createAsyncThunk<
   TResponseWithoutPayload,
-  any,
+  LogoutDto,
   { rejectValue: TError }
->(
-  "auth/onLogout",
-  async function (user: string, { dispatch, rejectWithValue }) {
-    const response = await authService.logoutRequest(user);
-    if (!response.ok) {
-      return rejectWithValue({
-        status: response.status,
-        message: "Server Error, take a look on method onLogout",
-      });
-    }
-
-    deleteCookie("refreshToken");
-    deleteCookie("accessToken");
-
-    dispatch(clearUserData());
-    dispatch(setCartToNull());
-    dispatch(setPurchaseToNull());
-    const data: TResponseWithoutPayload = await response.json();
-
-    return data;
+>("auth/onLogout", async function (user, { dispatch, rejectWithValue }) {
+  const response = await authService.logoutRequest(user);
+  if (!response.ok) {
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method onLogout",
+    });
   }
-);
+
+  deleteCookie("refreshToken");
+  deleteCookie("accessToken");
+
+  dispatch(clearUserData());
+  dispatch(setCartToNull());
+  dispatch(setPurchaseToNull());
+  const data: TResponseWithoutPayload = await response.json();
+
+  return data;
+});
 
 export const sendCode = createAsyncThunk<
   TUserEditResponse,
-  any,
+  ValidateCodeDto,
   { rejectValue: TError }
 >("auth/send-code", async function (body, { dispatch, rejectWithValue }) {
   const response = await authService.sendCodeRequest(body);
@@ -159,7 +164,7 @@ export const sendCode = createAsyncThunk<
 
 export const loginYandex = createAsyncThunk<
   TUserEditResponse,
-  any,
+  LoginYandexDto,
   { rejectValue: TError }
 >("auth/login-yandex", async function (body, { dispatch, rejectWithValue }) {
   const response = await authService.loginYandexRequest(body);

@@ -1,6 +1,12 @@
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { IUserData } from "../types/store/userStoreType";
+import {
+  LoginYandexDto,
+  LogoutDto,
+  SigninDto,
+  SignupDto,
+  ValidateCodeDto,
+} from "../types/store/userStoreType";
 
 const authEndPoint = "auth";
 
@@ -67,7 +73,7 @@ const authService = {
     mobileNumber,
     email,
     password,
-  }: IUserData) => {
+  }: SignupDto) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/signup`, {
       method: "POST",
       headers: {
@@ -83,7 +89,7 @@ const authService = {
     });
   },
 
-  loginRequest: async ({ email, password }: IUserData) => {
+  loginRequest: async ({ email, password }: SigninDto) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/signin`, {
       method: "POST",
       headers: {
@@ -96,7 +102,7 @@ const authService = {
     });
   },
 
-  logoutRequest: async ({ email }: any) => {
+  logoutRequest: async ({ email }: LogoutDto) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/logout`, {
       method: "POST",
       headers: {
@@ -108,7 +114,7 @@ const authService = {
     });
   },
 
-  sendCodeRequest: async ({ code }: any) => {
+  sendCodeRequest: async ({ code }: ValidateCodeDto) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/send-code`, {
       method: "POST",
       headers: {
@@ -120,7 +126,7 @@ const authService = {
     });
   },
 
-  loginYandexRequest: async ({ code }: any) => {
+  loginYandexRequest: async ({ code }: LoginYandexDto) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/login-yandex`, {
       method: "POST",
       headers: {

@@ -44,3 +44,7 @@ export interface ICreateProduct {
 export interface IRemoveProduct {
   id: number;
 }
+
+export type ILikeProductResponse = {
+  id: number;
+} & void;

@@ -18,11 +18,35 @@ export interface IReview {
 }
 
 export interface IReviewUser {
-  // id: number;
   email: string | undefined;
 }
 
 export interface IReviewLikePayload {
+  id: number;
+  email: string;
+}
+
+export interface IRateResponse {
+  id: number;
+  rate: number;
+}
+
+export interface ICommentResponse {
+  id: number;
+  comment: string;
+}
+
+export interface GiveRateDto {
+  productId: number;
+  rate: number;
+}
+
+export interface GiveCommentDto {
+  productId: number;
+  comment: string;
+}
+
+export interface ILikeDislikeReviewResponse {
   id: number;
   email: string;
 }

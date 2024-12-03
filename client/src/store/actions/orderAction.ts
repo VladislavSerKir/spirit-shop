@@ -12,7 +12,7 @@ import { setPurchaseToNull } from "../reducers/orderReducer";
 export const getUserOrders = createAsyncThunk<
   IPurchase[],
   undefined,
-  { rejectValue: any }
+  { rejectValue: TError }
 >("order/getUserOrders", async function (_, { dispatch, rejectWithValue }) {
   const response = await orderService.getUserOrdersRequest();
   if (!response.ok) {

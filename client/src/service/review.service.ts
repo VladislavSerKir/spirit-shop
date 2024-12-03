@@ -1,5 +1,6 @@
 import { getCookie } from "../utils/cookie";
 import { config } from "../utils/api";
+import { GiveCommentDto, GiveRateDto } from "../types/store/reviewStoreType";
 
 const reviewEndPoint = "review";
 
@@ -14,13 +15,7 @@ const reviewService = {
     });
   },
 
-  rateProductRequest: ({
-    productId,
-    rate,
-  }: {
-    productId: number;
-    rate: number;
-  }) => {
+  rateProductRequest: ({ productId, rate }: GiveRateDto) => {
     return fetch(`${config.apiEndPoint}/${reviewEndPoint}/rate`, {
       method: "PATCH",
       headers: {
@@ -34,13 +29,7 @@ const reviewService = {
     });
   },
 
-  commentProductRequest: ({
-    productId,
-    comment,
-  }: {
-    productId: number;
-    comment: string;
-  }) => {
+  commentProductRequest: ({ productId, comment }: GiveCommentDto) => {
     return fetch(`${config.apiEndPoint}/${reviewEndPoint}/comment`, {
       method: "PATCH",
       headers: {

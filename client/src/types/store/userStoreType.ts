@@ -63,3 +63,42 @@ export type TRefreshToken = {
   refreshToken: string;
   accessToken: string;
 };
+
+export interface SignupDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  mobileNumber: string;
+}
+
+export interface SigninDto {
+  email: string;
+  password: string;
+}
+
+export interface LogoutDto {
+  email: string;
+}
+
+export interface AssignAdminDto {
+  id: number;
+  role: string;
+}
+
+export interface IAssignAdminResponse extends AssignAdminDto {}
+
+export interface ManageAccountDto {
+  id: number;
+  active: boolean;
+}
+
+export interface IManageAccountResponse extends ManageAccountDto {}
+
+export interface ValidateCodeDto {
+  code: string;
+}
+
+export interface LoginYandexDto {
+  code: string;
+}

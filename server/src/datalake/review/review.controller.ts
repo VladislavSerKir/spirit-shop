@@ -15,6 +15,7 @@ import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
 import {
   IHeadersAuthorizationRequest,
   ILikeDislikeProductResponse,
+  ILikeDislikeReviewResponse,
 } from 'src/common/types/interfaces';
 
 @Controller('review')
@@ -53,7 +54,7 @@ export class ReviewController {
   async likeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<ILikeDislikeProductResponse> {
+  ): Promise<ILikeDislikeReviewResponse> {
     const accessToken = request.headers.authorization;
     return this.reviewService.likeReview(accessToken, likeDislikeReviewDto);
   }
@@ -63,7 +64,7 @@ export class ReviewController {
   async dislikeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<ILikeDislikeProductResponse> {
+  ): Promise<ILikeDislikeReviewResponse> {
     const accessToken = request.headers.authorization;
     return this.reviewService.dislikeReview(accessToken, likeDislikeReviewDto);
   }

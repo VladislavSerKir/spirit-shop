@@ -75,3 +75,7 @@ export type TResponseWithoutPayload = {
   success: boolean;
   message: string;
 };
+
+export interface ISuccessResponse {
+  success: boolean;
+}

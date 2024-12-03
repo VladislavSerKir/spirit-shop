@@ -14,6 +14,7 @@ import { User } from '../user/entities/user.entity';
 import { Product } from '../product/entities/product.entity';
 import { Order } from '../order/entities/order.entity';
 import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
+import { ILikeDislikeReviewResponse } from 'src/common/types/interfaces';
 
 @Injectable()
 export class ReviewService {
@@ -308,7 +309,7 @@ export class ReviewService {
   async likeReview(
     accessToken: string,
     likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<{ id: number; email: string }> {
+  ): Promise<ILikeDislikeReviewResponse> {
     const { id } = likeDislikeReviewDto;
 
     const token = accessToken.split(' ')[1];
@@ -373,7 +374,7 @@ export class ReviewService {
   async dislikeReview(
     accessToken: string,
     likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<{ id: number; email: string }> {
+  ): Promise<ILikeDislikeReviewResponse> {
     const { id } = likeDislikeReviewDto;
 
     const token = accessToken.split(' ')[1];

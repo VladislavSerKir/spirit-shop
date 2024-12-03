@@ -12,9 +12,17 @@ import {
   updateCommentReview,
   updateRateReview,
 } from "../reducers/reviewReducer";
+import {
+  GiveCommentDto,
+  GiveRateDto,
+  ICommentResponse,
+  ILikeDislikeReviewResponse,
+  IRateResponse,
+  IReview,
+} from "../../types/store/reviewStoreType";
 
 export const getAllReviews = createAsyncThunk<
-  any,
+  IReview[],
   undefined,
   { rejectValue: TError }
 >("review/get", async function (_, { dispatch, rejectWithValue }) {
@@ -33,47 +41,48 @@ export const getAllReviews = createAsyncThunk<
     });
   }
 
-  const data: any = await response.json();
+  const data: IReview[] = await response.json();
   return data;
 });
 
-export const rateProduct = createAsyncThunk<any, any, { rejectValue: TError }>(
-  "review/rate",
-  async function (body, { dispatch, rejectWithValue }) {
-    const response = await reviewService.rateProductRequest(body);
+export const rateProduct = createAsyncThunk<
+  IRateResponse,
+  GiveRateDto,
+  { rejectValue: TError }
+>("review/rate", async function (body, { dispatch, rejectWithValue }) {
+  const response = await reviewService.rateProductRequest(body);
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        dispatch(clearUserData());
-        dispatch(setCartToNull());
-        dispatch(setPurchaseToNull());
-        toast.warn(
-          `${ii18n.t("Rate has not been added, check if you are logged in")}`
-        );
-      }
-
-      if (response.status === 403) {
-        toast.warn(
-          `${ii18n.t("You can not rate product you have not bought yet")}`
-        );
-      }
-
-      return rejectWithValue({
-        status: response.status,
-        message: "Server Error, take a look on method rateProduct",
-      });
+  if (!response.ok) {
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Rate has not been added, check if you are logged in")}`
+      );
     }
 
-    const data: any = await response.json();
-    dispatch(updateRateReview(data));
-    toast.info(`${ii18n.t("Product rated")}`);
-    return data;
+    if (response.status === 403) {
+      toast.warn(
+        `${ii18n.t("You can not rate product you have not bought yet")}`
+      );
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method rateProduct",
+    });
   }
-);
+
+  const data: IRateResponse = await response.json();
+  dispatch(updateRateReview(data));
+  toast.info(`${ii18n.t("Product rated")}`);
+  return data;
+});
 
 export const commentProduct = createAsyncThunk<
-  any,
-  any,
+  ICommentResponse,
+  GiveCommentDto,
   { rejectValue: TError }
 >("review/comment", async function (body, { dispatch, rejectWithValue }) {
   const response = await reviewService.commentProductRequest(body);
@@ -100,14 +109,14 @@ export const commentProduct = createAsyncThunk<
     });
   }
 
-  const data: any = await response.json();
+  const data: ICommentResponse = await response.json();
   dispatch(updateCommentReview(data));
   toast.info(`${ii18n.t("Product commented")}`);
   return data;
 });
 
 export const likeReview = createAsyncThunk<
-  number,
+  ILikeDislikeReviewResponse,
   number,
   { rejectValue: TError }
 >("product/like", async function (body, { dispatch, rejectWithValue }) {
@@ -132,14 +141,14 @@ export const likeReview = createAsyncThunk<
       message: "Server Error, take a look on method likeReview",
     });
   }
-  const data: any = await response.json();
+  const data: ILikeDislikeReviewResponse = await response.json();
   dispatch(setLikeReview(data));
   toast.info(`${ii18n.t("Review liked")}`);
   return data;
 });
 
 export const dislikeReview = createAsyncThunk<
-  number,
+  ILikeDislikeReviewResponse,
   number,
   { rejectValue: TError }
 >("product/dislike", async function (body, { dispatch, rejectWithValue }) {
@@ -157,7 +166,7 @@ export const dislikeReview = createAsyncThunk<
       message: "Server Error, take a look on method dislikeReview",
     });
   }
-  const data: any = await response.json();
+  const data: ILikeDislikeReviewResponse = await response.json();
   dispatch(setDislikeReview(data));
   return data;
 });

@@ -8,6 +8,7 @@ import { TError } from "../../types";
 import { config } from "../../utils/api";
 import {
   ICreateProduct,
+  ILikeProductResponse,
   IProductWithCategories,
   IRemoveProduct,
 } from "../../types/store/productStoreType";
@@ -99,7 +100,7 @@ export const editProduct = createAsyncThunk<
 });
 
 export const deleteProduct = createAsyncThunk<
-  any,
+  void,
   number,
   { rejectValue: TError }
 >("product/delete", async function (id, { dispatch, rejectWithValue }) {
@@ -147,7 +148,7 @@ export const getAllCategories = createAsyncThunk<
 );
 
 export const likeProduct = createAsyncThunk<
-  number,
+  ILikeProductResponse,
   number,
   { rejectValue: TError }
 >("product/like", async function (body, { dispatch, rejectWithValue }) {
@@ -168,7 +169,7 @@ export const likeProduct = createAsyncThunk<
       message: "Server Error, take a look on method likeProduct",
     });
   }
-  const data: any = await response.json();
+  const data: ILikeProductResponse = await response.json();
   dispatch(setLikeProduct(data));
   toast.info(`${ii18n.t("Product added to favourites")}`);
   return data;
@@ -196,7 +197,7 @@ export const dislikeProduct = createAsyncThunk<
       message: "Server Error, take a look on method dislikeProduct",
     });
   }
-  const data: any = await response.json();
+  const data: number = await response.json();
   dispatch(setDislikeProduct(data));
   toast.info(`${ii18n.t("Product removed from favourites")}`);
   return data;

@@ -8,7 +8,11 @@ import {
   updateAdminRole,
 } from "../reducers/userReducer";
 import {
+  AssignAdminDto,
+  IAssignAdminResponse,
+  IManageAccountResponse,
   IUserData,
+  ManageAccountDto,
   TAvatar,
   TUserEditResponse,
 } from "../../types/store/userStoreType";
@@ -66,7 +70,7 @@ export const editAvatar = createAsyncThunk<
 export const getAllUsers = createAsyncThunk<
   TUser[],
   undefined,
-  { rejectValue: any }
+  { rejectValue: TError }
 >("user/getAllUsers", async function (_, { dispatch, rejectWithValue }) {
   dispatch(setUsersRequest(true));
   const response = await userService.getAllUsersRequest();
@@ -82,9 +86,9 @@ export const getAllUsers = createAsyncThunk<
 });
 
 export const assignAdmin = createAsyncThunk<
-  { id: number; role: string },
-  any,
-  { rejectValue: any }
+  IAssignAdminResponse,
+  AssignAdminDto,
+  { rejectValue: TError }
 >("user/assignAdmin", async function (body, { dispatch, rejectWithValue }) {
   const response = await userService.assignAdminRequest(body);
 
@@ -104,16 +108,16 @@ export const assignAdmin = createAsyncThunk<
     });
   }
 
-  const data: { id: number; role: string } = await response.json();
+  const data: IAssignAdminResponse = await response.json();
   dispatch(updateAdminRole(data));
   toast.info(`${ii18n.t("Admin has been assigned or not assigned")}`);
   return data;
 });
 
 export const manageAccount = createAsyncThunk<
-  { id: number; active: boolean },
-  any,
-  { rejectValue: any }
+  IManageAccountResponse,
+  ManageAccountDto,
+  { rejectValue: TError }
 >("user/manageAccount", async function (body, { dispatch, rejectWithValue }) {
   const response = await userService.manageAccountRequest(body);
 
@@ -133,7 +137,7 @@ export const manageAccount = createAsyncThunk<
     });
   }
 
-  const data: { id: number; active: boolean } = await response.json();
+  const data: IManageAccountResponse = await response.json();
   dispatch(updateAccountActive(data));
   toast.info(`${ii18n.t("User has been activeted or deactivated")}`);
   return data;

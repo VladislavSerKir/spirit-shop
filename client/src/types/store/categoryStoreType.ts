@@ -17,3 +17,7 @@ export interface ICategory {
   id: number;
   name: string;
 }
+
+export interface DeleteCategoryDto {
+  id: number;
+}

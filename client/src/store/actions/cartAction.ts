@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IProduct } from "../../types/store/productStoreType";
-import { TError } from "../../types";
+import { ISuccessResponse, TError } from "../../types";
 import cartService from "../../service/cart.service";
 import { toast } from "react-toastify";
 import { refreshCart, setCartToNull } from "../reducers/cartReducer";
 import { ii18n } from "../../i18n";
 import { clearUserData } from "../reducers/userReducer";
 import { setPurchaseToNull } from "../reducers/orderReducer";
+import { ICart } from "../../types/store/cartStoreType";
 
 export const addProductToCart = createAsyncThunk<
   IProduct,
@@ -66,7 +67,7 @@ export const removeProductFromCart = createAsyncThunk<
 });
 
 export const clearCart = createAsyncThunk<
-  { success: true },
+  ISuccessResponse,
   undefined,
   { rejectValue: TError }
 >("cart/clear", async function (_, { dispatch, rejectWithValue }) {
@@ -88,16 +89,15 @@ export const clearCart = createAsyncThunk<
     });
   }
 
-  const data: { success: true } = await response.json();
+  const data: ISuccessResponse = await response.json();
   dispatch(refreshCart(data));
   toast.info(`${ii18n.t("Cart cleared")}`);
   return data;
 });
 
-export const getCart = createAsyncThunk<any, undefined, { rejectValue: any }>(
+export const getCart = createAsyncThunk<ICart, undefined, { rejectValue: any }>(
   "cart/getCart",
   async function (_, { dispatch, rejectWithValue }) {
-    // dispatch(setProductRequest(true));
     const response = await cartService.getCartRequest();
     if (!response.ok) {
       return rejectWithValue({
@@ -106,7 +106,6 @@ export const getCart = createAsyncThunk<any, undefined, { rejectValue: any }>(
       });
     }
     const data: any = await response.json();
-    // dispatch(setProductRequest(false));
     return data;
   }
 );

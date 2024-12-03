@@ -1,3 +1,4 @@
+import { ICategory } from "./categoryStoreType";
 import { IProduct } from "./productStoreType";
 
 export interface ICartState {
@@ -8,8 +9,22 @@ export interface ICartState {
   cartErrorMessage: null | undefined | string;
 }
 
+export interface ICart {
+  id: number;
+  cartItem: ICartItem;
+}
+
 export interface ICartItem {
   id: number;
   quantity: number;
   product: IProduct;
+}
+
+export interface AddToCartDto {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  categories: Array<ICategory>;
 }

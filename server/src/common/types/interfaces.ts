@@ -17,6 +17,9 @@ export interface ILikeDislikeProductResponse {
   email: string;
 }
 
+export interface ILikeDislikeReviewResponse
+  extends ILikeDislikeProductResponse {}
+
 export interface IRemoveProduct {
   id: number;
 }
