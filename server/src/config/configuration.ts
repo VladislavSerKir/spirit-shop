@@ -24,6 +24,11 @@ export default (): AppConfiguration => ({
     client_secret: process.env.YANDEX_CLIENT_SECRET,
     redirect_uri: process.env.YANDEX_REDIRECT_URI,
   },
+  google: {
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_SECRET,
+    redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+  },
   password: {
     saltRounds: Number(process.env.SALT) || 10,
   },

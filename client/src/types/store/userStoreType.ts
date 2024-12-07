@@ -102,3 +102,7 @@ export interface ValidateCodeDto {
 export interface LoginYandexDto {
   code: string;
 }
+
+export interface LoginGoogleDto {
+  access_token: string;
+}

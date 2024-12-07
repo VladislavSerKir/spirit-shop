@@ -21,6 +21,7 @@ import {
 } from 'src/common/types/interfaces';
 import { LogoutDto } from './dto/logout.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { LoginGoogleDto } from './dto/login-google.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -82,5 +83,10 @@ export class AuthController {
   @Post('/login-yandex')
   loginYandex(@Body() loginYandexDto: LoginYandexDto): Promise<Partial<User>> {
     return this.authService.loginYandex(loginYandexDto);
+  }
+
+  @Post('/login-google')
+  loginGoogle(@Body() loginGoogleDto: LoginGoogleDto) {
+    return this.authService.loginGoogle(loginGoogleDto);
   }
 }

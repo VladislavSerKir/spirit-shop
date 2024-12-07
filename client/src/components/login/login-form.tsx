@@ -3,11 +3,14 @@ import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
-import { GenericObject } from "../../types";
+import { GenericObject, useTypedDispatch } from "../../types";
 import { config } from "../../utils/api";
+import { loginGoogle } from "../../store/actions/authAction";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const LoginForm = () => {
   const { t } = useTranslation();
+  const dispatch = useTypedDispatch();
 
   const data = {
     firstName: "",
@@ -58,6 +61,12 @@ const LoginForm = () => {
     window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${config.clientId}`;
   };
 
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      dispatch(loginGoogle({ access_token: tokenResponse.access_token }));
+    },
+  });
+
   return (
     <>
       <form className="login__form" onSubmit={handleSubmit}>
@@ -89,7 +98,16 @@ const LoginForm = () => {
             onClick={handleYandexLogin}
             type="button"
           >
-            {t("Sign In via Yandex")}
+            {t("Sign In with Yandex")}
+            <i className="ri-arrow-right-up-line button__icon" />
+          </button>
+
+          <button
+            className="button button__google button--flex"
+            onClick={() => login()}
+            type="button"
+          >
+            {t("Sign In with Google")}
             <i className="ri-arrow-right-up-line button__icon" />
           </button>
         </div>

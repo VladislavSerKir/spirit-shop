@@ -4,6 +4,7 @@
   "homepage": "https://VladislavSerKir.github.io/spirit-shop",
   "private": true,
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -29,6 +30,7 @@
     "postcss": "^8.4.49",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-google-login": "^5.2.2",
     "react-i18next": "^15.1.0",
     "react-redux": "^7.2.6",
     "react-scripts": "^5.0.1",

@@ -1,6 +1,7 @@
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import {
+  LoginGoogleDto,
   LoginYandexDto,
   LogoutDto,
   SigninDto,
@@ -134,6 +135,18 @@ const authService = {
       },
       body: JSON.stringify({
         code,
+      }),
+    });
+  },
+
+  loginGoogleRequest: async ({ access_token }: LoginGoogleDto) => {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/login-google`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        access_token,
       }),
     });
   },

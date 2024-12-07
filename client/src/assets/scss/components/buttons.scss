@@ -12,6 +12,11 @@
     background-color: #ff6a59;
   }
 
+  &__google {
+    transition: all 0.3s;
+    background-color: #77a6fc;
+  }
+
   &:hover .button__icon {
     transform: translateX(0.25rem);
   }

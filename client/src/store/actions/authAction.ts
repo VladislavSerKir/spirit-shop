@@ -9,6 +9,7 @@ import {
 import authService from "../../service/auth.service";
 import {
   IUserData,
+  LoginGoogleDto,
   LoginYandexDto,
   LogoutDto,
   SigninDto,
@@ -177,6 +178,36 @@ export const loginYandex = createAsyncThunk<
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method loginYandex",
+    });
+  }
+
+  const data: TUserEditResponse = await response.json();
+  const accessToken = data.accessToken;
+  const refreshToken = data.refreshToken;
+
+  setCookie("accessToken", accessToken, {});
+  setCookie("refreshToken", refreshToken, {});
+
+  dispatch(getUser());
+  dispatch(setAuthChecked(true));
+  return data;
+});
+
+export const loginGoogle = createAsyncThunk<
+  TUserEditResponse,
+  LoginGoogleDto,
+  { rejectValue: TError }
+>("auth/login-google", async function (body, { dispatch, rejectWithValue }) {
+  const response = await authService.loginGoogleRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method loginGoogle",
     });
   }
 

@@ -11,6 +11,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { PassportModule } from '@nestjs/passport';
 import { YandexAuthStrategy } from 'src/config/yandex.strategy';
 import { HttpModule } from '@nestjs/axios';
+import { GoogleStrategy } from 'src/config/google.strategy';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { HttpModule } from '@nestjs/axios';
     JwtStrategy,
     HashService,
     YandexAuthStrategy,
+    GoogleStrategy,
   ],
   exports: [AuthService],
 })

@@ -29,11 +29,13 @@ import { LoginYandexDto } from './dto/login-yandex.dto';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError, AxiosResponse } from 'axios';
 import {
+  GoogleUserResponseOKInterface,
   YandexResponseOKInterface,
   YandexUserResponseOKInterface,
 } from 'src/common/types/interfaces';
 import { firstValueFrom } from 'rxjs';
 import { LogoutDto } from './dto/logout.dto';
+import { LoginGoogleDto } from './dto/login-google.dto';
 
 @Injectable()
 export class AuthService {
@@ -439,7 +441,7 @@ export class AuthService {
       },
     };
 
-    let yandexUserData;
+    let yandexUserData: YandexUserResponseOKInterface;
 
     try {
       const { data, status }: AxiosResponse<YandexUserResponseOKInterface> =
@@ -524,6 +526,112 @@ export class AuthService {
     }
 
     const { id, email } = user;
+    const { accessToken, refreshToken } = await this.getTokens(id, email);
+    await this.updateRefreshToken(id, refreshToken);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
+
+  async loginGoogle(loginGoogleDto: LoginGoogleDto) {
+    const { access_token } = loginGoogleDto;
+
+    const googleUserUrl = `https://www.googleapis.com/oauth2/v2/userinfo`;
+    const googleUserConfig = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    };
+
+    let googleUserData: GoogleUserResponseOKInterface;
+
+    try {
+      const { data, status }: AxiosResponse<GoogleUserResponseOKInterface> =
+        await firstValueFrom(
+          this.httpService.get<GoogleUserResponseOKInterface>(
+            googleUserUrl,
+            googleUserConfig,
+          ),
+        );
+
+      if (status === 200) {
+        googleUserData = data;
+      } else {
+        throw new InternalServerErrorException();
+      }
+    } catch (err) {
+      const {
+        response: { status, statusText },
+      } = err as AxiosError;
+      switch (status) {
+        case 401:
+          throw new UnauthorizedException(statusText);
+        default:
+          throw new InternalServerErrorException({
+            message: 'Unexpected error occured',
+          });
+      }
+    }
+
+    const { email, given_name, family_name, picture } = googleUserData;
+
+    const user = await this.userRepo.findOne({
+      where: { email: email },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        active: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+      },
+    });
+
+    if (!user) {
+      const hashedPassword = await HashService.generateHash('password');
+      const newUser = this.userRepo.create({
+        firstName: given_name,
+        lastName: family_name,
+        email,
+        password: hashedPassword,
+        avatar: picture,
+        mobileNumber: '',
+      });
+
+      const cart = new Cart();
+      const favourite = new Favourite();
+
+      newUser.cart = cart;
+      newUser.favourite = favourite;
+
+      try {
+        await this.userRepo.save(newUser);
+        const { id } = newUser;
+
+        const { accessToken, refreshToken } = await this.getTokens(id, email);
+        await this.updateRefreshToken(id, refreshToken);
+
+        return {
+          accessToken,
+          refreshToken,
+        };
+      } catch (e) {
+        if (e.code === duplicateKeyStatusCode) {
+          throw new ConflictException('User with email already exist');
+        } else {
+          throw new InternalServerErrorException('Internal server error');
+        }
+      }
+    }
+
+    if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
+    }
+
+    const { id } = user;
     const { accessToken, refreshToken } = await this.getTokens(id, email);
     await this.updateRefreshToken(id, refreshToken);
 
