@@ -11,6 +11,11 @@ interface IChangeCategoryProps {
   onClose: () => void;
 }
 
+interface IChangeCategoryFormData {
+  name: string;
+  value: number;
+}
+
 const ChangeCategory = ({ onClose }: IChangeCategoryProps) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -28,14 +33,17 @@ const ChangeCategory = ({ onClose }: IChangeCategoryProps) => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeCategory = useCallback((target: any) => {
-    setData((prevState: any) => ({
-      ...prevState,
-      [target.name]: target.value,
-    }));
-  }, []);
+  const handleChangeCategory = useCallback(
+    (target: IChangeCategoryFormData) => {
+      setData((prevState) => ({
+        ...prevState,
+        [target.name]: target.value,
+      }));
+    },
+    []
+  );
 
-  const handleSubmitCategory = (e: any) => {
+  const handleSubmitCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(editCategory(data));
     setData(initialState);

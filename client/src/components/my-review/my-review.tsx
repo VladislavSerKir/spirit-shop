@@ -12,14 +12,23 @@ interface IMyReviewProps {
 const MyReview = ({ review }: IMyReviewProps) => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
-  const textareaRef = useRef<any>();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {
-    textareaRef.current.addEventListener("input", () => {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height =
-        textareaRef.current.scrollHeight + 5 + "px";
-    });
+    const handleInput = () => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height =
+          textareaRef.current.scrollHeight + 5 + "px";
+      }
+    };
+
+    const currentTextareaRef = textareaRef.current;
+    currentTextareaRef?.addEventListener("input", handleInput);
+
+    return () => {
+      currentTextareaRef?.removeEventListener("input", handleInput);
+    };
   }, []);
 
   const getTheme = () => {

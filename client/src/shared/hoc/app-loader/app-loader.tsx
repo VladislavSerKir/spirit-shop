@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { loadCategory } from "../../store/category";
 // import { getProductsLoadingStatus, loadProducts } from "../../store/products";
@@ -13,7 +13,7 @@ import Loader from "../../loader/loader";
 
 interface IAppLoaderProps {
   //   children: React.ReactNode;
-  children: any;
+  children: ReactElement<React.ReactNode, string> | null;
 }
 
 const AppLoader: FC<IAppLoaderProps> = ({ children }) => {

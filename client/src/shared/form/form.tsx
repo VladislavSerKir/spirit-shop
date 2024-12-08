@@ -15,7 +15,15 @@ import { useTranslation } from "react-i18next";
 interface IFormProps {
   type: string;
   productId?: string;
-  changeAction?: () => void | undefined | any;
+  changeAction?: () => void;
+}
+
+interface IInitialFormState {
+  name: string;
+  description: string;
+  image: string;
+  categories: any;
+  price: string;
 }
 
 const Form: FC<IFormProps> = ({ type, changeAction }) => {
@@ -28,7 +36,7 @@ const Form: FC<IFormProps> = ({ type, changeAction }) => {
     value: category.id,
   }));
 
-  const initialState = {
+  const initialState: IInitialFormState = {
     name: "",
     description: "",
     image: "",
@@ -44,15 +52,15 @@ const Form: FC<IFormProps> = ({ type, changeAction }) => {
     dispatch(getAllCategories());
   }, []);
 
-  const handleChange = (target: any) => {
-    setData((prevState: any) => ({
+  const handleChange = (target: { name: string; value: string }) => {
+    setData((prevState) => ({
       ...prevState,
       [target.name]: target.value,
     }));
     validate();
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const isValid = validate();

@@ -24,7 +24,7 @@ const AuthCallback = () => {
       dispatch(loginYandex({ code }));
       history.push("/");
     } else if (error) {
-      console.error("Ошибка авторизации:", error);
+      throw new Error(`Ошибка авторизации: ${error}`);
     }
   }, [location]);
 

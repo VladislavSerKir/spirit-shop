@@ -91,7 +91,7 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
         <>
           <h3 className="product__title">{product.name}</h3>
           <div className="container-center">
-            {product.categories.map((category: any) => (
+            {product.categories.map((category: ICategory) => (
               <span className="product__category" key={category.id}>
                 {category.name}
               </span>

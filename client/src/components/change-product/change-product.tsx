@@ -7,6 +7,7 @@ import TextArea from "../../shared/form/text-area";
 import MultiSelectField from "../../shared/form/multi-select-field";
 import { useTranslation } from "react-i18next";
 import { setIsFadingOut } from "../../store/reducers/userReducer";
+import { IProductWithCategories } from "../../types/store/productStoreType";
 
 interface IChangeProductProps {
   onClose: () => void;
@@ -20,7 +21,7 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
   const products = useTypedSelector((state) => state.products.products);
   const categories = useTypedSelector((state) => state.category.categories);
 
-  let product: undefined | any | null = null;
+  let product: undefined | IProductWithCategories | any | null = null;
   product = products?.find((i) => String(i.id) === id);
 
   const categoriesList = categories.map((category) => ({
@@ -37,7 +38,7 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
       value: i.id,
     })),
     price: String(product?.price),
-    id: product.id,
+    id: product?.id,
   };
 
   const [data, setData] = useState(initialState);
@@ -49,11 +50,11 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
     }));
   }, []);
 
-  const handleSubmitProduct = (e: any) => {
+  const handleSubmitProduct = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formattedData = {
       ...data,
-      categories: data.categories.map((i: any) => ({
+      categories: data.categories?.map((i: any) => ({
         id: i.value,
         name: i.label,
       })),

@@ -42,11 +42,14 @@ const Cart = () => {
   }, []);
 
   const getTotalSum = () => {
-    const totalSum = cart.cartItem.reduce((acc: number, item: ICartItem) => {
-      const sum = item.product.price * item.quantity;
-      return acc + sum;
-    }, 0);
-    return totalSum.toFixed(2);
+    if (cart && cart.cartItem.length) {
+      const totalSum = cart.cartItem.reduce((acc: number, item: ICartItem) => {
+        const sum = item.product.price * item.quantity;
+        return acc + sum;
+      }, 0);
+      return totalSum ? totalSum.toFixed(2) : 0;
+    }
+    return 0;
   };
 
   const onIncrement = (product: IProduct) => {
@@ -57,13 +60,13 @@ const Cart = () => {
     dispatch(removeProductFromCart(product));
   };
 
-  const handleSubmitCart = (e: any) => {
+  const handleSubmitCart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(submitPurchase(data));
     setData(initialState);
   };
 
-  const handleClearCart = (e: any) => {
+  const handleClearCart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(clearCart());
     setData(initialState);
@@ -76,7 +79,7 @@ const Cart = () => {
       ) : (
         <>
           <h2 className="section__title-center">{t("Cart")}</h2>
-          {cart?.cartItem?.map((item: any) => (
+          {cart?.cartItem?.map((item: ICartItem) => (
             <CartItem
               key={item.id}
               amount={item.quantity}
@@ -128,7 +131,7 @@ const Cart = () => {
                 <button
                   className="button button--flex cart-button-fixed"
                   type="button"
-                  onClick={handleClearCart}
+                  onClick={() => handleClearCart}
                 >
                   {t("Clear cart")}
                 </button>

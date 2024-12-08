@@ -15,7 +15,7 @@ const Pagination = ({
   maxPage,
   currentPage,
 }: IPaginationProps) => {
-  const pages = [];
+  const pages: JSX.Element[] = [];
 
   const getStyles = (page: number) =>
     `page__numbers ${currentPage === page ? "active" : ""}`;

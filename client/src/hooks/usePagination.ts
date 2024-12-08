@@ -5,7 +5,7 @@ const usePagination = (products: GenericObject, itemsPerPage: number) => {
   const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(products.length / itemsPerPage);
 
-  const showCurrentEntity = () => {
+  const showCurrentEntity = (): GenericObject => {
     const begin = (currentPage - 1) * itemsPerPage;
     const end = begin + itemsPerPage;
     return products.slice(begin, end);

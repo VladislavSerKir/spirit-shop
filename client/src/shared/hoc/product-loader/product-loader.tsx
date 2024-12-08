@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, ReactElement } from "react";
 import Loader from "../../loader/loader";
 import { useTypedSelector } from "../../../types";
 
 interface IProductLoaderProps {
-  children: any;
+  children: ReactElement<React.ReactNode, string> | null;
 }
 
 const ProductLoader: FC<IProductLoaderProps> = ({ children }) => {

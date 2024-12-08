@@ -2,7 +2,7 @@ import { ICategory } from "./categoryStoreType";
 import { IProduct } from "./productStoreType";
 
 export interface ICartState {
-  cart: ICartItem | null | "" | any;
+  cart: ICart | null | any;
   purchase?: any;
   success: boolean;
   cartRequest: boolean;
@@ -11,7 +11,7 @@ export interface ICartState {
 
 export interface ICart {
   id: number;
-  cartItem: ICartItem;
+  cartItem: ICartItem[] | [];
 }
 
 export interface ICartItem {

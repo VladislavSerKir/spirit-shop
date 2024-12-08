@@ -1,4 +1,5 @@
 import { ICategory } from "./categoryStoreType";
+import { IUserData } from "./userStoreType";
 
 export interface IProductState {
   products: Array<IProductWithCategories>;
@@ -9,12 +10,12 @@ export interface IProductState {
 
 export interface IProduct {
   id: number;
-  categories: string[];
+  categories: ICategory[];
   description: string;
   image: string;
   name: string;
   price: number;
-  favourites: any;
+  favourites?: IUserData[];
 }
 
 export interface ICartParams {

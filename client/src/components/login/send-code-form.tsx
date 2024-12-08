@@ -6,11 +6,15 @@ import { useTranslation } from "react-i18next";
 import { GenericObject, useTypedDispatch } from "../../types";
 import { sendCode } from "../../store/actions/authAction";
 
+export interface ISendCodeFormData {
+  password: string;
+}
+
 const SendCodeForm = () => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
 
-  const data = {
+  const data: ISendCodeFormData = {
     password: "",
   };
 
@@ -38,7 +42,7 @@ const SendCodeForm = () => {
     handleChange(e);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const isValid = validate();

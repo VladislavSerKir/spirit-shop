@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { TError, TUser } from "../../types";
+import { TError } from "../../types";
 import {
   clearUserData,
   setAvatar,
@@ -68,7 +68,7 @@ export const editAvatar = createAsyncThunk<
 });
 
 export const getAllUsers = createAsyncThunk<
-  TUser[],
+  IUserData[],
   undefined,
   { rejectValue: TError }
 >("user/getAllUsers", async function (_, { dispatch, rejectWithValue }) {
@@ -80,7 +80,7 @@ export const getAllUsers = createAsyncThunk<
       message: "Server Error, take a look on method getAllUsers",
     });
   }
-  const data: TUser[] = await response.json();
+  const data: IUserData[] = await response.json();
   dispatch(setUsersRequest(false));
   return data;
 });

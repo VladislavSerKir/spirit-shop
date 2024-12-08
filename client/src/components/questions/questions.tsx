@@ -3,12 +3,14 @@ import { useTranslation } from "react-i18next";
 export const Questions = () => {
   const { t } = useTranslation();
 
-  const accordionItems = document.querySelectorAll(".questions__item");
+  const accordionItems =
+    document.querySelectorAll<HTMLElement>(".questions__item");
   accordionItems.forEach((item) => {
-    const accordionHeader = item.querySelector(".questions__header");
+    const accordionHeader =
+      item.querySelector<HTMLElement>(".questions__header");
 
     accordionHeader?.addEventListener("click", () => {
-      const openItem = document.querySelector(".accordion-open");
+      const openItem = document.querySelector<HTMLElement>(".accordion-open");
 
       toggleItem(item);
 
@@ -18,8 +20,10 @@ export const Questions = () => {
     });
   });
 
-  const toggleItem = (item: any) => {
-    const accordionContent = item.querySelector(".questions__content");
+  const toggleItem = (item: HTMLElement) => {
+    const accordionContent = item.querySelector<HTMLElement>(
+      ".questions__content"
+    );
 
     if (item.classList.contains("accordion-open")) {
       accordionContent?.removeAttribute("style");

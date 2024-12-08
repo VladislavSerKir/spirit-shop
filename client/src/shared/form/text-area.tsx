@@ -10,9 +10,12 @@ interface ITextAreaProps {
 }
 
 const TextArea = ({ label, name, value, onChange, error }: ITextAreaProps) => {
-  const handleChange = useCallback(({ target }: any) => {
-    onChange({ name: target.name, value: target.value });
-  }, []);
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange({ name: event.target.name, value: event.target.value });
+    },
+    []
+  );
 
   const getInputClasses = () => {
     return `login__area login__content${error ? "-error" : ""}`;

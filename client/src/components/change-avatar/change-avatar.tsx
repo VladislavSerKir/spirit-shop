@@ -10,6 +10,11 @@ interface IChangeAvatarProps {
   onClose: () => void;
 }
 
+interface IChangeAvatarFormData {
+  name: string;
+  value: number;
+}
+
 const ChangeAvatar = ({ onClose }: IChangeAvatarProps) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -23,14 +28,14 @@ const ChangeAvatar = ({ onClose }: IChangeAvatarProps) => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeAvatar = useCallback((target: any) => {
-    setData((prevState: any) => ({
+  const handleChangeAvatar = useCallback((target: IChangeAvatarFormData) => {
+    setData((prevState) => ({
       ...prevState,
       [target.name]: target.value,
     }));
   }, []);
 
-  const handleSubmitAvatar = (e: any) => {
+  const handleSubmitAvatar = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(editAvatar(data));
     setData(initialState);

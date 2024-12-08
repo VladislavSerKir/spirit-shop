@@ -2,16 +2,18 @@ import { TError, TUser } from "..";
 import { IProduct } from "./productStoreType";
 
 export interface IUserData {
+  id?: number;
   favourite: IProduct[] | null | "" | any;
   email: string;
-  password?: string;
+  password: string;
   firstName: string;
   lastName: string;
   mobileNumber: string;
   role: string;
   avatar: string;
   purchase?: any;
-  createdAt?: string;
+  createdAt?: string | undefined;
+  active?: boolean;
 }
 
 export type TAvatar = {
@@ -29,7 +31,7 @@ export type TUserDataRegister = {
 
 export interface IUserState {
   userData: IUserData;
-  allUsersData: any;
+  allUsersData: IUserData[] | [];
   userUpdated: boolean;
   logoutError: null | undefined | TError;
   logoutRequest: boolean;

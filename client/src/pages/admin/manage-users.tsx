@@ -7,6 +7,7 @@ import { getAllUsers } from "../../store/actions/userAction";
 import UserAccordeon from "../../components/user-accordeon/user-accordeon";
 import { useTranslation } from "react-i18next";
 import Spinner from "../spinner/spinner";
+import { IUserData } from "../../types/store/userStoreType";
 
 export const ManageUsers = () => {
   const { t } = useTranslation();
@@ -16,13 +17,13 @@ export const ManageUsers = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const handleSearch = ({ target }: any) => {
-    setSearchValue(target.value);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
   };
 
-  function searchUsers(users: any) {
+  function searchUsers(users: IUserData[]) {
     if (users) {
-      return users.filter((user: any) =>
+      return users.filter((user: IUserData) =>
         user.email.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
@@ -61,7 +62,7 @@ export const ManageUsers = () => {
             </div>
             {usersToShow?.length ? (
               <>
-                {usersToShow?.map((user: IPurchase) => {
+                {usersToShow?.map((user: IUserData) => {
                   return (
                     <div key={user.id} className="accordeon__container">
                       <UserAccordeon user={user} />

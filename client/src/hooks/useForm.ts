@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { useTypedDispatch } from "../types";
+import { GenericObject, useTypedDispatch } from "../types";
 import { onUpdateUser } from "../store/actions/userAction";
 import { onLogin, onRegister } from "../store/actions/authAction";
+import { SigninDto, SignupDto } from "../types/store/userStoreType";
 
-export const useForm = (inputValues: any) => {
+export const useForm = (
+  inputValues: (GenericObject & SigninDto & SignupDto) | any
+) => {
   const [values, setValues] = useState(inputValues);
   const [isFormEdited, setIsFormEdited] = useState(false);
   const dispatch = useTypedDispatch();
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: GenericObject) => {
     setValues({ ...values, [event.name]: event.value });
     setIsFormEdited(true);
   };
@@ -47,7 +50,6 @@ export const useForm = (inputValues: any) => {
   const handleUpdateUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (values.email) {
-      console.log(values);
       dispatch(onUpdateUser(values));
       setIsFormEdited(false);
     }
@@ -58,7 +60,6 @@ export const useForm = (inputValues: any) => {
     handleChange,
     isFormEdited,
     setIsFormEdited,
-    // handleResetForm,
     handleLogin,
     handleRegister,
     handleUpdateUser,

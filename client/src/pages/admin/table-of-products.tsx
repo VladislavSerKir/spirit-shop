@@ -6,6 +6,7 @@ import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTranslation } from "react-i18next";
+import { ICategory } from "../../types/store/categoryStoreType";
 
 const TableOfProducts = () => {
   const { t } = useTranslation();
@@ -55,7 +56,7 @@ const TableOfProducts = () => {
               </td>
               <td className="table__info">{product.price}</td>
               <td className="table__info table__info-category">
-                {product?.categories.map((category: any) => (
+                {product?.categories.map((category: ICategory) => (
                   <span className="product__category" key={category.id}>
                     {category.name}
                   </span>

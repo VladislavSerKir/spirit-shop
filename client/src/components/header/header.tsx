@@ -14,7 +14,7 @@ import { ii18n } from "../../i18n";
 export const Header = () => {
   const { t, i18n } = useTranslation();
   const [active, setActive] = useState(false);
-  const divRef = useRef<any>();
+  const divRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
   const userData = useTypedSelector((store) => store.user.userData);
@@ -101,7 +101,7 @@ export const Header = () => {
 
   const isLoggedIn = useTypedSelector((state) => state.user.userData.email);
 
-  const handleLogOut = (event: any) => {
+  const handleLogOut = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(onLogout(userData));
     history.push("/");
@@ -239,7 +239,7 @@ export const Header = () => {
                         to="/logout"
                         className="nav__link"
                         activeClassName="active-link"
-                        onClick={handleLogOut}
+                        onClick={() => handleLogOut}
                       >
                         {t("Logout")}
                       </NavLink>
@@ -289,7 +289,7 @@ export const Header = () => {
             <i
               className={`ri-logout-box-r-line change-theme`}
               id="theme-button"
-              onClick={handleLogOut}
+              onClick={() => handleLogOut}
             />
           )}
 

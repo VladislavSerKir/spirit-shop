@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
-import { IReview } from "../../types/store/reviewStoreType";
+import { IReview, IReviewUser } from "../../types/store/reviewStoreType";
 import useFarmatDate from "../../hooks/useFormatDate";
 import likeActive from "../../assets/img/like-active.png";
 import likeInactive from "../../assets/img/like-inactive.png";
@@ -21,7 +21,7 @@ export const Review = ({ review }: IReviewProps) => {
 
   const farmattedDate = returnFormattedDate();
 
-  const userLikesIds = review.helpful?.map((i: any) => i.email);
+  const userLikesIds = review.helpful?.map((i: IReviewUser) => i.email);
 
   const handleLikeReview = (id: number) => {
     if (user.email && !userLikesIds?.includes(user.email)) {

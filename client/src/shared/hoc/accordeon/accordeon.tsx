@@ -16,7 +16,7 @@ const Accordeon = ({
 }: IAccordeonProps) => {
   const [active, setActive] = useState(false);
   const [id, setId] = useState<string>();
-  const divRef = useRef<any>();
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (divRef.current) {

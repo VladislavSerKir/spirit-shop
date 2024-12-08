@@ -14,7 +14,9 @@ export const cartSlice = createSlice({
   initialState: cartState,
   reducers: {
     refreshCart: (state, action: PayloadAction<any>) => {
-      state.cart.cartItem = action.payload;
+      if (state.cart) {
+        state.cart.cartItem = action.payload;
+      }
     },
     setCartToNull: (state) => {
       state.cart = null;
@@ -33,7 +35,7 @@ export const cartSlice = createSlice({
     builder.addCase(getCart.rejected, (state, action) => {
       state.cartErrorMessage = action.payload;
       state.success = false;
-      state.cart = [];
+      state.cart = null;
       state.cartRequest = false;
     });
   },

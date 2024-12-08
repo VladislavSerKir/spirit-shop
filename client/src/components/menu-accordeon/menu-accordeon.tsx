@@ -9,7 +9,7 @@ const MenuAccordeon = () => {
   const { url } = useRouteMatch();
   const [active, setActive] = useState(false);
   const user = useTypedSelector((state) => state.user.userData);
-  const divRef = useRef<any>();
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (divRef.current) {

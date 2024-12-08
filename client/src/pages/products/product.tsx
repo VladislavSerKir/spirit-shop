@@ -1,6 +1,9 @@
 import { FC, useMemo } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import { IProduct } from "../../types/store/productStoreType";
+import {
+  IProduct,
+  IProductWithCategories,
+} from "../../types/store/productStoreType";
 import { toast } from "react-toastify";
 import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
@@ -29,14 +32,16 @@ const Product: FC<IProductProps> = ({ productId }) => {
     (i) => i.product?.id === +productId && i.user?.email === user.email
   );
 
-  const userLikedProducts = user.favourite?.map((i: any) => i.id);
+  const userLikedProducts: number[] = user.favourite?.map((i: any) => i.id);
 
-  const getProductById = (productId: string, products: any) =>
-    products.find((p: any) => p.id === Number(productId));
+  const getProductById = (
+    productId: string,
+    products: IProductWithCategories[]
+  ) => products.find((p: IProductWithCategories) => p.id === Number(productId));
 
   const currentProduct = getProductById(productId, products);
 
-  const handleAdd = (product: any) => {
+  const handleAdd = (product: IProduct) => {
     if (user.email) {
       dispatch(addProductToCart(product));
     } else {

@@ -7,14 +7,14 @@ import { useTranslation } from "react-i18next";
 import useFarmatDate from "../../hooks/useFormatDate";
 
 interface IUserAccordeonProps {
-  user: IUserData | any;
+  user: IUserData;
 }
 
 const UserAccordeon = ({ user }: IUserAccordeonProps) => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const [active, setActive] = useState(false);
-  const divRef = useRef<any>();
+  const divRef = useRef<HTMLDivElement>(null);
 
   const initialState = {
     role: user.role === "admin" ? true : false,
@@ -23,25 +23,28 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeToggle = useCallback((event: any) => {
-    setData((prevState: any) => ({
-      ...prevState,
-      [event.target.name]: event.target.checked,
-    }));
+  const handleChangeToggle = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setData((prevState) => ({
+        ...prevState,
+        [event.target.name]: event.target.checked,
+      }));
 
-    if (event.target.name === "admin") {
-      dispatch(
-        assignAdmin({
-          id: user.id,
-          role: event.target.checked ? "admin" : "user",
-        })
-      );
-    }
+      if (event.target.name === "admin" && user.id) {
+        dispatch(
+          assignAdmin({
+            id: user.id,
+            role: event.target.checked ? "admin" : "user",
+          })
+        );
+      }
 
-    if (event.target.name === "active") {
-      dispatch(manageAccount({ id: user.id, active: event.target.checked }));
-    }
-  }, []);
+      if (event.target.name === "active" && user.id) {
+        dispatch(manageAccount({ id: user.id, active: event.target.checked }));
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     if (divRef.current) {
@@ -55,7 +58,9 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
     setActive(!active);
   };
 
-  const { returnFormattedDate } = useFarmatDate(user?.createdAt);
+  const { returnFormattedDate } = useFarmatDate(
+    user?.createdAt ? user?.createdAt : ""
+  );
 
   const formattedDate = returnFormattedDate();
 

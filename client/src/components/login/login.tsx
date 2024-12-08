@@ -9,7 +9,7 @@ import SendCodeForm from "./send-code-form";
 
 const LogIn = () => {
   const { t } = useTranslation();
-  const { type }: any = useParams();
+  const { type }: { type: string } = useParams();
   const location = useLocation<IUseLocation>();
   const user = useTypedSelector((state) => state.user.userData.email);
   const isAuthChecked = useTypedSelector((state) => state.auth.isAuthChecked);

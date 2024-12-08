@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { IPurchase } from "../../types/store/orderStoreType";
 import { useTranslation } from "react-i18next";
 import { useResize } from "../../hooks/useResize";
+import { ICartItem } from "../../types/store/cartStoreType";
 
 interface IOrderAccordeonProps {
   order: IPurchase;
@@ -10,7 +11,7 @@ interface IOrderAccordeonProps {
 const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   const { t } = useTranslation();
   const [active, setActive] = useState(false);
-  const divRef = useRef<any>();
+  const divRef = useRef<HTMLDivElement>(null);
   const { width } = useResize();
 
   const returnUniqueOrder = useCallback(() => {
@@ -20,7 +21,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   }, [order.purchase]);
 
   const returnTotalPrice = useCallback(() => {
-    const totalSum = order.purchase.reduce((acc: number, item: any) => {
+    const totalSum = order.purchase.reduce((acc: number, item: ICartItem) => {
       const sum = item.product.price * item.quantity;
       return acc + sum;
     }, 0);
@@ -150,7 +151,7 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
               </tr>
             </thead>
             <tbody>
-              {order?.purchase?.map((item: any, i) => (
+              {order?.purchase?.map((item: ICartItem, i) => (
                 <tr key={i}>
                   <td className="order__info table__info-image">
                     <img

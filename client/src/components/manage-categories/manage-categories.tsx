@@ -11,6 +11,11 @@ import {
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
 
+export interface IChangeCategoryFormData {
+  name: string;
+  value: string;
+}
+
 const ManageCategories = () => {
   const { t } = useTranslation();
   const { url } = useRouteMatch();
@@ -29,18 +34,21 @@ const ManageCategories = () => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeCategory = useCallback((target: any) => {
-    setData((prevState: any) => ({
-      ...prevState,
-      [target.name]: target.value,
-    }));
-  }, []);
+  const handleChangeCategory = useCallback(
+    (target: IChangeCategoryFormData) => {
+      setData((prevState) => ({
+        ...prevState,
+        [target?.name]: target?.value,
+      }));
+    },
+    []
+  );
 
   const handleDelete = ({ id }: ICategory) => {
     dispatch(deleteCategory(id));
   };
 
-  const handleSubmitCategory = (e: any) => {
+  const handleSubmitCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(createCategory(data));
 
