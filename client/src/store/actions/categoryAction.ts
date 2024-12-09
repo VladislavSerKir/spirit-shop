@@ -99,7 +99,7 @@ export const deleteCategory = createAsyncThunk<
       message: "Server Error, take a look on method deleteCategory",
     });
   }
-  const data: any = await response.json();
+  const data: IRemoveCategory = await response.json();
   dispatch(removeCategory(data.id));
   toast.info(`${ii18n.t("Category has been deleted")}`);
   return data;

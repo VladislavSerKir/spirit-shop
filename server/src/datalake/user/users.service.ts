@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 import { EditAvatarDto } from './dto/edit-avatar.dto';
 import { AssignAdminDto } from './dto/assign-admin.dto';
 import { ManageAccountDto } from './dto/manage-account.dto';
+import { YandexUserResponseOKInterface } from 'src/common/types/interfaces';
 
 @Injectable()
 export class UsersService {
@@ -220,17 +221,6 @@ export class UsersService {
     }
   }
 
-  async validateUser(username: any, password: string): Promise<any> {
-    const user = await this.getUserByEmail(username.username);
-    if (user && (await HashService.compareHash(password, user.password))) {
-      const { password, ...result } = user;
-
-      return result;
-    }
-
-    return null;
-  }
-
   async hasAdminRole(accessToken: string): Promise<boolean> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
@@ -251,7 +241,7 @@ export class UsersService {
   async manageAdmin(
     accessToken: string,
     assignAdminDto: AssignAdminDto,
-  ): Promise<any> {
+  ): Promise<AssignAdminDto> {
     const currentUserIsAdmin = await this.hasAdminRole(accessToken);
 
     if (!currentUserIsAdmin) {
@@ -271,7 +261,7 @@ export class UsersService {
   async manageAccount(
     accessToken: string,
     manageAccountDto: ManageAccountDto,
-  ): Promise<any> {
+  ): Promise<ManageAccountDto> {
     const currentUserIsAdmin = await this.hasAdminRole(accessToken);
 
     if (!currentUserIsAdmin) {
@@ -288,11 +278,13 @@ export class UsersService {
     }
   }
 
-  async findByYandexID(yandexProfile): Promise<any> {
+  async findByYandexID(yandexProfile): Promise<string> {
     return yandexProfile.email;
   }
 
-  async createFromYandex(yandexProfile): Promise<any> {
+  async createFromYandex(
+    yandexProfile,
+  ): Promise<YandexUserResponseOKInterface> {
     return yandexProfile;
   }
 }

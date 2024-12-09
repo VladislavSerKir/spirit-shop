@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
 import { rateProduct } from "../../store/actions/reviewAction";
 import { IReview } from "../../types/store/reviewStoreType";
+import { ICartItem } from "../../types/store/cartStoreType";
 
 interface IProductCardProps {
   product: IProduct;
@@ -54,7 +55,7 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
   const countProducts = useMemo(() => {
     if (!cart?.cartItem?.length) return 0;
     const counter = cart?.cartItem?.find(
-      (item: any) => item.product.id === product.id
+      (item: ICartItem) => item.product.id === product.id
     )?.quantity;
     return typeof counter === "number" ? counter : 0;
   }, [product.id, cart?.cartItem]);

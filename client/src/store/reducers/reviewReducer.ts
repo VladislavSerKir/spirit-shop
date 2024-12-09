@@ -23,7 +23,7 @@ export const reviewSlice = createSlice({
     updateRateReview: (state, action: PayloadAction<Partial<IReview>>) => {
       const updatedReview = state.review.filter(
         (c) => c.id === action.payload.id
-      ) as any;
+      );
       if (updatedReview.length === 0) {
         state.review = [...state.review, { ...action.payload } as IReview];
       } else {
@@ -38,7 +38,7 @@ export const reviewSlice = createSlice({
     updateCommentReview: (state, action: PayloadAction<Partial<IReview>>) => {
       const updatedReview = state.review.filter(
         (c) => c.id === action.payload.id
-      ) as any;
+      );
       if (updatedReview.length === 0) {
         state.review = [...state.review, { ...action.payload } as IReview];
       } else {

@@ -6,6 +6,17 @@ import { Injectable } from '@nestjs/common';
 
 config();
 
+interface GoogleProfile {
+  id: string;
+  displayName: string;
+  name: {
+    familyName: string;
+    givenName: string;
+  };
+  emails: Array<{ value: string }>;
+  photos: Array<{ value: string }>;
+}
+
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor() {
@@ -19,9 +30,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
   async validate(
     accessToken: string,
-    profile: any,
+    profile: GoogleProfile,
     done: VerifyCallback,
-  ): Promise<any> {
+  ): Promise<void> {
     const { name, emails, photos } = profile;
     const user = {
       email: emails[0].value,

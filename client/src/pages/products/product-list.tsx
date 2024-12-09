@@ -9,16 +9,20 @@ import { useTypedSelector } from "../../types";
 import {} from "../../store/actions/productAction";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTranslation } from "react-i18next";
+import { IPurchase } from "../../types/store/orderStoreType";
+import { ICategory } from "../../types/store/categoryStoreType";
 
 export interface IOrderCategory {
-  order: any;
+  order: IPurchase;
 }
 
 const ProductsList = () => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState();
-  const [sortBy, setSortBy] = useState<any>({});
+  const [sortBy, setSortBy] = useState<{ order: any }>({
+    order: "asc",
+  });
 
   const productsState = useTypedSelector((state) => state.products.products);
   const categories = useTypedSelector((state) => state.category.categories);
@@ -36,21 +40,21 @@ const ProductsList = () => {
     (state) => state.category.categoriesErrorMessage
   );
 
-  const handleSearch = ({ target }: any) => {
-    setSearchValue(target.value);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
   };
 
   const handleCategorySelect = (category: any) => {
     setSelectedCategory(category);
   };
 
-  function searchProducts(products: any) {
+  function searchProducts(products: IProduct[]) {
     if (products) {
       if (selectedCategory) {
         const newData: IProduct[] = [];
-        products.forEach((product: any) => {
-          const productCategories = product.categories.map((category: any) =>
-            String(category.id)
+        products.forEach((product: IProduct) => {
+          const productCategories = product.categories.map(
+            (category: ICategory) => String(category.id)
           );
           if (productCategories.includes(selectedCategory)) {
             newData.push(product);
@@ -61,7 +65,7 @@ const ProductsList = () => {
         );
       }
 
-      return products.filter((product: any) =>
+      return products.filter((product: IProduct) =>
         product.name.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
@@ -88,7 +92,7 @@ const ProductsList = () => {
   };
 
   const handleSkipSort = () => {
-    setSortBy({});
+    setSortBy({ order: "asc" });
   };
 
   if (productsLoading || categoryLoading) {

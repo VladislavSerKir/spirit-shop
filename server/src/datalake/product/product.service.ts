@@ -74,9 +74,7 @@ export class ProductService {
 
     const { name, description, image, price, categories } = createProductDto;
     const categoryIds = categories.map(
-      // (category: number) => ({category.id} as Category),
-
-      (category: any) => category as Category,
+      (category: Category) => category as Category,
     );
 
     const newProduct = await this.productRepo.create({
@@ -127,9 +125,7 @@ export class ProductService {
       throw new NotFoundException(`Product with id ${id} not found`);
     }
 
-    const categoryIds = categories.map(
-      (category: any) => category.id as number,
-    );
+    const categoryIds = categories.map((category: Category) => category.id);
     const updatedCategories = await this.categoryRepo.find({
       where: {
         id: In(categoryIds),

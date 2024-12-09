@@ -14,6 +14,11 @@ import { submitPurchase } from "../../store/actions/orderAction";
 import { ICartItem } from "../../types/store/cartStoreType";
 import { useTranslation } from "react-i18next";
 
+interface IComment {
+  name: string;
+  value: string;
+}
+
 const Cart = () => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
@@ -27,26 +32,32 @@ const Cart = () => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeComment = useCallback((target: any) => {
-    setData((prevState: any) => ({
+  const handleChangeComment = useCallback((target: IComment) => {
+    setData((prevState) => ({
       ...prevState,
       [target.name]: target.value,
     }));
   }, []);
 
-  const handleChangeToggle = useCallback((event: any) => {
-    setData((prevState: any) => ({
-      ...prevState,
-      [event.target.name]: event.target.checked,
-    }));
-  }, []);
+  const handleChangeToggle = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setData((prevState) => ({
+        ...prevState,
+        [event.target.name]: event.target.checked,
+      }));
+    },
+    []
+  );
 
   const getTotalSum = () => {
     if (cart && cart.cartItem.length) {
-      const totalSum = cart.cartItem.reduce((acc: number, item: ICartItem) => {
-        const sum = item.product.price * item.quantity;
-        return acc + sum;
-      }, 0);
+      const totalSum = (cart?.cartItem as ICartItem[]).reduce(
+        (acc: number, item: ICartItem) => {
+          const sum = item.product.price * item.quantity;
+          return acc + sum;
+        },
+        0
+      );
       return totalSum ? totalSum.toFixed(2) : 0;
     }
     return 0;
@@ -66,7 +77,9 @@ const Cart = () => {
     setData(initialState);
   };
 
-  const handleClearCart = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleClearCart = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     dispatch(clearCart());
     setData(initialState);
@@ -131,7 +144,7 @@ const Cart = () => {
                 <button
                   className="button button--flex cart-button-fixed"
                   type="button"
-                  onClick={() => handleClearCart}
+                  onClick={handleClearCart}
                 >
                   {t("Clear cart")}
                 </button>

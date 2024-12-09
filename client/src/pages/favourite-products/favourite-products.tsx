@@ -5,10 +5,6 @@ import { useTypedSelector } from "../../types";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTranslation } from "react-i18next";
 
-export interface IOrderCategory {
-  order: any;
-}
-
 const FavouriteProducts = () => {
   const { t } = useTranslation();
   const likedProducts = useTypedSelector(

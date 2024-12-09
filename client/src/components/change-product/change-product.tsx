@@ -13,6 +13,11 @@ interface IChangeProductProps {
   onClose: () => void;
 }
 
+interface IChangeProduct {
+  name: string;
+  value: string;
+}
+
 const ChangeProduct = ({ onClose }: IChangeProductProps) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -43,8 +48,8 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
 
   const [data, setData] = useState(initialState);
 
-  const handleChangeProduct = useCallback((target: any) => {
-    setData((prevState: any) => ({
+  const handleChangeProduct = useCallback((target: IChangeProduct) => {
+    setData((prevState) => ({
       ...prevState,
       [target.name]: target.value,
     }));

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
+  IAssignAdminResponse,
+  IManageAccountResponse,
   IUserData,
   IUserState,
   TAvatar,
@@ -8,7 +10,10 @@ import {
 import { TError } from "../../types";
 import { getAllUsers, onUpdateUser } from "../actions/userAction";
 import { onLogout } from "../actions/authAction";
-import { IProduct } from "../../types/store/productStoreType";
+import {
+  ILikeProductResponse,
+  IProduct,
+} from "../../types/store/productStoreType";
 
 const initalUserData = {
   firstName: "",
@@ -66,7 +71,7 @@ export const userSlice = createSlice({
     setAvatar: (state, action: PayloadAction<TAvatar>) => {
       state.userData.avatar = action.payload.avatar;
     },
-    setLikeProduct: (state, action: any) => {
+    setLikeProduct: (state, action: PayloadAction<ILikeProductResponse>) => {
       state.userData.favourite = [...state.userData.favourite, action.payload];
     },
     setDislikeProduct: (state, action: PayloadAction<number>) => {
@@ -77,8 +82,8 @@ export const userSlice = createSlice({
     setUsersRequest: (state, action: PayloadAction<boolean>) => {
       state.usersRequest = action.payload;
     },
-    updateAdminRole: (state, action: PayloadAction<any>) => {
-      state.allUsersData = state.allUsersData.map((user: any) => {
+    updateAdminRole: (state, action: PayloadAction<IAssignAdminResponse>) => {
+      state.allUsersData = state.allUsersData.map((user: IUserData) => {
         if (user.id === action.payload.id) {
           return {
             ...user,
@@ -89,8 +94,11 @@ export const userSlice = createSlice({
         return user;
       });
     },
-    updateAccountActive: (state, action: PayloadAction<any>) => {
-      state.allUsersData = state.allUsersData.map((user: any) => {
+    updateAccountActive: (
+      state,
+      action: PayloadAction<IManageAccountResponse>
+    ) => {
+      state.allUsersData = state.allUsersData.map((user: IUserData) => {
         if (user.id === action.payload.id) {
           return { ...user, active: action.payload.active };
         }

@@ -104,9 +104,7 @@ export class OrderService {
       throw new Error('Cart is empty');
     }
 
-    const cartItemIds = user.cart.cartItem.map(
-      (item: any) => item.id as number,
-    );
+    const cartItemIds = user.cart.cartItem.map((item: CartItem) => item.id);
     const userCartItems = await this.cartItemRepo.find({
       where: {
         id: In(cartItemIds),

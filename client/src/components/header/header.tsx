@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
@@ -20,12 +26,15 @@ export const Header = () => {
   const userData = useTypedSelector((store) => store.user.userData);
   const cart = useTypedSelector((store) => store.cart.cart);
 
-  const countProductsInCart = () => {
-    return cart?.cartItem?.length
-      ? cart?.cartItem?.reduce((acc: number, item: ICartItem) => {
-          const sum = item.quantity;
-          return acc + sum;
-        }, 0)
+  const countProductsInCart = (): number => {
+    return cart?.cartItem.length
+      ? (cart?.cartItem as ICartItem[])?.reduce(
+          (acc: number, item: ICartItem) => {
+            const sum = item.quantity;
+            return acc + sum;
+          },
+          0
+        )
       : 0;
   };
 
@@ -101,7 +110,7 @@ export const Header = () => {
 
   const isLoggedIn = useTypedSelector((state) => state.user.userData.email);
 
-  const handleLogOut = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     dispatch(onLogout(userData));
     history.push("/");
@@ -239,7 +248,7 @@ export const Header = () => {
                         to="/logout"
                         className="nav__link"
                         activeClassName="active-link"
-                        onClick={() => handleLogOut}
+                        onClick={handleLogOut}
                       >
                         {t("Logout")}
                       </NavLink>
@@ -289,7 +298,7 @@ export const Header = () => {
             <i
               className={`ri-logout-box-r-line change-theme`}
               id="theme-button"
-              onClick={() => handleLogOut}
+              onClick={handleLogOut}
             />
           )}
 

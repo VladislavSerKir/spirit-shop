@@ -47,7 +47,7 @@ export const getUser = createAsyncThunk(
         dispatch(setUser(user));
         dispatch(getCart());
       })
-      .catch((err: any) => {
+      .catch((err: { message: TError }) => {
         dispatch(setUserError(err.message));
       })
       .finally(() => {

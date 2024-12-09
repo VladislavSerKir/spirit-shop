@@ -15,6 +15,7 @@ import { rateProduct } from "../../store/actions/reviewAction";
 import { IReview } from "../../types/store/reviewStoreType";
 import { ReviewFeed } from "../../components/review-feed/review-feed";
 import MyReview from "../../components/my-review/my-review";
+import { ICartItem } from "../../types/store/cartStoreType";
 
 interface IProductProps {
   productId: string;
@@ -32,7 +33,9 @@ const Product: FC<IProductProps> = ({ productId }) => {
     (i) => i.product?.id === +productId && i.user?.email === user.email
   );
 
-  const userLikedProducts: number[] = user.favourite?.map((i: any) => i.id);
+  const userLikedProducts: number[] = user.favourite?.map(
+    (i: IProduct) => i.id
+  );
 
   const getProductById = (
     productId: string,
@@ -68,7 +71,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const countProducts = useMemo(() => {
     if (!cart?.cartItem?.length) return 0;
     const counter = cart?.cartItem?.find(
-      (item: any) => item.product.id === +productId
+      (item: ICartItem) => item.product.id === +productId
     )?.quantity;
     return typeof counter === "number" ? counter : 0;
   }, [productId, cart?.cartItem]);

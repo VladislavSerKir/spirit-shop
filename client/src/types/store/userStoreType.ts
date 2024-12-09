@@ -1,4 +1,5 @@
 import { TError, TUser } from "..";
+import { IPurchase } from "./orderStoreType";
 import { IProduct } from "./productStoreType";
 
 export interface IUserData {
@@ -11,7 +12,7 @@ export interface IUserData {
   mobileNumber: string;
   role: string;
   avatar: string;
-  purchase?: any;
+  purchase?: IPurchase;
   createdAt?: string | undefined;
   active?: boolean;
 }
@@ -57,7 +58,7 @@ export type TUserEditResponse = {
   lastName: string;
   mobileNumber: string;
   role: string;
-  favourite: any;
+  favourite: IProduct[];
 } & TRefreshToken;
 
 export type TRefreshToken = {

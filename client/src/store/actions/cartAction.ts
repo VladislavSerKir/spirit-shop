@@ -105,7 +105,7 @@ export const getCart = createAsyncThunk<ICart, undefined, { rejectValue: any }>(
         message: "Server Error, take a look on method getCart",
       });
     }
-    const data: any = await response.json();
+    const data: ICart = await response.json();
     return data;
   }
 );

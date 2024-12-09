@@ -50,6 +50,16 @@ export interface YandexUserResponseOKInterface {
   psuid: string;
 }
 
+enum ContentType {
+  FORM_URLENCODED = 'application/x-www-form-urlencoded',
+  JSON = 'application/json',
+  TEXT = 'text/plain',
+}
+
+export interface IYandexAuthConfig {
+  'Content-type': ContentType.FORM_URLENCODED;
+}
+
 export interface GoogleUserResponseOKInterface {
   id: string;
   email: string;

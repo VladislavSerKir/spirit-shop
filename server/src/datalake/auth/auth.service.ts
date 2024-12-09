@@ -27,9 +27,10 @@ import { ValidateCodeDto } from './dto/validate-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LoginYandexDto } from './dto/login-yandex.dto';
 import { HttpService } from '@nestjs/axios';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
   GoogleUserResponseOKInterface,
+  IYandexAuthConfig,
   YandexResponseOKInterface,
   YandexUserResponseOKInterface,
 } from 'src/common/types/interfaces';
@@ -411,7 +412,7 @@ export class AuthService {
           this.httpService.post<YandexResponseOKInterface>(
             yandexAuthUrl,
             body.toString(),
-            yandexAuthConfig as any,
+            yandexAuthConfig as AxiosRequestConfig<IYandexAuthConfig>,
           ),
         );
 

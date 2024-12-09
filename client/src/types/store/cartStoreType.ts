@@ -1,9 +1,10 @@
 import { ICategory } from "./categoryStoreType";
+import { IPurchase } from "./orderStoreType";
 import { IProduct } from "./productStoreType";
 
 export interface ICartState {
-  cart: ICart | null | any;
-  purchase?: any;
+  cart: ICart | null;
+  purchase?: IPurchase;
   success: boolean;
   cartRequest: boolean;
   cartErrorMessage: null | undefined | string;
