@@ -232,6 +232,7 @@ const ENtranslation = {
   "Send code": "Send code",
   "Sign In with Yandex": "Sign In with Yandex",
   "Sign In with Google": "Sign In with Google",
+  "User with this email already exist": "User with this email already exist",
 };
 
 const RUtranslation = {
@@ -467,6 +468,8 @@ const RUtranslation = {
   "Send code": "Отправить код",
   "Sign In with Yandex": "Войти через Yandex",
   "Sign In with Google": "Войти через Google",
+  "User with this email already exist":
+    "Пользователь с такой почтой уже существует",
 };
 
 export const ii18n = new I18n({

@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
 import * as yup from "yup";
 import { GenericObject, useTypedSelector } from "../../types";
-import {} from "../../store/actions/productAction";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
@@ -37,9 +36,7 @@ const EditProfileForm: FC = () => {
     mobileNumber: yup
       .string()
       .required(t("Mobile is required"))
-      .matches(/^[0-9]+$/, t("Mobile number entered incorrectly"))
-      .max(15, t("Mobile number must be maximum 15 characters long"))
-      .min(7, t("Mobile number must be at least 7 characters long")),
+      .matches(/^[0-9\s()+-]*$/, t("Mobile number entered incorrectly")),
     lastName: yup
       .string()
       .required(t("Last name is required"))
@@ -65,6 +62,17 @@ const EditProfileForm: FC = () => {
     handleChange(e);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isValid = validate();
+    if (!isValid) return;
+    if (values.mobileNumber.includes("_")) {
+      return;
+    }
+    handleUpdateUser(e);
+  };
+
   return (
     <div className="login__container">
       <h2 className="section__title-center">{t("Change profile")}</h2>
@@ -76,7 +84,7 @@ const EditProfileForm: FC = () => {
           <img src={user.avatar} alt="avatar" className="profile__avatar-img" />
         </Link>
       </div>
-      <form className="login__form" onSubmit={handleUpdateUser}>
+      <form className="login__form" onSubmit={handleSubmit}>
         <div className="login__inputs">
           <TextField
             label={t("First name")}
@@ -98,6 +106,7 @@ const EditProfileForm: FC = () => {
             value={values.mobileNumber}
             onChange={handleChangeFields}
             error={errors.mobileNumber}
+            type_phone
           />
           <TextField
             label={t("Email")}

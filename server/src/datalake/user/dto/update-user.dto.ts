@@ -18,7 +18,7 @@ export class UpdateUserDto {
   lastName: string;
 
   @IsString()
-  @IsPhoneNumber('RU')
+  // @IsPhoneNumber('RU')
   @IsNotEmpty()
   mobileNumber: string;
 

@@ -32,9 +32,7 @@ const RegisterForm = () => {
     mobileNumber: yup
       .string()
       .required(t("Mobile is required"))
-      .matches(/^[0-9]+$/, t("Mobile number entered incorrectly"))
-      .max(15, t("Mobile number must be maximum 15 characters long"))
-      .min(7, t("Mobile number must be at least 7 characters long")),
+      .matches(/^[0-9\s()+-]*$/, t("Mobile number entered incorrectly")),
     lastName: yup
       .string()
       .required(t("Last name is required"))
@@ -65,6 +63,9 @@ const RegisterForm = () => {
 
     const isValid = validate();
     if (!isValid) return;
+    if (values.mobileNumber.includes("_")) {
+      return;
+    }
     handleRegister(e);
   };
 
@@ -91,6 +92,7 @@ const RegisterForm = () => {
           value={values.mobileNumber}
           onChange={handleChangeFields}
           error={errors.mobileNumber}
+          type_phone
         />
         <TextField
           label={t("Email")}

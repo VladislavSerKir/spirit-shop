@@ -64,6 +64,10 @@ export const onRegister = createAsyncThunk<
   const response = await authService.registerRequest(user);
 
   if (!response.ok) {
+    if (response.status === 409) {
+      toast.error(`${ii18n.t("User with this email already exist")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onRegister",

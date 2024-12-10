@@ -28,6 +28,6 @@ export class SignupDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsPhoneNumber('RU')
+  // @IsPhoneNumber('RU')
   mobileNumber: string;
 }

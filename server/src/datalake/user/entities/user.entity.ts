@@ -71,7 +71,7 @@ export class User {
 
   @Column()
   @IsString()
-  @IsPhoneNumber('RU')
+  // @IsPhoneNumber('RU')
   mobileNumber: string;
 
   @Column({ default: '' })
