@@ -16,18 +16,41 @@ import {
   ISuccessResponse,
 } from 'src/common/types/interfaces';
 import { CartItem } from './entities/cart-item.entity';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('cart')
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Get('/')
+  @ApiOperation({ summary: 'Получение всех корзин всех пользователей' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат всех корзин',
+    type: Array<Cart>,
+  })
+  @ApiNotFoundResponse()
   getProfileInfo(): Promise<Cart[]> {
     return this.cartService.getAllProducts();
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('/cart')
+  @ApiOperation({ summary: 'Получение корзины пользователя' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат корзины пользователя',
+    type: Cart,
+  })
+  @ApiNotFoundResponse()
   getUserCart(@Request() request: IHeadersAuthorizationRequest): Promise<Cart> {
     const accessToken = request.headers.authorization;
     return this.cartService.getUserCart(accessToken);
@@ -35,6 +58,16 @@ export class CartController {
 
   @UseGuards(AccessTokenGuard)
   @Patch('/add')
+  @ApiOperation({ summary: 'Добавить продукт в корзину' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат обновленной корзины',
+    type: Array<CartItem>,
+  })
+  @ApiBody({
+    type: AddToCartDto,
+  })
+  @ApiBadRequestResponse()
   addToCart(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() addToCartDto: AddToCartDto,
@@ -45,6 +78,16 @@ export class CartController {
 
   @UseGuards(AccessTokenGuard)
   @Patch('/remove')
+  @ApiOperation({ summary: 'Удалить продукт из корзины' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат наименований корзины',
+    type: Array<CartItem>,
+  })
+  @ApiBody({
+    type: AddToCartDto,
+  })
+  @ApiBadRequestResponse()
   removeFromCart(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() addToCartDto: AddToCartDto,
@@ -55,6 +98,12 @@ export class CartController {
 
   @UseGuards(AccessTokenGuard)
   @Delete('/clear')
+  @ApiOperation({ summary: 'Очистить корзину' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат результата операции',
+  })
+  @ApiBadRequestResponse()
   clearCart(
     @Request() request: IHeadersAuthorizationRequest,
   ): Promise<ISuccessResponse> {

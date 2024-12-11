@@ -71,7 +71,6 @@ export class User {
 
   @Column()
   @IsString()
-  // @IsPhoneNumber('RU')
   mobileNumber: string;
 
   @Column({ default: '' })

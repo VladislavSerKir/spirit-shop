@@ -19,18 +19,46 @@ import {
 } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('product')
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('/')
+  @ApiOperation({ summary: 'Получение всех продуктов' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат всех продуктов',
+    type: Array<Product>,
+  })
+  @ApiNotFoundResponse()
   getProfileInfo(): Promise<Product[]> {
     return this.productService.getAllProducts();
   }
 
   @UseGuards(AccessTokenGuard)
   @Post('/create')
+  @ApiOperation({ summary: 'Создать продукт' })
+  @ApiResponse({
+    status: 201,
+    description: 'Возврат созданного продукта',
+    type: Product,
+  })
+  @ApiBody({
+    type: CreateProductDto,
+  })
+  @ApiBadRequestResponse()
+  @ApiForbiddenResponse()
   async createProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() createProductDto: CreateProductDto,
@@ -41,6 +69,18 @@ export class ProductController {
 
   @UseGuards(AccessTokenGuard)
   @Patch('/edit')
+  @ApiOperation({ summary: 'Изменить продукт' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат изменного продукта',
+    type: Product,
+  })
+  @ApiBody({
+    type: EditProductDto,
+  })
+  @ApiBadRequestResponse()
+  @ApiForbiddenResponse()
+  @ApiNotFoundResponse()
   async editProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() editProductDto: EditProductDto,
@@ -51,6 +91,14 @@ export class ProductController {
 
   @UseGuards(AccessTokenGuard)
   @Delete('/delete')
+  @ApiOperation({ summary: 'Удалить продукт' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат индентификатора удаленного продукта',
+  })
+  @ApiBody({
+    type: DeleteProductDto,
+  })
   async deleteProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() deleteProductDto: DeleteProductDto,
@@ -61,6 +109,17 @@ export class ProductController {
 
   @UseGuards(AccessTokenGuard)
   @Patch('/like')
+  @ApiOperation({ summary: 'Добавить продукт в избранное' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат продукта',
+    type: Product,
+  })
+  @ApiBody({
+    type: LikeDislikeProductDto,
+  })
+  @ApiForbiddenResponse()
+  @ApiNotFoundResponse()
   async likeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeProductDto: LikeDislikeProductDto,
@@ -71,6 +130,16 @@ export class ProductController {
 
   @UseGuards(AccessTokenGuard)
   @Patch('/dislike')
+  @ApiOperation({ summary: 'Убрать продукт из избранного' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат индентификатора удаляемого из избранного продукта',
+  })
+  @ApiBody({
+    type: LikeDislikeProductDto,
+  })
+  @ApiNotFoundResponse()
+  @ApiBadRequestResponse()
   async dislikeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeProductDto: LikeDislikeProductDto,

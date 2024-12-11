@@ -18,17 +18,45 @@ import {
 } from 'src/common/types/interfaces';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { EditCategoryDto } from './dto/edit-category.dto';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('category')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
   @Get('/')
+  @ApiOperation({ summary: 'Получение всех категорий' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат категорий',
+    type: Array<Category>,
+  })
+  @ApiNotFoundResponse()
   getCategoriesInfo(): Promise<Category[]> {
     return this.categoryService.getAllCategories();
   }
 
   @UseGuards(AccessTokenGuard)
   @Post('/create')
+  @ApiOperation({ summary: 'Создать категорию' })
+  @ApiResponse({
+    status: 201,
+    description: 'Возврат категории',
+    type: Category,
+  })
+  @ApiBody({
+    type: CreateCategoryDto,
+  })
+  @ApiForbiddenResponse()
+  @ApiBadRequestResponse()
   async createCategory(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() createCategoryDto: CreateCategoryDto,
@@ -39,6 +67,17 @@ export class CategoryController {
 
   @UseGuards(AccessTokenGuard)
   @Patch('/edit')
+  @ApiOperation({ summary: 'Изменить категорию' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат измененной категории',
+    type: Category,
+  })
+  @ApiBody({
+    type: EditCategoryDto,
+  })
+  @ApiForbiddenResponse()
+  @ApiBadRequestResponse()
   async editCategory(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() editCategoryDto: EditCategoryDto,
@@ -49,6 +88,16 @@ export class CategoryController {
 
   @UseGuards(AccessTokenGuard)
   @Delete('/delete')
+  @ApiOperation({ summary: 'Удалить категорию' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат индентификатора удаленной категории',
+  })
+  @ApiBody({
+    type: DeleteCategoryDto,
+  })
+  @ApiForbiddenResponse()
+  @ApiNotFoundResponse()
   async deleteCategory(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() deleteCategoryDto: DeleteCategoryDto,

@@ -28,6 +28,5 @@ export class SignupDto {
 
   @IsString()
   @IsNotEmpty()
-  // @IsPhoneNumber('RU')
   mobileNumber: string;
 }
