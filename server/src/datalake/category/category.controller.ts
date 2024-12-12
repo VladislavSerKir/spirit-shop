@@ -14,7 +14,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { DeleteCategoryDto } from './dto/delete-category.dto';
 import {
   IHeadersAuthorizationRequest,
-  IRemoveCategory,
+  RemoveCategory,
 } from 'src/common/types/interfaces';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { EditCategoryDto } from './dto/edit-category.dto';
@@ -37,7 +37,7 @@ export class CategoryController {
   @ApiResponse({
     status: 200,
     description: 'Возврат категорий',
-    type: Array<Category>,
+    type: Category,
   })
   @ApiNotFoundResponse()
   getCategoriesInfo(): Promise<Category[]> {
@@ -92,6 +92,7 @@ export class CategoryController {
   @ApiResponse({
     status: 200,
     description: 'Возврат индентификатора удаленной категории',
+    type: RemoveCategory,
   })
   @ApiBody({
     type: DeleteCategoryDto,
@@ -101,7 +102,7 @@ export class CategoryController {
   async deleteCategory(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() deleteCategoryDto: DeleteCategoryDto,
-  ): Promise<IRemoveCategory> {
+  ): Promise<RemoveCategory> {
     const accessToken = request.headers.authorization;
     return this.categoryService.deleteCategory(deleteCategoryDto, accessToken);
   }

@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Body,
-  Patch,
   UseGuards,
   Request,
   Post,
@@ -33,7 +32,7 @@ export class OrderController {
   @ApiResponse({
     status: 200,
     description: 'Возврат всех заказов пользователя',
-    type: Array<Order>,
+    type: Order,
   })
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()

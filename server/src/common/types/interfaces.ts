@@ -1,5 +1,25 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export interface IAccessToken {
   access_token: string;
+}
+
+export class UpdatedAccessTokenResponse {
+  @ApiProperty()
+  updatedAccessToken: string;
+}
+
+export interface IAccessRefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export class AccessRefreshTokenResponse {
+  @ApiProperty()
+  accessToken: string;
+
+  @ApiProperty()
+  refreshToken: string;
 }
 
 export interface IHeadersAuthorizationRequest {
@@ -12,13 +32,20 @@ export interface ISuccessResponse {
   success: boolean;
 }
 
-export interface ILikeDislikeProductResponse {
+export class SuccessResponse {
+  @ApiProperty()
+  success: boolean;
+}
+
+export class LikeDislikeProductResponse {
+  @ApiProperty()
   id: number;
+
+  @ApiProperty()
   email: string;
 }
 
-export interface ILikeDislikeReviewResponse
-  extends ILikeDislikeProductResponse {}
+export class LikeDislikeReviewResponse extends LikeDislikeProductResponse {}
 
 export interface IRemoveProduct {
   id: number;
@@ -27,6 +54,13 @@ export interface IRemoveProduct {
 export interface IRemoveCategory {
   id: number;
 }
+
+export class RemoveProduct {
+  @ApiProperty()
+  id: number;
+}
+
+export class RemoveCategory extends RemoveProduct {}
 
 export interface YandexResponseOKInterface {
   token_type: string;

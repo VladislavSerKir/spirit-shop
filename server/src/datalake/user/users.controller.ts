@@ -88,12 +88,16 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'Возврат обновленного пользователя',
+    type: User,
   })
   @ApiBody({
     type: UpdateUserDto,
   })
   @ApiBadRequestResponse()
-  updateToken(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  updateToken(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
     return this.usersService.updateToken(id, updateUserDto);
   }
 

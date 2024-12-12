@@ -14,7 +14,7 @@ import { GiveCommentDto } from './dto/give-comment.dto';
 import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
 import {
   IHeadersAuthorizationRequest,
-  ILikeDislikeReviewResponse,
+  LikeDislikeReviewResponse,
 } from 'src/common/types/interfaces';
 import {
   ApiBadRequestResponse,
@@ -36,7 +36,7 @@ export class ReviewController {
   @ApiResponse({
     status: 200,
     description: 'Возврат всех отзывов',
-    type: Array<Review>,
+    type: Review,
   })
   @ApiNotFoundResponse()
   getAllReviews(): Promise<Review[]> {
@@ -93,6 +93,7 @@ export class ReviewController {
   @ApiResponse({
     status: 200,
     description: 'Возврат индентификатора продукта и email пользователя',
+    type: LikeDislikeReviewResponse,
   })
   @ApiBody({
     type: LikeDislikeReviewDto,
@@ -101,7 +102,7 @@ export class ReviewController {
   async likeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<ILikeDislikeReviewResponse> {
+  ): Promise<LikeDislikeReviewResponse> {
     const accessToken = request.headers.authorization;
     return this.reviewService.likeReview(accessToken, likeDislikeReviewDto);
   }
@@ -112,6 +113,7 @@ export class ReviewController {
   @ApiResponse({
     status: 200,
     description: 'Возврат индентификатора продукта и email пользователя',
+    type: LikeDislikeReviewResponse,
   })
   @ApiBody({
     type: LikeDislikeReviewDto,
@@ -120,7 +122,7 @@ export class ReviewController {
   async dislikeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<ILikeDislikeReviewResponse> {
+  ): Promise<LikeDislikeReviewResponse> {
     const accessToken = request.headers.authorization;
     return this.reviewService.dislikeReview(accessToken, likeDislikeReviewDto);
   }

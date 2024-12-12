@@ -9,19 +9,23 @@ import {
 } from 'typeorm';
 import { User } from 'src/datalake/user/entities/user.entity';
 import { Product } from './product.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Favourite {
   @PrimaryGeneratedColumn()
   @IsNotEmpty()
+  @ApiProperty()
   id: number;
 
   @CreateDateColumn()
   @IsNotEmpty()
+  @ApiProperty()
   createdAt: Date;
 
   @UpdateDateColumn()
   @IsNotEmpty()
+  @ApiProperty()
   updatedAt: Date;
 
   @OneToOne(() => User, (user) => user.favourite)
@@ -31,5 +35,6 @@ export class Favourite {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @ApiProperty()
   products: Product[];
 }

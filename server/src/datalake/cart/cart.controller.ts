@@ -13,7 +13,7 @@ import { Cart } from './entities/cart.entity';
 import { AddToCartDto } from './dto/add-to-cart.dto';
 import {
   IHeadersAuthorizationRequest,
-  ISuccessResponse,
+  SuccessResponse,
 } from 'src/common/types/interfaces';
 import { CartItem } from './entities/cart-item.entity';
 import {
@@ -35,7 +35,7 @@ export class CartController {
   @ApiResponse({
     status: 200,
     description: 'Возврат всех корзин',
-    type: Array<Cart>,
+    type: Cart,
   })
   @ApiNotFoundResponse()
   getProfileInfo(): Promise<Cart[]> {
@@ -62,7 +62,7 @@ export class CartController {
   @ApiResponse({
     status: 200,
     description: 'Возврат обновленной корзины',
-    type: Array<CartItem>,
+    type: CartItem,
   })
   @ApiBody({
     type: AddToCartDto,
@@ -82,7 +82,7 @@ export class CartController {
   @ApiResponse({
     status: 200,
     description: 'Возврат наименований корзины',
-    type: Array<CartItem>,
+    type: CartItem,
   })
   @ApiBody({
     type: AddToCartDto,
@@ -102,11 +102,12 @@ export class CartController {
   @ApiResponse({
     status: 200,
     description: 'Возврат результата операции',
+    type: SuccessResponse,
   })
   @ApiBadRequestResponse()
   clearCart(
     @Request() request: IHeadersAuthorizationRequest,
-  ): Promise<ISuccessResponse> {
+  ): Promise<SuccessResponse> {
     const accessToken = request.headers.authorization;
     return this.cartService.clearCart(accessToken);
   }

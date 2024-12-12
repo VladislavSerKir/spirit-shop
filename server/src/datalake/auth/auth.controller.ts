@@ -16,8 +16,11 @@ import { ValidateCodeDto } from './dto/validate-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LoginYandexDto } from './dto/login-yandex.dto';
 import {
+  AccessRefreshTokenResponse,
   IHeadersAuthorizationRequest,
   ISuccessResponse,
+  SuccessResponse,
+  UpdatedAccessTokenResponse,
 } from 'src/common/types/interfaces';
 import { LogoutDto } from './dto/logout.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
@@ -44,14 +47,16 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Возврат access token, refresh token',
-    type: User,
+    type: AccessRefreshTokenResponse,
   })
   @ApiBody({
     type: SignupDto,
   })
   @ApiConflictResponse()
   @ApiInternalServerErrorResponse()
-  async signUp(@Body() signupDto: SignupDto): Promise<Partial<User>> {
+  async signUp(
+    @Body() signupDto: SignupDto,
+  ): Promise<AccessRefreshTokenResponse> {
     return await this.authService.signUp(signupDto);
   }
 
@@ -60,7 +65,7 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Возврат access token, refresh token',
-    type: User,
+    type: AccessRefreshTokenResponse,
   })
   @ApiBody({
     type: SigninDto,
@@ -68,17 +73,23 @@ export class AuthController {
   @ApiNotFoundResponse()
   @ApiForbiddenResponse()
   @ApiUnauthorizedResponse()
-  async signIn(@Body() signinDto: SigninDto): Promise<Partial<User>> {
+  async signIn(
+    @Body() signinDto: SigninDto,
+  ): Promise<AccessRefreshTokenResponse> {
     return this.authService.signIn(signinDto);
   }
 
   @Post('/logout')
   @ApiOperation({ summary: 'Выйти из аккаунта' })
-  @ApiResponse({ status: 201, description: 'Возврат результата операции' })
+  @ApiResponse({
+    status: 201,
+    description: 'Возврат результата операции',
+    type: SuccessResponse,
+  })
   @ApiBody({
     type: LogoutDto,
   })
-  logOut(@Body() logoutDto: LogoutDto): Promise<{ success: boolean }> {
+  logOut(@Body() logoutDto: LogoutDto): Promise<SuccessResponse> {
     return this.authService.logOut(logoutDto);
   }
 
@@ -87,6 +98,7 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Возврат access token',
+    type: UpdatedAccessTokenResponse,
   })
   @ApiBody({
     type: RefreshTokenDto,
@@ -95,7 +107,7 @@ export class AuthController {
   refreshTokens(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() refreshTokenDto: RefreshTokenDto,
-  ) {
+  ): Promise<UpdatedAccessTokenResponse> {
     const accessToken = request.headers.authorization;
     const { refreshToken } = refreshTokenDto;
 
@@ -105,9 +117,15 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   @Get('/me')
   @ApiOperation({ summary: 'Получить пользователя по access token' })
-  @ApiResponse({ status: 200, description: 'Возвращен объект пользователя' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возвращен объект пользователя',
+    type: User,
+  })
   @ApiInternalServerErrorResponse()
-  async getUserData(@Request() request: IHeadersAuthorizationRequest) {
+  async getUserData(
+    @Request() request: IHeadersAuthorizationRequest,
+  ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
 
     return await this.authService.getUserDataByAccessToken(accessToken);
@@ -140,14 +158,16 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Возврат access token, refresh token',
-    type: User,
+    type: AccessRefreshTokenResponse,
   })
   @ApiBody({
     type: LoginYandexDto,
   })
   @ApiInternalServerErrorResponse()
   @ApiUnauthorizedResponse()
-  loginYandex(@Body() loginYandexDto: LoginYandexDto): Promise<Partial<User>> {
+  loginYandex(
+    @Body() loginYandexDto: LoginYandexDto,
+  ): Promise<AccessRefreshTokenResponse> {
     return this.authService.loginYandex(loginYandexDto);
   }
 
@@ -159,6 +179,7 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Возврат access token, refresh token',
+    type: AccessRefreshTokenResponse,
   })
   @ApiBody({
     type: LoginGoogleDto,
@@ -167,7 +188,9 @@ export class AuthController {
   @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiConflictResponse()
-  loginGoogle(@Body() loginGoogleDto: LoginGoogleDto) {
+  loginGoogle(
+    @Body() loginGoogleDto: LoginGoogleDto,
+  ): Promise<AccessRefreshTokenResponse> {
     return this.authService.loginGoogle(loginGoogleDto);
   }
 }

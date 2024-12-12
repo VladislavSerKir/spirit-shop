@@ -5,7 +5,7 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './datalake/user/entities/user.entity';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './datalake/user/users.module';
 import { AuthModule } from './datalake/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';

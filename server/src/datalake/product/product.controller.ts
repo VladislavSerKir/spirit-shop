@@ -15,7 +15,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { DeleteProductDto } from './dto/delete-product.dto';
 import {
   IHeadersAuthorizationRequest,
-  IRemoveProduct,
+  RemoveProduct,
 } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 import { LikeDislikeProductDto } from './dto/like-dislike-product.dto';
@@ -39,7 +39,7 @@ export class ProductController {
   @ApiResponse({
     status: 200,
     description: 'Возврат всех продуктов',
-    type: Array<Product>,
+    type: Product,
   })
   @ApiNotFoundResponse()
   getProfileInfo(): Promise<Product[]> {
@@ -95,6 +95,7 @@ export class ProductController {
   @ApiResponse({
     status: 200,
     description: 'Возврат индентификатора удаленного продукта',
+    type: RemoveProduct,
   })
   @ApiBody({
     type: DeleteProductDto,
@@ -102,7 +103,7 @@ export class ProductController {
   async deleteProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() deleteProductDto: DeleteProductDto,
-  ): Promise<IRemoveProduct> {
+  ): Promise<RemoveProduct> {
     const accessToken = request.headers.authorization;
     return this.productService.deleteProduct(deleteProductDto, accessToken);
   }

@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 import { CartItem } from './entities/cart-item.entity';
 import { ConfigService } from '@nestjs/config';
-import { ISuccessResponse } from 'src/common/types/interfaces';
+import { SuccessResponse } from 'src/common/types/interfaces';
 
 @Injectable()
 export class CartService {
@@ -172,7 +172,7 @@ export class CartService {
   }
 
   async removeFromCart(
-    accessToken,
+    accessToken: string,
     product: Partial<Product>,
   ): Promise<Partial<CartItem[]>> {
     const token = accessToken.split(' ')[1];
@@ -252,7 +252,7 @@ export class CartService {
     return cart.cartItem;
   }
 
-  async clearCart(accessToken): Promise<ISuccessResponse> {
+  async clearCart(accessToken): Promise<SuccessResponse> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
       secret: this.configService.get<string>('jwt.access'),

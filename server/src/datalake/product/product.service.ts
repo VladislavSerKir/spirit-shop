@@ -10,7 +10,7 @@ import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Category } from '../category/entities/category.entity';
 import { DeleteProductDto } from './dto/delete-product.dto';
-import { IRemoveProduct } from 'src/common/types/interfaces';
+import { RemoveProduct } from 'src/common/types/interfaces';
 import { EditProductDto } from './dto/edit-product.dto';
 import { Favourite } from './entities/favourite.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -153,7 +153,7 @@ export class ProductService {
   async deleteProduct(
     deleteProductDto: DeleteProductDto,
     accessToken: string,
-  ): Promise<IRemoveProduct> {
+  ): Promise<RemoveProduct> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
       accessToken,
     );

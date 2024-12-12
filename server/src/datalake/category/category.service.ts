@@ -9,7 +9,7 @@ import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { DeleteCategoryDto } from './dto/delete-category.dto';
-import { IRemoveCategory } from 'src/common/types/interfaces';
+import { RemoveCategory } from 'src/common/types/interfaces';
 import { EditCategoryDto } from './dto/edit-category.dto';
 import { UsersService } from '../user/users.service';
 
@@ -84,7 +84,7 @@ export class CategoryService {
   async deleteCategory(
     deleteCategoryDto: DeleteCategoryDto,
     accessToken: string,
-  ): Promise<IRemoveCategory> {
+  ): Promise<RemoveCategory> {
     const currentUserIsAdmin = await this.usersService.hasAdminRole(
       accessToken,
     );

@@ -29,8 +29,11 @@ import { LoginYandexDto } from './dto/login-yandex.dto';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
+  AccessRefreshTokenResponse,
   GoogleUserResponseOKInterface,
+  IAccessRefreshTokenResponse,
   IYandexAuthConfig,
+  UpdatedAccessTokenResponse,
   YandexResponseOKInterface,
   YandexUserResponseOKInterface,
 } from 'src/common/types/interfaces';
@@ -49,7 +52,7 @@ export class AuthService {
     private readonly httpService: HttpService,
   ) {}
 
-  async signUp(signupDto: SignupDto): Promise<Partial<User>> {
+  async signUp(signupDto: SignupDto): Promise<IAccessRefreshTokenResponse> {
     const { firstName, lastName, email, password, mobileNumber } = signupDto;
 
     const hashedPassword = await HashService.generateHash(password);
@@ -87,7 +90,7 @@ export class AuthService {
     }
   }
 
-  async signIn(signinDto: SigninDto): Promise<Partial<User>> {
+  async signIn(signinDto: SigninDto): Promise<IAccessRefreshTokenResponse> {
     const { email, password } = signinDto;
 
     const user = await this.userRepo.findOne({
@@ -130,7 +133,7 @@ export class AuthService {
     return { success: true };
   }
 
-  async getUserDataByAccessToken(accessToken: string) {
+  async getUserDataByAccessToken(accessToken: string): Promise<Partial<User>> {
     try {
       const token = accessToken.split(' ')[1];
       const decodedToken = this.jwtService.verify(token, {
@@ -209,7 +212,7 @@ export class AuthService {
     });
   }
 
-  async refreshTokens(accessToken: string, refreshToken: string) {
+  async refreshTokens(accessToken: string, refreshToken: string): Promise<UpdatedAccessTokenResponse> {
     const token = accessToken.split(' ')[1];
     const decodedToken = jwt.decode(token);
     const username = decodedToken['username'];
@@ -387,7 +390,7 @@ export class AuthService {
     }
   }
 
-  async loginYandex(loginYandexDto: LoginYandexDto): Promise<Partial<User>> {
+  async loginYandex(loginYandexDto: LoginYandexDto): Promise<AccessRefreshTokenResponse> {
     const { code } = loginYandexDto;
 
     const clientID = this.configService.get<string>('yandex.client_id');
@@ -536,7 +539,7 @@ export class AuthService {
     };
   }
 
-  async loginGoogle(loginGoogleDto: LoginGoogleDto) {
+  async loginGoogle(loginGoogleDto: LoginGoogleDto): Promise<AccessRefreshTokenResponse> {
     const { access_token } = loginGoogleDto;
 
     const googleUserUrl = `https://www.googleapis.com/oauth2/v2/userinfo`;

@@ -3,10 +3,9 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Review } from './entities/review.entity';
@@ -14,7 +13,7 @@ import { User } from '../user/entities/user.entity';
 import { Product } from '../product/entities/product.entity';
 import { Order } from '../order/entities/order.entity';
 import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
-import { ILikeDislikeReviewResponse } from 'src/common/types/interfaces';
+import { LikeDislikeReviewResponse } from 'src/common/types/interfaces';
 
 @Injectable()
 export class ReviewService {
@@ -309,7 +308,7 @@ export class ReviewService {
   async likeReview(
     accessToken: string,
     likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<ILikeDislikeReviewResponse> {
+  ): Promise<LikeDislikeReviewResponse> {
     const { id } = likeDislikeReviewDto;
 
     const token = accessToken.split(' ')[1];
@@ -374,7 +373,7 @@ export class ReviewService {
   async dislikeReview(
     accessToken: string,
     likeDislikeReviewDto: LikeDislikeReviewDto,
-  ): Promise<ILikeDislikeReviewResponse> {
+  ): Promise<LikeDislikeReviewResponse> {
     const { id } = likeDislikeReviewDto;
 
     const token = accessToken.split(' ')[1];
