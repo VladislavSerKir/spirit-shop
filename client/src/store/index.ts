@@ -6,6 +6,7 @@ import { categoryReducer } from "./reducers/categoryReducer";
 import { authReducer } from "./reducers/authReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import { reviewReducer } from "./reducers/reviewReducer";
+import { serviceReducer } from "./reducers/serviceReducer";
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
   review: reviewReducer,
+  service: serviceReducer,
 });
 
 function createStore() {

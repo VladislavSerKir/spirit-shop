@@ -116,6 +116,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
   &__item {
     transition: all 0.5s;
@@ -202,11 +203,13 @@
   }
 
   &__link {
+    transition: all 0.3s;
     color: var(--title-color);
     font-weight: var(--font-medium);
 
     &:hover {
       color: var(--first-color);
+      transition: all 0.3s;
     }
   }
 }

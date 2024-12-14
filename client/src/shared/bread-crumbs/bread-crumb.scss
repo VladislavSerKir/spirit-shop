@@ -1,0 +1,31 @@
+.bread-crumb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 0.5s;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__route {
+    transition: all 0.3s;
+    color: var(--title-color);
+
+    &:hover {
+      color: var(--first-color);
+      transition: all 0.3s;
+    }
+  }
+
+  &__arrow {
+    width: 25px;
+    height: 25px;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+      transition: all 0.3s;
+    }
+  }
+}

@@ -103,6 +103,9 @@ const User: FC = () => {
             <Route path={`${url}/profile`} exact>
               <EditProfileForm />
             </Route>
+            <Route path={`${url}`} exact>
+              <EditProfileForm />
+            </Route>
             <Route path={`${url}/orders`} exact>
               <Order />
             </Route>

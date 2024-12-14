@@ -1,0 +1,14 @@
+.bread-crumbs {
+  margin-top: 100px;
+  max-width: 968px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 767px) {
+    margin-top: 70px;
+  }
+}

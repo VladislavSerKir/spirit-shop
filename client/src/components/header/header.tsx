@@ -1,10 +1,4 @@
-import React, {
-  FormEvent,
-  MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
@@ -16,6 +10,7 @@ import { onLogout } from "../../store/actions/authAction";
 import { ICartItem } from "../../types/store/cartStoreType";
 import { useTranslation } from "react-i18next";
 import { ii18n } from "../../i18n";
+import BreadCrumbs from "../../shared/bread-crumbs/bread-crumbs";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -131,186 +126,193 @@ export const Header = () => {
   const { width } = useResize();
 
   return (
-    <header className="header scroll-header" id="header">
-      <nav className="nav container">
-        <Link to="/" className="nav__logo">
-          <i className="ri-leaf-line nav__logo-icon" /> Spirit
-        </Link>
+    <>
+      <header className="header scroll-header" id="header">
+        <nav className="nav container">
+          <Link to="/" className="nav__logo">
+            <i className="ri-leaf-line nav__logo-icon" /> Spirit
+          </Link>
 
-        <div className={showMenu.style} id="nav-menu">
-          <ul className="nav__list">
-            <li className="nav__item">
-              <NavLink
-                exact
-                to="/"
-                className="nav__link"
-                activeClassName="active-link"
-                onClick={clickToShowMenu}
-              >
-                {t("Home")}
-              </NavLink>
-            </li>
-            <li className="nav__item">
-              <NavLink
-                to="/products"
-                className="nav__link"
-                activeClassName="active-link"
-                onClick={clickToShowMenu}
-              >
-                {t("Products")}
-              </NavLink>
-            </li>
-            {isLoggedIn ? (
-              <>
-                {width < 767 ? (
-                  <li className="nav__item">
-                    <NavLink
-                      to="/cart"
-                      className="nav__link"
-                      activeClassName="active-link"
-                      onClick={clickToShowMenu}
-                    >
-                      {t("Cart")}
-                    </NavLink>
-                  </li>
-                ) : (
-                  <li className="nav__item">
-                    <NavLink
-                      to="/cart"
-                      className="nav__link"
-                      activeClassName="active-link"
-                      onClick={clickToShowMenu}
-                    >
-                      <div className="header__cart">
-                        <img
-                          src={
-                            currentCartTheme === "light"
-                              ? shoppingCart
-                              : shoppingCartDark
-                          }
-                          alt="shoppingCart"
-                          className="header__cart-img"
-                        />
-                        {countProductsInCart() !== 0 ? (
-                          <div className="header__cart-counter" role="status">
-                            {countProductsInCart()}
-                          </div>
-                        ) : null}
-                      </div>
-                    </NavLink>
-                  </li>
-                )}
-                {userData.email && width > 767 && (
-                  <NavLink
-                    to={"/user/profile"}
-                    className="nav__link"
-                    onClick={clickToShowMenu}
-                  >
-                    <li className="nav__item nav__img header__block">
-                      <div
-                        className={`header__item${
-                          active ? " accordion-open" : ""
-                        }`}
-                      >
-                        <header
-                          className="header__header"
-                          onClick={toggleAccordeon}
-                        >
-                          <div className="header__user-button nav__link">
-                            <p>
-                              {userData.firstName}, {userData.lastName}
-                            </p>
-                            <img
-                              src={userData.avatar}
-                              alt="avatar"
-                              className="header__avatar-img"
-                            />
-                          </div>
-                        </header>
-                      </div>
-                    </li>
-                  </NavLink>
-                )}
-                {width < 767 && (
-                  <>
-                    <li className="nav__item">
-                      <NavLink
-                        to="/user/profile"
-                        className="nav__link"
-                        activeClassName="active-link"
-                        onClick={clickToShowMenu}
-                      >
-                        {t("User")}
-                      </NavLink>
-                    </li>
-                    <li className="nav__item">
-                      <NavLink
-                        to="/logout"
-                        className="nav__link"
-                        activeClassName="active-link"
-                        onClick={handleLogOut}
-                      >
-                        {t("Logout")}
-                      </NavLink>
-                    </li>
-                    <li className="nav__item nav__img">
-                      <img
-                        src={userData.avatar}
-                        alt="avatar"
-                        className="header__avatar-img"
-                      />
-                    </li>
-                  </>
-                )}
-              </>
-            ) : (
+          <div className={showMenu.style} id="nav-menu">
+            <ul className="nav__list">
               <li className="nav__item">
                 <NavLink
-                  to="/login"
+                  exact
+                  to="/"
                   className="nav__link"
                   activeClassName="active-link"
                   onClick={clickToShowMenu}
                 >
-                  {t("LogIn")}
+                  {t("Home")}
                 </NavLink>
               </li>
-            )}
-          </ul>
+              <li className="nav__item">
+                <NavLink
+                  to="/products"
+                  className="nav__link"
+                  activeClassName="active-link"
+                  onClick={clickToShowMenu}
+                >
+                  {t("Products")}
+                </NavLink>
+              </li>
+              {isLoggedIn ? (
+                <>
+                  {width < 767 ? (
+                    <li className="nav__item">
+                      <NavLink
+                        to="/cart"
+                        className="nav__link"
+                        activeClassName="active-link"
+                        onClick={clickToShowMenu}
+                      >
+                        {t("Cart")}
+                      </NavLink>
+                    </li>
+                  ) : (
+                    <li className="nav__item">
+                      <NavLink
+                        to="/cart"
+                        className="nav__link"
+                        activeClassName="active-link"
+                        onClick={clickToShowMenu}
+                      >
+                        <div className="header__cart">
+                          <img
+                            src={
+                              currentCartTheme === "light"
+                                ? shoppingCart
+                                : shoppingCartDark
+                            }
+                            alt="shoppingCart"
+                            className="header__cart-img"
+                          />
+                          {countProductsInCart() !== 0 ? (
+                            <div className="header__cart-counter" role="status">
+                              {countProductsInCart()}
+                            </div>
+                          ) : null}
+                        </div>
+                      </NavLink>
+                    </li>
+                  )}
+                  {userData.email && width > 767 && (
+                    <NavLink
+                      to={"/user/profile"}
+                      className="nav__link"
+                      onClick={clickToShowMenu}
+                    >
+                      <li className="nav__item nav__img header__block">
+                        <div
+                          className={`header__item${
+                            active ? " accordion-open" : ""
+                          }`}
+                        >
+                          <header
+                            className="header__header"
+                            onClick={toggleAccordeon}
+                          >
+                            <div className="header__user-button nav__link">
+                              <p>
+                                {userData.firstName}, {userData.lastName}
+                              </p>
+                              <img
+                                src={userData.avatar}
+                                alt="avatar"
+                                className="header__avatar-img"
+                              />
+                            </div>
+                          </header>
+                        </div>
+                      </li>
+                    </NavLink>
+                  )}
+                  {width < 767 && (
+                    <>
+                      <li className="nav__item">
+                        <NavLink
+                          to="/user/profile"
+                          className="nav__link"
+                          activeClassName="active-link"
+                          onClick={clickToShowMenu}
+                        >
+                          {t("User")}
+                        </NavLink>
+                      </li>
+                      <li className="nav__item">
+                        <NavLink
+                          to="/logout"
+                          className="nav__link"
+                          activeClassName="active-link"
+                          onClick={handleLogOut}
+                        >
+                          {t("Logout")}
+                        </NavLink>
+                      </li>
+                      <li className="nav__item nav__img">
+                        <img
+                          src={userData.avatar}
+                          alt="avatar"
+                          className="header__avatar-img"
+                        />
+                      </li>
+                    </>
+                  )}
+                </>
+              ) : (
+                <li className="nav__item">
+                  <NavLink
+                    to="/login"
+                    className="nav__link"
+                    activeClassName="active-link"
+                    onClick={clickToShowMenu}
+                  >
+                    {t("LogIn")}
+                  </NavLink>
+                </li>
+              )}
+            </ul>
 
-          <div className="nav__close" id="nav-close" onClick={clickToShowMenu}>
-            <i className="ri-close-line" />
+            <div
+              className="nav__close"
+              id="nav-close"
+              onClick={clickToShowMenu}
+            >
+              <i className="ri-close-line" />
+            </div>
           </div>
-        </div>
 
-        <div className="nav__btns">
-          <p
-            className="nav__item nav__link nav__lang-switch"
-            onClick={handleChangeLang}
-          >
-            {switchToLanguage}
-          </p>
-          <i
-            className={`${iconTheme} change-theme`}
-            id="theme-button"
-            onClick={changeTheme}
-          />
-          {userData.email && (
+          <div className="nav__btns">
+            <p
+              className="nav__item nav__link nav__lang-switch"
+              onClick={handleChangeLang}
+            >
+              {switchToLanguage}
+            </p>
             <i
-              className={`ri-logout-box-r-line change-theme`}
+              className={`${iconTheme} change-theme`}
               id="theme-button"
-              onClick={handleLogOut}
+              onClick={changeTheme}
             />
-          )}
+            {userData.email && (
+              <i
+                className={`ri-logout-box-r-line change-theme`}
+                id="theme-button"
+                onClick={handleLogOut}
+              />
+            )}
 
-          <div
-            className="nav__toggle"
-            id="nav-toggle"
-            onClick={clickToShowMenu}
-          >
-            <i className="ri-menu-line" />
+            <div
+              className="nav__toggle"
+              id="nav-toggle"
+              onClick={clickToShowMenu}
+            >
+              <i className="ri-menu-line" />
+            </div>
           </div>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
+      <BreadCrumbs />
+    </>
   );
 };

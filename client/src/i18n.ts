@@ -233,6 +233,18 @@ const ENtranslation = {
   "Sign In with Yandex": "Sign In with Yandex",
   "Sign In with Google": "Sign In with Google",
   "User with this email already exist": "User with this email already exist",
+
+  home: "Home",
+  user: "User",
+  profile: "Profile",
+  orders: "Orders",
+  favorites: "Favorites",
+  categories: "Categories",
+  products: "Products",
+  users: "Users",
+  cart: "Cart",
+  login: "Login",
+  avatar: "Avatar",
 };
 
 const RUtranslation = {
@@ -470,6 +482,17 @@ const RUtranslation = {
   "Sign In with Google": "Войти через Google",
   "User with this email already exist":
     "Пользователь с такой почтой уже существует",
+  home: "Домой",
+  user: "Пользователь",
+  profile: "Профиль",
+  orders: "Заказы",
+  favorites: "Любимые",
+  categories: "Категории",
+  products: "Продукты",
+  users: "Пользователи",
+  cart: "Корзина",
+  login: "Вход",
+  avatar: "Аватар",
 };
 
 export const ii18n = new I18n({
