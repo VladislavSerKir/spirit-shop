@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import Accordeon from "../../shared/hoc/accordeon/accordeon";
 
 export const Questions = () => {
   const { t } = useTranslation();
@@ -36,6 +37,39 @@ export const Questions = () => {
     }
   };
 
+  const questions = [
+    {
+      question: "My flowers are falling off or dying?",
+      answer:
+        "Plants are easy way to add color energy and transform your space but which planet is for you. Choosing the right plant.",
+    },
+    {
+      question: "What causes leaves to become pale?",
+      answer:
+        "Plants are easy way to add color energy and transform your space but which planet is for you. Choosing the right plant.",
+    },
+    {
+      question: "What causes brown crispy leaves?",
+      answer:
+        "Plants are easy way to add color energy and transform your space but which planet is for you. Choosing the right plant.",
+    },
+    {
+      question: "How do i choose a plant?",
+      answer:
+        "Plants are easy way to add color energy and transform your space but which planet is for you. Choosing the right plant.",
+    },
+    {
+      question: "How do I change the pots?",
+      answer:
+        "Plants are easy way to add color energy and transform your space but which planet is for you. Choosing the right plant.",
+    },
+    {
+      question: "Why are gnats flying around my plant?",
+      answer:
+        "Plants are easy way to add color energy and transform your space but which planet is for you. Choosing the right plant.",
+    },
+  ];
+
   return (
     <section className="questions section" id="faqs">
       <h2 className="section__title-center questions__title container">
@@ -44,103 +78,19 @@ export const Questions = () => {
 
       <div className="questions__container container grid">
         <div className="questions__group">
-          <div className="questions__item">
-            <header className="questions__header">
-              <i className="ri-add-line questions__icon"></i>
-              <h3 className="questions__item-title">
-                {t("My flowers are falling off or dying?")}
-              </h3>
-            </header>
-
-            <div className="questions__content">
-              <p className="questions__description">
-                Plants are easy way to add color energy and transform your space
-                but which planet is for you. Choosing the right plant.
-              </p>
-            </div>
-          </div>
-
-          <div className="questions__item">
-            <header className="questions__header">
-              <i className="ri-add-line questions__icon"></i>
-              <h3 className="questions__item-title">
-                {t("What causes leaves to become pale?")}
-              </h3>
-            </header>
-
-            <div className="questions__content">
-              <p className="questions__description">
-                Plants are easy way to add color energy and transform your space
-                but which planet is for you. Choosing the right plant.
-              </p>
-            </div>
-          </div>
-
-          <div className="questions__item">
-            <header className="questions__header">
-              <i className="ri-add-line questions__icon"></i>
-              <h3 className="questions__item-title">
-                {t("What causes brown crispy leaves?")}
-              </h3>
-            </header>
-
-            <div className="questions__content">
-              <p className="questions__description">
-                Plants are easy way to add color energy and transform your space
-                but which planet is for you. Choosing the right plant.
-              </p>
-            </div>
-          </div>
+          {questions
+            .filter((item, index) => index % 2 === 0)
+            .map((item, i) => (
+              <Accordeon title={item.question} content={item.answer} key={i} />
+            ))}
         </div>
 
         <div className="questions__group">
-          <div className="questions__item">
-            <header className="questions__header">
-              <i className="ri-add-line questions__icon"></i>
-              <h3 className="questions__item-title">
-                {t("How do i choose a plant?")}
-              </h3>
-            </header>
-
-            <div className="questions__content">
-              <p className="questions__description">
-                Plants are easy way to add color energy and transform your space
-                but which planet is for you. Choosing the right plant.
-              </p>
-            </div>
-          </div>
-
-          <div className="questions__item">
-            <header className="questions__header">
-              <i className="ri-add-line questions__icon"></i>
-              <h3 className="questions__item-title">
-                {t("How do I change the pots?")}
-              </h3>
-            </header>
-
-            <div className="questions__content">
-              <p className="questions__description">
-                Plants are easy way to add color energy and transform your space
-                but which planet is for you. Choosing the right plant.
-              </p>
-            </div>
-          </div>
-
-          <div className="questions__item">
-            <header className="questions__header">
-              <i className="ri-add-line questions__icon"></i>
-              <h3 className="questions__item-title">
-                {t("Why are gnats flying around my plant?")}
-              </h3>
-            </header>
-
-            <div className="questions__content">
-              <p className="questions__description">
-                Plants are easy way to add color energy and transform your space
-                but which planet is for you. Choosing the right plant.
-              </p>
-            </div>
-          </div>
+          {questions
+            .filter((item, index) => index % 2 !== 0)
+            .map((item, i) => (
+              <Accordeon title={item.question} content={item.answer} key={i} />
+            ))}
         </div>
       </div>
     </section>

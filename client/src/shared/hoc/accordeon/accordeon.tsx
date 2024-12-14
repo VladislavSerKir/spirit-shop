@@ -4,8 +4,8 @@ import { ICategory } from "../../../types/store/categoryStoreType";
 interface IAccordeonProps {
   title: string;
   content?: string;
-  categories: Array<ICategory>;
-  onCategorySelected: Function;
+  categories?: Array<ICategory>;
+  onCategorySelected?: Function;
 }
 
 const Accordeon = ({
@@ -31,10 +31,10 @@ const Accordeon = ({
   };
 
   const handleClick = (categoryId: string) => {
-    if (id === categoryId) {
+    if (id === categoryId && onCategorySelected) {
       setId("");
       onCategorySelected();
-    } else {
+    } else if (onCategorySelected) {
       setId(categoryId);
       onCategorySelected(categoryId);
     }

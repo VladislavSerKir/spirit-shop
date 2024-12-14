@@ -1,13 +1,12 @@
-import product1 from "../../assets/img/product1.png";
-import product2 from "../../assets/img/product2.png";
-import product3 from "../../assets/img/product3.png";
-import product4 from "../../assets/img/product4.png";
-import product5 from "../../assets/img/product5.png";
-import product6 from "../../assets/img/product6.png";
 import { useTranslation } from "react-i18next";
+import { useTypedSelector } from "../../types";
+import ProductCard from "../../shared/product-card/product-card";
+import { IProduct } from "../../types/store/productStoreType";
 
 export const MainProducts = () => {
   const { t } = useTranslation();
+  const products = useTypedSelector((state) => state.products.products);
+  const categories = useTypedSelector((state) => state.category.categories);
 
   return (
     <section className="product section container" id="products">
@@ -19,85 +18,26 @@ export const MainProducts = () => {
         )}
       </p>
 
-      <div className="product__container grid">
-        <article className="product__card">
-          <div className="product__circle"></div>
-
-          <img src={product1} alt="" className="product__img" />
-
-          <h3 className="product__title">Cacti Plant</h3>
-          <span className="product__price">$19.99</span>
-
-          <button className="button--flex product__button">
-            <i className="ri-shopping-bag-line"></i>
-          </button>
-        </article>
-
-        <article className="product__card">
-          <div className="product__circle"></div>
-
-          <img src={product2} alt="" className="product__img" />
-
-          <h3 className="product__title">Cactus Plant</h3>
-          <span className="product__price">$11.99</span>
-
-          <button className="button--flex product__button">
-            <i className="ri-shopping-bag-line"></i>
-          </button>
-        </article>
-
-        <article className="product__card">
-          <div className="product__circle"></div>
-
-          <img src={product3} alt="" className="product__img" />
-
-          <h3 className="product__title">Aloe Vera Plant</h3>
-          <span className="product__price">$7.99</span>
-
-          <button className="button--flex product__button">
-            <i className="ri-shopping-bag-line"></i>
-          </button>
-        </article>
-
-        <article className="product__card">
-          <div className="product__circle"></div>
-
-          <img src={product4} alt="" className="product__img" />
-
-          <h3 className="product__title">Succulent Plant</h3>
-          <span className="product__price">$5.99</span>
-
-          <button className="button--flex product__button">
-            <i className="ri-shopping-bag-line"></i>
-          </button>
-        </article>
-
-        <article className="product__card">
-          <div className="product__circle"></div>
-
-          <img src={product5} alt="" className="product__img" />
-
-          <h3 className="product__title">Succulent Plant</h3>
-          <span className="product__price">$10.99</span>
-
-          <button className="button--flex product__button">
-            <i className="ri-shopping-bag-line"></i>
-          </button>
-        </article>
-
-        <article className="product__card">
-          <div className="product__circle"></div>
-
-          <img src={product6} alt="" className="product__img" />
-
-          <h3 className="product__title">Green Plant</h3>
-          <span className="product__price">$8.99</span>
-
-          <button className="button--flex product__button">
-            <i className="ri-shopping-bag-line"></i>
-          </button>
-        </article>
-      </div>
+      {products.length ? (
+        <>
+          <div className="product__container grid">
+            {products.map((product: IProduct, i) => {
+              if (i <= 5) {
+                return (
+                  <ProductCard
+                    categories={categories}
+                    product={product}
+                    key={product.id}
+                  />
+                );
+              }
+              return null;
+            })}
+          </div>
+        </>
+      ) : (
+        <h3 className="container-center">{t("There are no products")}</h3>
+      )}
     </section>
   );
 };
