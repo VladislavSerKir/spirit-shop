@@ -24,6 +24,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('review')
@@ -54,6 +55,7 @@ export class ReviewController {
   @ApiBody({
     type: GiveRateDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   rateProduct(
@@ -76,6 +78,7 @@ export class ReviewController {
   @ApiBody({
     type: GiveCommentDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   commentProduct(
@@ -98,6 +101,7 @@ export class ReviewController {
   @ApiBody({
     type: LikeDislikeReviewDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   async likeProduct(
     @Request() request: IHeadersAuthorizationRequest,
@@ -118,6 +122,7 @@ export class ReviewController {
   @ApiBody({
     type: LikeDislikeReviewDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   async dislikeProduct(
     @Request() request: IHeadersAuthorizationRequest,

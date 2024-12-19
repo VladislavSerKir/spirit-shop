@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('order')
@@ -34,6 +35,7 @@ export class OrderController {
     description: 'Возврат всех заказов пользователя',
     type: Order,
   })
+  @ApiUnauthorizedResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
   getUserOrders(
@@ -54,6 +56,7 @@ export class OrderController {
   @ApiBody({
     type: CreateOrderDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   @ApiInternalServerErrorResponse()
   purchaseOrder(

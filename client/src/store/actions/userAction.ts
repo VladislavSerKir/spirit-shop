@@ -29,9 +29,16 @@ export const onUpdateUser = createAsyncThunk<
 >("user/onUpdateUser", async function (user, { rejectWithValue }) {
   const response = await userService.editRequest(user);
   if (!response.ok) {
-    toast.error(
-      `${ii18n.t("Eather user with email exist or password is too short")}`
-    );
+    if (response.status === 400) {
+      toast.error(
+        `${ii18n.t("Eather user with email exist or password is too short")}`
+      );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onUpdateUser",
@@ -54,6 +61,10 @@ export const editAvatar = createAsyncThunk<
       dispatch(setCartToNull());
       dispatch(setPurchaseToNull());
       toast.error(`${ii18n.t("Error to change avatar")}`);
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
     }
 
     return rejectWithValue({
@@ -93,6 +104,10 @@ export const assignAdmin = createAsyncThunk<
   const response = await userService.assignAdminRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -100,6 +115,10 @@ export const assignAdmin = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Admin has not been assigned or not assigned, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
     return rejectWithValue({
@@ -122,6 +141,10 @@ export const manageAccount = createAsyncThunk<
   const response = await userService.manageAccountRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -129,6 +152,10 @@ export const manageAccount = createAsyncThunk<
       toast.warn(
         `${ii18n.t("User has not been activeted or deactivated, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
     return rejectWithValue({

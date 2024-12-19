@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -11,14 +12,13 @@ import { SigninDto } from './dto/signin.dto';
 import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
+import { GetCodeDto } from './dto/get-code.dto';
 import { SendCodeDto } from './dto/send-code.dto';
-import { ValidateCodeDto } from './dto/validate-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LoginYandexDto } from './dto/login-yandex.dto';
 import {
   AccessRefreshTokenResponse,
   IHeadersAuthorizationRequest,
-  ISuccessResponse,
   SuccessResponse,
   UpdatedAccessTokenResponse,
 } from 'src/common/types/interfaces';
@@ -26,6 +26,7 @@ import { LogoutDto } from './dto/logout.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { LoginGoogleDto } from './dto/login-google.dto';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiConflictResponse,
   ApiForbiddenResponse,
@@ -122,6 +123,7 @@ export class AuthController {
     description: 'Возвращен объект пользователя',
     type: User,
   })
+  @ApiUnauthorizedResponse()
   @ApiInternalServerErrorResponse()
   async getUserData(
     @Request() request: IHeadersAuthorizationRequest,
@@ -131,22 +133,57 @@ export class AuthController {
     return await this.authService.getUserDataByAccessToken(accessToken);
   }
 
+  @Post('/get-code')
+  @ApiOperation({ summary: 'Запрос кода на почту' })
+  @ApiResponse({
+    status: 201,
+    description: 'Возврат результата',
+    type: SuccessResponse,
+  })
+  @ApiBody({
+    type: GetCodeDto,
+  })
+  @ApiForbiddenResponse()
+  @ApiBadRequestResponse()
+  @ApiInternalServerErrorResponse()
+  async getResetCode(
+    @Body() sendCodeDto: GetCodeDto,
+  ): Promise<SuccessResponse> {
+    return this.authService.getResetCode(sendCodeDto);
+  }
+
   @Post('/send-code')
-  sendResetCode(@Body() sendCodeDto: SendCodeDto): Promise<any> {
-    return this.authService.sendResetCode(sendCodeDto);
+  @ApiOperation({ summary: 'Отправка и валидация кода проверки' })
+  @ApiResponse({
+    status: 201,
+    description: 'Возврат результата',
+    type: SuccessResponse,
+  })
+  @ApiBody({
+    type: SendCodeDto,
+  })
+  @ApiBadRequestResponse()
+  @ApiForbiddenResponse()
+  async sendResetCode(
+    @Body() sendCodeDto: SendCodeDto,
+  ): Promise<SuccessResponse> {
+    return await this.authService.sendResetCode(sendCodeDto);
   }
 
-  @Post('validate-code')
-  async validateResetCode(
-    @Body() validateCodeDto: ValidateCodeDto,
-  ): Promise<ISuccessResponse> {
-    return await this.authService.validateResetCode(validateCodeDto);
-  }
-
-  @Post('reset-password')
+  @Patch('/reset-password')
+  @ApiOperation({ summary: 'Запрос на изменение пароля' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат результата',
+    type: SuccessResponse,
+  })
+  @ApiBody({
+    type: ResetPasswordDto,
+  })
+  @ApiBadRequestResponse()
   async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
-  ): Promise<ISuccessResponse> {
+  ): Promise<SuccessResponse> {
     return await this.authService.resetPassword(resetPasswordDto);
   }
 

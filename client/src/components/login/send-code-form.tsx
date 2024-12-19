@@ -3,19 +3,31 @@ import * as yup from "yup";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
-import { GenericObject, useTypedDispatch } from "../../types";
-import { sendCode } from "../../store/actions/authAction";
+import { GenericObject, useTypedDispatch, useTypedSelector } from "../../types";
+import {
+  getCode,
+  sendCode,
+  sendPassword,
+} from "../../store/actions/authAction";
 
 export interface ISendCodeFormData {
-  password: string;
+  email: string;
+  code: string;
+  newPassword: string;
 }
 
 const SendCodeForm = () => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
+  const sentCode = useTypedSelector((state) => state.service.codeSent);
+  const resetPassword = useTypedSelector(
+    (state) => state.service.resetPassword
+  );
 
   const data: ISendCodeFormData = {
-    password: "",
+    email: "",
+    code: "",
+    newPassword: "",
   };
 
   const [errors, setErrors] = useState<GenericObject>({});
@@ -47,25 +59,78 @@ const SendCodeForm = () => {
 
     const isValid = validate();
     if (!isValid) return;
-    dispatch(sendCode(values));
+
+    if (values.email && !values.code) {
+      dispatch(getCode(values));
+      return;
+    }
+
+    if (values.code && !values.newPassword) {
+      dispatch(sendCode(values));
+      return;
+    }
+
+    if (values.newPassword) {
+      dispatch(sendPassword(values));
+      values.email = "";
+      values.code = "";
+      values.newPassword = "";
+      return;
+    }
   };
 
   return (
     <>
       <form className="login__form" onSubmit={handleSubmit}>
-        <div className="login__inputs">
-          <TextField
-            label={t("Email")}
-            name="email"
-            value={values.email}
-            onChange={handleChangeFields}
-            error={errors.email}
-          />
-        </div>
-        <button className="button button--flex" type="submit">
-          {t("Send code")}
-          <i className="ri-arrow-right-up-line button__icon" />
-        </button>
+        {!sentCode ? (
+          <>
+            <div className="login__inputs">
+              <TextField
+                label={t("Email")}
+                name="email"
+                value={values.email}
+                onChange={handleChangeFields}
+                error={errors.email}
+              />
+            </div>
+            <button className="button button--flex" type="submit">
+              {t("Get code")}
+              <i className="ri-arrow-right-up-line button__icon" />
+            </button>
+          </>
+        ) : !resetPassword ? (
+          <>
+            <div className="login__inputs">
+              <TextField
+                label={t("Code")}
+                name="code"
+                value={values.code}
+                onChange={handleChangeFields}
+                error={errors.code}
+              />
+            </div>
+            <button className="button button--flex" type="submit">
+              {t("Send code")}
+              <i className="ri-arrow-right-up-line button__icon" />
+            </button>
+          </>
+        ) : (
+          <>
+            <div className="login__inputs">
+              <TextField
+                label={t("New password")}
+                name="newPassword"
+                value={values.newPassword}
+                onChange={handleChangeFields}
+                error={errors.newPassword}
+              />
+            </div>
+            <button className="button button--flex" type="submit">
+              {t("Reset password")}
+              <i className="ri-arrow-right-up-line button__icon" />
+            </button>
+          </>
+        )}
       </form>
     </>
   );

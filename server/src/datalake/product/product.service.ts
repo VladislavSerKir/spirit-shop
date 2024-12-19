@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -168,7 +169,7 @@ export class ProductService {
       await this.productRepo.delete(String(id));
       return { id };
     } catch (e) {
-      throw new NotFoundException(`Server error: ${e}`);
+      throw new InternalServerErrorException(`Server error: ${e}`);
     }
   }
 
@@ -235,7 +236,7 @@ export class ProductService {
       await this.favouriteRepo.save(favourite);
       return product;
     } catch (e) {
-      throw new NotFoundException(`Server error: ${e}`);
+      throw new InternalServerErrorException(`Server error: ${e}`);
     }
   }
 
@@ -287,7 +288,7 @@ export class ProductService {
       await this.favouriteRepo.save(favourite);
       return id;
     } catch (e) {
-      throw new NotFoundException(`Server error: ${e}`);
+      throw new InternalServerErrorException(`Server error: ${e}`);
     }
   }
 }

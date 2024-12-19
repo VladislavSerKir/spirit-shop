@@ -21,9 +21,8 @@ import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { Cart } from '../cart/entities/cart.entity';
 import { Favourite } from '../product/entities/favourite.entity';
-import { SendCodeDto } from './dto/send-code.dto';
+import { GetCodeDto } from './dto/get-code.dto';
 import { MailerService } from '@nestjs-modules/mailer';
-import { ValidateCodeDto } from './dto/validate-code.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LoginYandexDto } from './dto/login-yandex.dto';
 import { HttpService } from '@nestjs/axios';
@@ -33,6 +32,7 @@ import {
   GoogleUserResponseOKInterface,
   IAccessRefreshTokenResponse,
   IYandexAuthConfig,
+  SuccessResponse,
   UpdatedAccessTokenResponse,
   YandexResponseOKInterface,
   YandexUserResponseOKInterface,
@@ -40,6 +40,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { LogoutDto } from './dto/logout.dto';
 import { LoginGoogleDto } from './dto/login-google.dto';
+import { SendCodeDto } from './dto/send-code.dto';
 
 @Injectable()
 export class AuthService {
@@ -48,7 +49,7 @@ export class AuthService {
     private jwtService: JwtService,
     private usersService: UsersService,
     private configService: ConfigService,
-    private mailerService: MailerService,
+    // private mailerService: MailerService,
     private readonly httpService: HttpService,
   ) {}
 
@@ -212,7 +213,10 @@ export class AuthService {
     });
   }
 
-  async refreshTokens(accessToken: string, refreshToken: string): Promise<UpdatedAccessTokenResponse> {
+  async refreshTokens(
+    accessToken: string,
+    refreshToken: string,
+  ): Promise<UpdatedAccessTokenResponse> {
     const token = accessToken.split(' ')[1];
     const decodedToken = jwt.decode(token);
     const username = decodedToken['username'];
@@ -294,7 +298,7 @@ export class AuthService {
     };
   }
 
-  async sendResetCode(resetPasswordDto: SendCodeDto) {
+  async getResetCode(resetPasswordDto: GetCodeDto): Promise<SuccessResponse> {
     const { email } = resetPasswordDto;
 
     const user = await this.userRepo.findOne({
@@ -314,29 +318,32 @@ export class AuthService {
     }
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const token = this.jwtService.sign({ email, code }, { expiresIn: '15m' });
-    const url = `example.com/auth/confirm?token=${token}`;
+    // const generatedCodeHash = await HashService.generateHash(code);
 
     const updatedUser = await this.userRepo.update(
       { email },
-      { resetCode: code },
+      { resetCode: code }, //generatedCodeHash
     );
 
     if (!updatedUser) {
-      throw new BadRequestException('Error to update reset code');
+      throw new InternalServerErrorException('Error to update reset code');
     }
 
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Сброс пароля',
-      template: `Ваш код для сброса пароля: ${code}`,
-      text: 'welcome',
-    });
+    setTimeout(async () => {
+      await this.userRepo.update({ email }, { resetCode: '' });
+    }, 60000);
+
+    return { success: true };
+
+    // await this.mailerService.sendMail({
+    //   to: email,
+    //   subject: 'Сброс пароля',
+    //   template: `Ваш код для сброса пароля: ${code}`,
+    //   text: 'welcome',
+    // });
   }
 
-  async validateResetCode(
-    validateCodeDto: ValidateCodeDto,
-  ): Promise<{ success: boolean }> {
+  async sendResetCode(validateCodeDto: SendCodeDto): Promise<SuccessResponse> {
     const { email, code } = validateCodeDto;
 
     const user = await this.userRepo.findOne({
@@ -349,13 +356,16 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException('Invalid email');
+      throw new BadRequestException('Error profile fetching');
     }
 
-    if (user.resetCode === code) {
+    // const validCode = await HashService.compareHash(code, user.resetCode);
+
+    // if (validCode) {
+    if (code === user.resetCode) {
       return { success: true };
     } else {
-      throw new BadRequestException('Invalid code');
+      throw new ForbiddenException('Invalid code');
     }
   }
 
@@ -373,7 +383,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException('Invalid email');
+      throw new BadRequestException('Error profile fetching');
     }
 
     const hashedPassword = await HashService.generateHash(newPassword);
@@ -386,11 +396,13 @@ export class AuthService {
     if (updatedUser) {
       return { success: true };
     } else {
-      throw new BadRequestException('Error to update password');
+      throw new InternalServerErrorException('Error to update password');
     }
   }
 
-  async loginYandex(loginYandexDto: LoginYandexDto): Promise<AccessRefreshTokenResponse> {
+  async loginYandex(
+    loginYandexDto: LoginYandexDto,
+  ): Promise<AccessRefreshTokenResponse> {
     const { code } = loginYandexDto;
 
     const clientID = this.configService.get<string>('yandex.client_id');
@@ -539,7 +551,9 @@ export class AuthService {
     };
   }
 
-  async loginGoogle(loginGoogleDto: LoginGoogleDto): Promise<AccessRefreshTokenResponse> {
+  async loginGoogle(
+    loginGoogleDto: LoginGoogleDto,
+  ): Promise<AccessRefreshTokenResponse> {
     const { access_token } = loginGoogleDto;
 
     const googleUserUrl = `https://www.googleapis.com/oauth2/v2/userinfo`;

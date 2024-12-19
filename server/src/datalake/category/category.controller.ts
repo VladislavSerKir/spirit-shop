@@ -22,10 +22,12 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiForbiddenResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('category')
@@ -55,6 +57,7 @@ export class CategoryController {
   @ApiBody({
     type: CreateCategoryDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   async createCategory(
@@ -76,6 +79,7 @@ export class CategoryController {
   @ApiBody({
     type: EditCategoryDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   async editCategory(
@@ -97,8 +101,9 @@ export class CategoryController {
   @ApiBody({
     type: DeleteCategoryDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
-  @ApiNotFoundResponse()
+  @ApiInternalServerErrorResponse()
   async deleteCategory(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() deleteCategoryDto: DeleteCategoryDto,

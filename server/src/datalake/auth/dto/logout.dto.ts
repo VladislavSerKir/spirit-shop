@@ -1,3 +1,3 @@
-import { SendCodeDto } from './send-code.dto';
+import { GetCodeDto } from './get-code.dto';
 
-export class LogoutDto extends SendCodeDto {}
+export class LogoutDto extends GetCodeDto {}

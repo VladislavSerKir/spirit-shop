@@ -26,17 +26,17 @@ import { MailerModule, MailerService } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
-    MailerModule.forRoot({
-      transport: {
-        host: 'spirit-shop.ru',
-        // host: 'smtps://user@domain.com:pass@smtp.domain.com',
-        // port: 1025,
-        // secure: false,
-      },
-      defaults: {
-        from: '"spirit-shop" <info@spirit-shop.ru>',
-      },
-    }),
+    // MailerModule.forRoot({
+    //   transport: {
+    //     host: 'spirit-shop.ru',
+    //     host: 'smtps://user@domain.com:pass@smtp.domain.com',
+    //     port: 1025,
+    //     secure: false,
+    //   },
+    //   defaults: {
+    //     from: '"spirit-shop" <info@spirit-shop.ru>',
+    //   },
+    // }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

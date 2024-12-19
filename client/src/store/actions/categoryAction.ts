@@ -26,6 +26,10 @@ export const createCategory = createAsyncThunk<
   const response = await categoryService.createCategoryRequest(category);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -33,6 +37,10 @@ export const createCategory = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Category has not been created, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
     return rejectWithValue({
@@ -55,6 +63,10 @@ export const editCategory = createAsyncThunk<
   const response = await categoryService.editCategoryRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -62,6 +74,10 @@ export const editCategory = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Category has not been edited, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
     return rejectWithValue({
@@ -92,6 +108,14 @@ export const deleteCategory = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Category has not been deleted, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({

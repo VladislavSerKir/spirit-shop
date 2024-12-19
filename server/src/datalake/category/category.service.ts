@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -99,7 +100,7 @@ export class CategoryService {
       await this.categoryRepo.delete(String(id));
       return { id };
     } catch (e) {
-      throw new NotFoundException(`Server error: ${e}`);
+      throw new InternalServerErrorException(`Server error: ${e}`);
     }
   }
 }

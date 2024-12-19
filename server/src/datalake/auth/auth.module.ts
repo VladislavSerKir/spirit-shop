@@ -12,10 +12,11 @@ import { PassportModule } from '@nestjs/passport';
 import { YandexAuthStrategy } from 'src/config/yandex.strategy';
 import { HttpModule } from '@nestjs/axios';
 import { GoogleStrategy } from 'src/config/google.strategy';
+import { HashModule } from 'src/common/hash/hash.module';
 
 @Module({
   imports: [
-    MailerModule,
+    // MailerModule,
     PassportModule,
     HttpModule,
     TypeOrmModule.forFeature([User]),
@@ -29,7 +30,6 @@ import { GoogleStrategy } from 'src/config/google.strategy';
     AuthService,
     UsersService,
     JwtStrategy,
-    HashService,
     YandexAuthStrategy,
     GoogleStrategy,
   ],

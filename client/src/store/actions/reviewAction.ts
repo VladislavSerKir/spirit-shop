@@ -53,6 +53,10 @@ export const rateProduct = createAsyncThunk<
   const response = await reviewService.rateProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -88,6 +92,10 @@ export const commentProduct = createAsyncThunk<
   const response = await reviewService.commentProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -155,6 +163,10 @@ export const dislikeReview = createAsyncThunk<
   const response = await reviewService.dislikeReviewRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());

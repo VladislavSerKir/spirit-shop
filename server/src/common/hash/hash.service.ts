@@ -14,6 +14,10 @@ export class HashService {
     return bcrypt.hash(password, HashService._saltRounds);
   }
 
+  static async generateCodeHash(code: number): Promise<number> {
+    return bcrypt.hash(code, HashService._saltRounds);
+  }
+
   static async compareHash(password: string, hash: string): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }

@@ -23,10 +23,12 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiForbiddenResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('product')
@@ -57,6 +59,7 @@ export class ProductController {
   @ApiBody({
     type: CreateProductDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   @ApiForbiddenResponse()
   async createProduct(
@@ -78,6 +81,7 @@ export class ProductController {
   @ApiBody({
     type: EditProductDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   @ApiForbiddenResponse()
   @ApiNotFoundResponse()
@@ -100,6 +104,9 @@ export class ProductController {
   @ApiBody({
     type: DeleteProductDto,
   })
+  @ApiUnauthorizedResponse()
+  @ApiForbiddenResponse()
+  @ApiInternalServerErrorResponse()
   async deleteProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() deleteProductDto: DeleteProductDto,
@@ -119,8 +126,9 @@ export class ProductController {
   @ApiBody({
     type: LikeDislikeProductDto,
   })
-  @ApiForbiddenResponse()
-  @ApiNotFoundResponse()
+  @ApiUnauthorizedResponse()
+  @ApiBadRequestResponse()
+  @ApiInternalServerErrorResponse()
   async likeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeProductDto: LikeDislikeProductDto,
@@ -139,8 +147,9 @@ export class ProductController {
   @ApiBody({
     type: LikeDislikeProductDto,
   })
-  @ApiNotFoundResponse()
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
+  @ApiInternalServerErrorResponse()
   async dislikeProduct(
     @Request() request: IHeadersAuthorizationRequest,
     @Body() likeDislikeProductDto: LikeDislikeProductDto,

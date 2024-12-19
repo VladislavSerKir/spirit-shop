@@ -102,6 +102,20 @@ export interface ValidateCodeDto {
   code: string;
 }
 
+export interface GetCodeDto {
+  email: string;
+}
+
+export interface SendCodeDto {
+  code: string;
+  email: string;
+}
+
+export interface ResetPasswordDto {
+  newPassword: string;
+  email: string;
+}
+
 export interface LoginYandexDto {
   code: string;
 }

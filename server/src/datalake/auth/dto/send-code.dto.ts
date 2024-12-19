@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { GetCodeDto } from './get-code.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class SendCodeDto {
+export class SendCodeDto extends GetCodeDto {
   @IsString()
   @IsNotEmpty()
-  @IsEmail()
   @ApiProperty()
-  email: string;
+  code: string;
 }

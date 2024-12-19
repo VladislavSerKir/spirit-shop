@@ -23,6 +23,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('cart')
@@ -50,6 +51,7 @@ export class CartController {
     description: 'Возврат корзины пользователя',
     type: Cart,
   })
+  @ApiUnauthorizedResponse()
   @ApiNotFoundResponse()
   getUserCart(@Request() request: IHeadersAuthorizationRequest): Promise<Cart> {
     const accessToken = request.headers.authorization;
@@ -67,6 +69,7 @@ export class CartController {
   @ApiBody({
     type: AddToCartDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   addToCart(
     @Request() request: IHeadersAuthorizationRequest,
@@ -87,6 +90,7 @@ export class CartController {
   @ApiBody({
     type: AddToCartDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   removeFromCart(
     @Request() request: IHeadersAuthorizationRequest,
@@ -104,6 +108,7 @@ export class CartController {
     description: 'Возврат результата операции',
     type: SuccessResponse,
   })
+  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   clearCart(
     @Request() request: IHeadersAuthorizationRequest,

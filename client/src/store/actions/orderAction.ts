@@ -33,6 +33,10 @@ export const submitPurchase = createAsyncThunk<
   const response = await orderService.submitPurchaseRequest(params);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -40,6 +44,10 @@ export const submitPurchase = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Order has not been placed, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({

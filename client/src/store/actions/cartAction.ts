@@ -17,6 +17,10 @@ export const addProductToCart = createAsyncThunk<
   const response = await cartService.addProductToCartRequest(product);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error to get user")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -45,6 +49,10 @@ export const removeProductFromCart = createAsyncThunk<
   const response = await cartService.removeProductFromCartRequest(product);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error to get user")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -74,6 +82,10 @@ export const clearCart = createAsyncThunk<
   const response = await cartService.clearCartRequest();
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error to get user")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -100,6 +112,10 @@ export const getCart = createAsyncThunk<ICart, undefined, { rejectValue: any }>(
   async function (_, { dispatch, rejectWithValue }) {
     const response = await cartService.getCartRequest();
     if (!response.ok) {
+      if (response.status === 404) {
+        toast.error(`${ii18n.t("Cart not found")}`);
+      }
+
       return rejectWithValue({
         status: response.status,
         message: "Server Error, take a look on method getCart",

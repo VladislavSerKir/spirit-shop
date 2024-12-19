@@ -245,6 +245,21 @@ const ENtranslation = {
   cart: "Cart",
   login: "Login",
   avatar: "Avatar",
+  "User with email does not exist": "User with email does not exist",
+  "Internal server error": "Internal server error",
+  "Invalid code": "Invalid code",
+  "Code sent to mail": "Code sent to mail",
+  "Error to reset password": "Error to reset password",
+  "Password changed": "Password changed",
+  "Enter new password": "Enter new password",
+  "Get code": "Get code",
+  "New password": "New password",
+  Code: "Code",
+  "Reset password": "Reset password",
+  "Error to get user": "Error to get user",
+  "Cart not found": "Cart not found",
+  "Action forbidden": "Action forbidden",
+  "Error occured": "Error occured",
 };
 
 const RUtranslation = {
@@ -493,6 +508,22 @@ const RUtranslation = {
   cart: "Корзина",
   login: "Вход",
   avatar: "Аватар",
+  "User with email does not exist":
+    "Пользователя с данной почтой не существует",
+  "Internal server error": "Внутренняя ошибка сервера",
+  "Invalid code": "Код недействителен",
+  "Code sent to mail": "Код отправлен на почту",
+  "Error to reset password": "Ошибка сброса пароля",
+  "Password changed": "Пароль изменен",
+  "Enter new password": "Введите новый пароль",
+  "Get code": "Получить код",
+  "New password": "Новый пароль",
+  Code: "Код проверки",
+  "Reset password": "Сбросить пароль",
+  "Error to get user": "Ошибка получения пользователя",
+  "Cart not found": "Корзина не найдена",
+  "Action forbidden": "Действие запрещено",
+  "Error occured": "Произошла ошибка",
 };
 
 export const ii18n = new I18n({

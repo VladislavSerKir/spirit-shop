@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { SendCodeDto } from './send-code.dto';
+import { GetCodeDto } from './get-code.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResetPasswordDto extends SendCodeDto {
+export class ResetPasswordDto extends GetCodeDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()

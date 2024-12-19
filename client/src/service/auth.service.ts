@@ -1,12 +1,14 @@
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import {
+  GetCodeDto,
   LoginGoogleDto,
   LoginYandexDto,
   LogoutDto,
+  ResetPasswordDto,
+  SendCodeDto,
   SigninDto,
   SignupDto,
-  ValidateCodeDto,
 } from "../types/store/userStoreType";
 
 const authEndPoint = "auth";
@@ -115,7 +117,19 @@ const authService = {
     });
   },
 
-  sendCodeRequest: async ({ code }: ValidateCodeDto) => {
+  getCodeRequest: async ({ email }: GetCodeDto) => {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/get-code`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+  },
+
+  sendCodeRequest: async ({ code, email }: SendCodeDto) => {
     return fetch(`${config.apiEndPoint}/${authEndPoint}/send-code`, {
       method: "POST",
       headers: {
@@ -123,6 +137,20 @@ const authService = {
       },
       body: JSON.stringify({
         code,
+        email,
+      }),
+    });
+  },
+
+  resetPasswordRequest: async ({ newPassword, email }: ResetPasswordDto) => {
+    return fetch(`${config.apiEndPoint}/${authEndPoint}/reset-password`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        newPassword,
+        email,
       }),
     });
   },

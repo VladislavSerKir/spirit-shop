@@ -51,6 +51,10 @@ export const createProduct = createAsyncThunk<
   const response = await productService.createProductRequest(product);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -58,6 +62,14 @@ export const createProduct = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Product card has not been created, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -79,6 +91,10 @@ export const editProduct = createAsyncThunk<
   const response = await productService.editProductRequest(product);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -86,6 +102,10 @@ export const editProduct = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Product card has not been edited, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
     return rejectWithValue({
@@ -114,6 +134,10 @@ export const deleteProduct = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Product has not been removed from shop, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
     return rejectWithValue({
@@ -155,6 +179,10 @@ export const likeProduct = createAsyncThunk<
   const response = await productService.likeProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -162,6 +190,10 @@ export const likeProduct = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Product has not been added to favourites, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -183,6 +215,10 @@ export const dislikeProduct = createAsyncThunk<
   const response = await productService.dislikeProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
     if (response.status === 401) {
       dispatch(clearUserData());
       dispatch(setCartToNull());
@@ -190,6 +226,10 @@ export const dislikeProduct = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Product has not been removed from favourites, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({

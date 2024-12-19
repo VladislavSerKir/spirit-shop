@@ -8,22 +8,30 @@ import {
 } from "../reducers/userReducer";
 import authService from "../../service/auth.service";
 import {
+  GetCodeDto,
   IUserData,
   LoginGoogleDto,
   LoginYandexDto,
   LogoutDto,
+  ResetPasswordDto,
+  SendCodeDto,
   SigninDto,
   SignupDto,
   TUserEditResponse,
-  ValidateCodeDto,
 } from "../../types/store/userStoreType";
 import { setPurchaseToNull } from "../reducers/orderReducer";
-import { TError, TResponseWithoutPayload } from "../../types";
+import { ISuccessResponse, TError, TResponseWithoutPayload } from "../../types";
 import { setAuthChecked } from "../reducers/authReducer";
 import { getCart } from "./cartAction";
 import { setCartToNull } from "../reducers/cartReducer";
 import { toast } from "react-toastify";
 import { ii18n } from "../../i18n";
+import {
+  setCodeExpired,
+  setCodeSent,
+  setDefaultForm,
+  setResetPassword,
+} from "../reducers/serviceReducer";
 
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
@@ -68,6 +76,10 @@ export const onRegister = createAsyncThunk<
       toast.error(`${ii18n.t("User with this email already exist")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onRegister",
@@ -95,7 +107,7 @@ export const onLogin = createAsyncThunk<
   const response = await authService.loginRequest(user);
 
   if (!response.ok) {
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 404) {
       toast.error(`${ii18n.t("Incorrect email or password")}`);
     }
 
@@ -145,16 +157,53 @@ export const onLogout = createAsyncThunk<
   return data;
 });
 
+export const getCode = createAsyncThunk<
+  ISuccessResponse,
+  GetCodeDto,
+  { rejectValue: TError }
+>("auth/get-code", async function (body, { dispatch, rejectWithValue }) {
+  const response = await authService.getCodeRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("User with email does not exist")}`);
+    }
+
+    if (response.status === 403) {
+      toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method getCode",
+    });
+  }
+  toast.info(`${ii18n.t("Code sent to mail")}`);
+
+  const data: ISuccessResponse = await response.json();
+  dispatch(setCodeSent({ success: data.success, email: body.email }));
+  return data;
+});
+
 export const sendCode = createAsyncThunk<
-  TUserEditResponse,
-  ValidateCodeDto,
+  ISuccessResponse,
+  SendCodeDto,
   { rejectValue: TError }
 >("auth/send-code", async function (body, { dispatch, rejectWithValue }) {
   const response = await authService.sendCodeRequest(body);
 
   if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error to reset password")}`);
+    }
+
     if (response.status === 403) {
-      toast.error(`${ii18n.t("User deactivated")}`);
+      dispatch(setCodeExpired());
+      toast.error(`${ii18n.t("Invalid code")}`);
     }
 
     return rejectWithValue({
@@ -162,8 +211,38 @@ export const sendCode = createAsyncThunk<
       message: "Server Error, take a look on method sendCode",
     });
   }
+  toast.info(`${ii18n.t("Enter new password")}`);
 
-  const data: TUserEditResponse = await response.json();
+  const data: ISuccessResponse = await response.json();
+  dispatch(setResetPassword(data));
+  return data;
+});
+
+export const sendPassword = createAsyncThunk<
+  ISuccessResponse,
+  ResetPasswordDto,
+  { rejectValue: TError }
+>("auth/reset-password", async function (body, { dispatch, rejectWithValue }) {
+  const response = await authService.resetPasswordRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error to reset password")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method sendPassword",
+    });
+  }
+  toast.info(`${ii18n.t("Password changed")}`);
+
+  const data: ISuccessResponse = await response.json();
+  dispatch(setDefaultForm());
   return data;
 });
 
@@ -175,8 +254,16 @@ export const loginYandex = createAsyncThunk<
   const response = await authService.loginYandexRequest(body);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      toast.error(`${ii18n.t("Error to get user")}`);
+    }
+
     if (response.status === 403) {
       toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -205,8 +292,16 @@ export const loginGoogle = createAsyncThunk<
   const response = await authService.loginGoogleRequest(body);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      toast.error(`${ii18n.t("Error to get user")}`);
+    }
+
     if (response.status === 403) {
       toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({

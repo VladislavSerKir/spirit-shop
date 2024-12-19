@@ -27,6 +27,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('user')
@@ -56,6 +57,7 @@ export class UsersController {
     description: 'Возврат всех пользователей',
     type: Array<User>,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   getUsers(@Request() request: IHeadersAuthorizationRequest): Promise<User[]> {
     const accessToken = request.headers.authorization;
@@ -73,6 +75,7 @@ export class UsersController {
   @ApiBody({
     type: UpdateUserDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   editProfile(
@@ -112,6 +115,7 @@ export class UsersController {
   @ApiBody({
     type: FindUserDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiNotFoundResponse()
   findUserInfo(@Body() findUserDto: FindUserDto): Promise<User[]> {
     return this.usersService.findUserInfo(findUserDto);
@@ -128,6 +132,7 @@ export class UsersController {
   @ApiBody({
     type: EditAvatarDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   editAvatar(
@@ -149,6 +154,7 @@ export class UsersController {
   @ApiBody({
     type: AssignAdminDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   manageAdmin(
@@ -170,6 +176,7 @@ export class UsersController {
   @ApiBody({
     type: ManageAccountDto,
   })
+  @ApiUnauthorizedResponse()
   @ApiForbiddenResponse()
   @ApiBadRequestResponse()
   manageAccount(
