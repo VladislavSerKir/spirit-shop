@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
-import { IPurchase } from "../../types/store/orderStoreType";
 import { getAllUsers } from "../../store/actions/userAction";
 import UserAccordeon from "../../components/user-accordeon/user-accordeon";
 import { useTranslation } from "react-i18next";

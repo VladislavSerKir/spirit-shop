@@ -11,6 +11,7 @@ import { ICartItem } from "../../types/store/cartStoreType";
 import { useTranslation } from "react-i18next";
 import { ii18n } from "../../i18n";
 import BreadCrumbs from "../../shared/bread-crumbs/bread-crumbs";
+import bubbles from "../../assets/img/bubbles.png";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -55,8 +56,12 @@ export const Header = () => {
     const getCurrentIcon = () =>
       iconTheme === "ri-sun-line" ? "ri-moon-line" : "ri-sun-line";
 
-    document.body.classList.toggle(darkTheme);
-    document.querySelector(".modal")?.classList.toggle(darkTheme);
+    const doc = document.body;
+    doc.classList.toggle(darkTheme);
+    doc.querySelector(".header")?.classList.toggle(darkTheme);
+    doc.querySelector(".modal")?.classList.toggle(darkTheme);
+    doc.querySelector(".nav__background")?.classList.toggle(darkTheme);
+
     setIconTheme(getCurrentIcon());
     localStorage.setItem("selected-theme", getCurrentTheme());
     localStorage.setItem("selected-icon", getCurrentIcon());
@@ -133,7 +138,7 @@ export const Header = () => {
             <i className="ri-leaf-line nav__logo-icon" /> Spirit
           </Link>
 
-          <div className={showMenu.style} id="nav-menu">
+          <div className={`${showMenu.style}`} id="nav-menu">
             <ul className="nav__list">
               <li className="nav__item">
                 <NavLink

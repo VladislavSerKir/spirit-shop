@@ -1,11 +1,22 @@
 .header {
   width: 100%;
-  background-color: var(--body-color);
+  // background-color: var(--body-color);
+  background-color: hsla(0, 0%, 100%, 0.7);
+  backdrop-filter: blur(8px);
   position: fixed;
   top: 0;
   left: 0;
   z-index: var(--z-fixed);
   transition: 0.4s; // For animation dark mode
+
+  &.dark-theme {
+    background-color: hsla(0, 0%, 20%, 0.7);
+  }
+
+  @media screen and (max-width: 767px) {
+    background-color: hsla(0, 0%, 100%, 1);
+    backdrop-filter: none;
+  }
 
   &__block {
     position: relative;
@@ -25,9 +36,9 @@
   }
 
   &__item {
-    background-color: var(--container-color);
     border-radius: 10px;
     padding: 10px;
+    background-color: transparent;
 
     &:hover {
       box-shadow: 0 2px 8px hsla(var(--hue), 4%, 15%, 0.15);
@@ -246,4 +257,16 @@
     border-radius: 20px;
     background: inherit;
   }
+}
+
+.bubbles-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  background-image: url("../../assets/img/bubbles.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
 }

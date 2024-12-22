@@ -33,7 +33,7 @@ const Mockstore = ({ initialState, children }: Record<any, any>) => (
 );
 
 const meta: Meta<typeof MenuAccordeon> = {
-  title: "uikit/MenuAccordeon",
+  title: "uikit/Accordeons",
   component: MenuAccordeon,
   tags: ["autodocs"],
   argTypes: {

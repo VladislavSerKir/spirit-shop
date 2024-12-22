@@ -1,6 +1,6 @@
 import React from "react";
 
-interface IPaginationProps {
+export interface IPaginationProps {
   jump: Function;
   next: Function;
   prev: Function;

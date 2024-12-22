@@ -54,6 +54,7 @@ function App() {
 
   return (
     <>
+      <div className="bubbles-background"></div>
       <Header />
       <Switch location={background || location}>
         <Route exact path="/" component={Main} />
