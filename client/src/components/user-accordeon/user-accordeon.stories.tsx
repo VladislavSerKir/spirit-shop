@@ -20,7 +20,12 @@ const mockedUserState = {
 
 const mockedState = { active: true };
 
-const Mockstore = ({ initialState, children }: Record<any, any>) => (
+interface IMockstoreProps {
+  initialState: typeof mockedState;
+  children: React.ReactNode;
+}
+
+const Mockstore = ({ initialState, children }: IMockstoreProps) => (
   <Provider
     store={configureStore({
       reducer: {

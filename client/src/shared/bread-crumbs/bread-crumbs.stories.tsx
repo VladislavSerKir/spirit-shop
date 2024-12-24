@@ -18,7 +18,12 @@ const mockedProductState = {
   resetPassword: false,
 };
 
-const Mockstore = ({ initialState, children }: Record<any, any>) => (
+interface IMockstoreProps {
+  initialState: typeof mockedHomeState;
+  children: React.ReactNode;
+}
+
+const Mockstore = ({ initialState, children }: IMockstoreProps) => (
   <Provider
     store={configureStore({
       reducer: {

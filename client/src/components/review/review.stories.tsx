@@ -25,7 +25,12 @@ const mockedReviewState = {
 
 const mockedUserState = { userData: { email: "test5@mail.ru" } };
 
-const Mockstore = ({ initialState, children }: Record<any, any>) => (
+interface IMockstoreProps {
+  initialState: typeof mockedUserState;
+  children: React.ReactNode;
+}
+
+const Mockstore = ({ initialState, children }: IMockstoreProps) => (
   <Provider
     store={configureStore({
       reducer: {

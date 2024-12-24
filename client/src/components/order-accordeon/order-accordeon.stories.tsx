@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import OrderAccordeon from "./order-accordeon";
+import { IPurchase } from "../../types/store/orderStoreType";
 
-const mockedOrderState = {
+const mockedOrderState: IPurchase = {
   id: 1,
   number: 4586754,
   createdAt: "2024-11-25T18:46:13.431Z",

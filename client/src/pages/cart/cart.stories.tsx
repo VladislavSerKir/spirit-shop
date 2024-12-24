@@ -58,7 +58,12 @@ const mockedUserCartState = {
   cartErrorMessage: null,
 };
 
-const Mockstore = ({ initialState, children }: Record<any, any>) => (
+interface IMockstoreProps {
+  initialState: typeof mockedUserCartState;
+  children: React.ReactNode;
+}
+
+const Mockstore = ({ initialState, children }: IMockstoreProps) => (
   <Provider
     store={configureStore({
       reducer: {

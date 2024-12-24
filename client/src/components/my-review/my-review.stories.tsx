@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Provider } from "react-redux";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import MyReview from "./my-review";
+import { IReview } from "../../types/store/reviewStoreType";
 
-const mockedReviewState = [
+const mockedReviewState: IReview[] = [
   {
     id: 1,
     createdAt: "2024-11-25T18:08:21.025Z",
@@ -25,9 +26,14 @@ const mockedReviewState = [
   },
 ];
 
-const mockedUserState = { userData: { email: "test5@mail.ru" } };
+const mockedUserState = { user: { userData: { email: "test5@mail.ru" } } };
 
-const Mockstore = ({ initialState, children }: Record<any, any>) => (
+interface IMockstoreProps {
+  initialState: typeof mockedUserState;
+  children: React.ReactNode;
+}
+
+const Mockstore = ({ initialState, children }: IMockstoreProps) => (
   <Provider
     store={configureStore({
       reducer: {
@@ -49,7 +55,7 @@ const meta: Meta<typeof MyReview> = {
   tags: ["autodocs"],
   argTypes: {
     review: {
-      description: "Форма отправки моего ревью",
+      description: "Значения моего текущего ревью",
       control: {
         type: "object",
       },

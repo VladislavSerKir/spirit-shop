@@ -11,7 +11,6 @@ import { ICartItem } from "../../types/store/cartStoreType";
 import { useTranslation } from "react-i18next";
 import { ii18n } from "../../i18n";
 import BreadCrumbs from "../../shared/bread-crumbs/bread-crumbs";
-import bubbles from "../../assets/img/bubbles.png";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();

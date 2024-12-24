@@ -96,7 +96,11 @@ const reviewSlice = createSlice({
   reducers: {},
 });
 
-const Mockstore = ({ children }: { children: React.ReactNode }) => {
+interface IMockstoreProps {
+  children: React.ReactNode;
+}
+
+const Mockstore = ({ children }: IMockstoreProps) => {
   const store = configureStore({
     reducer: {
       user: userSlice.reducer,
