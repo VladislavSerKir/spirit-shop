@@ -51,6 +51,7 @@ const mockedProductProps = {
 };
 
 const mockedUserState = { userData: { email: "test5@mail.ru", favourite: [] } };
+
 const mockedCartState = {
   cartItem: [
     {

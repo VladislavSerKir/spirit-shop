@@ -34,7 +34,6 @@ const MultiSelectField: FC<IMultiSelectFieldProps> = ({
   }, []);
 
   const getInputClasses = () => {
-    // return `basic-multi-select`;
     return `select`;
   };
 

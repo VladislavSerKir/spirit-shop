@@ -11,7 +11,7 @@ import { IUserData } from "../../types/store/userStoreType";
 export const ManageUsers = () => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
-  const users = useTypedSelector((store) => store.user.allUsersData);
+  const users = useTypedSelector((store) => store.user.allUsersData) || [];
   const isLoading = useTypedSelector((store) => store.user.allUsersRequest);
 
   const [searchValue, setSearchValue] = useState("");
@@ -32,7 +32,7 @@ export const ManageUsers = () => {
   const userList = searchUsers(users);
 
   React.useEffect(() => {
-    if (!users.length) {
+    if (!users?.length) {
       dispatch(getAllUsers());
     }
   }, []);

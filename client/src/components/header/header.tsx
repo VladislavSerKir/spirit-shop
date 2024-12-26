@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTypedSelector } from "../../types";
 import history from "../../utils/history";
 import shoppingCart from "../../assets/img/shopping-cart.png";
@@ -133,9 +133,9 @@ export const Header = () => {
     <>
       <header className="header scroll-header" id="header">
         <nav className="nav container">
-          <Link to="/" className="nav__logo">
+          <NavLink to="/" className="nav__logo">
             <i className="ri-leaf-line nav__logo-icon" /> Spirit
-          </Link>
+          </NavLink>
 
           <div className={`${showMenu.style}`} id="nav-menu">
             <ul className="nav__list">

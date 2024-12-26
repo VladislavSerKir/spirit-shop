@@ -18,7 +18,7 @@ export const MainProducts = () => {
         )}
       </p>
 
-      {products.length ? (
+      {Array.isArray(products) && products.length ? (
         <>
           <div className="product__container grid">
             {products.map((product: IProduct, i) => {

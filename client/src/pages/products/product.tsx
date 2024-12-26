@@ -27,15 +27,14 @@ const Product: FC<IProductProps> = ({ productId }) => {
   const products = useTypedSelector((state) => state.products.products);
   const user = useTypedSelector((state) => state.user.userData);
   const cart = useTypedSelector((state) => state.cart.cart);
-  const reviews = useTypedSelector((state) => state.review.review);
+  const reviews = useTypedSelector((state) => state.review.review) || [];
   const currentReviews = reviews?.filter((i) => i.product?.id === +productId);
   const myReviewOnProduct = reviews?.filter(
     (i) => i.product?.id === +productId && i.user?.email === user.email
   );
 
-  const userLikedProducts: number[] = user.favourite?.map(
-    (i: IProduct) => i.id
-  );
+  const userLikedProducts: number[] =
+    user.favourite?.map((i: IProduct) => i.id) || [];
 
   const getProductById = (
     productId: string,
@@ -82,9 +81,9 @@ const Product: FC<IProductProps> = ({ productId }) => {
       currentReviews?.reduce(
         (acc, item: IReview) => (acc += item.rate ? item.rate : 0),
         0
-      ) / currentReviews.length;
+      ) / currentReviews?.length;
     return typeof counter === "number" ? counter : 0;
-  }, [currentReviews.length, handleRate]);
+  }, [currentReviews?.length, handleRate]);
 
   return currentProduct ? (
     <section className="container section">
@@ -98,7 +97,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
           />
 
           <div>
-            {currentProduct?.categories.map((category: ICategory) => (
+            {currentProduct?.categories?.map((category: ICategory) => (
               <span className="product__category" key={category.id}>
                 {category.name}
               </span>
@@ -114,7 +113,7 @@ const Product: FC<IProductProps> = ({ productId }) => {
               name="rating"
             />
             <p className="product-solo__rating-counter">
-              ({currentReviews.length})
+              ({currentReviews?.length})
             </p>
           </div>
         </div>
@@ -148,10 +147,12 @@ const Product: FC<IProductProps> = ({ productId }) => {
           ) : null}
         </button>
       </div>
-      {myReviewOnProduct.length ? (
+      <hr />
+      {myReviewOnProduct?.length ? (
         <MyReview review={myReviewOnProduct} />
       ) : null}
       <ReviewFeed reviews={currentReviews} />
+      <hr />
     </section>
   ) : (
     <NotFound />

@@ -21,11 +21,11 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   }, [order.purchase]);
 
   const returnTotalPrice = useCallback(() => {
-    const totalSum = order.purchase.reduce((acc: number, item: ICartItem) => {
+    const totalSum = order?.purchase?.reduce((acc: number, item: ICartItem) => {
       const sum = item.product.price * item.quantity;
       return acc + sum;
     }, 0);
-    return totalSum.toFixed(2);
+    return totalSum?.toFixed(2);
   }, [order.purchase]);
 
   const totalPrice = returnTotalPrice();
@@ -48,11 +48,11 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   };
 
   const returnFormattedDate = useCallback(() => {
-    let formattedDate = order.createdAt.split("T");
-    let time = formattedDate[1].split(".")[0].split(":");
+    let formattedDate = order?.createdAt?.split("T");
+    let time = formattedDate[1]?.split(".")[0].split(":");
     time.pop();
-    return `${formattedDate[0]}, ${time[0]}:${time[1]}`;
-  }, [order.purchase]);
+    return `${formattedDate[0] ? formattedDate[0] : ""}, ${time[0] ? time[0] : ""}:${time[1] ? time[1] : ""}`;
+  }, [order.createdAt]);
 
   const formattedDate = returnFormattedDate();
 

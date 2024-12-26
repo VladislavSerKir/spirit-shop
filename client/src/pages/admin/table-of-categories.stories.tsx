@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import ManageProduct from "./manage-product";
-import { MemoryRouter, Route } from "react-router-dom";
-import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { MemoryRouter } from "react-router-dom";
+import TableOfCategories from "./table-of-categories";
 
 const mockedCategoryState = {
   categories: [
@@ -23,25 +23,15 @@ const mockedCategoryState = {
   ],
 };
 
-const meta: Meta<typeof ManageProduct> = {
-  title: "uikit/ManageForms",
-  component: ManageProduct,
-  tags: ["autodocs"],
-};
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-interface IMockstoreProps {
-  children: React.ReactNode;
-}
-
 const categorySlice = createSlice({
   name: "category",
   initialState: mockedCategoryState,
   reducers: {},
 });
+
+interface IMockstoreProps {
+  children: React.ReactNode;
+}
 
 const Mockstore = ({ children }: IMockstoreProps) => {
   const store = configureStore({
@@ -55,18 +45,27 @@ const Mockstore = ({ children }: IMockstoreProps) => {
 
   return (
     <Provider store={store}>
-      <MemoryRouter initialEntries={["/user/products/48"]}>
-        <Route path="/user/products/:id">{children}</Route>
-      </MemoryRouter>
+      {" "}
+      <MemoryRouter initialEntries={["/"]}>{children}</MemoryRouter>
     </Provider>
   );
 };
 
-export const BasicManageProductForm: Story = {
+const meta: Meta<typeof TableOfCategories> = {
+  title: "uikit/ManageForms",
+  component: TableOfCategories,
+  tags: ["autodocs"],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const BasicTableOfCategories: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Форма управления продуктами",
+        story: "Таблица категорий в админской панели",
       },
     },
   },

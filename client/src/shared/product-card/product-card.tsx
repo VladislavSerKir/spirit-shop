@@ -23,7 +23,9 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
   const user = useTypedSelector((state) => state.user.userData);
   const cart = useTypedSelector((state) => state.cart.cart);
   const reviews = useTypedSelector((state) => state.review.review);
-  const currentReviews = reviews.filter((i) => i.product?.id === product?.id);
+  const currentReviews = Array.isArray(reviews)
+    ? reviews.filter((i) => i.product?.id === product?.id)
+    : [];
 
   const dispatch = useTypedDispatch();
   const userLikedProducts = user?.favourite?.map((i: IProduct) => i.id);
@@ -66,9 +68,9 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
       currentReviews?.reduce(
         (acc, item: IReview) => (acc += item.rate ? item.rate : 0),
         0
-      ) / currentReviews.length;
+      ) / currentReviews?.length;
     return typeof counter === "number" ? counter : 0;
-  }, [reviews.length, currentReviews.length, handleRate]);
+  }, [reviews?.length, currentReviews.length, handleRate]);
 
   return (
     <article className="product__card" key={product.id}>

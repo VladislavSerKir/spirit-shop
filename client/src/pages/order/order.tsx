@@ -8,7 +8,7 @@ import Spinner from "../spinner/spinner";
 
 export const Order = () => {
   const { t } = useTranslation();
-  const orders = useTypedSelector((store) => store.order.purchase);
+  const orders = useTypedSelector((store) => store.order.purchase) || [];
   const orderRequest = useTypedSelector((store) => store.order.orderRequest);
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
