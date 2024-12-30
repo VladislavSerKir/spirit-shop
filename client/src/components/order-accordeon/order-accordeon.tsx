@@ -48,8 +48,10 @@ const OrderAccordeon = ({ order }: IOrderAccordeonProps) => {
   };
 
   const returnFormattedDate = useCallback(() => {
-    let formattedDate = order?.createdAt?.split("T");
-    let time = formattedDate[1]?.split(".")[0].split(":");
+    let formattedDate = order?.createdAt ? order?.createdAt?.split("T") : "";
+    let time = formattedDate[1]
+      ? formattedDate[1]?.split(".")[0].split(":")
+      : ["", ""];
     time.pop();
     return `${formattedDate[0] ? formattedDate[0] : ""}, ${time[0] ? time[0] : ""}:${time[1] ? time[1] : ""}`;
   }, [order.createdAt]);

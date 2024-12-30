@@ -37,7 +37,7 @@ const Mockstore = ({ children }: IMockstoreProps) => {
 };
 
 const meta: Meta<typeof ManageCategories> = {
-  title: "uikit/ManageCategories",
+  title: "uikit/ManageForms",
   component: ManageCategories,
   tags: ["autodocs"],
   argTypes: {

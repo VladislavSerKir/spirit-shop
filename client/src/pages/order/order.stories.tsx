@@ -5,16 +5,14 @@ import { MemoryRouter } from "react-router-dom";
 import { Order } from "./order";
 
 const mockedOrderState = {
-  id: 1,
-  number: 4586754,
-  createdAt: "2024-11-25T18:46:13.431Z",
-  isNeedPackage: true,
-  isNeedDelivery: false,
-  comment: "comment",
   purchase: [
     {
       id: 1,
       quantity: 3,
+      createdAt: "2024-11-25T18:46:13.431Z",
+      number: 79882264,
+      isNeedPackage: true,
+      isNeedDelivery: true,
       product: {
         id: 53,
         description:
@@ -37,6 +35,10 @@ const mockedOrderState = {
     {
       id: 2,
       quantity: 2,
+      createdAt: "2024-11-25T18:49:34.911Z",
+      number: 79845264,
+      isNeedPackage: true,
+      isNeedDelivery: false,
       product: {
         id: 58,
         description:
