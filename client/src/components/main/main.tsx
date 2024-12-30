@@ -1,15 +1,16 @@
-import React from "react";
 import { Home } from "../home/home";
 import { About } from "../about/about";
 import { MainProducts } from "../main-products/main-products";
 import { Questions } from "../questions/questions";
 import { Steps } from "../steps/steps";
 import { Contact } from "../contact/contact";
+import { Gallery } from "../gallery/gallery";
 
 export const Main = () => {
   return (
     <div className="main">
       <Home />
+      <Gallery />
       <About />
       <Steps />
       <MainProducts />
