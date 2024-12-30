@@ -1,4 +1,3 @@
-import React from "react";
 import { useTypedSelector } from "../../types";
 import useBreadCrumbs from "../../hooks/useBreadCrumbs";
 import { useTranslation } from "react-i18next";

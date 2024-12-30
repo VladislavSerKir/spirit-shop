@@ -9,7 +9,6 @@ const AuthCallback = () => {
   const dispatch = useTypedDispatch();
 
   useEffect(() => {
-    // Функция для получения параметров из URL
     const getQueryParams = (url: string) => {
       const params = new URLSearchParams(url);
       return {

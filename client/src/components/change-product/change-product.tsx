@@ -8,6 +8,7 @@ import MultiSelectField from "../../shared/form/multi-select-field";
 import { useTranslation } from "react-i18next";
 import { setIsFadingOut } from "../../store/reducers/userReducer";
 import { IProductWithCategories } from "../../types/store/productStoreType";
+import Button from "../../shared/button/button";
 
 interface IChangeProductProps {
   onClose: () => void;
@@ -121,12 +122,7 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
               toTop
             />
           </div>
-          <button
-            className="button button--gap modal-content__button"
-            type="submit"
-          >
-            <i className="ri-pencil-line" />
-          </button>
+          <Button buttonStyle="edit" textContent={t("Edit")} fixed />
         </form>
       </div>
     </>

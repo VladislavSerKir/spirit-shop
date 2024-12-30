@@ -60,6 +60,10 @@ export const Header = () => {
     doc.querySelector(".header")?.classList.toggle(darkTheme);
     doc.querySelector(".modal")?.classList.toggle(darkTheme);
     doc.querySelector(".nav__background")?.classList.toggle(darkTheme);
+    const products = doc.querySelectorAll(".order__product");
+    products.forEach((product) => {
+      product.classList.toggle(darkTheme);
+    });
 
     setIconTheme(getCurrentIcon());
     localStorage.setItem("selected-theme", getCurrentTheme());

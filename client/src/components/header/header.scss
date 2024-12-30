@@ -1,13 +1,12 @@
 .header {
   width: 100%;
-  // background-color: var(--body-color);
   background-color: hsla(0, 0%, 100%, 0.7);
   backdrop-filter: blur(8px);
   position: fixed;
   top: 0;
   left: 0;
   z-index: var(--z-fixed);
-  transition: 0.4s; // For animation dark mode
+  transition: 0.4s;
 
   &.dark-theme {
     background-color: hsla(0, 0%, 20%, 0.7);
@@ -76,17 +75,14 @@
     margin: 0.3em;
 
     &-counter {
-      /* circle shape, size and position */
       position: absolute;
       right: -0.7em;
       top: -0.7em;
-      min-width: 1.6em; /* or width, explained below. */
+      min-width: 1.6em;
       height: 1.6em;
-      border-radius: 0.8em; /* or 50%, explained below. */
+      border-radius: 0.8em;
       border: 0.05em solid white;
       background-color: red;
-
-      /* number size and position */
       display: flex;
       justify-content: center;
       align-items: center;

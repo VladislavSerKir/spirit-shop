@@ -1,4 +1,3 @@
-import React from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { deleteProduct } from "../../store/actions/productAction";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
@@ -7,6 +6,7 @@ import usePagination from "../../hooks/usePagination";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTranslation } from "react-i18next";
 import { ICategory } from "../../types/store/categoryStoreType";
+import Button from "../../shared/button/button";
 
 const TableOfProducts = () => {
   const { t } = useTranslation();
@@ -71,22 +71,15 @@ const TableOfProducts = () => {
                     state: { background: location },
                   }}
                 >
-                  <button
-                    className="button button--flex button--gap"
-                    type="button"
-                  >
-                    <i className="ri-pencil-line" />
-                  </button>
+                  <Button buttonStyle="edit" buttonType="button" />
                 </Link>
               </td>
               <td>
-                <button
-                  className="button button--flex button--gap"
-                  type="button"
-                  onClick={() => handleDelete(product.id)}
-                >
-                  <i className="ri-close-line" />
-                </button>
+                <Button
+                  buttonStyle="close"
+                  buttonType="button"
+                  buttonHandler={() => handleDelete(product.id)}
+                />
               </td>
             </tr>
           ))}

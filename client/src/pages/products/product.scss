@@ -7,13 +7,9 @@
 
   &__own-comment {
     overflow: auto;
-
-    /* = Убираем увеличение */
     resize: none;
     width: 100%;
     height: 50px;
-
-    /* = Добавим фон, рамку, отступ*/
     background: #f6f6f6;
     border: 2px solid #cecece;
     border-radius: 8px;
@@ -40,17 +36,14 @@
     margin: 0.3em;
 
     &-counter {
-      /* circle shape, size and position */
       position: absolute;
       right: -0.7em;
       top: -0.7em;
-      min-width: 1.6em; /* or width, explained below. */
+      min-width: 1.6em;
       height: 1.6em;
-      border-radius: 0.8em; /* or 50%, explained below. */
+      border-radius: 0.8em;
       border: 0.05em solid white;
       background-color: red;
-
-      /* number size and position */
       display: flex;
       justify-content: center;
       align-items: center;

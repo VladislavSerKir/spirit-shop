@@ -10,6 +10,7 @@ import {
 } from "../../store/actions/categoryAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 export interface IChangeCategoryFormData {
   name: string;
@@ -72,10 +73,7 @@ const ManageCategories = () => {
               onChange={handleChangeCategory}
             />
           </div>
-          <button className="button button--flex" type="submit">
-            {t("Create")}
-            <i className="ri-add-line button__icon" />
-          </button>
+          <Button buttonStyle="add" textContent={t("Create")} />
         </form>
       </div>
       <div className="table__container">
@@ -117,22 +115,14 @@ const ManageCategories = () => {
                         state: { background: location },
                       }}
                     >
-                      <button
-                        className="button button--flex button--gap"
-                        type="button"
-                      >
-                        <i className="ri-pencil-line" />
-                      </button>
+                      <Button buttonStyle="edit" />
                     </Link>
                   </td>
                   <td>
-                    <button
-                      className="button button--flex button--gap"
-                      type="button"
-                      onClick={() => handleDelete(category)}
-                    >
-                      <i className="ri-close-line" />
-                    </button>
+                    <Button
+                      buttonStyle="close"
+                      buttonHandler={() => handleDelete(category)}
+                    />
                   </td>
                 </tr>
               ))}

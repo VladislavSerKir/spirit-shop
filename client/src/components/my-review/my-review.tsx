@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
 import { IReview } from "../../types/store/reviewStoreType";
 import { commentProduct } from "../../store/actions/reviewAction";
+import Button from "../../shared/button/button";
 
 interface IMyReviewProps {
   review: IReview[];
@@ -66,13 +67,11 @@ const MyReview = ({ review }: IMyReviewProps) => {
           />
         </div>
       ) : null}
-      <button
-        onClick={handleComment}
-        className="button button--flex my-review__submit"
-      >
-        {t("Leave review")}
-        <i className="ri-arrow-right-down-line button__icon"></i>
-      </button>
+      <Button
+        buttonStyle="arrow-down"
+        textContent={t("Leave review")}
+        buttonHandler={() => handleComment()}
+      />
     </div>
   );
 };

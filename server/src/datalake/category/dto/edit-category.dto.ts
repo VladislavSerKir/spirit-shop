@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 export class EditCategoryDto {
   @IsNotEmpty()
   @IsString()
-  @Length(6, 20)
+  @Length(4, 20)
   @ApiProperty()
   name: string;
 

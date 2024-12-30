@@ -5,6 +5,7 @@ import TextField from "../../shared/form/text-field";
 import { editAvatar } from "../../store/actions/userAction";
 import { useTranslation } from "react-i18next";
 import { setIsFadingOut } from "../../store/reducers/userReducer";
+import Button from "../../shared/button/button";
 
 interface IChangeAvatarProps {
   onClose: () => void;
@@ -67,12 +68,7 @@ const ChangeAvatar = ({ onClose }: IChangeAvatarProps) => {
               onChange={handleChangeAvatar}
             />
           </div>
-          <button
-            className="button button--gap modal-content__button"
-            type="submit"
-          >
-            <i className="ri-pencil-line" />
-          </button>
+          <Button buttonStyle="edit" textContent={t("Edit")} fixed />
         </form>
       </div>
     </>

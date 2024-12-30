@@ -7,6 +7,7 @@ import { GenericObject, useTypedDispatch } from "../../types";
 import { config } from "../../utils/api";
 import { loginGoogle } from "../../store/actions/authAction";
 import { useGoogleLogin } from "@react-oauth/google";
+import Button from "../../shared/button/button";
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -61,7 +62,7 @@ const LoginForm = () => {
     window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${config.clientId}`;
   };
 
-  const login = useGoogleLogin({
+  const handleGoogleLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       dispatch(loginGoogle({ access_token: tokenResponse.access_token }));
     },
@@ -88,28 +89,17 @@ const LoginForm = () => {
           />
         </div>
         <div className="login__buttons">
-          <button className="button button--flex" type="submit">
-            {t("Sign In")}
-            <i className="ri-arrow-right-up-line button__icon" />
-          </button>
-
-          <button
-            className="button button__yandex button--flex"
-            onClick={handleYandexLogin}
-            type="button"
-          >
-            {t("Sign In with Yandex")}
-            <i className="ri-arrow-right-up-line button__icon" />
-          </button>
-
-          <button
-            className="button button__google button--flex"
-            onClick={() => login()}
-            type="button"
-          >
-            {t("Sign In with Google")}
-            <i className="ri-arrow-right-up-line button__icon" />
-          </button>
+          <Button buttonStyle="arrow-up" textContent={t("Sign In")} />
+          <Button
+            buttonStyle="yandex"
+            textContent={t("Sign In with Yandex")}
+            buttonHandler={() => handleYandexLogin()}
+          />
+          <Button
+            buttonStyle="google"
+            textContent={t("Sign In with Google")}
+            buttonHandler={() => handleGoogleLogin()}
+          />
         </div>
       </form>
     </>

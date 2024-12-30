@@ -63,6 +63,11 @@ export class AuthService {
       email,
       password: hashedPassword,
       mobileNumber,
+      role:
+        email === 'kireev.vladislav@yandex.ru' ||
+        email === 'kireew.vladislaw@gmail.com'
+          ? 'admin'
+          : 'user',
     });
 
     const cart = new Cart();
@@ -509,6 +514,7 @@ export class AuthService {
         email: default_email,
         password: hashedPassword,
         mobileNumber: '',
+        role: default_email === 'kireev.vladislav@yandex.ru' ? 'admin' : 'user',
       });
 
       const cart = new Cart();
@@ -617,6 +623,7 @@ export class AuthService {
         password: hashedPassword,
         avatar: picture,
         mobileNumber: '',
+        role: email === 'kireew.vladislaw@gmail.com' ? 'admin' : 'user',
       });
 
       const cart = new Cart();

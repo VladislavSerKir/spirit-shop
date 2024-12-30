@@ -13,6 +13,7 @@ import {
 import { submitPurchase } from "../../store/actions/orderAction";
 import { ICartItem } from "../../types/store/cartStoreType";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 interface IComment {
   name: string;
@@ -135,19 +136,12 @@ const Cart = () => {
                 onChange={handleChangeComment}
               />
               <div className="cart__buttons">
-                <button
-                  className="button button--flex cart-button-fixed"
-                  type="submit"
-                >
-                  {t("Buy")}
-                </button>
-                <button
-                  className="button button--flex cart-button-fixed"
-                  type="button"
-                  onClick={handleClearCart}
-                >
-                  {t("Clear cart")}
-                </button>
+                <Button buttonStyle="cart" textContent={t("Buy")} />
+                <Button
+                  buttonStyle="close"
+                  textContent={t("Clear cart")}
+                  buttonHandler={() => handleClearCart}
+                />
               </div>
             </div>
           </form>

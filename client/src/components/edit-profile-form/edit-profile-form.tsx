@@ -5,6 +5,7 @@ import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 const EditProfileForm: FC = () => {
   const user = useTypedSelector((state) => state.user.userData);
@@ -124,10 +125,7 @@ const EditProfileForm: FC = () => {
             error={errors.password}
           />
         </div>
-        <button className="button button--flex" type="submit">
-          {t("Edit")}
-          <i className="ri-add-line button__icon" />
-        </button>
+        <Button buttonStyle="edit" textContent={t("Edit")} />
       </form>
     </div>
   );

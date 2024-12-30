@@ -9,6 +9,7 @@ import {
   sendCode,
   sendPassword,
 } from "../../store/actions/authAction";
+import Button from "../../shared/button/button";
 
 export interface ISendCodeFormData {
   email: string;
@@ -93,10 +94,7 @@ const SendCodeForm = () => {
                 error={errors.email}
               />
             </div>
-            <button className="button button--flex" type="submit">
-              {t("Get code")}
-              <i className="ri-arrow-right-up-line button__icon" />
-            </button>
+            <Button buttonStyle="arrow-up" textContent={t("Get code")} />
           </>
         ) : !resetPassword ? (
           <>
@@ -109,10 +107,7 @@ const SendCodeForm = () => {
                 error={errors.code}
               />
             </div>
-            <button className="button button--flex" type="submit">
-              {t("Send code")}
-              <i className="ri-arrow-right-up-line button__icon" />
-            </button>
+            <Button buttonStyle="arrow-up" textContent={t("Send code")} />
           </>
         ) : (
           <>
@@ -125,10 +120,7 @@ const SendCodeForm = () => {
                 error={errors.newPassword}
               />
             </div>
-            <button className="button button--flex" type="submit">
-              {t("Reset password")}
-              <i className="ri-arrow-right-up-line button__icon" />
-            </button>
+            <Button buttonStyle="arrow-up" textContent={t("Reset password")} />
           </>
         )}
       </form>

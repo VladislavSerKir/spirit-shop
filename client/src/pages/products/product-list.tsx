@@ -11,6 +11,7 @@ import { IProduct } from "../../types/store/productStoreType";
 import { useTranslation } from "react-i18next";
 import { IPurchase } from "../../types/store/orderStoreType";
 import { ICategory } from "../../types/store/categoryStoreType";
+import Button from "../../shared/button/button";
 
 export interface IOrderCategory {
   order: IPurchase;
@@ -124,25 +125,25 @@ const ProductsList = () => {
             onChange={handleSearch}
           />
         </div>
-        <button
-          type="button"
-          className="button button--flex search__button"
-          onClick={handleSort}
-        >
-          {sortBy?.order === "desc" ? (
-            <i className="ri-arrow-down-s-line" />
-          ) : (
-            <i className="ri-arrow-up-s-line" />
-          )}
-        </button>
+        {sortBy?.order === "desc" ? (
+          <Button
+            buttonStyle="arrow-down"
+            buttonType="button"
+            buttonHandler={() => handleSort()}
+          />
+        ) : (
+          <Button
+            buttonStyle="arrow-up"
+            buttonType="button"
+            buttonHandler={() => handleSort()}
+          />
+        )}
         {sortBy?.order ? (
-          <button
-            type="button"
-            className="button button--flex search__button"
-            onClick={handleSkipSort}
-          >
-            <i className="ri-close-line" />
-          </button>
+          <Button
+            buttonStyle="close"
+            buttonType="button"
+            buttonHandler={() => handleSkipSort()}
+          />
         ) : null}
       </div>
       <div className="accordeon__container">

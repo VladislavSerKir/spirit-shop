@@ -6,6 +6,7 @@ import { editCategory } from "../../store/actions/categoryAction";
 import { ICategory } from "../../types/store/categoryStoreType";
 import { useTranslation } from "react-i18next";
 import { setIsFadingOut } from "../../store/reducers/userReducer";
+import Button from "../../shared/button/button";
 
 interface IChangeCategoryProps {
   onClose: () => void;
@@ -75,12 +76,7 @@ const ChangeCategory = ({ onClose }: IChangeCategoryProps) => {
               onChange={handleChangeCategory}
             />
           </div>
-          <button
-            className="button button--gap modal-content__button"
-            type="submit"
-          >
-            <i className="ri-pencil-line" />
-          </button>
+          <Button buttonStyle="edit" textContent={t("Edit")} fixed />
         </form>
       </div>
     </>

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 export const Contact = () => {
   const { t } = useTranslation();
@@ -59,11 +60,7 @@ export const Contact = () => {
               </label>
             </div>
           </div>
-
-          <button className="button button--flex">
-            {t("Send Message")}
-            <i className="ri-arrow-right-up-line button__icon"></i>
-          </button>
+          <Button buttonStyle="arrow-up" textContent={t("Send Message")} />
         </form>
       </div>
     </section>

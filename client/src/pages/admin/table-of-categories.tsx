@@ -1,7 +1,7 @@
-import React from "react";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { deleteProduct } from "../../store/actions/productAction";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 const TableOfCategories = () => {
   const { t } = useTranslation();
@@ -32,18 +32,14 @@ const TableOfCategories = () => {
           <tr key={category.id}>
             <td className="table__info">{category.name}</td>
             <td>
-              <button className="button button--flex button--gap" type="button">
-                <i className="ri-pencil-line" />
-              </button>
+              <Button buttonStyle="edit" buttonType="button" />
             </td>
             <td>
-              <button
-                className="button button--flex button--gap"
-                type="button"
-                onClick={() => handleDelete(category.id)}
-              >
-                <i className="ri-close-line" />
-              </button>
+              <Button
+                buttonStyle="close"
+                buttonType="button"
+                buttonHandler={() => handleDelete(category.id)}
+              />
             </td>
           </tr>
         ))}

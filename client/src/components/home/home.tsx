@@ -1,5 +1,6 @@
 import homeImg from "../../assets/img/home.png";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 export const Home = () => {
   const { t } = useTranslation();
@@ -18,10 +19,11 @@ export const Home = () => {
               "Create incredible plant design for your offices or apastaments. Add fresness to your new ideas."
             )}
           </p>
-          <a href="#about" className="button button--flex">
-            {t("Explore")}{" "}
-            <i className="ri-arrow-right-down-line button__icon"></i>
-          </a>
+          <Button
+            buttonStyle="arrow-down"
+            textContent={t("Explore")}
+            to="#about"
+          />
         </div>
 
         <div className="home__social">

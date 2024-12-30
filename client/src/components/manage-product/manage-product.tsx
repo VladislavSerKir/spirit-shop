@@ -3,6 +3,7 @@ import Form from "../../shared/form/form";
 import {} from "react-router-dom";
 import ProductTable from "../../pages/admin/product-table";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 const ManageProduct = () => {
   const { t } = useTranslation();
@@ -19,28 +20,22 @@ const ManageProduct = () => {
       {actionType === "add" ? (
         <>
           <div className="container-center">
-            <button
-              className="button button--flex"
-              type="button"
-              onClick={toggleActionType}
-            >
-              {t("Edit")}
-              <i className="ri-arrow-left-right-line button__icon" />
-            </button>
+            <Button
+              buttonStyle="toggle"
+              textContent={t("Edit")}
+              buttonHandler={() => toggleActionType()}
+            />
           </div>
           <Form type="add" changeAction={toggleActionType} />
         </>
       ) : (
         <>
           <div className="container-center">
-            <button
-              className="button button--flex"
-              type="button"
-              onClick={toggleActionType}
-            >
-              {t("Add")}
-              <i className="ri-arrow-left-right-line button__icon" />
-            </button>
+            <Button
+              buttonStyle="toggle"
+              textContent={t("Add")}
+              buttonHandler={() => toggleActionType()}
+            />
           </div>
           <ProductTable />
         </>

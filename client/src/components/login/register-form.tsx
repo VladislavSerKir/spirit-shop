@@ -4,6 +4,7 @@ import TextField from "../../shared/form/text-field";
 import { GenericObject } from "../../types";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 const RegisterForm = () => {
   const { t } = useTranslation();
@@ -110,10 +111,7 @@ const RegisterForm = () => {
           error={errors.password}
         />
       </div>
-      <button className="button button--flex" type="submit">
-        {t("Sign Up")}
-        <i className="ri-arrow-right-up-line button__icon" />
-      </button>
+      <Button buttonStyle="arrow-up" textContent={t("Sign Up")} />
     </form>
   );
 };

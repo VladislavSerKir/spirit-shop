@@ -3,6 +3,7 @@ import card2 from "../../assets/img/card2.png";
 import card3 from "../../assets/img/card3.png";
 import card4 from "../../assets/img/card4.png";
 import { useTranslation } from "react-i18next";
+import Button from "../../shared/button/button";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -25,11 +26,7 @@ export const Footer = () => {
               placeholder={t("Enter your email")}
               className="footer__input"
             />
-
-            <button className="button button--flex footer__button">
-              {t("Subscribe")}
-              <i className="ri-arrow-right-up-line button__icon"></i>
-            </button>
+            <Button buttonStyle="arrow-up" textContent={t("Subscribe")} />
           </div>
         </div>
 
