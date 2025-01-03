@@ -1,0 +1,62 @@
+.personal-page {
+  &__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 50px;
+    padding-bottom: 20px;
+  }
+
+  &__basic-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__product {
+    &-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 15px;
+      align-items: center;
+    }
+
+    &-name {
+      max-width: 250px;
+    }
+  }
+
+  &__text {
+    transition: all 0.3s;
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+  }
+
+  &__avatar {
+    &-img {
+      margin-bottom: 20px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: all 0.5s;
+      object-fit: cover;
+      box-shadow: 0px 0px 43px 7px hsla(var(--hue), 19%, 45%, 0.7);
+    }
+  }
+
+  &__stat-block {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__tab {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

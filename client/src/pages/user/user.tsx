@@ -13,6 +13,7 @@ import { useResize } from "../../hooks/useResize";
 import MenuAccordeon from "../../components/menu-accordeon/menu-accordeon";
 import { getUserOrders } from "../../store/actions/orderAction";
 import { MyReviewPage } from "../reviews/my-review-page";
+import PersonalPage from "../personal-page/personal-page";
 
 const User: FC = () => {
   const { url } = useRouteMatch();
@@ -46,7 +47,7 @@ const User: FC = () => {
               </li>
               <li className="nav__item">
                 <NavLink
-                  to={`${url}/page`}
+                  to={`${url}/personal-page`}
                   exact
                   className={`nav__link`}
                   activeClassName={`active-link`}
@@ -126,6 +127,9 @@ const User: FC = () => {
             </Route>
             <Route path={`${url}`} exact>
               <EditProfileForm />
+            </Route>
+            <Route path={`${url}/personal-page`} exact>
+              <PersonalPage />
             </Route>
             <Route path={`${url}/orders`} exact>
               <Order />

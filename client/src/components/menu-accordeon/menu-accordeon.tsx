@@ -46,7 +46,7 @@ const MenuAccordeon = () => {
             </li>
             <li className="nav__item">
               <NavLink
-                to={`${url}/page`}
+                to={`${url}/personal-page`}
                 exact
                 className={`nav__link`}
                 activeClassName={`active-link`}

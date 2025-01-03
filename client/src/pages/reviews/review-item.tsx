@@ -15,9 +15,10 @@ import Button from "../../shared/button/button";
 
 interface IReviewProps {
   review: IReview;
+  tab?: boolean;
 }
 
-export const ReviewItem = ({ review }: IReviewProps) => {
+export const ReviewItem = ({ review, tab }: IReviewProps) => {
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
@@ -93,13 +94,15 @@ export const ReviewItem = ({ review }: IReviewProps) => {
           {t("like")}
         </span>
       </div>
-      <div className="review-element__delete review-element-item">
-        <Button
-          buttonStyle="yandex"
-          textContent={t("Delete")}
-          buttonHandler={() => handleDeleteReview(review)}
-        />
-      </div>
+      {!tab && (
+        <div className="review-element__delete review-element-item">
+          <Button
+            buttonStyle="yandex"
+            textContent={t("Delete")}
+            buttonHandler={() => handleDeleteReview(review)}
+          />
+        </div>
+      )}
     </div>
   );
 };

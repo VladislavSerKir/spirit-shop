@@ -271,6 +271,17 @@ const ENtranslation = {
   Delete: "Delete",
   "My page": "My page",
   page: "Page",
+  "personal-page": "Personal page",
+  "When registered": "When registered",
+  "First order date": "First order date",
+  "Total orders": "Total orders",
+  "Total reviews": "Total reviews",
+  "Total bought products": "Total bought products",
+  "Most buyable product": "Most buyable product",
+  "Product statistic": "Product statistic",
+  "User reviews": "User reviews",
+  times: "times",
+  Bought: "Bought",
 };
 
 const RUtranslation = {
@@ -546,6 +557,17 @@ const RUtranslation = {
   Delete: "Удалить",
   "My page": "Моя страница",
   page: "Страница",
+  "personal-page": "Моя страница",
+  "When registered": "Когда зарегистрирован",
+  "First order date": "Дата первого заказа",
+  "Total orders": "Всего заказов",
+  "Total reviews": "Всего отзывов",
+  "Total bought products": "Всего купленных продуктов",
+  "Most buyable product": "Наиболее покупаемый продукт",
+  "Product statistic": "Статистика продуктов",
+  "User reviews": "Отзывы пользователя",
+  times: "раз",
+  Bought: "Куплено",
 };
 
 export const ii18n = new I18n({
