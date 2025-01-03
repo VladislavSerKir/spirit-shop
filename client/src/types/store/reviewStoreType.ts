@@ -1,4 +1,5 @@
 import { TError } from "..";
+import { IProduct } from "../product";
 
 export type IReviewState = {
   review: Array<IReview>;
@@ -13,7 +14,7 @@ export interface IReview {
   createdAt: string;
   rate?: number;
   comment?: string;
-  product: { id: number };
+  product: IProduct;
   helpful: IReviewUser[] | [];
 }
 
@@ -50,3 +51,9 @@ export interface ILikeDislikeReviewResponse {
   id: number;
   email: string;
 }
+
+export interface DeleteReviewDto {
+  id: number;
+}
+
+export interface IDeleteReviewResponse extends DeleteReviewDto {}

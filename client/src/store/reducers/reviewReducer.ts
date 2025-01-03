@@ -88,6 +88,11 @@ export const reviewSlice = createSlice({
 
       state.review = updatedReview;
     },
+    removeReview: (state, action: PayloadAction<number>) => {
+      state.review = [...state.review].filter(
+        (item) => item.id !== action.payload
+      );
+    },
   },
 
   extraReducers: (builder) => {
@@ -113,5 +118,6 @@ export const {
   updateCommentReview,
   setLikeReview,
   setDislikeReview,
+  removeReview,
 } = reviewSlice.actions;
 export const reviewReducer = reviewSlice.reducer;

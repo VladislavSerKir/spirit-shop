@@ -62,6 +62,8 @@ export class RemoveProduct {
 
 export class RemoveCategory extends RemoveProduct {}
 
+export class RemoveReview extends RemoveProduct {}
+
 export interface YandexResponseOKInterface {
   token_type: string;
   access_token: string;

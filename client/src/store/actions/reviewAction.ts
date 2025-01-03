@@ -7,6 +7,7 @@ import { setCartToNull } from "../reducers/cartReducer";
 import { setPurchaseToNull } from "../reducers/orderReducer";
 import reviewService from "../../service/review.service";
 import {
+  removeReview,
   setDislikeReview,
   setLikeReview,
   updateCommentReview,
@@ -16,6 +17,7 @@ import {
   GiveCommentDto,
   GiveRateDto,
   ICommentResponse,
+  IDeleteReviewResponse,
   ILikeDislikeReviewResponse,
   IRateResponse,
   IReview,
@@ -180,5 +182,45 @@ export const dislikeReview = createAsyncThunk<
   }
   const data: ILikeDislikeReviewResponse = await response.json();
   dispatch(setDislikeReview(data));
+  return data;
+});
+
+export const deleteReview = createAsyncThunk<
+  IDeleteReviewResponse,
+  number,
+  { rejectValue: TError }
+>("review/delete", async function (body, { dispatch, rejectWithValue }) {
+  const response = await reviewService.deleteReviewRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Review has not been deleted, check if you are logged in")}`
+      );
+    }
+
+    if (response.status === 403) {
+      toast.warn(`${ii18n.t("You can not delete other user review")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method deleteReview",
+    });
+  }
+  const data: IDeleteReviewResponse = await response.json();
+  dispatch(removeReview(data.id));
+  toast.info(`${ii18n.t("Review deleted")}`);
   return data;
 });

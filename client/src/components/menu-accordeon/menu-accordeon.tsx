@@ -46,6 +46,17 @@ const MenuAccordeon = () => {
             </li>
             <li className="nav__item">
               <NavLink
+                to={`${url}/page`}
+                exact
+                className={`nav__link`}
+                activeClassName={`active-link`}
+                onClick={toggleAccordion}
+              >
+                {t("My page")}
+              </NavLink>
+            </li>
+            <li className="nav__item">
+              <NavLink
                 to={`${url}/orders`}
                 exact
                 className={`nav__link`}
@@ -64,6 +75,17 @@ const MenuAccordeon = () => {
                 onClick={toggleAccordion}
               >
                 {t("Favorite products")}
+              </NavLink>
+            </li>
+            <li className="nav__item">
+              <NavLink
+                to={`${url}/reviews`}
+                exact
+                className={`nav__link`}
+                activeClassName={`active-link`}
+                onClick={toggleAccordion}
+              >
+                {t("My reviews")}
               </NavLink>
             </li>
             {user.role === "admin" ? (

@@ -12,6 +12,7 @@ import { NotFound } from "../../shared/not-found/not-found";
 import { useResize } from "../../hooks/useResize";
 import MenuAccordeon from "../../components/menu-accordeon/menu-accordeon";
 import { getUserOrders } from "../../store/actions/orderAction";
+import { MyReviewPage } from "../reviews/my-review-page";
 
 const User: FC = () => {
   const { url } = useRouteMatch();
@@ -45,6 +46,16 @@ const User: FC = () => {
               </li>
               <li className="nav__item">
                 <NavLink
+                  to={`${url}/page`}
+                  exact
+                  className={`nav__link`}
+                  activeClassName={`active-link`}
+                >
+                  {t("My page")}
+                </NavLink>
+              </li>
+              <li className="nav__item">
+                <NavLink
                   to={`${url}/orders`}
                   exact
                   className={`nav__link`}
@@ -61,6 +72,16 @@ const User: FC = () => {
                   activeClassName={`active-link`}
                 >
                   {t("Favorite products")}
+                </NavLink>
+              </li>
+              <li className="nav__item">
+                <NavLink
+                  to={`${url}/reviews`}
+                  exact
+                  className={`nav__link`}
+                  activeClassName={`active-link`}
+                >
+                  {t("My reviews")}
                 </NavLink>
               </li>
               {user.role === "admin" ? (
@@ -111,6 +132,9 @@ const User: FC = () => {
             </Route>
             <Route path={`${url}/favorites`} exact>
               <FavouriteProducts />
+            </Route>
+            <Route path={`${url}/reviews`} exact>
+              <MyReviewPage />
             </Route>
             {user.role === "admin" && (
               <Route path={`${url}/categories`} exact>

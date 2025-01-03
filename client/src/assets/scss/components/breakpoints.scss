@@ -115,12 +115,6 @@
   }
 
   .product {
-    // &__container {
-    //   grid-template-columns: repeat(3, 200px);
-    //   justify-content: center;
-    //   column-gap: 3rem;
-    // }
-
     &__link {
       height: 210px;
     }
@@ -207,7 +201,7 @@
   }
 
   .home {
-    padding: 2rem 0 5rem;
+    padding: 2rem 0 3rem;
 
     &__img {
       width: 350px;

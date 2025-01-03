@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,7 +14,11 @@ import { User } from '../user/entities/user.entity';
 import { Product } from '../product/entities/product.entity';
 import { Order } from '../order/entities/order.entity';
 import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
-import { LikeDislikeReviewResponse } from 'src/common/types/interfaces';
+import {
+  LikeDislikeReviewResponse,
+  RemoveReview,
+} from 'src/common/types/interfaces';
+import { DeleteReviewDto } from './dto/delete-review.dto';
 
 @Injectable()
 export class ReviewService {
@@ -431,6 +436,54 @@ export class ReviewService {
       return { id, email: user.email };
     } catch (e) {
       throw new NotFoundException(`Server error: ${e}`);
+    }
+  }
+
+  async deleteReview(
+    deleteReviewDto: DeleteReviewDto,
+    accessToken: string,
+  ): Promise<RemoveReview> {
+    const { id } = deleteReviewDto;
+
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+    const username = decodedToken.username;
+
+    const existingReview = await this.reviewRepo.findOne({
+      where: {
+        id,
+      },
+      relations: ['helpful', 'user'],
+    });
+
+    if (!existingReview) {
+      throw new NotFoundException('Error review fetching');
+    }
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      select: {
+        id: true,
+        active: true,
+        email: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Error profile fetching');
+    } else if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
+    } else if (existingReview.user.email !== user.email) {
+      throw new ForbiddenException('You can not delete other user review');
+    } else {
+      try {
+        await this.reviewRepo.delete(String(id));
+        return { id };
+      } catch (e) {
+        throw new InternalServerErrorException(`Server error: ${e}`);
+      }
     }
   }
 }

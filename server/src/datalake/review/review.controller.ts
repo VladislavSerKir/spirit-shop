@@ -5,6 +5,7 @@ import {
   Patch,
   UseGuards,
   Request,
+  Delete,
 } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import { ReviewService } from './review.service';
@@ -15,17 +16,20 @@ import { LikeDislikeReviewDto } from './dto/like-dislike-review.dto';
 import {
   IHeadersAuthorizationRequest,
   LikeDislikeReviewResponse,
+  RemoveReview,
 } from 'src/common/types/interfaces';
 import {
   ApiBadRequestResponse,
   ApiBody,
   ApiForbiddenResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { DeleteReviewDto } from './dto/delete-review.dto';
 
 @ApiTags('review')
 @Controller('review')
@@ -130,5 +134,27 @@ export class ReviewController {
   ): Promise<LikeDislikeReviewResponse> {
     const accessToken = request.headers.authorization;
     return this.reviewService.dislikeReview(accessToken, likeDislikeReviewDto);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Delete('/delete')
+  @ApiOperation({ summary: 'Удалить отзыв' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат индентификатора удаленного отзыва',
+    type: RemoveReview,
+  })
+  @ApiBody({
+    type: DeleteReviewDto,
+  })
+  @ApiNotFoundResponse()
+  @ApiForbiddenResponse()
+  @ApiInternalServerErrorResponse()
+  async deleteReview(
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() deleteReviewDto: DeleteReviewDto,
+  ): Promise<RemoveReview> {
+    const accessToken = request.headers.authorization;
+    return this.reviewService.deleteReview(deleteReviewDto, accessToken);
   }
 }

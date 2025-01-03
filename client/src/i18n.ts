@@ -175,6 +175,7 @@ const ENtranslation = {
   "Product rated": "Product rated",
   "There are no orders": "There are no orders",
   Reviews: "Reviews",
+  reviews: "Reviews",
   "left review": "left review",
   "Leave review": "Leave review",
   "My review": "My review",
@@ -260,6 +261,16 @@ const ENtranslation = {
   "Cart not found": "Cart not found",
   "Action forbidden": "Action forbidden",
   "Error occured": "Error occured",
+  "My reviews": "My reviews",
+  "There are no reviews": "There are no reviews",
+  "Review has not been deleted, check if you are logged in":
+    "Review has not been deleted, check if you are logged in",
+  "You can not delete other user review":
+    "You can not delete other user review",
+  "Review deleted": "Review deleted",
+  Delete: "Delete",
+  "My page": "My page",
+  page: "Page",
 };
 
 const RUtranslation = {
@@ -436,6 +447,7 @@ const RUtranslation = {
   "Product rated": "Оценка добавлена",
   "There are no orders": "Заказов нет",
   Reviews: "Отзывы",
+  reviews: "Отзывы",
   "left review": "оставил отзыв",
   "Leave review": "Оставить отзыв",
   "My review": "Мой отзыв",
@@ -524,6 +536,16 @@ const RUtranslation = {
   "Cart not found": "Корзина не найдена",
   "Action forbidden": "Действие запрещено",
   "Error occured": "Произошла ошибка",
+  "My reviews": "Мои отзывы",
+  "There are no reviews": "Отзывов нет",
+  "Review has not been deleted, check if you are logged in":
+    "отзыв не был удален, проверьте что вы вошли в аккаунт",
+  "You can not delete other user review":
+    "Вы не можете удалить отзыв другого пользователя",
+  "Review deleted": "Отзыв удален",
+  Delete: "Удалить",
+  "My page": "Моя страница",
+  page: "Страница",
 };
 
 export const ii18n = new I18n({

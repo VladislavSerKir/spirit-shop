@@ -86,9 +86,10 @@ export const Gallery = () => {
       <ImageGallery
         items={images}
         slideDuration={700}
-        slideInterval={5000}
+        slideInterval={7000}
         showBullets={true}
         flickThreshold={0.1}
+        autoPlay={true}
       />
     </section>
   );

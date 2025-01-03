@@ -68,6 +68,19 @@ const reviewService = {
       }),
     });
   },
+
+  deleteReviewRequest: (id: number) => {
+    return fetch(`${config.apiEndPoint}/${reviewEndPoint}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    });
+  },
 };
 
 export default reviewService;

@@ -1,0 +1,215 @@
+.my-review-page {
+  background-color: var(--first-color-lighten);
+
+  &__reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    gap: 15px;
+    padding-bottom: 20px;
+  }
+
+  &__delete {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  &__page {
+    padding-bottom: 20px;
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+    color: var(--title-color);
+  }
+
+  &__date-text {
+    background-image: linear-gradient(63.18deg, #801ab3, #4c4cff);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  &__summary {
+    padding-top: 10px;
+    padding-right: 100px;
+
+    &-container {
+      display: flex;
+      justify-content: end;
+    }
+  }
+
+  &__products {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    position: relative;
+    flex-wrap: wrap;
+    left: -315px;
+  }
+
+  &__product {
+    position: absolute;
+    flex-grow: 1;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    border: double 2px transparent;
+    background-image: linear-gradient(#fff, #fff),
+      linear-gradient(63.18deg, rgba(82, 253, 26, 1), rgba(249, 182, 36, 1));
+    border-image-slice: 20;
+    border-radius: 50%;
+    background-clip: content-box, border-box;
+    top: -32px;
+
+    &.dark-theme {
+      background-image: linear-gradient(#738778, var(--container-color)),
+        linear-gradient(63.18deg, rgb(82, 253, 26), rgb(249, 182, 36));
+    }
+
+    &-counter {
+      font-size: 16px;
+      line-height: 24px;
+      position: absolute;
+      top: 19px;
+      left: 19px;
+      color: #000;
+    }
+
+    &-image {
+      width: 55px;
+      height: 55px;
+      object-fit: contain;
+      position: relative;
+    }
+  }
+
+  &__info {
+    padding: 0 35px;
+  }
+
+  &__container {
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+  }
+
+  &__group {
+    display: grid;
+    row-gap: 1.5rem;
+  }
+
+  &__item {
+    background-color: var(--container-color);
+    border-radius: 1rem;
+
+    &:hover {
+      box-shadow: 0px 0px 37px 2px hsla(var(--hue), 34%, 32%, 0.5);
+    }
+  }
+
+  &__item-title {
+    font-size: var(--h2-font-size);
+    font-weight: var(--font-medium);
+    background-image: linear-gradient(
+      333deg,
+      rgba(82, 253, 26, 1) 0%,
+      rgba(249, 182, 36, 1) 88%
+    );
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  &__item-text {
+    font-size: var(--small-font-size);
+    font-weight: var(--font-medium);
+
+    &-positive {
+      color: aquamarine;
+    }
+    &-negative {
+      color: lightcoral;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      column-gap: 1.5rem;
+      padding: 2rem 2rem;
+      cursor: pointer;
+    }
+  }
+
+  &__content {
+    overflow: hidden;
+    height: 0;
+  }
+
+  &__item,
+  &__header,
+  &__item-title,
+  &__icon,
+  &__description,
+  &__content {
+    transition: 0.3s;
+  }
+}
+
+.accordion-open {
+  & .order__content {
+    background-color: var(--first-color);
+    border-radius: 20px;
+    background: inherit;
+  }
+
+  & .order__icon {
+    color: #919191;
+  }
+
+  & .order__icon {
+    transform: rotate(45deg);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .order {
+    &__products {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 766px) {
+  .order {
+    &__products {
+      right: 210px;
+      left: auto;
+    }
+
+    &__product {
+      width: 40px;
+      height: 40px;
+
+      &-image {
+        width: 35px;
+        height: 35px;
+      }
+
+      &-counter {
+        top: 8px;
+        left: 10px;
+      }
+    }
+  }
+}
