@@ -1,9 +1,10 @@
 import { TError, TUser } from "..";
-import { IPurchase } from "./orderStoreType";
-import { IProduct } from "./productStoreType";
+import { IPurchase, IUserOrders } from "./orderStoreType";
+import { IMostBuyableProduct, IProduct } from "./productStoreType";
+import { IReview } from "./reviewStoreType";
 
 export interface IUserData {
-  id?: number;
+  id?: number | null;
   favourite: IProduct[] | null | "" | any;
   email: string;
   password: string;
@@ -15,6 +16,21 @@ export interface IUserData {
   purchase?: IPurchase;
   createdAt?: string | undefined;
   active?: boolean;
+}
+
+export interface IInitialBasicUserInfoData {
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  whenRegistered: string;
+  firstOrderDate: string;
+  totalOrders: string;
+  totalReviews: string;
+  helpfulReviews: string;
+  totalBoughtProducts: string;
+  mostBuyableProduct: IMostBuyableProduct | null;
+  userReviews: IReview[] | null;
+  userOrders: IUserOrders[] | [];
 }
 
 export type TAvatar = {
@@ -32,6 +48,8 @@ export type TUserDataRegister = {
 
 export interface IUserState {
   userData: IUserData;
+  basicUserInfoData: IInitialBasicUserInfoData;
+  basicUserInfoRequest: boolean;
   allUsersData: IUserData[] | [];
   userUpdated: boolean;
   logoutError: null | undefined | TError;

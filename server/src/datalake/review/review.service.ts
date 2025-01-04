@@ -40,6 +40,7 @@ export class ReviewService {
         rate: true,
         comment: true,
         user: {
+          id: true,
           email: true,
           avatar: true,
           firstName: true,

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
   IAssignAdminResponse,
+  IInitialBasicUserInfoData,
   IManageAccountResponse,
   IUserData,
   IUserState,
@@ -16,6 +17,7 @@ import {
 } from "../../types/store/productStoreType";
 
 const initalUserData = {
+  id: null,
   firstName: "",
   lastName: "",
   mobileNumber: "",
@@ -26,8 +28,25 @@ const initalUserData = {
   favourite: null,
 };
 
+const initialBasicUserInfoData = {
+  firstName: "",
+  lastName: "",
+  avatar: "",
+  whenRegistered: "",
+  firstOrderDate: "",
+  totalOrders: "",
+  totalReviews: "",
+  helpfulReviews: "",
+  totalBoughtProducts: "",
+  mostBuyableProduct: null,
+  userReviews: null,
+  userOrders: [],
+};
+
 const userState: IUserState = {
   userData: initalUserData,
+  basicUserInfoData: initialBasicUserInfoData,
+  basicUserInfoRequest: false,
   allUsersData: [],
   userUpdated: false,
   logoutError: null,
@@ -47,6 +66,7 @@ export const userSlice = createSlice({
   initialState: userState,
   reducers: {
     setUser: (state, action: PayloadAction<IUserData>) => {
+      state.userData.id = action.payload.id;
       state.userData.email = action.payload.email;
       state.userData.firstName = action.payload.firstName;
       state.userData.lastName = action.payload.lastName;
@@ -55,6 +75,28 @@ export const userSlice = createSlice({
       state.userData.role = action.payload.role;
       state.userData.favourite = action.payload.favourite.products;
       state.userError = null;
+    },
+    setBasicUserInfo: (
+      state,
+      action: PayloadAction<IInitialBasicUserInfoData>
+    ) => {
+      state.basicUserInfoData.firstName = action.payload.firstName;
+      state.basicUserInfoData.lastName = action.payload.lastName;
+      state.basicUserInfoData.avatar = action.payload.avatar;
+      state.basicUserInfoData.whenRegistered = action.payload.whenRegistered;
+      state.basicUserInfoData.firstOrderDate = action.payload.firstOrderDate;
+      state.basicUserInfoData.totalOrders = action.payload.totalOrders;
+      state.basicUserInfoData.totalReviews = action.payload.totalReviews;
+      state.basicUserInfoData.helpfulReviews = action.payload.helpfulReviews;
+      state.basicUserInfoData.totalBoughtProducts =
+        action.payload.totalBoughtProducts;
+      state.basicUserInfoData.mostBuyableProduct =
+        action.payload.mostBuyableProduct;
+      state.basicUserInfoData.userReviews = action.payload.userReviews;
+      state.basicUserInfoData.userOrders = action.payload.userOrders;
+    },
+    setBasicUserInfoRequest: (state, action: PayloadAction<boolean>) => {
+      state.userRequest = action.payload;
     },
     clearUserData: (state) => {
       state.userData = initalUserData;
@@ -157,6 +199,8 @@ export const userSlice = createSlice({
 });
 
 export const {
+  setBasicUserInfo,
+  setBasicUserInfoRequest,
   setResetUserError,
   setUserRequest,
   setAvatar,

@@ -23,6 +23,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiForbiddenResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
@@ -62,6 +63,19 @@ export class UsersController {
   getUsers(@Request() request: IHeadersAuthorizationRequest): Promise<User[]> {
     const accessToken = request.headers.authorization;
     return this.usersService.getUsers(accessToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('/:id')
+  @ApiOperation({ summary: 'Получение основной аналитики пользователя' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат аналитики пользователя',
+  })
+  @ApiUnauthorizedResponse()
+  @ApiInternalServerErrorResponse()
+  getBasicUserInfo(@Param('id') id: string): any {
+    return this.usersService.getBasicUserInfo(+id);
   }
 
   @UseGuards(AccessTokenGuard)

@@ -180,6 +180,7 @@ export class AuthService {
       });
 
       const {
+        id,
         firstName,
         lastName,
         email,
@@ -191,6 +192,7 @@ export class AuthService {
       } = user;
 
       return {
+        id,
         firstName,
         lastName,
         email,

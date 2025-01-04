@@ -17,3 +17,10 @@ export interface IPurchase {
   isNeedDelivery: boolean;
   purchase: ICartItem[];
 }
+
+export interface IUserOrders {
+  name: string;
+  image: string;
+  quantity: number;
+  price: number;
+}

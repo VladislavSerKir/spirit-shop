@@ -35,6 +35,13 @@
   }
 
   &__avatar {
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-items: baseline;
+    }
+
     &-img {
       margin-bottom: 20px;
       width: 200px;

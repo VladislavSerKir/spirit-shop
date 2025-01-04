@@ -4,8 +4,9 @@ import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { HashService } from 'src/common/hash/hash.service';
-import { Favourite } from '../product/entities/favourite.entity';
+import { Order } from '../order/entities/order.entity';
+import { Review } from '../review/entities/review.entity';
+import { CartItem } from '../cart/entities/cart-item.entity';
 
 @Module({
   imports: [
@@ -13,10 +14,10 @@ import { Favourite } from '../product/entities/favourite.entity';
       secret: 'access-secret',
       signOptions: { expiresIn: '1d' },
     }),
-    TypeOrmModule.forFeature([User, Favourite]),
+    TypeOrmModule.forFeature([User, Order, Review, CartItem]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, HashService],
+  providers: [UsersService],
   exports: [TypeOrmModule],
 })
 export class UsersModule {}

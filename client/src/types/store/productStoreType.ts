@@ -18,6 +18,12 @@ export interface IProduct {
   favourites?: IUserData[];
 }
 
+export interface IMostBuyableProduct {
+  name: string;
+  image: string;
+  times: string;
+}
+
 export interface ICartParams {
   comment: string;
   isNeedDelivery: boolean;

@@ -25,7 +25,7 @@ export const ReviewItem = ({ review, tab }: IReviewProps) => {
 
   const { returnFormattedDate } = useFarmatDate(review?.createdAt);
 
-  const farmattedDate = returnFormattedDate();
+  const farmattedDate = returnFormattedDate(review?.createdAt);
 
   const userLikesIds = review.helpful?.map((i: IReviewUser) => i.email);
 

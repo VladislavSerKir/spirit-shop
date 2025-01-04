@@ -58,11 +58,11 @@ const UserAccordeon = ({ user }: IUserAccordeonProps) => {
     setActive(!active);
   };
 
-  const { returnFormattedDate } = useFarmatDate(
+  const { returnFormattedDate } = useFarmatDate();
+
+  const formattedDate = returnFormattedDate(
     user?.createdAt ? user?.createdAt : ""
   );
-
-  const formattedDate = returnFormattedDate();
 
   return (
     <div className={`user__item${active ? " accordion-open" : ""}`}>

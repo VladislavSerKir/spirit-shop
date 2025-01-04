@@ -64,11 +64,7 @@ export class OrderService {
       },
     });
 
-    if (!userOrders.length) {
-      throw new NotFoundException('Error fetch orders');
-    } else {
-      return userOrders;
-    }
+    return userOrders;
   }
 
   async purchaseOrder(

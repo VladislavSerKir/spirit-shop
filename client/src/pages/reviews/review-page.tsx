@@ -3,29 +3,14 @@ import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { useTranslation } from "react-i18next";
 import Spinner from "../spinner/spinner";
-import { shallowEqual } from "react-redux";
 import { IReview } from "../../types/store/reviewStoreType";
 import { ReviewItem } from "./review-item";
 
 export const ReviewPage = () => {
   const { t } = useTranslation();
-  const user = useTypedSelector((state) => state.user.userData);
-  const products = useTypedSelector((state) => state.products.products);
 
   const reviews =
-    useTypedSelector(
-      (store) =>
-        (store.review.review as IReview[])?.reduce((acc, item: IReview) => {
-          if (item.user.email === user.email && item) {
-            const product = products.find(
-              (product) => product.id === item.product.id
-            );
-            acc = [...acc, { ...item, product } as never];
-          }
-          return acc;
-        }, []),
-      shallowEqual
-    ) || [];
+    useTypedSelector((store) => store.user.basicUserInfoData.userReviews) || [];
 
   const reviewRequest = useTypedSelector((store) => store.review.reviewRequest);
 

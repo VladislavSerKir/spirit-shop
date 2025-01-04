@@ -33,6 +33,16 @@ const userService = {
     });
   },
 
+  getBasicUserInfoRequest: async (id: number) => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+    });
+  },
+
   editAvatarRequest: async ({ avatar }: TAvatar) => {
     return fetch(`${config.apiEndPoint}/${userEndPoint}/avatar`, {
       method: "PUT",

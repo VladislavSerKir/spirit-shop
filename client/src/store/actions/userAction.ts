@@ -3,6 +3,8 @@ import { TError } from "../../types";
 import {
   clearUserData,
   setAvatar,
+  setBasicUserInfo,
+  setBasicUserInfoRequest,
   setUsersRequest,
   updateAccountActive,
   updateAdminRole,
@@ -10,6 +12,7 @@ import {
 import {
   AssignAdminDto,
   IAssignAdminResponse,
+  IInitialBasicUserInfoData,
   IManageAccountResponse,
   IUserData,
   ManageAccountDto,
@@ -167,5 +170,30 @@ export const manageAccount = createAsyncThunk<
   const data: IManageAccountResponse = await response.json();
   dispatch(updateAccountActive(data));
   toast.info(`${ii18n.t("User has been activeted or deactivated")}`);
+  return data;
+});
+
+export const getBasicUserInfo = createAsyncThunk<
+  IInitialBasicUserInfoData,
+  any,
+  { rejectValue: TError }
+>("user/:id", async function (id, { dispatch, rejectWithValue }) {
+  dispatch(setBasicUserInfoRequest(true));
+  const response = await userService.getBasicUserInfoRequest(id);
+
+  if (!response.ok) {
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method getBasicUserInfo",
+    });
+  }
+
+  const data: IInitialBasicUserInfoData = await response.json();
+  dispatch(setBasicUserInfo(data));
+  dispatch(setBasicUserInfoRequest(false));
   return data;
 });

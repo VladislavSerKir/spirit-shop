@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,12 +15,19 @@ import { EditAvatarDto } from './dto/edit-avatar.dto';
 import { AssignAdminDto } from './dto/assign-admin.dto';
 import { ManageAccountDto } from './dto/manage-account.dto';
 import { YandexUserResponseOKInterface } from 'src/common/types/interfaces';
+import { Order } from '../order/entities/order.entity';
+import { Review } from '../review/entities/review.entity';
+import { CartItem } from '../cart/entities/cart-item.entity';
+import { IsNotEmpty } from 'class-validator';
 
 @Injectable()
 export class UsersService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
+    @InjectRepository(Order) private orderRepo: Repository<Order>,
+    @InjectRepository(Review) private reviewRepo: Repository<Review>,
+    @InjectRepository(CartItem) private cartItemRepo: Repository<Review>,
     @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
 
@@ -37,12 +45,140 @@ export class UsersService {
     }
   }
 
+  async getBasicUserInfo(id: number): Promise<any> {
+    if (isNaN(id)) {
+      throw new BadRequestException('Invalid user ID');
+    }
+
+    const user = await this.userRepo.findOne({
+      where: { id },
+      select: {
+        id: true,
+        createdAt: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Error profile fetching');
+    }
+
+    const firstOrder = await this.orderRepo.findOne({
+      where: { user: { id } },
+      order: { createdAt: 'ASC' },
+    });
+
+    const orderCount = await this.orderRepo.count({
+      where: { user: { id } },
+    });
+
+    const reviewCount = await this.reviewRepo.count({
+      where: { user: { id } },
+    });
+
+    const reviews = await this.reviewRepo.find({
+      where: { user: { id } },
+      relations: ['helpful'],
+    });
+
+    const reviewHelpfulCount = reviews.filter(
+      (review) => review.helpful.length > 0,
+    ).length;
+
+    const boughtProductCount = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.purchase', 'order')
+      .where('order.userId = :id', { id })
+      .select('SUM(cartItem.quantity)', 'total')
+      .getRawOne();
+
+    const buyableProduct = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.purchase', 'order')
+      .innerJoin('cartItem.product', 'product')
+      .where('order.userId = :id', { id })
+      .select('product.name', 'name')
+      .addSelect('product.image', 'image')
+      .addSelect('SUM(cartItem.quantity)', 'times')
+      .groupBy('product.id')
+      .orderBy('times', 'DESC')
+      .limit(1)
+      .getRawOne();
+
+    const userReviews = await this.reviewRepo.find({
+      where: { user: { id } },
+      relations: ['user', 'product', 'helpful'],
+      select: {
+        id: true,
+        createdAt: true,
+        rate: true,
+        comment: true,
+        user: {
+          id: true,
+        },
+        product: {
+          id: true,
+          name: true,
+          image: true,
+        },
+        helpful: {
+          email: true,
+        },
+      },
+    });
+
+    const userOrders = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.purchase', 'order')
+      .innerJoin('cartItem.product', 'product')
+      .where('order.userId = :id', { id })
+      .select([
+        'product.id AS id',
+        'product.name AS name',
+        'product.image AS image',
+        'product.price AS price',
+        'SUM(cartItem.quantity) AS quantity',
+      ])
+      .groupBy('product.id')
+      .orderBy('quantity', 'DESC')
+      .getRawMany();
+
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar,
+      whenRegistered: user?.createdAt ? firstOrder.createdAt : '',
+      firstOrderDate: firstOrder?.createdAt ? firstOrder.createdAt : '',
+      totalOrders: orderCount,
+      totalReviews: reviewCount,
+      helpfulReviews: reviewHelpfulCount,
+      totalBoughtProducts: boughtProductCount?.total
+        ? parseInt(boughtProductCount.total, 10)
+        : 0,
+      mostBuyableProduct: buyableProduct
+        ? {
+            name: buyableProduct.name,
+            image: buyableProduct.image,
+            times: parseInt(buyableProduct.times, 10),
+          }
+        : null,
+      userReviews,
+      userOrders: userOrders.map((product) => ({
+        name: product.name,
+        image: product.image,
+        quantity: parseInt(product.quantity, 10),
+        price: parseInt(product.price, 10),
+      })),
+    };
+  }
+
   async getUsers(accessToken: string): Promise<User[]> {
     const token = accessToken.split(' ')[1];
     const decodedToken = this.jwtService.verify(token, {
       secret: this.configService.get<string>('jwt.access'),
     });
-
     const username = decodedToken.username;
     let users = await this.userRepo.find({
       select: [

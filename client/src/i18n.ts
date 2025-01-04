@@ -282,6 +282,7 @@ const ENtranslation = {
   "User reviews": "User reviews",
   times: "times",
   Bought: "Bought",
+  "Useful reviews": "Useful reviews",
 };
 
 const RUtranslation = {
@@ -568,6 +569,7 @@ const RUtranslation = {
   "User reviews": "Отзывы пользователя",
   times: "раз",
   Bought: "Куплено",
+  "Useful reviews": "Полезные отзывы",
 };
 
 export const ii18n = new I18n({

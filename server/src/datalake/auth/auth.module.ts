@@ -4,7 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { HashService } from 'src/common/hash/hash.service';
 import { UsersService } from '../user/users.service';
 import { JwtStrategy } from 'src/config/jwt-strategy';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -13,6 +12,7 @@ import { YandexAuthStrategy } from 'src/config/yandex.strategy';
 import { HttpModule } from '@nestjs/axios';
 import { GoogleStrategy } from 'src/config/google.strategy';
 import { HashModule } from 'src/common/hash/hash.module';
+import { UsersModule } from '../user/users.module';
 
 @Module({
   imports: [
@@ -24,6 +24,8 @@ import { HashModule } from 'src/common/hash/hash.module';
       secret: 'access-secret',
       signOptions: { expiresIn: '1d' },
     }),
+    UsersModule,
+    HashModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -33,6 +35,6 @@ import { HashModule } from 'src/common/hash/hash.module';
     YandexAuthStrategy,
     GoogleStrategy,
   ],
-  exports: [AuthService],
+  exports: [TypeOrmModule],
 })
 export class AuthModule {}

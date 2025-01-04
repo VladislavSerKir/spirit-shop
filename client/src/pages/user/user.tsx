@@ -155,6 +155,9 @@ const User: FC = () => {
                 <ManageUsers />
               </Route>
             )}
+            <Route path={`${url}/:id?`} exact>
+              <PersonalPage />
+            </Route>
             <Route path="*" exact>
               <NotFound />
             </Route>

@@ -7,6 +7,7 @@ import likeInactive from "../../assets/img/like-inactive.png";
 import { toast } from "react-toastify";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { dislikeReview, likeReview } from "../../store/actions/reviewAction";
+import { config } from "../../utils/api";
 
 interface IReviewProps {
   review: IReview;
@@ -17,9 +18,9 @@ export const Review = ({ review }: IReviewProps) => {
   const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
 
-  const { returnFormattedDate } = useFarmatDate(review?.createdAt);
+  const { returnFormattedDate } = useFarmatDate();
 
-  const farmattedDate = returnFormattedDate();
+  const farmattedDate = returnFormattedDate(review?.createdAt);
 
   const userLikesIds = review.helpful?.map((i: IReviewUser) => i.email);
 
@@ -43,7 +44,12 @@ export const Review = ({ review }: IReviewProps) => {
       <div className="review__title review-item">
         <p className="review__title-content">
           <span className="review__username">
-            {review.user.firstName} {review.user.lastName}
+            <a
+              href={`${config.frontendEndPoint}/user/${review.user.id}`}
+              className={`nav__link`}
+            >
+              {review.user.firstName} {review.user.lastName}
+            </a>
           </span>
           &nbsp;&nbsp;{t("left review")}
           <span className="review__date">

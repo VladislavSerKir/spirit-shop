@@ -1,5 +1,5 @@
-const useFarmatDate = (date: string) => {
-  const returnFormattedDate = () => {
+const useFarmatDate = (date?: string) => {
+  const returnFormattedDate = (date: string) => {
     if (!date) return "";
     let formattedDate = date.split("T");
     let time = formattedDate[1].split(".")[0].split(":");
