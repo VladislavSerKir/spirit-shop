@@ -38,6 +38,13 @@
   &__username {
     font-weight: var(--font-semi-bold);
     font-size: var(--h3-font-size);
+    transition: all 0.3s;
+
+    &:hover {
+      text-decoration: overline 2px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
   }
 
   &__date {
@@ -55,6 +62,13 @@
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+      transition: all 0.3s;
+    }
   }
 
   &__title {

@@ -48,7 +48,9 @@ export const ReviewPage = () => {
                 />
               </>
             ) : (
-              <h3 className="container-center">{t("There are no reviews")}</h3>
+              <h2 className="container-center table__title">
+                {t("There are no reviews")}
+              </h2>
             )}
           </div>
         </>

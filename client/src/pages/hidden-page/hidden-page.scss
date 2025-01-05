@@ -1,0 +1,12 @@
+.hidden-page {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-top: 70px;
+  align-items: center;
+
+  &__image {
+    width: 150px;
+    height: 150px;
+  }
+}

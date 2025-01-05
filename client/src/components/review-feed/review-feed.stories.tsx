@@ -8,6 +8,7 @@ const mockedReviewsState = [
     id: 1,
     createdAt: "2024-11-25T18:08:21.025Z",
     user: {
+      id: 3,
       firstName: "Иван",
       lastName: "Иванов",
       email: "test0@mail.ru",
@@ -27,6 +28,7 @@ const mockedReviewsState = [
     id: 2,
     createdAt: "2024-11-25T18:49:49.851Z",
     user: {
+      id: 4,
       firstName: "Афоня",
       lastName: "Афонин",
       email: "test3@mail.ru",
@@ -46,6 +48,7 @@ const mockedReviewsState = [
     id: 3,
     createdAt: "2024-11-25T19:08:50.480Z",
     user: {
+      id: 5,
       firstName: "Иван",
       lastName: "Иванов",
       email: "test0@mail.ru",

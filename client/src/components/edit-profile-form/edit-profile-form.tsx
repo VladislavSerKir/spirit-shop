@@ -1,13 +1,16 @@
 import React, { FC, useState } from "react";
 import * as yup from "yup";
-import { GenericObject, useTypedSelector } from "../../types";
+import { GenericObject, useTypedDispatch, useTypedSelector } from "../../types";
 import TextField from "../../shared/form/text-field";
 import { useForm } from "../../hooks/useForm";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Button from "../../shared/button/button";
+import Toggle from "react-toggle";
+import { toggleHideProfile } from "../../store/actions/userAction";
 
 const EditProfileForm: FC = () => {
+  const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
   const { url } = useRouteMatch();
   const { t } = useTranslation();
@@ -19,6 +22,23 @@ const EditProfileForm: FC = () => {
     mobileNumber: user.mobileNumber,
     email: user.email,
     password: "",
+  };
+
+  const initialHideState = {
+    hideProfile: user.hideProfile,
+  };
+
+  const [data, setData] = useState(initialHideState);
+
+  const handleChangeToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.checked,
+    }));
+
+    if (event.target.name === "hideProfile") {
+      dispatch(toggleHideProfile({ hideProfile: event.target.checked }));
+    }
   };
 
   const [errors, setErrors] = useState<GenericObject>({});
@@ -124,6 +144,17 @@ const EditProfileForm: FC = () => {
             onChange={handleChangeFields}
             error={errors.password}
           />
+          <div className="cart__toggle-container">
+            <Toggle
+              name="hideProfile"
+              defaultChecked={data.hideProfile}
+              aria-labelledby="biscuit-label"
+              onChange={handleChangeToggle}
+            />
+            <h3 className="personal-page__text" id="hide-profile">
+              {t("Hide profile")}
+            </h3>
+          </div>
         </div>
         <Button buttonStyle="edit" textContent={t("Edit")} />
       </form>

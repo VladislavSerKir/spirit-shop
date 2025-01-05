@@ -6,7 +6,10 @@ import ProductStatistic from "../../components/product-statistic/product-statist
 import { useParams, useRouteMatch } from "react-router-dom";
 import { getBasicUserInfo } from "../../store/actions/userAction";
 import useFarmatDate from "../../hooks/useFormatDate";
-import Loader from "../../shared/loader/loader";
+import { setBasicUserInfoToNull } from "../../store/reducers/userReducer";
+import Spinner from "../spinner/spinner";
+import { BackButton } from "../../components/back-button/back-button";
+import { HiddenPage } from "../hidden-page/hidden-page";
 
 const PersonalPage: FC = () => {
   const dispatch = useTypedDispatch();
@@ -28,6 +31,9 @@ const PersonalPage: FC = () => {
     } else {
       dispatch(getBasicUserInfo(Number(id)));
     }
+    return () => {
+      dispatch(setBasicUserInfoToNull());
+    };
   }, [url]);
 
   const changeTabType = () => {
@@ -48,113 +54,119 @@ const PersonalPage: FC = () => {
     basicUserInfo?.firstOrderDate ? basicUserInfo.firstOrderDate : ""
   );
 
+  if (basicUserInfoRequest) {
+    return <Spinner />;
+  }
+
+  if (
+    !url.includes("personal-page") &&
+    basicUserInfo.hideProfile &&
+    user.id !== basicUserInfo.id
+  ) {
+    return <HiddenPage />;
+  }
+
   return (
     <section className="personal-page">
-      {!basicUserInfoRequest ? (
-        <>
-          <h2 className="section__title-center">
-            {basicUserInfo?.firstName ? basicUserInfo.firstName : ""}{" "}
-            {basicUserInfo?.lastName ? basicUserInfo.lastName : ""}
-          </h2>
-          <div className="personal-page__container">
-            <div className="personal-page__avatar-container">
-              <img
-                src={basicUserInfo?.avatar ? basicUserInfo.avatar : ""}
-                alt="avatar"
-                className="personal-page__avatar-img"
-              />
-            </div>
-            <div className="personal-page__basic-info">
+      <BackButton />
+      <>
+        <h2 className="section__title-center">
+          {basicUserInfo?.firstName ? basicUserInfo.firstName : ""}{" "}
+          {basicUserInfo?.lastName ? basicUserInfo.lastName : ""}
+        </h2>
+        <div className="personal-page__container">
+          <div className="personal-page__avatar-container">
+            <img
+              src={basicUserInfo?.avatar ? basicUserInfo.avatar : ""}
+              alt="avatar"
+              className="personal-page__avatar-img"
+            />
+          </div>
+          <div className="personal-page__basic-info">
+            <h3 className="personal-page__text">
+              {t("When registered")}:&nbsp;&nbsp;&nbsp;
+              {farmattedWhenRegistered}
+            </h3>
+            <h3 className="personal-page__text">
+              {t("First order date")}:&nbsp;&nbsp;&nbsp;
+              {firstOrderDate}
+            </h3>
+            <h3 className="personal-page__text">
+              {t("Total orders")}:&nbsp;&nbsp;&nbsp;
+              {basicUserInfo?.totalOrders ? basicUserInfo.totalOrders : 0}
+            </h3>
+            <h3 className="personal-page__text">
+              {t("Total reviews")}:&nbsp;&nbsp;&nbsp;
+              {basicUserInfo?.totalReviews ? basicUserInfo.totalReviews : 0}
+            </h3>
+            <h3 className="personal-page__text">
+              {t("Useful reviews")}:&nbsp;&nbsp;&nbsp;
+              {basicUserInfo?.helpfulReviews ? basicUserInfo.helpfulReviews : 0}
+            </h3>
+            <h3 className="personal-page__text">
+              {t("Total bought products")}:&nbsp;&nbsp;&nbsp;
+              {basicUserInfo?.totalBoughtProducts
+                ? basicUserInfo.totalBoughtProducts
+                : 0}
+            </h3>
+            <div className="personal-page__top-product">
               <h3 className="personal-page__text">
-                {t("When registered")}:&nbsp;&nbsp;&nbsp;
-                {farmattedWhenRegistered}
+                {t("Most buyable product")}:
               </h3>
-              <h3 className="personal-page__text">
-                {t("First order date")}:&nbsp;&nbsp;&nbsp;
-                {firstOrderDate}
-              </h3>
-              <h3 className="personal-page__text">
-                {t("Total orders")}:&nbsp;&nbsp;&nbsp;
-                {basicUserInfo?.totalOrders ? basicUserInfo.totalOrders : 0}
-              </h3>
-              <h3 className="personal-page__text">
-                {t("Total reviews")}:&nbsp;&nbsp;&nbsp;
-                {basicUserInfo?.totalReviews ? basicUserInfo.totalReviews : 0}
-              </h3>
-              <h3 className="personal-page__text">
-                {t("Useful reviews")}:&nbsp;&nbsp;&nbsp;
-                {basicUserInfo?.helpfulReviews
-                  ? basicUserInfo.helpfulReviews
-                  : 0}
-              </h3>
-              <h3 className="personal-page__text">
-                {t("Total bought products")}:&nbsp;&nbsp;&nbsp;
-                {basicUserInfo?.totalBoughtProducts
-                  ? basicUserInfo.totalBoughtProducts
-                  : 0}
-              </h3>
-              <div className="personal-page__top-product">
-                <h3 className="personal-page__text">
-                  {t("Most buyable product")}:
-                </h3>
-                {basicUserInfo?.mostBuyableProduct ? (
-                  <div className="personal-page__product-container">
-                    <img
-                      src={
-                        basicUserInfo?.mostBuyableProduct?.image
-                          ? basicUserInfo.mostBuyableProduct.image
-                          : ""
-                      }
-                      alt="avatar"
-                      className="review-element__user-img review-element-item"
-                    />
-                    <h3 className="personal-page__product-name">
-                      {basicUserInfo?.mostBuyableProduct?.name
-                        ? basicUserInfo.mostBuyableProduct.name
-                        : ""}
-                    </h3>
-                    <h3 className="personal-page__text">
-                      (
-                      {basicUserInfo?.mostBuyableProduct?.times
-                        ? basicUserInfo.mostBuyableProduct.times
-                        : 0}{" "}
-                      {t("times")})
-                    </h3>
-                  </div>
-                ) : (
-                  "-"
-                )}
-              </div>
+              {basicUserInfo?.mostBuyableProduct ? (
+                <div className="personal-page__product-container">
+                  <img
+                    src={
+                      basicUserInfo?.mostBuyableProduct?.image
+                        ? basicUserInfo.mostBuyableProduct.image
+                        : ""
+                    }
+                    alt="avatar"
+                    className="review-element__user-img review-element-item"
+                  />
+                  <h3 className="personal-page__product-name">
+                    {basicUserInfo?.mostBuyableProduct?.name
+                      ? basicUserInfo.mostBuyableProduct.name
+                      : ""}
+                  </h3>
+                  <h3 className="personal-page__text">
+                    (
+                    {basicUserInfo?.mostBuyableProduct?.times
+                      ? basicUserInfo.mostBuyableProduct.times
+                      : 0}{" "}
+                    {t("times")})
+                  </h3>
+                </div>
+              ) : (
+                "-"
+              )}
             </div>
           </div>
-          <hr />
-          <div className={`personal-page__stat-block`} id="nav-menu">
-            <ul className="nav__list">
-              <li className="nav__item">
-                <h2
-                  className={`nav__link personal-page__tab ${tabType === "statistics" ? "active-link" : ""}`}
-                  onClick={changeTabType}
-                >
-                  {t("Product statistic")}
-                </h2>
-              </li>
-              <li className="nav__item">
-                <h2
-                  className={`nav__link personal-page__tab ${tabType === "reviews" ? "active-link" : ""}`}
-                  onClick={changeTabType}
-                >
-                  {t("User reviews")}
-                </h2>
-              </li>
-            </ul>
-          </div>
-        </>
-      ) : (
-        <Loader />
-      )}
-
-      {tabType === "reviews" && <ReviewPage />}
-      {tabType === "statistics" && <ProductStatistic />}
+        </div>
+        <hr />
+        <div className={`personal-page__stat-block`} id="nav-menu">
+          <ul className="nav__list">
+            <li className="nav__item">
+              <h2
+                className={`nav__link personal-page__tab ${tabType === "statistics" ? "active-link" : ""}`}
+                onClick={changeTabType}
+              >
+                {t("Product statistic")}
+              </h2>
+            </li>
+            <li className="nav__item">
+              <h2
+                className={`nav__link personal-page__tab ${tabType === "reviews" ? "active-link" : ""}`}
+                onClick={changeTabType}
+              >
+                {t("User reviews")}
+              </h2>
+            </li>
+          </ul>
+        </div>
+        {tabType === "reviews" && <ReviewPage />}
+        {tabType === "statistics" && <ProductStatistic />}
+      </>
     </section>
   );
 };

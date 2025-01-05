@@ -2,6 +2,7 @@ import { getCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import {
   AssignAdminDto,
+  HideProfileDto,
   IUserData,
   ManageAccountDto,
   TAvatar,
@@ -83,6 +84,17 @@ const userService = {
         Authorization: "Bearer " + getCookie("accessToken"),
       },
       body: JSON.stringify({ id, active }),
+    });
+  },
+
+  toggleHideProfileRequest: async ({ hideProfile }: HideProfileDto) => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/hide`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({ hideProfile }),
     });
   },
 };

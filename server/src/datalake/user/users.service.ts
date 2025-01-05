@@ -2,7 +2,6 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,7 +17,7 @@ import { YandexUserResponseOKInterface } from 'src/common/types/interfaces';
 import { Order } from '../order/entities/order.entity';
 import { Review } from '../review/entities/review.entity';
 import { CartItem } from '../cart/entities/cart-item.entity';
-import { IsNotEmpty } from 'class-validator';
+import { HideProfileDto } from './dto/hide-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -58,6 +57,7 @@ export class UsersService {
         firstName: true,
         lastName: true,
         avatar: true,
+        hideProfile: true,
       },
     });
 
@@ -146,10 +146,12 @@ export class UsersService {
       .getRawMany();
 
     return {
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       avatar: user.avatar,
-      whenRegistered: user?.createdAt ? firstOrder.createdAt : '',
+      hideProfile: user.hideProfile,
+      whenRegistered: user?.createdAt ? user.createdAt : '',
       firstOrderDate: firstOrder?.createdAt ? firstOrder.createdAt : '',
       totalOrders: orderCount,
       totalReviews: reviewCount,
@@ -166,10 +168,8 @@ export class UsersService {
         : null,
       userReviews,
       userOrders: userOrders.map((product) => ({
-        name: product.name,
-        image: product.image,
+        id: product.id,
         quantity: parseInt(product.quantity, 10),
-        price: parseInt(product.price, 10),
       })),
     };
   }
@@ -411,6 +411,36 @@ export class UsersService {
       return { id, active };
     } catch (error) {
       throw new BadRequestException('Error to assign admin');
+    }
+  }
+
+  async hideAccount(
+    accessToken: string,
+    hideProfileDto: HideProfileDto,
+  ): Promise<HideProfileDto> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      select: { id: true, active: true },
+    });
+
+    const updatedUser = await this.userRepo.update(
+      { email: username },
+      hideProfileDto,
+    );
+
+    if (!updatedUser) {
+      throw new BadRequestException('Error profile change request');
+    } else if (!user.active) {
+      throw new ForbiddenException('User is not available or diactivated');
+    } else {
+      const { hideProfile } = hideProfileDto;
+      return { hideProfile };
     }
   }
 

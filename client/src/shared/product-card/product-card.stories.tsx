@@ -42,6 +42,7 @@ const mockedProductProps = {
       role: "user",
       favourite: [],
       password: "",
+      hideProfile: false,
     },
   ],
   id: 48,

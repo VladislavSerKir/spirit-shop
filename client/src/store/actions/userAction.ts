@@ -7,11 +7,14 @@ import {
   setBasicUserInfoRequest,
   setUsersRequest,
   updateAccountActive,
+  updateAccountHideProfile,
   updateAdminRole,
 } from "../reducers/userReducer";
 import {
   AssignAdminDto,
+  HideProfileDto,
   IAssignAdminResponse,
+  IHideProfileResponse,
   IInitialBasicUserInfoData,
   IManageAccountResponse,
   IUserData,
@@ -197,3 +200,39 @@ export const getBasicUserInfo = createAsyncThunk<
   dispatch(setBasicUserInfoRequest(false));
   return data;
 });
+
+export const toggleHideProfile = createAsyncThunk<
+  IHideProfileResponse,
+  HideProfileDto,
+  { rejectValue: TError }
+>(
+  "user/toggleHideProfile",
+  async function (body, { dispatch, rejectWithValue }) {
+    const response = await userService.toggleHideProfileRequest(body);
+
+    if (!response.ok) {
+      if (response.status === 400) {
+        toast.error(`${ii18n.t("Error occured")}`);
+      }
+
+      if (response.status === 401) {
+        dispatch(clearUserData());
+        dispatch(setCartToNull());
+        dispatch(setPurchaseToNull());
+        toast.warn(
+          `${ii18n.t("Profile visibility has not been changed, check if you are logged in")}`
+        );
+      }
+
+      return rejectWithValue({
+        status: response.status,
+        message: "Server Error, take a look on method toggleHideProfile",
+      });
+    }
+
+    const data: IHideProfileResponse = await response.json();
+    dispatch(updateAccountHideProfile(data));
+    toast.info(`${ii18n.t("Profile visibility changed")}`);
+    return data;
+  }
+);

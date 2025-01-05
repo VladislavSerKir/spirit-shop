@@ -30,6 +30,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { HideProfileDto } from './dto/hide-profile.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -199,5 +200,27 @@ export class UsersController {
   ): Promise<Partial<User>> {
     const accessToken = request.headers.authorization;
     return this.usersService.manageAccount(accessToken, manageAccountDto);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Put('/hide')
+  @ApiOperation({ summary: 'Управление видимостью аккаунта' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат состояния видимости',
+    type: User,
+  })
+  @ApiBody({
+    type: HideProfileDto,
+  })
+  @ApiUnauthorizedResponse()
+  @ApiForbiddenResponse()
+  @ApiBadRequestResponse()
+  hideAccount(
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() hideProfileDto: HideProfileDto,
+  ): Promise<Partial<User>> {
+    const accessToken = request.headers.authorization;
+    return this.usersService.hideAccount(accessToken, hideProfileDto);
   }
 }

@@ -7,7 +7,7 @@ import likeInactive from "../../assets/img/like-inactive.png";
 import { toast } from "react-toastify";
 import { useTypedDispatch, useTypedSelector } from "../../types";
 import { dislikeReview, likeReview } from "../../store/actions/reviewAction";
-import { config } from "../../utils/api";
+import history from "../../utils/history";
 
 interface IReviewProps {
   review: IReview;
@@ -34,22 +34,25 @@ export const Review = ({ review }: IReviewProps) => {
     }
   };
 
+  const handleGoToUser = (id: number) => {
+    history.replace(`/user/${id}`);
+  };
+
   return (
     <div className="review">
       <img
         src={review.user.avatar}
         alt="avatar"
         className="review__user-img review-item"
+        onClick={() => handleGoToUser(review?.user.id)}
       />
       <div className="review__title review-item">
         <p className="review__title-content">
-          <span className="review__username">
-            <a
-              href={`${config.frontendEndPoint}/user/${review.user.id}`}
-              className={`nav__link`}
-            >
-              {review.user.firstName} {review.user.lastName}
-            </a>
+          <span
+            className="review__username nav__link"
+            onClick={() => handleGoToUser(review?.user.id)}
+          >
+            {review.user.firstName} {review.user.lastName}
           </span>
           &nbsp;&nbsp;{t("left review")}
           <span className="review__date">

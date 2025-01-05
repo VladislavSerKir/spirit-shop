@@ -3,6 +3,7 @@ import Pagination from "../../shared/hoc/pagination/pagination";
 import usePagination from "../../hooks/usePagination";
 import { useTranslation } from "react-i18next";
 import { IUserOrders } from "../../types/store/orderStoreType";
+import { ICategory } from "../../types/store/categoryStoreType";
 
 const ProductStatistic = () => {
   const { t } = useTranslation();
@@ -11,14 +12,30 @@ const ProductStatistic = () => {
     (state) => state.user.basicUserInfoData.userOrders
   );
 
+  const userOrdersToShow = userOrders.map((product) => {
+    const existProduct = products.find((p) => p.id === product.id);
+    return {
+      name: existProduct?.name,
+      image: existProduct?.image,
+      quantity: product.quantity,
+      price: existProduct?.price,
+      categories: existProduct?.categories,
+    };
+  });
+
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
-    usePagination(userOrders, 4);
+    usePagination(userOrdersToShow, 4);
 
   const productsToShow = showCurrentEntity();
 
-  if (!userOrders?.length) {
+  if (!userOrdersToShow?.length) {
     return (
-      <h2 className="table__title">{t("There is no product to manage")}</h2>
+      <>
+        <hr />
+        <h2 className="table__title">
+          {t("There is no product bought by user")}
+        </h2>
+      </>
     );
   }
 
@@ -29,6 +46,7 @@ const ProductStatistic = () => {
         <thead>
           <tr>
             <th>{t("Name")}</th>
+            <th>{t("Categories")}</th>
             <th>{t("Price")}</th>
             <th>{t("Bought")}</th>
           </tr>
@@ -43,6 +61,13 @@ const ProductStatistic = () => {
                   className="table__image"
                 />
                 {userOrders.name}
+              </td>
+              <td className="table__info table__info-category">
+                {userOrders?.categories.map((category: ICategory) => (
+                  <span className="product__category" key={category.id}>
+                    {category.name}
+                  </span>
+                ))}
               </td>
               <td className="product-statistic__table">{userOrders.price}</td>
               <td className="product-statistic__table">

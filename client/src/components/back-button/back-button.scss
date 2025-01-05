@@ -1,0 +1,37 @@
+.back-button {
+  position: fixed;
+  background: var(--first-color);
+  left: 250px;
+  top: 20%;
+  display: inline-flex;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  z-index: var(--z-tooltip);
+  opacity: 0.8;
+  transition: 0.4s;
+
+  &:hover {
+    background-color: var(--first-color);
+    opacity: 1;
+  }
+
+  &__icon {
+    font-size: 1rem;
+    color: #fff;
+  }
+}
+
+.show-back-button {
+  bottom: 72%;
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background: hsl(var(--hue), 4%, 53%);
+
+  &-thumb {
+    background: hsl(var(--hue), 4%, 29%);
+    border-radius: 0.5rem;
+  }
+}

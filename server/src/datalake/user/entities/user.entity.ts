@@ -130,4 +130,9 @@ export class User {
   @IsBoolean()
   @IsNotEmpty()
   active: boolean;
+
+  @Column({ default: true })
+  @IsBoolean()
+  @IsNotEmpty()
+  hideProfile: boolean;
 }

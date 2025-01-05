@@ -7,6 +7,7 @@ const mockedReviewState = {
   id: 1,
   createdAt: "2024-11-25T18:08:21.025Z",
   user: {
+    id: 3,
     firstName: "Иван",
     lastName: "Иванов",
     email: "test0@mail.ru",

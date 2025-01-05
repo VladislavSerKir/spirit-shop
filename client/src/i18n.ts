@@ -234,7 +234,9 @@ const ENtranslation = {
   "Sign In with Yandex": "Sign In with Yandex",
   "Sign In with Google": "Sign In with Google",
   "User with this email already exist": "User with this email already exist",
-
+  "User hidden page": "User hidden page",
+  "Hide profile": "Hide profile",
+  "Profile visibility changed": "Profile visibility changed",
   home: "Home",
   user: "User",
   profile: "Profile",
@@ -283,6 +285,9 @@ const ENtranslation = {
   times: "times",
   Bought: "Bought",
   "Useful reviews": "Useful reviews",
+  "Profile visibility has not been changed, check if you are logged in":
+    "Profile visibility has not been changed, check if you are logged in",
+  "There is no product bought by user": "There is no product bought by user",
 };
 
 const RUtranslation = {
@@ -570,6 +575,12 @@ const RUtranslation = {
   times: "раз",
   Bought: "Куплено",
   "Useful reviews": "Полезные отзывы",
+  "User hidden page": "Пользователь скрыл страницу",
+  "Hide profile": "Скрыть профиль",
+  "Profile visibility changed": "Видимость профиля изменена",
+  "Profile visibility has not been changed, check if you are logged in":
+    "Видимость профиля не была изменена, проверьте что вы вошли в аккаунт",
+  "There is no product bought by user": "Нет продуктов купленных пользователем",
 };
 
 export const ii18n = new I18n({

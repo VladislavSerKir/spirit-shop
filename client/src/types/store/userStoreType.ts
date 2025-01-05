@@ -16,9 +16,11 @@ export interface IUserData {
   purchase?: IPurchase;
   createdAt?: string | undefined;
   active?: boolean;
+  hideProfile: boolean;
 }
 
 export interface IInitialBasicUserInfoData {
+  id: number | null;
   firstName: string;
   lastName: string;
   avatar: string;
@@ -31,6 +33,7 @@ export interface IInitialBasicUserInfoData {
   mostBuyableProduct: IMostBuyableProduct | null;
   userReviews: IReview[] | null;
   userOrders: IUserOrders[] | [];
+  hideProfile: boolean;
 }
 
 export type TAvatar = {
@@ -115,6 +118,12 @@ export interface ManageAccountDto {
 }
 
 export interface IManageAccountResponse extends ManageAccountDto {}
+
+export interface IHideProfileResponse {
+  hideProfile: boolean;
+}
+
+export interface HideProfileDto extends IHideProfileResponse {}
 
 export interface ValidateCodeDto {
   code: string;

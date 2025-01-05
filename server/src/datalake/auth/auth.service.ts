@@ -162,6 +162,7 @@ export class AuthService {
           mobileNumber: true,
           role: true,
           avatar: true,
+          hideProfile: true,
           favourite: {
             id: true,
             products: {
@@ -189,6 +190,7 @@ export class AuthService {
         cart,
         avatar,
         favourite,
+        hideProfile,
       } = user;
 
       return {
@@ -201,6 +203,7 @@ export class AuthService {
         avatar,
         cart,
         favourite,
+        hideProfile,
       };
     } catch (error) {
       if (error.name === 'TokenExpiredError') {

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
   IAssignAdminResponse,
+  IHideProfileResponse,
   IInitialBasicUserInfoData,
   IManageAccountResponse,
   IUserData,
@@ -26,9 +27,11 @@ const initalUserData = {
   password: "",
   role: "",
   favourite: null,
+  hideProfile: false,
 };
 
 const initialBasicUserInfoData = {
+  id: null,
   firstName: "",
   lastName: "",
   avatar: "",
@@ -41,6 +44,7 @@ const initialBasicUserInfoData = {
   mostBuyableProduct: null,
   userReviews: null,
   userOrders: [],
+  hideProfile: false,
 };
 
 const userState: IUserState = {
@@ -73,6 +77,7 @@ export const userSlice = createSlice({
       state.userData.mobileNumber = action.payload.mobileNumber;
       state.userData.avatar = action.payload.avatar;
       state.userData.role = action.payload.role;
+      state.userData.hideProfile = action.payload.hideProfile;
       state.userData.favourite = action.payload.favourite.products;
       state.userError = null;
     },
@@ -80,6 +85,7 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<IInitialBasicUserInfoData>
     ) => {
+      state.basicUserInfoData.id = action.payload.id;
       state.basicUserInfoData.firstName = action.payload.firstName;
       state.basicUserInfoData.lastName = action.payload.lastName;
       state.basicUserInfoData.avatar = action.payload.avatar;
@@ -94,9 +100,13 @@ export const userSlice = createSlice({
         action.payload.mostBuyableProduct;
       state.basicUserInfoData.userReviews = action.payload.userReviews;
       state.basicUserInfoData.userOrders = action.payload.userOrders;
+      state.basicUserInfoData.hideProfile = action.payload.hideProfile;
+    },
+    setBasicUserInfoToNull: (state) => {
+      state.basicUserInfoData = initialBasicUserInfoData;
     },
     setBasicUserInfoRequest: (state, action: PayloadAction<boolean>) => {
-      state.userRequest = action.payload;
+      state.basicUserInfoRequest = action.payload;
     },
     clearUserData: (state) => {
       state.userData = initalUserData;
@@ -146,6 +156,12 @@ export const userSlice = createSlice({
         }
         return user;
       });
+    },
+    updateAccountHideProfile: (
+      state,
+      action: PayloadAction<IHideProfileResponse>
+    ) => {
+      state.userData.hideProfile = action.payload.hideProfile;
     },
     setIsFadingOut: (state, action) => {
       state.isFadingOut = action.payload;
@@ -200,6 +216,7 @@ export const userSlice = createSlice({
 
 export const {
   setBasicUserInfo,
+  setBasicUserInfoToNull,
   setBasicUserInfoRequest,
   setResetUserError,
   setUserRequest,
@@ -212,6 +229,7 @@ export const {
   setUsersRequest,
   updateAdminRole,
   updateAccountActive,
+  updateAccountHideProfile,
   setIsFadingOut,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

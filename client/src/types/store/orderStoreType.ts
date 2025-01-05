@@ -1,5 +1,6 @@
 import { TError } from "..";
 import { ICartItem } from "./cartStoreType";
+import { ICategory } from "./categoryStoreType";
 
 export interface IOrderState {
   purchase: IPurchase[];
@@ -19,8 +20,10 @@ export interface IPurchase {
 }
 
 export interface IUserOrders {
+  id: number;
   name: string;
   image: string;
   quantity: number;
   price: number;
+  categories: ICategory[] | [];
 }

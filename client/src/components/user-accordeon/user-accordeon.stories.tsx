@@ -16,6 +16,7 @@ const mockedUserState = {
   role: "user",
   favourite: [],
   password: "",
+  hideProfile: false,
 };
 
 const mockedState = { active: true };

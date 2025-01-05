@@ -11,7 +11,7 @@ export type IReviewState = {
 export interface IReview {
   id: number;
   user: {
-    id?: number;
+    id: number;
     email: string;
     avatar: string;
     firstName: string;
