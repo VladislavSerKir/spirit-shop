@@ -1,0 +1,8 @@
+.global-product-statistics {
+  border-collapse: separate;
+
+  &__table {
+    padding: 10px 10px;
+    border: 1px solid #ddd;
+  }
+}

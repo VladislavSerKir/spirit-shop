@@ -14,6 +14,7 @@ import MenuAccordeon from "../../components/menu-accordeon/menu-accordeon";
 import { getUserOrders } from "../../store/actions/orderAction";
 import { MyReviewPage } from "../reviews/my-review-page";
 import PersonalPage from "../personal-page/personal-page";
+import ShopStatistics from "../shop-statistics/shop-statistics";
 
 const User: FC = () => {
   const { url } = useRouteMatch();
@@ -114,6 +115,15 @@ const User: FC = () => {
                       {t("All users")}
                     </NavLink>
                   </li>
+                  <li className="nav__item">
+                    <NavLink
+                      to={`${url}/statistics`}
+                      className={`nav__link`}
+                      activeClassName={`active-link`}
+                    >
+                      {t("Shop statistic")}
+                    </NavLink>
+                  </li>
                 </>
               ) : null}
             </ul>
@@ -153,6 +163,11 @@ const User: FC = () => {
             {user.role === "admin" && (
               <Route path={`${url}/users`} exact>
                 <ManageUsers />
+              </Route>
+            )}
+            {user.role === "admin" && (
+              <Route path={`${url}/statistics`} exact>
+                <ShopStatistics />
               </Route>
             )}
             <Route path={`${url}/:id?`} exact>

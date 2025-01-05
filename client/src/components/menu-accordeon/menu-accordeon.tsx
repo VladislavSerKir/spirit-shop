@@ -120,6 +120,15 @@ const MenuAccordeon = () => {
                     {t("All users")}
                   </NavLink>
                 </li>
+                <li className="nav__item">
+                  <NavLink
+                    to={`${url}/statistics`}
+                    className={`nav__link`}
+                    activeClassName={`active-link`}
+                  >
+                    {t("Shop statistic")}
+                  </NavLink>
+                </li>
               </>
             ) : null}
           </ul>

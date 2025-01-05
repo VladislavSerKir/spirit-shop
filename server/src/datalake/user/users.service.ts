@@ -145,6 +145,13 @@ export class UsersService {
       .orderBy('quantity', 'DESC')
       .getRawMany();
 
+    if (user.hideProfile) {
+      return {
+        id: user.id,
+        hideProfile: user.hideProfile,
+      };
+    }
+
     return {
       id: user.id,
       firstName: user.firstName,

@@ -288,6 +288,20 @@ const ENtranslation = {
   "Profile visibility has not been changed, check if you are logged in":
     "Profile visibility has not been changed, check if you are logged in",
   "There is no product bought by user": "There is no product bought by user",
+  "Shop statistic": "Shop statistic",
+  statistics: "Shop statistic",
+  "Total revenue": "Total revenue",
+  "Average order price": "Average order price",
+  "10 most buyable products": "10 most buyable products",
+  "Total users": "Total users",
+  "Total products": "Total products",
+  "Total categories": "Total categories",
+  "10 least buyable products": "10 least buyable products",
+  "There is no products": "There is no products",
+  Revenue: "Revenue",
+  "Average rating": "Average rating",
+  "Review count": "Review count",
+  "including active": "including active",
 };
 
 const RUtranslation = {
@@ -581,6 +595,20 @@ const RUtranslation = {
   "Profile visibility has not been changed, check if you are logged in":
     "Видимость профиля не была изменена, проверьте что вы вошли в аккаунт",
   "There is no product bought by user": "Нет продуктов купленных пользователем",
+  "Shop statistic": "Статистика магазина",
+  statistics: "Статистика магазина",
+  "Total revenue": "Суммарная выручка",
+  "Average order price": "Средняя сумма заказа",
+  "10 most buyable products": "10 наиболее покупаемых продуктов",
+  "Total users": "Всего пользователей",
+  "Total products": "Всего продуктов",
+  "Total categories": "Всего категорий",
+  "10 least buyable products": "10 наименее покупаемых продуктов",
+  "There is no products": "Продуктов нет",
+  Revenue: "Выручка",
+  "Average rating": "Средний рейтинг",
+  "Review count": "Количество отзывов",
+  "including active": "включая активных",
 };
 
 export const ii18n = new I18n({
