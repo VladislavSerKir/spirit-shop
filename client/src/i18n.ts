@@ -302,6 +302,8 @@ const ENtranslation = {
   "Average rating": "Average rating",
   "Review count": "Review count",
   "including active": "including active",
+  "Error to get shop statistic, check if you are logged in":
+    "Error to get shop statistic, check if you are logged in",
 };
 
 const RUtranslation = {
@@ -609,6 +611,8 @@ const RUtranslation = {
   "Average rating": "Средний рейтинг",
   "Review count": "Количество отзывов",
   "including active": "включая активных",
+  "Error to get shop statistic, check if you are logged in":
+    "Ошибка загрузки статистики магазина, проверьте что вы вошли в аккаунт",
 };
 
 export const ii18n = new I18n({

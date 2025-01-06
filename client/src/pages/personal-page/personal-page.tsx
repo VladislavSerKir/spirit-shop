@@ -31,6 +31,7 @@ const PersonalPage: FC = () => {
     } else {
       dispatch(getBasicUserInfo(Number(id)));
     }
+
     return () => {
       dispatch(setBasicUserInfoToNull());
     };

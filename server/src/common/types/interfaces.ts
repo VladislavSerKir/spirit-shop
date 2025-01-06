@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Order } from 'src/datalake/order/entities/order.entity';
+import { Review } from 'src/datalake/review/entities/review.entity';
 
 export interface IAccessToken {
   access_token: string;
@@ -104,4 +106,67 @@ export interface GoogleUserResponseOKInterface {
   given_name: string;
   family_name: string;
   picture: string;
+}
+
+export class BasicUserInfoHiddenResponse {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  hideProfile: boolean;
+}
+
+export class BasicUserInfoResponse {
+  @ApiProperty()
+  id: number | null;
+
+  @ApiProperty()
+  firstName: string;
+
+  @ApiProperty()
+  lastName: string;
+
+  @ApiProperty()
+  avatar: string;
+
+  @ApiProperty()
+  whenRegistered: string | Date;
+
+  @ApiProperty()
+  firstOrderDate: string | Date;
+
+  @ApiProperty()
+  totalOrders: number;
+
+  @ApiProperty()
+  totalReviews: number;
+
+  @ApiProperty()
+  helpfulReviews: number;
+
+  @ApiProperty()
+  totalBoughtProducts: number;
+
+  @ApiProperty()
+  mostBuyableProduct: IMostBuyableProduct | null;
+
+  @ApiProperty()
+  userReviews: Review[] | null;
+
+  @ApiProperty()
+  userOrders: IUserOrders[] | [];
+
+  @ApiProperty()
+  hideProfile: boolean;
+}
+
+export interface IMostBuyableProduct {
+  name: string;
+  image: string;
+  times: number;
+}
+
+export interface IUserOrders {
+  id: number;
+  quantity: number;
 }

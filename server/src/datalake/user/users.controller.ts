@@ -18,7 +18,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { EditAvatarDto } from './dto/edit-avatar.dto';
 import { AssignAdminDto } from './dto/assign-admin.dto';
 import { ManageAccountDto } from './dto/manage-account.dto';
-import { IHeadersAuthorizationRequest } from 'src/common/types/interfaces';
+import {
+  BasicUserInfoHiddenResponse,
+  BasicUserInfoResponse,
+  IHeadersAuthorizationRequest,
+} from 'src/common/types/interfaces';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -52,6 +56,20 @@ export class UsersController {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Get('/statistics')
+  @ApiOperation({ summary: 'Получение админом основной аналитики магазина' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат аналитики магазина админу',
+  })
+  @ApiUnauthorizedResponse()
+  @ApiInternalServerErrorResponse()
+  getShopStatisticsInfo(@Request() request: IHeadersAuthorizationRequest): any {
+    const accessToken = request.headers.authorization;
+    return this.usersService.getShopStatisticsInfo(accessToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Get('/users')
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({
@@ -72,11 +90,16 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'Возврат аналитики пользователя',
+    type: BasicUserInfoResponse || BasicUserInfoHiddenResponse,
   })
   @ApiUnauthorizedResponse()
   @ApiInternalServerErrorResponse()
-  getBasicUserInfo(@Param('id') id: string): any {
-    return this.usersService.getBasicUserInfo(+id);
+  getBasicUserInfo(
+    @Param('id') id: string,
+    @Request() request: IHeadersAuthorizationRequest,
+  ): Promise<BasicUserInfoResponse | BasicUserInfoHiddenResponse> {
+    const accessToken = request.headers.authorization;
+    return this.usersService.getBasicUserInfo(+id, accessToken);
   }
 
   @UseGuards(AccessTokenGuard)

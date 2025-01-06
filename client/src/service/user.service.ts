@@ -97,6 +97,16 @@ const userService = {
       body: JSON.stringify({ hideProfile }),
     });
   },
+
+  getShopStatisticsInfoRequest: async () => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/statistics`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+    });
+  },
 };
 
 export default userService;

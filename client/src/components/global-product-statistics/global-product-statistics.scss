@@ -2,7 +2,23 @@
   border-collapse: separate;
 
   &__table {
-    padding: 10px 10px;
+    padding: 5px 10px;
     border: 1px solid #ddd;
+  }
+
+  &__center {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__fit-width {
+    width: max-content;
+  }
+
+  &__split {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

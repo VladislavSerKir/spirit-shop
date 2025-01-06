@@ -7,6 +7,8 @@ import { UsersService } from './users.service';
 import { Order } from '../order/entities/order.entity';
 import { Review } from '../review/entities/review.entity';
 import { CartItem } from '../cart/entities/cart-item.entity';
+import { Product } from '../product/entities/product.entity';
+import { Category } from '../category/entities/category.entity';
 
 @Module({
   imports: [
@@ -14,7 +16,14 @@ import { CartItem } from '../cart/entities/cart-item.entity';
       secret: 'access-secret',
       signOptions: { expiresIn: '1d' },
     }),
-    TypeOrmModule.forFeature([User, Order, Review, CartItem]),
+    TypeOrmModule.forFeature([
+      User,
+      Order,
+      Review,
+      CartItem,
+      Product,
+      Category,
+    ]),
   ],
   controllers: [UsersController],
   providers: [UsersService],

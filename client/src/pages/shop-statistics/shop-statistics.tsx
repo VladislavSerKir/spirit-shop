@@ -1,45 +1,36 @@
 import React, { FC } from "react";
-import { IUseParams, useTypedDispatch, useTypedSelector } from "../../types";
+import { useTypedDispatch, useTypedSelector } from "../../types";
 import { useTranslation } from "react-i18next";
-import ProductStatistic from "../../components/product-statistic/product-statistic";
-import { useParams, useRouteMatch } from "react-router-dom";
-import { getBasicUserInfo } from "../../store/actions/userAction";
-import useFarmatDate from "../../hooks/useFormatDate";
-import { setBasicUserInfoToNull } from "../../store/reducers/userReducer";
+import { getShopStatisticsInfo } from "../../store/actions/userAction";
 import Spinner from "../spinner/spinner";
 import GlobalProductStatistics from "../../components/global-product-statistics/global-product-statistics";
+import { setShopStatisticsInfoToNull } from "../../store/reducers/serviceReducer";
+import { useRouteMatch } from "react-router-dom";
 
 const ShopStatistics: FC = () => {
   const dispatch = useTypedDispatch();
-  const user = useTypedSelector((state) => state.user.userData);
   const { t } = useTranslation();
   const { url } = useRouteMatch();
-  const { id } = useParams<IUseParams>();
 
-  const basicUserInfo = useTypedSelector(
-    (state) => state.user.basicUserInfoData
+  const statistics = useTypedSelector(
+    (state) => state.service.shopStatisticsData
+  );
+
+  const shopStatisticsRequest = useTypedSelector(
+    (state) => state.service.shopStatisticsRequest
   );
 
   React.useEffect(() => {
-    if (url.includes("personal-page") && user.id !== Number(id)) {
-      dispatch(getBasicUserInfo(user.id));
-    } else {
-      dispatch(getBasicUserInfo(Number(id)));
-    }
+    dispatch(getShopStatisticsInfo());
+
     return () => {
-      dispatch(setBasicUserInfoToNull());
+      setShopStatisticsInfoToNull();
     };
   }, [url]);
 
-  const { returnFormattedDate } = useFarmatDate();
-
-  const farmattedWhenRegistered = returnFormattedDate(
-    basicUserInfo?.whenRegistered ? basicUserInfo?.whenRegistered : ""
-  );
-
-  const firstOrderDate = returnFormattedDate(
-    basicUserInfo?.firstOrderDate ? basicUserInfo.firstOrderDate : ""
-  );
+  if (shopStatisticsRequest) {
+    return <Spinner />;
+  }
 
   return (
     <section className="personal-page">
@@ -49,37 +40,43 @@ const ShopStatistics: FC = () => {
           <div className="personal-page__basic-info">
             <h3 className="personal-page__text">
               {t("Total orders")}:&nbsp;&nbsp;&nbsp;
-              {farmattedWhenRegistered}
+              {statistics?.totalOrders ? statistics.totalOrders : 0}
             </h3>
             <h3 className="personal-page__text">
               {t("Total bought products")}:&nbsp;&nbsp;&nbsp;
-              {firstOrderDate}
+              {statistics?.totalBoughtProducts
+                ? statistics.totalBoughtProducts
+                : 0}
             </h3>
             <h3 className="personal-page__text">
               {t("Total revenue")}:&nbsp;&nbsp;&nbsp;
-              {basicUserInfo?.totalOrders ? basicUserInfo.totalOrders : 0}
+              {statistics?.totalRevenue ? statistics.totalRevenue : 0} $
             </h3>
             <h3 className="personal-page__text">
               {t("Average order price")}:&nbsp;&nbsp;&nbsp;
-              {basicUserInfo?.totalReviews ? basicUserInfo.totalReviews : 0}
+              {statistics?.averageOrderPrice
+                ? statistics.averageOrderPrice
+                : 0}{" "}
+              $
             </h3>
             <h3 className="personal-page__text">
               {t("Total reviews")}:&nbsp;&nbsp;&nbsp;
-              {basicUserInfo?.helpfulReviews ? basicUserInfo.helpfulReviews : 0}
+              {statistics?.totalReviews ? statistics.totalReviews : 0}
             </h3>
             <h3 className="personal-page__text">
               {t("Total users")}:&nbsp;&nbsp;&nbsp;
-              {basicUserInfo?.helpfulReviews ? basicUserInfo.helpfulReviews : 0}
+              {statistics?.totalUsers ? statistics.totalUsers : 0}
               &nbsp;&nbsp;&nbsp;,
-              {t("including active")}:
+              {t("including active")}:&nbsp;&nbsp;&nbsp;
+              {statistics?.totalUsersActive ? statistics.totalUsersActive : 0}
             </h3>
             <h3 className="personal-page__text">
               {t("Total products")}:&nbsp;&nbsp;&nbsp;
-              {basicUserInfo?.helpfulReviews ? basicUserInfo.helpfulReviews : 0}
+              {statistics?.totalProducts ? statistics.totalProducts : 0}
             </h3>
             <h3 className="personal-page__text">
               {t("Total categories")}:&nbsp;&nbsp;&nbsp;
-              {basicUserInfo?.helpfulReviews ? basicUserInfo.helpfulReviews : 0}
+              {statistics?.totalCategories ? statistics.totalCategories : 0}
             </h3>
           </div>
         </div>
@@ -94,7 +91,6 @@ const ShopStatistics: FC = () => {
           </ul>
         </div>
         <hr />
-        {/* {tabType === "most" && <ProductStatistic />} */}
         <GlobalProductStatistics />
       </>
     </section>

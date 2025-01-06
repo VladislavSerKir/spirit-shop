@@ -12,16 +12,19 @@ const ProductStatistic = () => {
     (state) => state.user.basicUserInfoData.userOrders
   );
 
-  const userOrdersToShow = userOrders.map((product) => {
-    const existProduct = products.find((p) => p.id === product.id);
-    return {
-      name: existProduct?.name,
-      image: existProduct?.image,
-      quantity: product.quantity,
-      price: existProduct?.price,
-      categories: existProduct?.categories,
-    };
-  });
+  const userOrdersToShow =
+    userOrders && products
+      ? userOrders.map((product) => {
+          const existProduct = products.find((p) => p.id === product.id);
+          return {
+            name: existProduct?.name,
+            image: existProduct?.image,
+            quantity: product?.quantity,
+            price: existProduct?.price,
+            categories: existProduct?.categories,
+          };
+        })
+      : [];
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
     usePagination(userOrdersToShow, 4);
@@ -52,7 +55,7 @@ const ProductStatistic = () => {
           </tr>
         </thead>
         <tbody>
-          {productsToShow.map((userOrders: IUserOrders, i: number) => (
+          {productsToShow?.map((userOrders: IUserOrders, i: number) => (
             <tr key={i}>
               <td className="product-statistic__table table__info-image">
                 <img
@@ -78,7 +81,7 @@ const ProductStatistic = () => {
         </tbody>
       </table>
       <hr />
-      {products?.length ? (
+      {productsToShow?.length ? (
         <Pagination
           currentPage={currentPage}
           jump={jump}

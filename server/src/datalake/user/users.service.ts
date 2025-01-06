@@ -13,11 +13,17 @@ import { ConfigService } from '@nestjs/config';
 import { EditAvatarDto } from './dto/edit-avatar.dto';
 import { AssignAdminDto } from './dto/assign-admin.dto';
 import { ManageAccountDto } from './dto/manage-account.dto';
-import { YandexUserResponseOKInterface } from 'src/common/types/interfaces';
+import {
+  BasicUserInfoHiddenResponse,
+  BasicUserInfoResponse,
+  YandexUserResponseOKInterface,
+} from 'src/common/types/interfaces';
 import { Order } from '../order/entities/order.entity';
 import { Review } from '../review/entities/review.entity';
 import { CartItem } from '../cart/entities/cart-item.entity';
 import { HideProfileDto } from './dto/hide-profile.dto';
+import { Category } from '../category/entities/category.entity';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class UsersService {
@@ -26,8 +32,10 @@ export class UsersService {
     private configService: ConfigService,
     @InjectRepository(Order) private orderRepo: Repository<Order>,
     @InjectRepository(Review) private reviewRepo: Repository<Review>,
-    @InjectRepository(CartItem) private cartItemRepo: Repository<Review>,
+    @InjectRepository(CartItem) private cartItemRepo: Repository<CartItem>,
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Category) private categoryRepo: Repository<Category>,
+    @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
 
   async getProfileInfo(email: string): Promise<User> {
@@ -44,15 +52,33 @@ export class UsersService {
     }
   }
 
-  async getBasicUserInfo(id: number): Promise<any> {
+  async getBasicUserInfo(
+    id: number,
+    accessToken: string,
+  ): Promise<BasicUserInfoResponse | BasicUserInfoHiddenResponse> {
     if (isNaN(id)) {
       throw new BadRequestException('Invalid user ID');
     }
+
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+    const username = decodedToken.username;
+
+    const currentUser = await this.userRepo.findOne({
+      where: { email: username },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
 
     const user = await this.userRepo.findOne({
       where: { id },
       select: {
         id: true,
+        email: true,
         createdAt: true,
         firstName: true,
         lastName: true,
@@ -145,7 +171,7 @@ export class UsersService {
       .orderBy('quantity', 'DESC')
       .getRawMany();
 
-    if (user.hideProfile) {
+    if (user.hideProfile && currentUser.email !== user.email) {
       return {
         id: user.id,
         hideProfile: user.hideProfile,
@@ -449,6 +475,124 @@ export class UsersService {
       const { hideProfile } = hideProfileDto;
       return { hideProfile };
     }
+  }
+
+  async getShopStatisticsInfo(accessToken: string): Promise<any> {
+    const currentUserIsAdmin = await this.hasAdminRole(accessToken);
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
+    const totalOrders = await this.orderRepo.count({
+      select: {
+        id: true,
+      },
+    });
+
+    const totalBoughtProducts = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.purchase', 'order')
+      .select('SUM(cartItem.quantity)', 'total')
+      .getRawOne();
+
+    const totalRevenue = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.product', 'product')
+      .innerJoin('cartItem.purchase', 'order')
+      .select('SUM(cartItem.quantity * product.price)', 'totalRevenue')
+      .getRawOne();
+
+    const formattedTotalRevenue = totalRevenue.totalRevenue
+      ? +Number(totalRevenue.totalRevenue).toFixed(1)
+      : 0;
+
+    const averageOrderPrice =
+      totalOrders > 0 ? formattedTotalRevenue / totalOrders : 0;
+
+    const totalReviews = await this.reviewRepo.count({
+      select: {
+        id: true,
+      },
+    });
+
+    const totalUsers = await this.userRepo.count({
+      select: {
+        id: true,
+      },
+    });
+
+    const totalUsersActive = await this.userRepo.count({
+      where: { active: true },
+      select: {
+        id: true,
+      },
+    });
+
+    const totalProducts = await this.productRepo.count({
+      select: {
+        id: true,
+      },
+    });
+
+    const totalCategories = await this.categoryRepo.count({
+      select: {
+        id: true,
+      },
+    });
+
+    const productSalesData = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoinAndSelect('cartItem.product', 'product')
+      .innerJoinAndSelect('cartItem.purchase', 'order')
+      .select([
+        'product.id AS id',
+        'SUM(cartItem.quantity) AS bought',
+        'SUM(cartItem.quantity * product.price) AS revenue',
+      ])
+      .groupBy('product.id')
+      .getRawMany();
+
+    const productStatistics = await this.productRepo
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.reviews', 'review')
+      .select([
+        'product.id AS id',
+        'AVG(review.rate) AS averageRating',
+        'COUNT(review.id) AS reviewCount',
+      ])
+      .groupBy('product.id')
+      .getRawMany();
+
+    return {
+      totalOrders: totalOrders,
+      totalBoughtProducts: totalBoughtProducts.total
+        ? totalBoughtProducts.total
+        : 0,
+      totalRevenue: totalRevenue ? formattedTotalRevenue : 0,
+      averageOrderPrice: averageOrderPrice ? averageOrderPrice.toFixed(1) : 0,
+      totalReviews: totalReviews ? totalReviews : 0,
+      totalUsers: totalUsers ? totalUsers : 0,
+      totalUsersActive: totalUsersActive ? totalUsersActive : 0,
+      totalProducts: totalProducts ? totalProducts : 0,
+      totalCategories: totalCategories ? totalCategories : 0,
+      productStatistics: productStatistics
+        ? productStatistics.map((product) => {
+            const salesData = productSalesData
+              ? productSalesData.find((p) => p.id === product.id)
+              : [];
+            return {
+              id: product.id,
+              bought: salesData?.bought ? parseInt(salesData.bought, 10) : 0,
+              revenue: salesData?.revenue
+                ? parseFloat(salesData.revenue).toFixed(1)
+                : 0,
+              averageRating: +Number(product.averagerating).toFixed(2),
+              reviewCount: Number(product.reviewcount),
+            };
+          })
+        : [],
+    };
   }
 
   async findByYandexID(yandexProfile): Promise<string> {
