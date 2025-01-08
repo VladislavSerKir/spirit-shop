@@ -35,6 +35,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { HideProfileDto } from './dto/hide-profile.dto';
+import { GetStatisticsPeriodDto } from './dto/period-statistics.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -67,6 +68,26 @@ export class UsersController {
   getShopStatisticsInfo(@Request() request: IHeadersAuthorizationRequest): any {
     const accessToken = request.headers.authorization;
     return this.usersService.getShopStatisticsInfo(accessToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Post('/period')
+  @ApiOperation({ summary: 'Получение админом аналитики магазина за период' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат аналитики магазина админу',
+  })
+  @ApiUnauthorizedResponse()
+  @ApiInternalServerErrorResponse()
+  getShopStatisticsPeriodInfo(
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() getStatisticsPeriodDto: GetStatisticsPeriodDto,
+  ): any {
+    const accessToken = request.headers.authorization;
+    return this.usersService.getShopStatisticsPeriodInfo(
+      accessToken,
+      getStatisticsPeriodDto,
+    );
   }
 
   @UseGuards(AccessTokenGuard)

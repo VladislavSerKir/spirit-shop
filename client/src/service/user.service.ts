@@ -2,6 +2,7 @@ import { getCookie } from "../utils/cookie";
 import { config } from "../utils/api";
 import {
   AssignAdminDto,
+  GetStatisticsPeriodDto,
   HideProfileDto,
   IUserData,
   ManageAccountDto,
@@ -105,6 +106,20 @@ const userService = {
         "Content-Type": "application/json;charset=utf-8",
         Authorization: "Bearer " + getCookie("accessToken"),
       },
+    });
+  },
+
+  getShopStatisticsPeriodInfoRequest: async ({
+    startDate,
+    endDate,
+  }: GetStatisticsPeriodDto) => {
+    return fetch(`${config.apiEndPoint}/${userEndPoint}/period`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({ startDate, endDate }),
     });
   },
 };

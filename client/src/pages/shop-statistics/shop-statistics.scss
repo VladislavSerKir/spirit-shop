@@ -1,1 +1,18 @@
-.shop-statistics {}
+.shop-statistics {
+  &__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 50px;
+    padding-bottom: 20px;
+    padding-top: 30px;
+  }
+
+  &__date-container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+}

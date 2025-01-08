@@ -125,6 +125,7 @@ const MenuAccordeon = () => {
                     to={`${url}/statistics`}
                     className={`nav__link`}
                     activeClassName={`active-link`}
+                    onClick={toggleAccordion}
                   >
                     {t("Shop statistic")}
                   </NavLink>

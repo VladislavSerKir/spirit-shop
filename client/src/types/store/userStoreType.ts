@@ -53,6 +53,7 @@ export interface IUserState {
   userData: IUserData;
   basicUserInfoData: IInitialBasicUserInfoData;
   basicUserInfoRequest: boolean;
+  periodStatistics: boolean;
   allUsersData: IUserData[] | [];
   userUpdated: boolean;
   logoutError: null | undefined | TError;
@@ -124,6 +125,11 @@ export interface IHideProfileResponse {
 }
 
 export interface HideProfileDto extends IHideProfileResponse {}
+
+export interface GetStatisticsPeriodDto {
+  startDate: string;
+  endDate: string;
+}
 
 export interface ValidateCodeDto {
   code: string;

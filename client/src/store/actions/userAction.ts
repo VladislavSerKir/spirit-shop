@@ -5,6 +5,7 @@ import {
   setAvatar,
   setBasicUserInfo,
   setBasicUserInfoRequest,
+  setShopStatisticsInfoPeriod,
   setUsersRequest,
   updateAccountActive,
   updateAccountHideProfile,
@@ -12,6 +13,7 @@ import {
 } from "../reducers/userReducer";
 import {
   AssignAdminDto,
+  GetStatisticsPeriodDto,
   HideProfileDto,
   IAssignAdminResponse,
   IHideProfileResponse,
@@ -250,6 +252,7 @@ export const getShopStatisticsInfo = createAsyncThunk<
   "user/getShopStatisticsInfo",
   async function (_, { dispatch, rejectWithValue }) {
     dispatch(setShopStatisticsInfoRequest(true));
+    dispatch(setShopStatisticsInfoPeriod(false));
     const response = await userService.getShopStatisticsInfoRequest();
 
     if (!response.ok) {
@@ -283,6 +286,53 @@ export const getShopStatisticsInfo = createAsyncThunk<
     const data: IShopStatisticsData = await response.json();
     dispatch(setShopStatisticsInfo(data));
     dispatch(setShopStatisticsInfoRequest(false));
+    return data;
+  }
+);
+
+export const getShopStatisticsPeriodInfo = createAsyncThunk<
+  IShopStatisticsData,
+  GetStatisticsPeriodDto,
+  { rejectValue: TError }
+>(
+  "user/getShopStatisticsPeriodInfo",
+  async function (body, { dispatch, rejectWithValue }) {
+    dispatch(setShopStatisticsInfoRequest(true));
+    const response = await userService.getShopStatisticsPeriodInfoRequest(body);
+
+    if (!response.ok) {
+      if (response.status === 400) {
+        toast.error(`${ii18n.t("Error occured")}`);
+      }
+
+      if (response.status === 401) {
+        dispatch(clearUserData());
+        dispatch(setCartToNull());
+        dispatch(setPurchaseToNull());
+        toast.warn(
+          `${ii18n.t("Error to get shop statistic, check if you are logged in")}`
+        );
+      }
+
+      if (response.status === 403) {
+        toast.error(`${ii18n.t("Action forbidden")}`);
+      }
+
+      if (response.status === 500) {
+        toast.error(`${ii18n.t("Internal server error")}`);
+      }
+
+      return rejectWithValue({
+        status: response.status,
+        message:
+          "Server Error, take a look on method getShopStatisticsPeriodInfo",
+      });
+    }
+
+    const data: IShopStatisticsData = await response.json();
+    dispatch(setShopStatisticsInfo(data));
+    dispatch(setShopStatisticsInfoRequest(false));
+    dispatch(setShopStatisticsInfoPeriod(true));
     return data;
   }
 );

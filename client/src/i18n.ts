@@ -304,6 +304,11 @@ const ENtranslation = {
   "including active": "including active",
   "Error to get shop statistic, check if you are logged in":
     "Error to get shop statistic, check if you are logged in",
+  "Start date": "Start date",
+  "End date": "End date",
+  "Get statistics between period": "Get statistics between period",
+  "Shop statistic during lifetime": "Shop statistic during lifetime",
+  "Shop statistic between": "Shop statistic between",
 };
 
 const RUtranslation = {
@@ -613,6 +618,11 @@ const RUtranslation = {
   "including active": "включая активных",
   "Error to get shop statistic, check if you are logged in":
     "Ошибка загрузки статистики магазина, проверьте что вы вошли в аккаунт",
+  "Start date": "Начало периода",
+  "End date": "Конец периода",
+  "Get statistics between period": "Получить статистику между датами",
+  "Shop statistic during lifetime": "Статистика магазина за весь период",
+  "Shop statistic between": "Статистика магазина между",
 };
 
 export const ii18n = new I18n({

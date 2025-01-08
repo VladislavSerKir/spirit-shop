@@ -30,6 +30,7 @@
     "path-to-regexp": "^8.2.0",
     "postcss": "^8.4.49",
     "react": "^18.2.0",
+    "react-datepicker": "^7.6.0",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
     "react-i18next": "^15.1.0",

@@ -51,6 +51,7 @@ const userState: IUserState = {
   userData: initalUserData,
   basicUserInfoData: initialBasicUserInfoData,
   basicUserInfoRequest: false,
+  periodStatistics: false,
   allUsersData: [],
   userUpdated: false,
   logoutError: null,
@@ -107,6 +108,9 @@ export const userSlice = createSlice({
     },
     setBasicUserInfoRequest: (state, action: PayloadAction<boolean>) => {
       state.basicUserInfoRequest = action.payload;
+    },
+    setShopStatisticsInfoPeriod: (state, action: PayloadAction<boolean>) => {
+      state.periodStatistics = action.payload;
     },
     clearUserData: (state) => {
       state.userData = initalUserData;
@@ -218,6 +222,7 @@ export const {
   setBasicUserInfo,
   setBasicUserInfoToNull,
   setBasicUserInfoRequest,
+  setShopStatisticsInfoPeriod,
   setResetUserError,
   setUserRequest,
   setAvatar,

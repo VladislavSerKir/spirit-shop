@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { HashService } from 'src/common/hash/hash.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -24,6 +24,7 @@ import { CartItem } from '../cart/entities/cart-item.entity';
 import { HideProfileDto } from './dto/hide-profile.dto';
 import { Category } from '../category/entities/category.entity';
 import { Product } from '../product/entities/product.entity';
+import { GetStatisticsPeriodDto } from './dto/period-statistics.dto';
 
 @Injectable()
 export class UsersService {
@@ -580,7 +581,7 @@ export class UsersService {
         ? productStatistics.map((product) => {
             const salesData = productSalesData
               ? productSalesData.find((p) => p.id === product.id)
-              : [];
+              : {};
             return {
               id: product.id,
               bought: salesData?.bought ? parseInt(salesData.bought, 10) : 0,
@@ -592,6 +593,117 @@ export class UsersService {
             };
           })
         : [],
+    };
+  }
+
+  async getShopStatisticsPeriodInfo(
+    accessToken: string,
+    getStatisticsPeriodDto: GetStatisticsPeriodDto,
+  ): Promise<any> {
+    const currentUserIsAdmin = await this.hasAdminRole(accessToken);
+
+    if (!currentUserIsAdmin) {
+      throw new ForbiddenException('This action only available for admins');
+    }
+
+    const { startDate, endDate } = getStatisticsPeriodDto;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    end.setHours(23, 59, 59, 999);
+
+    const totalOrders = await this.orderRepo.count({
+      where: {
+        createdAt: Between(start, end),
+      },
+    });
+
+    const totalBoughtProducts = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.purchase', 'order')
+      .where('order.createdAt BETWEEN :start AND :end', { start, end })
+      .select('SUM(cartItem.quantity)', 'total')
+      .getRawOne();
+
+    const totalRevenue = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoin('cartItem.product', 'product')
+      .innerJoin('cartItem.purchase', 'order')
+      .where('order.createdAt BETWEEN :start AND :end', { start, end })
+      .select('SUM(cartItem.quantity * product.price)', 'totalRevenue')
+      .getRawOne();
+
+    const formattedTotalRevenue = totalRevenue.totalRevenue
+      ? +Number(totalRevenue.totalRevenue).toFixed(1)
+      : 0;
+
+    const averageOrderPrice =
+      totalOrders > 0 ? formattedTotalRevenue / totalOrders : 0;
+
+    const totalReviews = await this.reviewRepo.count({
+      where: {
+        createdAt: Between(start, end),
+      },
+    });
+
+    const totalUsers = await this.userRepo.count();
+    const totalUsersActive = await this.userRepo.count({
+      where: { active: true },
+    });
+
+    const totalProducts = await this.productRepo.count();
+    const totalCategories = await this.categoryRepo.count();
+
+    const productSalesData = await this.cartItemRepo
+      .createQueryBuilder('cartItem')
+      .innerJoinAndSelect('cartItem.product', 'product')
+      .innerJoinAndSelect('cartItem.purchase', 'order')
+      .where('order.createdAt BETWEEN :start AND :end', { start, end })
+      .select([
+        'product.id AS id',
+        'SUM(cartItem.quantity) AS bought',
+        'SUM(cartItem.quantity * product.price) AS revenue',
+      ])
+      .groupBy('product.id')
+      .getRawMany();
+
+    const productStatistics = await this.productRepo
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.reviews', 'review')
+      .select([
+        'product.id AS id',
+        'AVG(review.rate) AS averageRating',
+        'COUNT(review.id) AS reviewCount',
+      ])
+      .groupBy('product.id')
+      .getRawMany();
+
+    return {
+      totalOrders: totalOrders,
+      totalBoughtProducts: totalBoughtProducts.total
+        ? totalBoughtProducts.total
+        : 0,
+      totalRevenue: formattedTotalRevenue,
+      averageOrderPrice: averageOrderPrice.toFixed(1),
+      totalReviews: totalReviews,
+      totalUsers: totalUsers,
+      totalUsersActive: totalUsersActive,
+      totalProducts: totalProducts,
+      totalCategories: totalCategories,
+      productStatistics: productStatistics.map((product) => {
+        const salesData =
+          productSalesData.find((p) => p.id === product.id) || {};
+        return {
+          id: product.id,
+          bought: salesData.bought ? parseInt(salesData.bought, 10) : 0,
+          revenue: salesData.revenue
+            ? parseFloat(salesData.revenue).toFixed(1)
+            : 0,
+          averageRating: +Number(product.averagerating).toFixed(2),
+          reviewCount: Number(product.reviewcount),
+        };
+      }),
     };
   }
 
