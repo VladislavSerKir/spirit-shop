@@ -21,4 +21,17 @@
     justify-content: center;
     align-items: center;
   }
+
+  &__name {
+    // font-size: var(--h5-font-size);
+    color: var(--title-color);
+    transition: all 0.3s;
+
+    &:hover {
+      text-decoration: overline 2px;
+      color: var(--first-color);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+  }
 }

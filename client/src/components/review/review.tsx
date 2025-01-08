@@ -35,7 +35,7 @@ export const Review = ({ review }: IReviewProps) => {
   };
 
   const handleGoToUser = (id: number) => {
-    history.replace(`/user/${id}`);
+    history.push(`/user/${id}`);
   };
 
   return (

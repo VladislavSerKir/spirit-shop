@@ -294,6 +294,7 @@ const ENtranslation = {
   "Average order price": "Average order price",
   "10 most buyable products": "10 most buyable products",
   "Total users": "Total users",
+  "Total active users": "Total active users",
   "Total products": "Total products",
   "Total categories": "Total categories",
   "10 least buyable products": "10 least buyable products",
@@ -309,6 +310,10 @@ const ENtranslation = {
   "Get statistics between period": "Get statistics between period",
   "Shop statistic during lifetime": "Shop statistic during lifetime",
   "Shop statistic between": "Shop statistic between",
+  "Main article": "Main article",
+  Value: "Value",
+  Unit: "Unit",
+  "Generate and save .xlsx": "Generate and save .xlsx",
 };
 
 const RUtranslation = {
@@ -623,6 +628,11 @@ const RUtranslation = {
   "Get statistics between period": "Получить статистику между датами",
   "Shop statistic during lifetime": "Статистика магазина за весь период",
   "Shop statistic between": "Статистика магазина между",
+  "Main article": "Основная статья",
+  Value: "Значение",
+  Unit: "Единица измерения",
+  "Total active users": "Всего активных пользователей",
+  "Generate and save .xlsx": "Сгенерировать и сохранить файл .xlsx",
 };
 
 export const ii18n = new I18n({

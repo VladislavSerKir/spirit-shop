@@ -4,6 +4,8 @@ import usePagination from "../../hooks/usePagination";
 import { useTranslation } from "react-i18next";
 import { IUserOrders } from "../../types/store/orderStoreType";
 import { ICategory } from "../../types/store/categoryStoreType";
+import history from "../../utils/history";
+import { useState } from "react";
 
 const ProductStatistic = () => {
   const { t } = useTranslation();
@@ -17,6 +19,7 @@ const ProductStatistic = () => {
       ? userOrders.map((product) => {
           const existProduct = products.find((p) => p.id === product.id);
           return {
+            id: product?.id,
             name: existProduct?.name,
             image: existProduct?.image,
             quantity: product?.quantity,
@@ -26,10 +29,34 @@ const ProductStatistic = () => {
         })
       : [];
 
+  const [sortDirection, setSortDirection] = useState<string>("asc");
+  const [sortColumn, setSortColumn] = useState<string>("name");
+  const sortProducts = (products: any, sortColumn: string) => {
+    const sortedProducts = [...products].sort((a, b) => {
+      if (sortDirection === "asc") {
+        return a[sortColumn] - b[sortColumn];
+      } else {
+        return b[sortColumn] - a[sortColumn];
+      }
+    });
+    return sortedProducts;
+  };
+
+  const handleSort = (columnName: string) => {
+    setSortColumn(columnName);
+    setSortDirection((prevDirection: string) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
+  };
+
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
-    usePagination(userOrdersToShow, 4);
+    usePagination(sortProducts(userOrdersToShow, sortColumn), 4);
 
   const productsToShow = showCurrentEntity();
+
+  const handleGoToProduct = (id: number) => {
+    history.push(`/products/${id}`);
+  };
 
   if (!userOrdersToShow?.length) {
     return (
@@ -50,8 +77,28 @@ const ProductStatistic = () => {
           <tr>
             <th>{t("Name")}</th>
             <th>{t("Categories")}</th>
-            <th>{t("Price")}</th>
-            <th>{t("Bought")}</th>
+            <th
+              onClick={() => handleSort("price")}
+              style={{ cursor: "pointer" }}
+            >
+              {t("Price")}{" "}
+              {sortDirection === "asc" && sortColumn === "price"
+                ? "↑"
+                : sortColumn === "price" && sortDirection === "desc"
+                  ? "↓"
+                  : ""}
+            </th>
+            <th
+              onClick={() => handleSort("quantity")}
+              style={{ cursor: "pointer" }}
+            >
+              {t("Bought")}{" "}
+              {sortDirection === "asc" && sortColumn === "quantity"
+                ? "↑"
+                : sortColumn === "quantity" && sortDirection === "desc"
+                  ? "↓"
+                  : ""}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -61,9 +108,15 @@ const ProductStatistic = () => {
                 <img
                   src={userOrders.image}
                   alt={userOrders.name}
-                  className="table__image"
+                  className="table__image product-statistic__image"
+                  onClick={() => handleGoToProduct(userOrders?.id)}
                 />
-                {userOrders.name}
+                <span
+                  className="product-statistic__name nav__link"
+                  onClick={() => handleGoToProduct(userOrders?.id)}
+                >
+                  {userOrders.name}
+                </span>
               </td>
               <td className="table__info table__info-category">
                 {userOrders?.categories.map((category: ICategory) => (

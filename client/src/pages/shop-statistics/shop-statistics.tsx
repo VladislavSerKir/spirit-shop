@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { useTypedDispatch, useTypedSelector } from "../../types";
+import { EXCEL_TYPE, useTypedDispatch, useTypedSelector } from "../../types";
 import { useTranslation } from "react-i18next";
 import {
   getShopStatisticsInfo,
@@ -13,6 +13,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../shared/button/button";
 import useFarmatDate from "../../hooks/useFormatDate";
+import { IShopStatisticsData } from "../../types/store/serviceStoreType";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const ShopStatistics: FC = () => {
   const dispatch = useTypedDispatch();
@@ -32,6 +35,23 @@ const ShopStatistics: FC = () => {
   const statistics = useTypedSelector(
     (state) => state.service.shopStatisticsData
   );
+  const products = useTypedSelector((state) => state.products.products);
+  const productStatistics = useTypedSelector(
+    (state) => state.service.shopStatisticsData.productStatistics
+  );
+
+  const fullProducts = productStatistics?.map((product) => {
+    const existProduct = products.find((p) => p.id === product.id);
+    return {
+      name: existProduct?.name,
+      image: existProduct?.image,
+      price: existProduct?.price,
+      bought: product?.bought,
+      revenue: product?.revenue,
+      averageRating: product?.averageRating,
+      reviewCount: product?.reviewCount,
+    };
+  });
 
   const shopStatisticsRequest = useTypedSelector(
     (state) => state.service.shopStatisticsRequest
@@ -52,6 +72,136 @@ const ShopStatistics: FC = () => {
   if (shopStatisticsRequest) {
     return <Spinner />;
   }
+
+  const generateExcelFile = (data: any) => {
+    const workbook = XLSX.utils.book_new();
+    const statisticsSheet = [
+      [t("Shop statistic")],
+      [t("Main article"), t("Value"), t("Unit")],
+    ];
+
+    data.forEach((item: any, i: number) => {
+      if (item.name) {
+        statisticsSheet.push([item.name, item.value, item.unit, ""]);
+      } else if (i === 9) {
+        statisticsSheet.push(
+          [],
+          [t("Product statistic")],
+          [
+            t("Name"),
+            t("Price"),
+            t("Bought"),
+            t("Revenue"),
+            t("Average rating"),
+            t("Review count"),
+          ],
+          [
+            item.title,
+            item.price,
+            item.bought,
+            item.revenue,
+            item.averageRating,
+            item.reviewCount,
+          ]
+        );
+      } else {
+        statisticsSheet.push([
+          item.title,
+          item.price,
+          item.bought,
+          item.revenue,
+          item.averageRating,
+          item.reviewCount,
+        ]);
+      }
+    });
+
+    const worksheet = XLSX.utils.aoa_to_sheet(statisticsSheet);
+    worksheet["!merges"] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 2 } },
+      { s: { r: 11, c: 0 }, e: { r: 11, c: 6 } },
+    ];
+    worksheet["A1"].v = t("Shop statistic");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "List1");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
+
+    saveAs(
+      blob,
+      periodStatistics
+        ? `${t("Shop statistic between")} ${formatStartDate} ${formatEndDate}.xlsx`
+        : `${t("Shop statistic during lifetime")}.xlsx`
+    );
+  };
+
+  const prepareDataForExcel = (shopStatisticsData: IShopStatisticsData) => {
+    return [
+      {
+        name: t("Total orders"),
+        value: shopStatisticsData.totalOrders,
+        unit: "pcs",
+      },
+      {
+        name: t("Total bought products"),
+        value: shopStatisticsData.totalBoughtProducts,
+        unit: "pcs",
+      },
+      {
+        name: t("Total revenue"),
+        value: shopStatisticsData.totalRevenue,
+        unit: "$",
+      },
+      {
+        name: t("Average order price"),
+        value: shopStatisticsData.averageOrderPrice,
+        unit: "$",
+      },
+      {
+        name: t("Total reviews"),
+        value: shopStatisticsData.totalReviews,
+        unit: "pcs",
+      },
+      {
+        name: t("Total users"),
+        value: shopStatisticsData.totalUsers,
+        unit: "pcs",
+      },
+      {
+        name: t("Total active users"),
+        value: shopStatisticsData.totalUsersActive,
+        unit: "pcs",
+      },
+      {
+        name: t("Total products"),
+        value: shopStatisticsData.totalProducts,
+        unit: "pcs",
+      },
+      {
+        name: t("Total categories"),
+        value: shopStatisticsData.totalCategories,
+        unit: "pcs",
+      },
+      ...fullProducts.map((product) => {
+        return {
+          title: product.name,
+          price: product.price,
+          bought: product.bought,
+          revenue: product.revenue,
+          averageRating: product.averageRating.toFixed(2),
+          reviewCount: product.reviewCount,
+        };
+      }),
+    ];
+  };
+
+  const handleDownload = (shopStatisticsData: IShopStatisticsData) => {
+    const preparedData = prepareDataForExcel(shopStatisticsData);
+    generateExcelFile(preparedData);
+  };
 
   return (
     <section className="personal-page">
@@ -142,6 +292,12 @@ const ShopStatistics: FC = () => {
               {t("Total categories")}:&nbsp;&nbsp;&nbsp;
               {statistics?.totalCategories ? statistics.totalCategories : 0}
             </h3>
+            <Button
+              buttonStyle="arrow-up"
+              buttonType="button"
+              textContent={t("Generate and save .xlsx")}
+              buttonHandler={() => handleDownload(statistics)}
+            />
           </div>
         </div>
         <hr />

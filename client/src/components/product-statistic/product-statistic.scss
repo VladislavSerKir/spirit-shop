@@ -1,4 +1,25 @@
 .product-statistic {
+  &__name {
+    font-size: var(--h4-font-size);
+    transition: all 0.3s;
+
+    &:hover {
+      text-decoration: overline 2px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+  }
+
+  &__image {
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+      transition: all 0.3s;
+    }
+  }
+
   &__table {
     padding: 10px 40px;
   }

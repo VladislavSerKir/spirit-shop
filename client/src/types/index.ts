@@ -3,6 +3,9 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { rootReducer } from "../store";
 import { IUserData } from "./store/userStoreType";
+export const EXCEL_TYPE =
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const useTypedDispatch = () => useDispatch<AppThunkDispatch>();
