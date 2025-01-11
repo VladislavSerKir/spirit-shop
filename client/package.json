@@ -16,7 +16,6 @@
     "@types/react-dom": "^18.3.1",
     "@types/react-star-ratings": "^2.3.3",
     "axios": "^1.7.7",
-    "body-parser": "^1.20.3",
     "braces": "^3.0.3",
     "concurrently": "^9.1.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -29,8 +28,6 @@
     "i18n-js": "^4.5.0",
     "i18next": "^23.16.4",
     "lilconfig": "^3.1.2",
-    "nth-check": "^2.1.1",
-    "path-to-regexp": "^8.2.0",
     "postcss": "^8.4.49",
     "react": "^18.2.0",
     "react-datepicker": "^7.6.0",
@@ -58,7 +55,6 @@
     "webpack": "^5.96.1",
     "webpack-dev-middleware": "^7.4.2",
     "ws": "^8.18.0",
-    "xlsx": "^0.18.5",
     "yup": "^1.4.0"
   },
   "scripts": {
@@ -101,6 +97,12 @@
     "@types/react-input-mask": "^3.0.6",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-toggle": "^4.0.5",
-    "prettier": "^3.3.3"
+    "body-parser": "^1.20.3",
+    "cross-spawn": "^7.0.6",
+    "html-minifier": "^4.0.0",
+    "nth-check": "^2.1.1",
+    "path-to-regexp": "^8.2.0",
+    "prettier": "^3.3.3",
+    "xlsx": "^0.18.5"
   }
 }
