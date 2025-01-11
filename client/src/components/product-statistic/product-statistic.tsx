@@ -50,7 +50,7 @@ const ProductStatistic = () => {
   };
 
   const { currentPage, showCurrentEntity, jump, maxPage, next, prev } =
-    usePagination(sortProducts(userOrdersToShow, sortColumn), 4);
+    usePagination(sortProducts(userOrdersToShow, sortColumn), 5);
 
   const productsToShow = showCurrentEntity();
 
@@ -118,7 +118,7 @@ const ProductStatistic = () => {
                   {userOrders.name}
                 </span>
               </td>
-              <td className="table__info table__info-category">
+              <td className="product-statistic__table table__info table__info-category">
                 {userOrders?.categories.map((category: ICategory) => (
                   <span className="product__category" key={category.id}>
                     {category.name}

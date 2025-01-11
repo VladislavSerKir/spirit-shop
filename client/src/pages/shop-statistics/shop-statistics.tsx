@@ -16,6 +16,9 @@ import useFarmatDate from "../../hooks/useFormatDate";
 import { IShopStatisticsData } from "../../types/store/serviceStoreType";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import GoogleSheetsExport from "../../components/google-sheets-export/google-sheets-export";
+import { toast } from "react-toastify";
+import { ii18n } from "../../i18n";
 
 const ShopStatistics: FC = () => {
   const dispatch = useTypedDispatch();
@@ -136,6 +139,7 @@ const ShopStatistics: FC = () => {
         ? `${t("Shop statistic between")} ${formatStartDate} ${formatEndDate}.xlsx`
         : `${t("Shop statistic during lifetime")}.xlsx`
     );
+    toast.success(`${ii18n.t("File successfuly exported")}`);
   };
 
   const prepareDataForExcel = (shopStatisticsData: IShopStatisticsData) => {
@@ -298,6 +302,7 @@ const ShopStatistics: FC = () => {
               textContent={t("Generate and save .xlsx")}
               buttonHandler={() => handleDownload(statistics)}
             />
+            <GoogleSheetsExport data={prepareDataForExcel(statistics)} />
           </div>
         </div>
         <hr />

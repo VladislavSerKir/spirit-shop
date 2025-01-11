@@ -7,6 +7,10 @@ export const config = {
   googleClientId:
     "174103314432-7qmnrd8h4mkss63di8nhaajqbmg9re59.apps.googleusercontent.com",
   googleSecret: "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",
+  googleSheetsClientId:
+    "1098182760674-ct5quomh9gfo7gkjnu43bpr0bnra8f60.apps.googleusercontent.com",
+  googleSheetsApiKey: "AIzaSyCSRDpdmNF7Xu8etYNrOfKFHUXtnsos050",
+  spreadsheetId: "1h9qZtR7fpEhVWmFWt3rpnFbI4LV8dHrTZh-SwhUYD8M",
 };
 
 export interface IRefreshData {

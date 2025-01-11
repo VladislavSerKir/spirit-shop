@@ -12,6 +12,7 @@ import {
   likeReview,
 } from "../../store/actions/reviewAction";
 import Button from "../../shared/button/button";
+import history from "../../utils/history";
 
 interface IReviewProps {
   review: IReview;
@@ -43,16 +44,24 @@ export const ReviewItem = ({ review, tab }: IReviewProps) => {
     dispatch(deleteReview(id));
   };
 
+  const handleGoToProduct = (id: number) => {
+    history.push(`/products/${id}`);
+  };
+
   return (
     <div className="review-element">
       <img
         src={review.product.image}
         alt="avatar"
-        className="review-element__user-img review-element-item"
+        className="review-element__user-img review-element-item product-statistic__image"
+        onClick={() => handleGoToProduct(review.product.id)}
       />
       <div className="review-element__title review-element-item">
         <p className="review-element__title-content">
-          <span className="review-element__username">
+          <span
+            className="review-element__username global-product-statistics__name"
+            onClick={() => handleGoToProduct(review.product.id)}
+          >
             {review.product.name}
           </span>
           <span className="review-element__date">

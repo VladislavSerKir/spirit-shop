@@ -314,6 +314,18 @@ const ENtranslation = {
   Value: "Value",
   Unit: "Unit",
   "Generate and save .xlsx": "Generate and save .xlsx",
+  Authorize: "Authorize",
+  "Export to Google Sheets": "Export to Google Sheets",
+  "For exporting to Google Sheets CLIENT_ID and API_KEY must be provided":
+    "For exporting to Google Sheets CLIENT_ID and API_KEY must be provided",
+  "Error occured during Google Sheets authentication":
+    "Error occured during Google Sheets authentication",
+  "User is not signed in Google Sheets": "User is not signed in Google Sheets",
+  "Error occured during exporting file in Google Sheets":
+    "Error occured during exporting file in Google Sheets",
+  "File successfuly exported to Google Sheets":
+    "File successfuly exported to Google Sheets",
+  "File successfuly exported": "File successfuly exported",
 };
 
 const RUtranslation = {
@@ -633,6 +645,19 @@ const RUtranslation = {
   Unit: "Единица измерения",
   "Total active users": "Всего активных пользователей",
   "Generate and save .xlsx": "Сгенерировать и сохранить файл .xlsx",
+  Authorize: "Авторизоваться",
+  "Export to Google Sheets": "Экспортировать в Google Sheets",
+  "For exporting to Google Sheets CLIENT_ID and API_KEY must be provided":
+    "Для экспорта в Google Sheets должны быть предоставлены CLIENT_ID и API_KEY",
+  "Error occured during Google Sheets authentication":
+    "Произошла ошибка во время аутентификации в Google Sheets",
+  "User is not signed in Google Sheets":
+    "Пользователь не авторизован в Google Sheets",
+  "Error occured during exporting file in Google Sheets":
+    "Произошла ошибка вов время экспорта файла в Google Sheets",
+  "File successfuly exported to Google Sheets":
+    "Файл успешно экспортирован в Google Sheets",
+  "File successfuly exported": "Файл успешно экспортирован",
 };
 
 export const ii18n = new I18n({
