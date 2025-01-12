@@ -52,6 +52,10 @@ export const onUpdateUser = createAsyncThunk<
       toast.error(`${ii18n.t("User deactivated")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onUpdateUser",
@@ -78,6 +82,10 @@ export const editAvatar = createAsyncThunk<
 
     if (response.status === 403) {
       toast.error(`${ii18n.t("User deactivated")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -134,6 +142,10 @@ export const assignAdmin = createAsyncThunk<
       toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method assignAdmin",
@@ -169,6 +181,10 @@ export const manageAccount = createAsyncThunk<
 
     if (response.status === 403) {
       toast.error(`${ii18n.t("Action forbidden")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -229,6 +245,10 @@ export const toggleHideProfile = createAsyncThunk<
         toast.warn(
           `${ii18n.t("Profile visibility has not been changed, check if you are logged in")}`
         );
+      }
+
+      if (response.status === 500) {
+        toast.error(`${ii18n.t("Internal server error")}`);
       }
 
       return rejectWithValue({

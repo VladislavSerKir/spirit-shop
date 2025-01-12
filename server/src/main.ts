@@ -17,7 +17,7 @@ async function bootstrap() {
     .setTitle('API документация')
     .setDescription('Описание API')
     .setVersion('1.0')
-    .addTag('auth') // Добавьте свои теги
+    .addTag('auth')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

@@ -43,6 +43,12 @@ export interface ICommentResponse {
   comment: string;
 }
 
+export interface IEditReviewResponse {
+  id: number;
+  comment: string;
+  rate: number;
+}
+
 export interface GiveRateDto {
   productId: number;
   rate: number;
@@ -51,6 +57,12 @@ export interface GiveRateDto {
 export interface GiveCommentDto {
   productId: number;
   comment: string;
+}
+
+export interface EditReviewDto {
+  productId: number;
+  comment: string;
+  rate: number;
 }
 
 export interface ILikeDislikeReviewResponse {

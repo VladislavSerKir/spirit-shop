@@ -30,6 +30,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { DeleteReviewDto } from './dto/delete-review.dto';
+import { EditReviewDto } from './dto/edit-review.dto';
 
 @ApiTags('review')
 @Controller('review')
@@ -92,6 +93,29 @@ export class ReviewController {
     const accessToken = request.headers.authorization;
     const { productId, comment } = giveCommentDto;
     return this.reviewService.commentProduct(accessToken, productId, comment);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Patch('/edit')
+  @ApiOperation({ summary: 'Изменить комментарий о продукте' })
+  @ApiResponse({
+    status: 200,
+    description: 'Возврат отзыва о продукте',
+    type: Review,
+  })
+  @ApiBody({
+    type: EditReviewDto,
+  })
+  @ApiUnauthorizedResponse()
+  @ApiBadRequestResponse()
+  @ApiNotFoundResponse()
+  editReview(
+    @Request() request: IHeadersAuthorizationRequest,
+    @Body() editReviewDto: EditReviewDto,
+  ): Promise<Partial<Review>> {
+    const accessToken = request.headers.authorization;
+    const { productId, comment, rate } = editReviewDto;
+    return this.reviewService.editReview(accessToken, productId, comment, rate);
   }
 
   @UseGuards(AccessTokenGuard)

@@ -12,12 +12,15 @@ import {
   setLikeReview,
   updateCommentReview,
   updateRateReview,
+  updateReview,
 } from "../reducers/reviewReducer";
 import {
+  EditReviewDto,
   GiveCommentDto,
   GiveRateDto,
   ICommentResponse,
   IDeleteReviewResponse,
+  IEditReviewResponse,
   ILikeDislikeReviewResponse,
   IRateResponse,
   IReview,
@@ -35,6 +38,10 @@ export const getAllReviews = createAsyncThunk<
       dispatch(clearUserData());
       dispatch(setCartToNull());
       dispatch(setPurchaseToNull());
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -72,6 +79,10 @@ export const rateProduct = createAsyncThunk<
       toast.warn(
         `${ii18n.t("You can not rate product you have not bought yet")}`
       );
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -113,6 +124,10 @@ export const commentProduct = createAsyncThunk<
       );
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method commentProduct",
@@ -146,6 +161,10 @@ export const likeReview = createAsyncThunk<
       toast.warn(`${ii18n.t("You can not like your own review")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method likeReview",
@@ -173,6 +192,10 @@ export const dislikeReview = createAsyncThunk<
       dispatch(clearUserData());
       dispatch(setCartToNull());
       dispatch(setPurchaseToNull());
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -222,5 +245,42 @@ export const deleteReview = createAsyncThunk<
   const data: IDeleteReviewResponse = await response.json();
   dispatch(removeReview(data.id));
   toast.info(`${ii18n.t("Review deleted")}`);
+  return data;
+});
+
+export const changeReview = createAsyncThunk<
+  IEditReviewResponse,
+  EditReviewDto,
+  { rejectValue: TError }
+>("review/edit", async function (body, { dispatch, rejectWithValue }) {
+  const response = await reviewService.changeReviewRequest(body);
+
+  if (!response.ok) {
+    if (response.status === 400) {
+      toast.error(`${ii18n.t("Error occured")}`);
+    }
+
+    if (response.status === 401) {
+      dispatch(clearUserData());
+      dispatch(setCartToNull());
+      dispatch(setPurchaseToNull());
+      toast.warn(
+        `${ii18n.t("Comment has not been added, check if you are logged in")}`
+      );
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
+    return rejectWithValue({
+      status: response.status,
+      message: "Server Error, take a look on method changeReview",
+    });
+  }
+
+  const data: IEditReviewResponse = await response.json();
+  dispatch(updateReview(data));
+  toast.info(`${ii18n.t("Review changed")}`);
   return data;
 });

@@ -50,6 +50,22 @@ export const reviewSlice = createSlice({
         ];
       }
     },
+    updateReview: (state, action: PayloadAction<Partial<IReview>>) => {
+      const updatedReview = state.review.filter(
+        (c) => c.id === action.payload.id
+      );
+      if (updatedReview.length === 0) {
+        state.review = [...state.review, { ...action.payload } as IReview];
+      } else {
+        updatedReview[0].comment = action.payload.comment;
+        updatedReview[0].rate = action.payload.rate;
+
+        state.review = [
+          ...state.review.filter((c) => c.id !== action.payload.id),
+          { ...updatedReview[0] } as IReview,
+        ];
+      }
+    },
     setLikeReview: (
       state,
       action: PayloadAction<Partial<IReviewLikePayload>>
@@ -116,6 +132,7 @@ export const {
   setReviewRequest,
   updateRateReview,
   updateCommentReview,
+  updateReview,
   setLikeReview,
   setDislikeReview,
   removeReview,

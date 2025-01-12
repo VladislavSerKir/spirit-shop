@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Order } from 'src/datalake/order/entities/order.entity';
 import { Review } from 'src/datalake/review/entities/review.entity';
 
 export interface IAccessToken {

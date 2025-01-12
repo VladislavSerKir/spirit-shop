@@ -30,6 +30,10 @@ export const addProductToCart = createAsyncThunk<
       );
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method addProductToCart",
@@ -60,6 +64,10 @@ export const removeProductFromCart = createAsyncThunk<
       toast.warn(
         `${ii18n.t("Product has not been removed from cart, check if you are logged in")}`
       );
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({
@@ -95,6 +103,10 @@ export const clearCart = createAsyncThunk<
       );
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method clearCart",
@@ -114,6 +126,10 @@ export const getCart = createAsyncThunk<ICart, undefined, { rejectValue: any }>(
     if (!response.ok) {
       if (response.status === 404) {
         toast.error(`${ii18n.t("Cart not found")}`);
+      }
+
+      if (response.status === 500) {
+        toast.error(`${ii18n.t("Internal server error")}`);
       }
 
       return rejectWithValue({

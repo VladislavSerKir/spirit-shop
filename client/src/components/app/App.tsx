@@ -24,6 +24,7 @@ import { checkAuth } from "../../store/actions/authAction";
 import { NotFound } from "../../shared/not-found/not-found";
 import { getAllReviews } from "../../store/actions/reviewAction";
 import AuthCallback from "../login/auth-callback";
+import EditReview from "../edit-review/edit-review";
 
 function App() {
   const history = useHistory();
@@ -98,6 +99,15 @@ function App() {
           <ProtectedRoute path={`/user/profile/avatar`}>
             <Modal onClose={handleCloseModals}>
               <ChangeAvatar onClose={handleCloseModals} />
+            </Modal>
+          </ProtectedRoute>
+        </>
+      )}
+      {background && (
+        <>
+          <ProtectedRoute path={`/user/reviews/:id`}>
+            <Modal onClose={handleCloseModals}>
+              <EditReview onClose={handleCloseModals} />
             </Modal>
           </ProtectedRoute>
         </>

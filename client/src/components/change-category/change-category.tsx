@@ -32,6 +32,10 @@ const ChangeCategory = ({ onClose }: IChangeCategoryProps) => {
     id: Number(id),
   };
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [data, setData] = useState(initialState);
 
   const handleChangeCategory = useCallback(

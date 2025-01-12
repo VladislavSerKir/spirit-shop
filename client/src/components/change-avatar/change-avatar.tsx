@@ -27,6 +27,10 @@ const ChangeAvatar = ({ onClose }: IChangeAvatarProps) => {
     avatar: userAvatar || "",
   };
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [data, setData] = useState(initialState);
 
   const handleChangeAvatar = useCallback((target: IChangeAvatarFormData) => {

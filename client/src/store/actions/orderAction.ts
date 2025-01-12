@@ -16,6 +16,10 @@ export const getUserOrders = createAsyncThunk<
 >("order/getUserOrders", async function (_, { dispatch, rejectWithValue }) {
   const response = await orderService.getUserOrdersRequest();
   if (!response.ok) {
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method getUserOrders",

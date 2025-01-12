@@ -1,6 +1,10 @@
 import { getCookie } from "../utils/cookie";
 import { config } from "../utils/api";
-import { GiveCommentDto, GiveRateDto } from "../types/store/reviewStoreType";
+import {
+  EditReviewDto,
+  GiveCommentDto,
+  GiveRateDto,
+} from "../types/store/reviewStoreType";
 
 const reviewEndPoint = "review";
 
@@ -78,6 +82,20 @@ const reviewService = {
       },
       body: JSON.stringify({
         id,
+      }),
+    });
+  },
+  changeReviewRequest: ({ productId, comment, rate }: EditReviewDto) => {
+    return fetch(`${config.apiEndPoint}/${reviewEndPoint}/edit`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: "Bearer " + getCookie("accessToken"),
+      },
+      body: JSON.stringify({
+        productId,
+        rate,
+        comment,
       }),
     });
   },

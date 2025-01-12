@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, Profile } from 'passport-yandex';
+import { Profile } from 'passport-yandex';
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from 'src/datalake/auth/auth.service';
 import { UsersService } from 'src/datalake/user/users.service';
 import { Strategy as YandexStrategy } from 'passport-yandex';
 

@@ -108,6 +108,10 @@ export const editProduct = createAsyncThunk<
       toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method editProduct",
@@ -140,6 +144,10 @@ export const deleteProduct = createAsyncThunk<
       toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method createProduct",
@@ -160,6 +168,10 @@ export const getAllCategories = createAsyncThunk<
     dispatch(setCategoryRequest(true));
     const response = await fetch(`${config.apiEndPoint}/category`);
     if (!response.ok) {
+      if (response.status === 500) {
+        toast.error(`${ii18n.t("Internal server error")}`);
+      }
+
       return rejectWithValue({
         status: response.status,
         message: "Server Error, take a look on method getAllCategories",
@@ -179,6 +191,10 @@ export const likeProduct = createAsyncThunk<
   const response = await productService.likeProductRequest(body);
 
   if (!response.ok) {
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     if (response.status === 400) {
       toast.error(`${ii18n.t("Error occured")}`);
     }

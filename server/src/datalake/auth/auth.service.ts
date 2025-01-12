@@ -345,6 +345,8 @@ export class AuthService {
 
     return { success: true };
 
+    // На будущее подключить мейлер
+
     // await this.mailerService.sendMail({
     //   to: email,
     //   subject: 'Сброс пароля',

@@ -115,6 +115,10 @@ export const onLogin = createAsyncThunk<
       toast.error(`${ii18n.t("User deactivated")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method onLogin",
@@ -204,6 +208,10 @@ export const sendCode = createAsyncThunk<
     if (response.status === 403) {
       dispatch(setCodeExpired());
       toast.error(`${ii18n.t("Invalid code")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({

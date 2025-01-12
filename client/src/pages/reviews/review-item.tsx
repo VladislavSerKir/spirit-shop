@@ -13,6 +13,7 @@ import {
 } from "../../store/actions/reviewAction";
 import Button from "../../shared/button/button";
 import history from "../../utils/history";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 
 interface IReviewProps {
   review: IReview;
@@ -20,6 +21,8 @@ interface IReviewProps {
 }
 
 export const ReviewItem = ({ review, tab }: IReviewProps) => {
+  const { url } = useRouteMatch();
+  const location = useLocation();
   const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const user = useTypedSelector((state) => state.user.userData);
@@ -110,6 +113,15 @@ export const ReviewItem = ({ review, tab }: IReviewProps) => {
             textContent={t("Delete")}
             buttonHandler={() => handleDeleteReview(review)}
           />
+          <Link
+            className={`text text_type_main-small orders-feed__link`}
+            to={{
+              pathname: `${url}/${review.id}`,
+              state: { background: location },
+            }}
+          >
+            <Button buttonStyle="google" textContent={t("Edit")} />
+          </Link>
         </div>
       )}
     </div>

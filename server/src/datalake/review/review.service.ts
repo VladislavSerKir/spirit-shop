@@ -62,6 +62,74 @@ export class ReviewService {
     }
   }
 
+  async editReview(
+    accessToken: string,
+    productId: number,
+    comment: string,
+    rate: number,
+  ): Promise<Partial<Review>> {
+    const token = accessToken.split(' ')[1];
+    const decodedToken = this.jwtService.verify(token, {
+      secret: this.configService.get<string>('jwt.access'),
+    });
+    const username = decodedToken.username;
+
+    const user = await this.userRepo.findOne({
+      where: { email: username },
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    const existingProduct = await this.productRepo.findOne({
+      where: {
+        id: productId,
+      },
+      select: { id: true },
+    });
+
+    if (!existingProduct) {
+      throw new Error('Product not found');
+    }
+
+    const existingUserReview = await this.reviewRepo.findOne({
+      where: {
+        product: existingProduct as Product,
+        user: user as User,
+      },
+      relations: ['user', 'product'],
+      select: {
+        id: true,
+        comment: true,
+        rate: true,
+        user: {
+          id: true,
+        },
+      },
+    });
+
+    if (!existingUserReview) {
+      throw new NotFoundException('Review on this product does not exist');
+    }
+
+    try {
+      await this.reviewRepo.update(
+        {
+          product: existingProduct,
+          user: user,
+        },
+        { comment, rate },
+      );
+      const { id } = existingUserReview;
+
+      return { comment, rate, id };
+    } catch {
+      throw new BadRequestException(`Error to update review`);
+    }
+  }
+
   async rateProduct(
     accessToken: string,
     productId: number,

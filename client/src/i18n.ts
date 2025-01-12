@@ -326,6 +326,7 @@ const ENtranslation = {
   "File successfuly exported to Google Sheets":
     "File successfuly exported to Google Sheets",
   "File successfuly exported": "File successfuly exported",
+  "Review changed": "Review changed",
 };
 
 const RUtranslation = {
@@ -658,6 +659,7 @@ const RUtranslation = {
   "File successfuly exported to Google Sheets":
     "Файл успешно экспортирован в Google Sheets",
   "File successfuly exported": "Файл успешно экспортирован",
+  "Review changed": "Отзыв изменен",
 };
 
 export const ii18n = new I18n({

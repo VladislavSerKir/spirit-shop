@@ -43,6 +43,10 @@ export const createCategory = createAsyncThunk<
       toast.error(`${ii18n.t("Action forbidden")}`);
     }
 
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
+    }
+
     return rejectWithValue({
       status: response.status,
       message: "Server Error, take a look on method createCategory",
@@ -78,6 +82,10 @@ export const editCategory = createAsyncThunk<
 
     if (response.status === 403) {
       toast.error(`${ii18n.t("Action forbidden")}`);
+    }
+
+    if (response.status === 500) {
+      toast.error(`${ii18n.t("Internal server error")}`);
     }
 
     return rejectWithValue({

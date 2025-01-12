@@ -26,6 +26,7 @@ import { MailerModule, MailerService } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
+    // Сделать в будущем
     // MailerModule.forRoot({
     //   transport: {
     //     host: 'spirit-shop.ru',
@@ -74,15 +75,6 @@ import { MailerModule, MailerService } from '@nestjs-modules/mailer';
       ],
       synchronize: true,
     }),
-    // TypeOrmModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: () => ({
-    //     type: 'postgres',
-    //     entities: [User],
-    //     synchronize: true,
-    //   }),
-    //   inject: [ConfigService],
-    // }),
     WinstonModule.forRoot({
       levels: {
         critical_error: 0,
@@ -111,10 +103,6 @@ import { MailerModule, MailerService } from '@nestjs-modules/mailer';
         whitelist: true,
       }),
     },
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: JwtExceptionFilter,
-    // },
   ],
 })
 export class AppModule {}

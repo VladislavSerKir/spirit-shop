@@ -27,6 +27,10 @@ const ChangeProduct = ({ onClose }: IChangeProductProps) => {
   const products = useTypedSelector((state) => state.products.products);
   const categories = useTypedSelector((state) => state.category.categories);
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   let product: undefined | IProductWithCategories | any | null = null;
   product = products?.find((i) => String(i.id) === id);
 
