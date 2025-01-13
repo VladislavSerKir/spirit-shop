@@ -19,6 +19,7 @@ import { saveAs } from "file-saver";
 import GoogleSheetsExport from "../../components/google-sheets-export/google-sheets-export";
 import { toast } from "react-toastify";
 import { ii18n } from "../../i18n";
+import { AreaChart } from "../../components/area-chart/area-chart";
 
 const ShopStatistics: FC = () => {
   const dispatch = useTypedDispatch();
@@ -62,6 +63,7 @@ const ShopStatistics: FC = () => {
 
   React.useEffect(() => {
     dispatch(getShopStatisticsInfo());
+    // dispatch(getCharts());
 
     return () => {
       setShopStatisticsInfoToNull();
@@ -70,6 +72,7 @@ const ShopStatistics: FC = () => {
 
   const getShopStatisticsHandler = (startDate: string, endDate: string) => {
     dispatch(getShopStatisticsPeriodInfo({ startDate, endDate }));
+    // dispatch(getChartsBetweenPeriod({ startDate, endDate }));
   };
 
   if (shopStatisticsRequest) {
@@ -304,6 +307,24 @@ const ShopStatistics: FC = () => {
             />
             <GoogleSheetsExport data={prepareDataForExcel(statistics)} />
           </div>
+          <AreaChart
+            title={t("Revenue chart")}
+            xLabel={t("Date")}
+            yLabel="$"
+            color="#ff5f5f"
+          />
+          <AreaChart
+            title={t("Product sales chart")}
+            xLabel={t("Date")}
+            yLabel={t("pcs.")}
+            color="#7d5fff"
+          />
+          <AreaChart
+            title={t("Review chart")}
+            xLabel={t("Date")}
+            yLabel={t("pcs.")}
+            color="#ffbd5f"
+          />
         </div>
         <hr />
         <div className={`personal-page__stat-block`} id="nav-menu">

@@ -327,6 +327,11 @@ const ENtranslation = {
     "File successfuly exported to Google Sheets",
   "File successfuly exported": "File successfuly exported",
   "Review changed": "Review changed",
+  "Revenue chart": "Revenue chart",
+  "Product sales chart": "Product sales chart",
+  "Review chart": "Review chart",
+  Date: "Date",
+  "pcs.": "pcs.",
 };
 
 const RUtranslation = {
@@ -660,6 +665,11 @@ const RUtranslation = {
     "Файл успешно экспортирован в Google Sheets",
   "File successfuly exported": "Файл успешно экспортирован",
   "Review changed": "Отзыв изменен",
+  "Revenue chart": "График выручки",
+  "Product sales chart": "График продажи продуктов",
+  "Review chart": "График отзывов",
+  Date: "Дата",
+  "pcs.": "шт.",
 };
 
 export const ii18n = new I18n({

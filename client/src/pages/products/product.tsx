@@ -16,6 +16,7 @@ import { IReview } from "../../types/store/reviewStoreType";
 import { ReviewFeed } from "../../components/review-feed/review-feed";
 import MyReview from "../../components/my-review/my-review";
 import { ICartItem } from "../../types/store/cartStoreType";
+import BlurCircles from "../../components/blur-circles/blur-circles";
 
 interface IProductProps {
   productId: string;
@@ -85,11 +86,18 @@ const Product: FC<IProductProps> = ({ productId }) => {
     return typeof counter === "number" ? counter : 0;
   }, [currentReviews?.length, handleRate]);
 
+  const circles = [
+    { size: 65, color: "rgba(255, 0, 0, 0.7)", blur: 100 },
+    { size: 65, color: "rgba(0, 255, 0, 0.7)", blur: 100 },
+    { size: 65, color: "rgba(255, 252, 49, 0.7)", blur: 100 },
+  ];
+
   return currentProduct ? (
     <section className="container section">
       <h2 className="section__title-center">{currentProduct?.name}</h2>
       <div className="product-solo__container">
         <div className="container-center">
+          <BlurCircles circles={circles} width={300} height={250} />
           <img
             src={currentProduct?.image}
             alt={currentProduct?.name}

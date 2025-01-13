@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-import gradient from "../../assets/img/product-background.png";
+// import gradient from "../../assets/img/product-background.png";
 import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
@@ -12,6 +12,7 @@ import StarRatings from "react-star-ratings";
 import { rateProduct } from "../../store/actions/reviewAction";
 import { IReview } from "../../types/store/reviewStoreType";
 import { ICartItem } from "../../types/store/cartStoreType";
+import BlurCircles from "../../components/blur-circles/blur-circles";
 
 interface IProductCardProps {
   product: IProduct;
@@ -72,6 +73,12 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
     return typeof counter === "number" ? counter : 0;
   }, [reviews?.length, currentReviews.length, handleRate]);
 
+  const circles = [
+    { size: 35, color: "rgba(255, 0, 0, 0.7)", blur: 60 },
+    { size: 35, color: "rgba(0, 255, 0, 0.7)", blur: 60 },
+    { size: 35, color: "rgba(255, 252, 49, 0.7)", blur: 60 },
+  ];
+
   return (
     <article className="product__card" key={product.id}>
       <Link
@@ -80,7 +87,9 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
         }}
         className="product__link"
       >
-        <img src={gradient} alt={product.name} className="product__circle" />
+        {/* Альтернативный фон */}
+        {/* <img src={gradient} alt={product.name} className="product__circle" /> */}
+        <BlurCircles circles={circles} width={200} height={200} />
 
         <div className="product-image-container">
           <img
