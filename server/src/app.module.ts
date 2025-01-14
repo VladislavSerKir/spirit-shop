@@ -23,6 +23,7 @@ import { Favourite } from './datalake/product/entities/favourite.entity';
 import { Review } from './datalake/review/entities/review.entity';
 import { ReviewModule } from './datalake/review/review.module';
 import { MailerModule, MailerService } from '@nestjs-modules/mailer';
+import { ServiceModule } from './datalake/service/service.module';
 
 @Module({
   imports: [
@@ -95,6 +96,7 @@ import { MailerModule, MailerService } from '@nestjs-modules/mailer';
     CartModule,
     OrderModule,
     ReviewModule,
+    ServiceModule,
   ],
   providers: [
     {

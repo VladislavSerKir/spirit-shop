@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IProduct } from "../../types/store/productStoreType";
 import { useTypedDispatch, useTypedSelector } from "../../types";
-// import gradient from "../../assets/img/product-background.png";
 import { addProductToCart } from "../../store/actions/cartAction";
 import { dislikeProduct, likeProduct } from "../../store/actions/productAction";
 import { ICategory } from "../../types/store/categoryStoreType";
@@ -27,6 +26,8 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
   const currentReviews = Array.isArray(reviews)
     ? reviews.filter((i) => i.product?.id === product?.id)
     : [];
+
+  const [isHovered, setIsHovered] = useState(false);
 
   const dispatch = useTypedDispatch();
   const userLikedProducts = user?.favourite?.map((i: IProduct) => i.id);
@@ -79,18 +80,33 @@ const ProductCard = ({ product, categories }: IProductCardProps) => {
     { size: 35, color: "rgba(255, 252, 49, 0.7)", blur: 60 },
   ];
 
+  const circlesHover = [
+    { size: 60, color: "rgba(255, 0, 0, 0.9)", blur: 80 },
+    { size: 60, color: "rgba(0, 255, 0, 0.9)", blur: 80 },
+    { size: 60, color: "rgba(255, 252, 49, 0.9)", blur: 80 },
+  ];
+
   return (
-    <article className="product__card" key={product.id}>
+    <article
+      className="product__card"
+      key={product.id}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <Link
         to={{
           pathname: `/products/${product.id}`,
         }}
         className="product__link"
       >
-        {/* Альтернативный фон */}
-        {/* <img src={gradient} alt={product.name} className="product__circle" /> */}
-        <BlurCircles circles={circles} width={200} height={200} />
-
+        {!isHovered && (
+          <BlurCircles circles={circles} width={200} height={200} />
+        )}
+        <div className={`blur-circles ${isHovered ? "visible" : ""}`}>
+          {isHovered && (
+            <BlurCircles circles={circlesHover} width={300} height={300} />
+          )}
+        </div>
         <div className="product-image-container">
           <img
             src={product.image}

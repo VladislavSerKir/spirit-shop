@@ -332,6 +332,7 @@ const ENtranslation = {
   "Review chart": "Review chart",
   Date: "Date",
   "pcs.": "pcs.",
+  "User quantity chart": "User quantity chart",
 };
 
 const RUtranslation = {
@@ -670,6 +671,7 @@ const RUtranslation = {
   "Review chart": "График отзывов",
   Date: "Дата",
   "pcs.": "шт.",
+  "User quantity chart": "График количества пользователей",
 };
 
 export const ii18n = new I18n({

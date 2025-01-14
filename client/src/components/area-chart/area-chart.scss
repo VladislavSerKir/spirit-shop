@@ -1,0 +1,63 @@
+.area-chart {
+  background-color: var(--first-color-lighten);
+
+  &__container {
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+  }
+
+  &__item {
+    background: transparent;
+    border-radius: 0.5rem;
+  }
+
+  &__title {
+    padding-bottom: 20px;
+    transition: all 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      color: var(--first-color);
+    }
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+    color: var(--title-color);
+  }
+
+  &__content {
+    overflow: hidden;
+    height: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__item,
+  &__header,
+  &__item-title,
+  &__icon,
+  &__description,
+  &__content {
+    transition: 0.3s;
+  }
+}
+
+/*Rotate icon and add font weight to titles*/
+.accordeon-open {
+  & .area-chart__item-title,
+  & .area-chart__description,
+  & .area-chart__icon {
+    color: #9f9f9f;
+  }
+
+  .area-chart {
+    &__header {
+      box-shadow: none;
+    }
+  }
+
+  & .area-chart__icon {
+    transform: rotate(45deg);
+  }
+}

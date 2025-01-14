@@ -24,6 +24,7 @@ const serviceState: IServiceState = {
   resetPassword: false,
   shopStatisticsData: initialShopStatisticsData,
   shopStatisticsRequest: false,
+  chartsDataRequest: false,
 };
 
 export const serviceSlice = createSlice({
@@ -74,6 +75,9 @@ export const serviceSlice = createSlice({
     setShopStatisticsInfoRequest: (state, action: PayloadAction<boolean>) => {
       state.shopStatisticsRequest = action.payload;
     },
+    setChartsDataRequest: (state, action: PayloadAction<boolean>) => {
+      state.chartsDataRequest = action.payload;
+    },
   },
 });
 
@@ -86,5 +90,6 @@ export const {
   setResetPassword,
   setDefaultForm,
   setCodeExpired,
+  setChartsDataRequest,
 } = serviceSlice.actions;
 export const serviceReducer = serviceSlice.reducer;

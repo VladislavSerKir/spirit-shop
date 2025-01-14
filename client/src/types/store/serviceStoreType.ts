@@ -5,6 +5,7 @@ export interface IServiceState {
   resetPassword: boolean;
   shopStatisticsData: IShopStatisticsData;
   shopStatisticsRequest: boolean;
+  chartsDataRequest: boolean;
 }
 
 export interface IShopStatisticsData {

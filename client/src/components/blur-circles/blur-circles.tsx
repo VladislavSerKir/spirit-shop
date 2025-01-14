@@ -20,8 +20,15 @@ const BlurCircles: React.FC<IBlurCirclesProps> = ({
   height,
 }) => {
   return (
-    <div style={{ position: "absolute" }}>
-      <div style={{ position: "relative", width, height, overflow: "visible" }}>
+    <div style={{ position: "absolute", zIndex: "-101" }}>
+      <div
+        style={{
+          position: "relative",
+          width,
+          height,
+          overflow: "visible",
+        }}
+      >
         {circles.map((circle, index) => {
           const x = getRandomPosition(width - circle.size * 2); // -circle.size * 2 для учета диаметра
           const y = getRandomPosition(height - circle.size * 2); // -circle.size * 2 для учета диаметра

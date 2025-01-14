@@ -20,6 +20,7 @@ import GoogleSheetsExport from "../../components/google-sheets-export/google-she
 import { toast } from "react-toastify";
 import { ii18n } from "../../i18n";
 import { AreaChart } from "../../components/area-chart/area-chart";
+import { getChartsData } from "../../store/actions/serviceAction";
 
 const ShopStatistics: FC = () => {
   const dispatch = useTypedDispatch();
@@ -63,7 +64,7 @@ const ShopStatistics: FC = () => {
 
   React.useEffect(() => {
     dispatch(getShopStatisticsInfo());
-    // dispatch(getCharts());
+    dispatch(getChartsData());
 
     return () => {
       setShopStatisticsInfoToNull();
@@ -72,7 +73,7 @@ const ShopStatistics: FC = () => {
 
   const getShopStatisticsHandler = (startDate: string, endDate: string) => {
     dispatch(getShopStatisticsPeriodInfo({ startDate, endDate }));
-    // dispatch(getChartsBetweenPeriod({ startDate, endDate }));
+    // dispatch(getChartsBetweenPeriodData({ startDate, endDate }));
   };
 
   if (shopStatisticsRequest) {
@@ -324,6 +325,12 @@ const ShopStatistics: FC = () => {
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#ffbd5f"
+          />
+          <AreaChart
+            title={t("User quantity chart")}
+            xLabel={t("Date")}
+            yLabel={t("pcs.")}
+            color="#5fedff"
           />
         </div>
         <hr />

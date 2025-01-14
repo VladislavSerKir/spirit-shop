@@ -52,3 +52,12 @@ img {
 .select {
   z-index: 103;
 }
+
+.blur-circles {
+  transition: all 0.7s ease;
+  opacity: 0;
+}
+
+.product__card:hover .blur-circles {
+  opacity: 1;
+}

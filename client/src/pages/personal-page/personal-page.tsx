@@ -10,7 +10,6 @@ import { setBasicUserInfoToNull } from "../../store/reducers/userReducer";
 import Spinner from "../spinner/spinner";
 import { BackButton } from "../../components/back-button/back-button";
 import { HiddenPage } from "../hidden-page/hidden-page";
-import history from "../../utils/history";
 
 const PersonalPage: FC = () => {
   const dispatch = useTypedDispatch();

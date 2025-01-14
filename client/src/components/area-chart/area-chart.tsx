@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   LineChart,
   Line,
@@ -7,6 +7,8 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
+import { useTypedSelector } from "../../types";
+import Spinner from "../../pages/spinner/spinner";
 
 interface IAreaChartProps {
   title: string;
@@ -21,6 +23,24 @@ export const AreaChart = ({
   xLabel,
   yLabel,
 }: IAreaChartProps) => {
+  const chartsDataRequest = useTypedSelector(
+    (state) => state.service.chartsDataRequest
+  );
+  const [active, setActive] = useState(false);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.style.height = active
+        ? `${divRef.current.scrollHeight + 20}px`
+        : "0px";
+    }
+  }, [active]);
+
+  const toggleAccordion = () => {
+    setActive(!active);
+  };
+
   const data = [
     { name: "01.06.2025", revenue: 300, pv: 2400, amt: 2400 },
     { name: "02.06.2025", revenue: 500, pv: 2400, amt: 2400 },
@@ -35,40 +55,51 @@ export const AreaChart = ({
   ];
 
   return (
-    <div style={{ overflow: "visible", width: "700px", height: "480px" }}>
-      <h3 className="footer__title">{title}</h3>
-      <LineChart
-        width={700}
-        height={400}
-        data={data}
-        style={{ overflow: "visible" }}
+    <div style={{ width: "700px", height: active ? "480px" : "20px" }}>
+      <h3 className="area-chart__title" onClick={toggleAccordion}>
+        {title}
+      </h3>
+      {/* {chartsDataRequest ? (
+        <Spinner />
+      ) : ( */}
+      <div
+        className={`area-chart__item${active ? " accordeon-open" : ""} area-chart__content`}
+        ref={divRef}
       >
-        <Line
-          type="monotone"
-          dataKey="revenue"
-          stroke={color}
-          fill={color}
-          strokeWidth={3}
-          legendType="cross"
-          activeDot
-        />
-        <CartesianGrid stroke="#ccc" color="red" strokeDasharray="5 5" />
-        <XAxis
-          label={{ value: xLabel, position: "bottom", offset: -15 }}
-          dataKey="name"
-          orientation="bottom"
-          angle={-45}
-          textAnchor="end"
-          height={100}
-          xHeight={10}
-          strokeWidth={2}
-        />
-        <YAxis
-          strokeWidth={2}
-          label={{ value: yLabel, position: "bottom", offset: -30 }}
-        />
-        <Tooltip />
-      </LineChart>
+        <LineChart
+          width={700}
+          height={400}
+          data={data}
+          style={{ overflow: "visible" }}
+        >
+          <Line
+            type="monotone"
+            dataKey="revenue"
+            stroke={color}
+            fill={color}
+            strokeWidth={3}
+            legendType="cross"
+            activeDot
+          />
+          <CartesianGrid stroke="#ccc" color="red" strokeDasharray="5 5" />
+          <XAxis
+            label={{ value: xLabel, position: "bottom", offset: -15 }}
+            dataKey="name"
+            orientation="bottom"
+            angle={-45}
+            textAnchor="end"
+            height={100}
+            xHeight={10}
+            strokeWidth={2}
+          />
+          <YAxis
+            strokeWidth={2}
+            label={{ value: yLabel, position: "bottom", offset: -30 }}
+          />
+          <Tooltip />
+        </LineChart>
+      </div>
+      {/* )} */}
     </div>
   );
 };
