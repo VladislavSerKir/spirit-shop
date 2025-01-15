@@ -94,14 +94,21 @@ export class ServiceService {
 
     const parts = totalDays < 10 ? totalDays : 10;
     const periodLength = Math.ceil(totalDays / parts);
+    const restDays = totalDays % parts;
     const periods = [];
 
-    for (let i = 0; i < parts; i++) {
+    for (let i = 1; i <= parts; i++) {
       const periodStart = this.formatDate(start);
       const periodEndIso = new Date(
         this.addDaysToDate(periodStart, periodLength),
       );
-      const periodEnd = this.formatDate(periodEndIso);
+
+      let periodEnd;
+      if (i === parts - 1) {
+        periodEnd = this.formatDate(end);
+      } else {
+        periodEnd = this.formatDate(periodEndIso);
+      }
 
       if (new Date(periodEnd) > end) {
         break;
@@ -123,7 +130,11 @@ export class ServiceService {
         newUser,
       });
 
-      start.setDate(start.getDate() + periodLength);
+      if (i === parts - 1) {
+        start.setDate(start.getDate() + periodLength + restDays);
+      } else {
+        start.setDate(start.getDate() + periodLength);
+      }
     }
 
     return periods;
