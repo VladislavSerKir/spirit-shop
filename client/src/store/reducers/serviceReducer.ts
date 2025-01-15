@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   IShopStatisticsData,
   IServiceState,
+  IChartData,
 } from "../../types/store/serviceStoreType";
 
 const initialShopStatisticsData = {
@@ -25,6 +26,7 @@ const serviceState: IServiceState = {
   shopStatisticsData: initialShopStatisticsData,
   shopStatisticsRequest: false,
   chartsDataRequest: false,
+  chartsData: [],
 };
 
 export const serviceSlice = createSlice({
@@ -78,6 +80,9 @@ export const serviceSlice = createSlice({
     setChartsDataRequest: (state, action: PayloadAction<boolean>) => {
       state.chartsDataRequest = action.payload;
     },
+    setChartsData: (state, action: PayloadAction<IChartData[]>) => {
+      state.chartsData = [...action.payload];
+    },
   },
 });
 
@@ -91,5 +96,6 @@ export const {
   setDefaultForm,
   setCodeExpired,
   setChartsDataRequest,
+  setChartsData,
 } = serviceSlice.actions;
 export const serviceReducer = serviceSlice.reducer;

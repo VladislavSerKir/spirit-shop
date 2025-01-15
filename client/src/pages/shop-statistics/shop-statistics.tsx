@@ -44,6 +44,35 @@ const ShopStatistics: FC = () => {
   const productStatistics = useTypedSelector(
     (state) => state.service.shopStatisticsData.productStatistics
   );
+  const chartsData = useTypedSelector((state) => state.service.chartsData);
+
+  const revenueData = chartsData.map((item) => {
+    return {
+      endDate: item.endDate,
+      revenue: item.revenue,
+    };
+  });
+
+  const soldProductsData = chartsData.map((item) => {
+    return {
+      endDate: item.endDate,
+      soldProducts: item.soldProducts,
+    };
+  });
+
+  const reviewsData = chartsData.map((item) => {
+    return {
+      endDate: item.endDate,
+      reviews: item.reviews,
+    };
+  });
+
+  const newUserData = chartsData.map((item) => {
+    return {
+      endDate: item.endDate,
+      newUser: item.newUser,
+    };
+  });
 
   const fullProducts = productStatistics?.map((product) => {
     const existProduct = products.find((p) => p.id === product.id);
@@ -313,24 +342,32 @@ const ShopStatistics: FC = () => {
             xLabel={t("Date")}
             yLabel="$"
             color="#ff5f5f"
+            data={revenueData}
+            mapType="revenue"
           />
           <AreaChart
             title={t("Product sales chart")}
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#7d5fff"
+            data={soldProductsData}
+            mapType="soldProducts"
           />
           <AreaChart
             title={t("Review chart")}
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#ffbd5f"
+            data={reviewsData}
+            mapType="reviews"
           />
           <AreaChart
             title={t("User quantity chart")}
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#5fedff"
+            data={newUserData}
+            mapType="newUser"
           />
         </div>
         <hr />

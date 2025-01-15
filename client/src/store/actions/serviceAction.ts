@@ -5,11 +5,15 @@ import { ii18n } from "../../i18n";
 import { clearUserData } from "../reducers/userReducer";
 import { setCartToNull } from "../reducers/cartReducer";
 import { setPurchaseToNull } from "../reducers/orderReducer";
-import { setChartsDataRequest } from "../reducers/serviceReducer";
+import {
+  setChartsData,
+  setChartsDataRequest,
+} from "../reducers/serviceReducer";
 import serviceService from "../../service/service.service";
+import { IChartData } from "../../types/store/serviceStoreType";
 
 export const getChartsData = createAsyncThunk<
-  any,
+  IChartData[],
   undefined,
   { rejectValue: TError }
 >("service/getChartsData", async function (_, { dispatch, rejectWithValue }) {
@@ -45,7 +49,7 @@ export const getChartsData = createAsyncThunk<
   }
 
   const data: any = await response.json();
-  // dispatch(setChartsData(data));
+  dispatch(setChartsData(data));
   dispatch(setChartsDataRequest(false));
   return data;
 });

@@ -6,6 +6,7 @@ export interface IServiceState {
   shopStatisticsData: IShopStatisticsData;
   shopStatisticsRequest: boolean;
   chartsDataRequest: boolean;
+  chartsData: IChartData[];
 }
 
 export interface IShopStatisticsData {
@@ -30,4 +31,13 @@ export interface IProductStatistics {
   price: number;
   image: string;
   name: string;
+}
+
+export interface IChartData {
+  startDate?: string;
+  endDate?: string;
+  revenue?: number;
+  soldProducts?: number;
+  reviews?: number;
+  newUser?: number;
 }

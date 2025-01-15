@@ -1,50 +1,34 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 
 import { Review } from '../review/entities/review.entity';
-import { CartItem } from '../cart/entities/cart-item.entity';
-import { Category } from '../category/entities/category.entity';
-import { Product } from '../product/entities/product.entity';
 import { User } from '../user/entities/user.entity';
 import { UsersService } from '../user/users.service';
 import { Order } from '../order/entities/order.entity';
+import { IChartDataPeriodResponse } from 'src/common/types/interfaces';
 
 @Injectable()
 export class ServiceService {
   constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService,
     private readonly userService: UsersService,
     @InjectRepository(Order) private orderRepo: Repository<Order>,
     @InjectRepository(Review) private reviewRepo: Repository<Review>,
-    @InjectRepository(CartItem) private cartItemRepo: Repository<CartItem>,
     @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Category) private categoryRepo: Repository<Category>,
-    @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
 
-  async getChartsData(accessToken: string): Promise<any> {
+  async getChartsData(
+    accessToken: string,
+  ): Promise<IChartDataPeriodResponse[]> {
     const currentUserIsAdmin = await this.userService.hasAdminRole(accessToken);
 
     if (!currentUserIsAdmin) {
       throw new ForbiddenException('This action only available for admins');
     }
-
-    const token = accessToken.split(' ')[1];
-    const decodedToken = this.jwtService.verify(token, {
-      secret: this.configService.get<string>('jwt.access'),
-    });
-    const username = decodedToken.username;
-    const user = await this.userRepo.findOne({
-      where: { email: username },
-    });
 
     const oldestOrder = await this.orderRepo.find({
       order: {
@@ -60,33 +44,15 @@ export class ServiceService {
 
     const validOldestOrderDate = this.formatDate(oldestOrderDate);
     const validCurrentDate = this.formatDate(currentDate);
-    const dateDifferenceInDays = this.calculateDateDifference(
-      validCurrentDate,
-      validOldestOrderDate,
-    );
 
-    if (dateDifferenceInDays > 10) {
-      const datePeriodGap = Math.floor(dateDifferenceInDays / 10);
-    }
+    // const data = await this.getPeriodData('2024-11-01', '2025-01-15');
 
-    if (!user) {
-      throw new NotFoundException('Error profile fetching');
-    } else if (!user.active) {
-      throw new ForbiddenException('User is not available or diactivated');
-    } else {
-      return {
-        validOldestOrderDate,
-        validCurrentDate,
-        dateDifferenceInDays,
-      };
+    try {
+      return await this.getPeriodData(validOldestOrderDate, validCurrentDate);
+    } catch (e) {
+      throw new InternalServerErrorException('Error data calculating');
     }
   }
-
-  calculateAndGeneratePeriods(
-    startDate: string,
-    endDate: string,
-    dateDiffence: number,
-  ): any {}
 
   addDaysToDate(dateString: string, daysToAdd: number): string {
     const date = new Date(dateString);
@@ -112,20 +78,134 @@ export class ServiceService {
     return `${year}-${month}-${day}`;
   }
 
-  calculateDateDifference(
-    startDateString: string,
-    endDateString: string,
-  ): number {
-    const startDate = new Date(startDateString);
-    const endDate = new Date(endDateString);
+  async getPeriodData(
+    startDate: string,
+    endDate: string,
+  ): Promise<IChartDataPeriodResponse[]> {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       throw new Error('Invalid date format. Please use "YYYY-MM-DD".');
     }
 
-    const differenceInTime = endDate.getTime() - startDate.getTime();
-    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    const differenceInTime = end.getTime() - start.getTime();
+    const totalDays = Math.round(differenceInTime / (1000 * 3600 * 24));
 
-    return Math.abs(Math.round(differenceInDays));
+    const parts = totalDays < 10 ? totalDays : 10;
+    const periodLength = Math.ceil(totalDays / parts);
+    const periods = [];
+
+    for (let i = 0; i < parts; i++) {
+      const periodStart = this.formatDate(start);
+      const periodEndIso = new Date(
+        this.addDaysToDate(periodStart, periodLength),
+      );
+      const periodEnd = this.formatDate(periodEndIso);
+
+      if (new Date(periodEnd) > end) {
+        break;
+      }
+
+      const [revenue, soldProducts, reviews, newUser] = await Promise.all([
+        this.calculateRevenue(periodStart, periodEnd),
+        this.calculateSoldProducts(periodStart, periodEnd),
+        this.calculateReviews(periodStart, periodEnd),
+        this.calculateNewUsers(periodStart, periodEnd),
+      ]);
+
+      periods.push({
+        startDate: periodStart,
+        endDate: periodEnd,
+        revenue: Math.round(revenue * 10) / 10, // Округление до 1 знака после запятой
+        soldProducts,
+        reviews,
+        newUser,
+      });
+
+      start.setDate(start.getDate() + periodLength);
+    }
+
+    return periods;
+  }
+
+  private async calculateRevenue(
+    startDate: string,
+    endDate: string,
+  ): Promise<number> {
+    const orders = await this.orderRepo.find({
+      where: {
+        createdAt: Between(new Date(startDate), new Date(endDate)),
+      },
+      relations: ['purchase', 'purchase.product'],
+      select: {
+        createdAt: true,
+        purchase: { product: { price: true }, quantity: true },
+      },
+    });
+
+    return orders.reduce(
+      (acc, order) =>
+        acc +
+        order.purchase.reduce(
+          (sum, item) => sum + item.product.price * item.quantity,
+          0,
+        ),
+      0,
+    );
+  }
+
+  private async calculateSoldProducts(
+    startDate: string,
+    endDate: string,
+  ): Promise<number> {
+    const orders = await this.orderRepo.find({
+      where: {
+        createdAt: Between(new Date(startDate), new Date(endDate)),
+      },
+      relations: ['purchase'],
+      select: {
+        createdAt: true,
+        purchase: { quantity: true },
+      },
+    });
+
+    return orders.reduce(
+      (acc, order) =>
+        acc + order.purchase.reduce((sum, item) => sum + item.quantity, 0),
+      0,
+    );
+  }
+
+  private async calculateReviews(
+    startDate: string,
+    endDate: string,
+  ): Promise<number> {
+    const reviews = await this.reviewRepo.find({
+      where: {
+        createdAt: Between(new Date(startDate), new Date(endDate)),
+      },
+      select: {
+        createdAt: true,
+      },
+    });
+
+    return reviews.length;
+  }
+
+  private async calculateNewUsers(
+    startDate: string,
+    endDate: string,
+  ): Promise<number> {
+    const users = await this.userRepo.find({
+      where: {
+        createdAt: Between(new Date(startDate), new Date(endDate)),
+      },
+      select: {
+        createdAt: true,
+      },
+    });
+
+    return users.length;
   }
 }

@@ -169,3 +169,12 @@ export interface IUserOrders {
   id: number;
   quantity: number;
 }
+
+export interface IChartDataPeriodResponse {
+  startDate: string;
+  endDate: string;
+  revenue: number;
+  soldProducts: number;
+  reviews: number;
+  newUser: number;
+}

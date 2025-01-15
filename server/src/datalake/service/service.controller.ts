@@ -2,14 +2,17 @@ import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/config/access-token.guard';
 import {
   ApiForbiddenResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from '../user/entities/user.entity';
 import { ServiceService } from './service.service';
-import { IHeadersAuthorizationRequest } from 'src/common/types/interfaces';
+import {
+  IChartDataPeriodResponse,
+  IHeadersAuthorizationRequest,
+} from 'src/common/types/interfaces';
 
 @ApiTags('service')
 @Controller('service')
@@ -22,11 +25,12 @@ export class ServiceController {
   @ApiResponse({
     status: 200,
     description: 'Возврат данных для графиков',
-    type: User,
   })
-  @ApiNotFoundResponse()
   @ApiForbiddenResponse()
-  getChartsData(@Request() request: IHeadersAuthorizationRequest): any {
+  @ApiInternalServerErrorResponse()
+  getChartsData(
+    @Request() request: IHeadersAuthorizationRequest,
+  ): Promise<IChartDataPeriodResponse[]> {
     const accessToken = request.headers.authorization;
     return this.serviceService.getChartsData(accessToken);
   }
