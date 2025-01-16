@@ -45,8 +45,6 @@ export class ServiceService {
     const validOldestOrderDate = this.formatDate(oldestOrderDate);
     const validCurrentDate = this.formatDate(currentDate);
 
-    // const data = await this.getPeriodData('2024-11-01', '2025-01-15');
-
     try {
       return await this.getPeriodData(validOldestOrderDate, validCurrentDate);
     } catch (e) {
@@ -97,11 +95,20 @@ export class ServiceService {
     const restDays = totalDays % parts;
     const periods = [];
 
-    for (let i = 1; i <= parts; i++) {
-      const periodStart = this.formatDate(start);
-      const periodEndIso = new Date(
-        this.addDaysToDate(periodStart, periodLength),
-      );
+    for (let i = 0; i <= parts; i++) {
+      let periodStart, periodEndIso;
+      if (i === 0) {
+        // для входной даты начала рассчитываем показатели с учетом предыдущих дат ( показатели на входную дату начала не будут = 0), и в общий расчет не берем при сложении значений по точкам)
+        periodStart = this.formatDate(
+          new Date(
+            this.addDaysToDate(this.formatDate(start), 0 - periodLength),
+          ),
+        );
+        periodEndIso = this.formatDate(start);
+      } else {
+        periodStart = this.formatDate(start);
+        periodEndIso = new Date(this.addDaysToDate(periodStart, periodLength));
+      }
 
       let periodEnd;
       if (i === parts - 1) {
@@ -111,6 +118,7 @@ export class ServiceService {
       }
 
       if (new Date(periodEnd) > end) {
+        // если конечная дата периода больше входной конечной даты прекращаем рассчет
         break;
       }
 
@@ -131,8 +139,13 @@ export class ServiceService {
       });
 
       if (i === parts - 1) {
+        // для последнего периода (количество дней != количеству дням остальных периодов) добавляем остатки дней
         start.setDate(start.getDate() + periodLength + restDays);
+      } else if (i === 0) {
+        // для самого первого периода, когда мы берем в учет статистику предыдущих дней, не охватывающих диапазон входных дат задаем начальную дату
+        start.setDate(start.getDate());
       } else {
+        // для всех остальных периодов добавляем количество дней в периоде для расчета показателей последующего периода
         start.setDate(start.getDate() + periodLength);
       }
     }

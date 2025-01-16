@@ -131,6 +131,8 @@ export interface GetStatisticsPeriodDto {
   endDate: string;
 }
 
+export interface GetChartsPeriodDto extends GetStatisticsPeriodDto {}
+
 export interface ValidateCodeDto {
   code: string;
 }

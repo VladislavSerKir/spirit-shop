@@ -7,7 +7,10 @@ import {
 } from "../../store/actions/userAction";
 import Spinner from "../spinner/spinner";
 import GlobalProductStatistics from "../../components/global-product-statistics/global-product-statistics";
-import { setShopStatisticsInfoToNull } from "../../store/reducers/serviceReducer";
+import {
+  setChartsDataToNull,
+  setShopStatisticsInfoToNull,
+} from "../../store/reducers/serviceReducer";
 import { useRouteMatch } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,7 +23,10 @@ import GoogleSheetsExport from "../../components/google-sheets-export/google-she
 import { toast } from "react-toastify";
 import { ii18n } from "../../i18n";
 import { AreaChart } from "../../components/area-chart/area-chart";
-import { getChartsData } from "../../store/actions/serviceAction";
+import {
+  getChartsBetweenPeriodData,
+  getChartsData,
+} from "../../store/actions/serviceAction";
 
 const ShopStatistics: FC = () => {
   const dispatch = useTypedDispatch();
@@ -96,13 +102,14 @@ const ShopStatistics: FC = () => {
     dispatch(getChartsData());
 
     return () => {
-      setShopStatisticsInfoToNull();
+      dispatch(setShopStatisticsInfoToNull());
+      dispatch(setChartsDataToNull());
     };
   }, [url]);
 
   const getShopStatisticsHandler = (startDate: string, endDate: string) => {
     dispatch(getShopStatisticsPeriodInfo({ startDate, endDate }));
-    // dispatch(getChartsBetweenPeriodData({ startDate, endDate }));
+    dispatch(getChartsBetweenPeriodData({ startDate, endDate }));
   };
 
   if (shopStatisticsRequest) {
@@ -338,7 +345,11 @@ const ShopStatistics: FC = () => {
             <GoogleSheetsExport data={prepareDataForExcel(statistics)} />
           </div>
           <AreaChart
-            title={t("Revenue chart")}
+            title={
+              periodStatistics
+                ? `${t("Revenue chart")} (${formatStartDate} ${formatEndDate})`
+                : `${t("Revenue chart")}`
+            }
             xLabel={t("Date")}
             yLabel="$"
             color="#ff5f5f"
@@ -346,7 +357,11 @@ const ShopStatistics: FC = () => {
             mapType="revenue"
           />
           <AreaChart
-            title={t("Product sales chart")}
+            title={
+              periodStatistics
+                ? `${t("Product sales chart")} (${formatStartDate} ${formatEndDate})`
+                : `${t("Product sales chart")}`
+            }
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#7d5fff"
@@ -354,7 +369,11 @@ const ShopStatistics: FC = () => {
             mapType="soldProducts"
           />
           <AreaChart
-            title={t("Review chart")}
+            title={
+              periodStatistics
+                ? `${t("Review chart")} (${formatStartDate} ${formatEndDate})`
+                : `${t("Review chart")}`
+            }
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#ffbd5f"
@@ -362,7 +381,11 @@ const ShopStatistics: FC = () => {
             mapType="reviews"
           />
           <AreaChart
-            title={t("User quantity chart")}
+            title={
+              periodStatistics
+                ? `${t("User quantity chart")} (${formatStartDate} ${formatEndDate})`
+                : `${t("User quantity chart")}`
+            }
             xLabel={t("Date")}
             yLabel={t("pcs.")}
             color="#5fedff"

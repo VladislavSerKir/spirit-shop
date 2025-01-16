@@ -83,6 +83,9 @@ export const serviceSlice = createSlice({
     setChartsData: (state, action: PayloadAction<IChartData[]>) => {
       state.chartsData = [...action.payload];
     },
+    setChartsDataToNull: (state) => {
+      state.chartsData = [];
+    },
   },
 });
 
@@ -97,5 +100,6 @@ export const {
   setCodeExpired,
   setChartsDataRequest,
   setChartsData,
+  setChartsDataToNull,
 } = serviceSlice.actions;
 export const serviceReducer = serviceSlice.reducer;
