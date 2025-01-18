@@ -6,6 +6,7 @@ export type IReviewState = {
   success: boolean;
   reviewRequest: boolean;
   reviewErrorMessage: null | undefined | string | TError;
+  filterRate: null | number;
 };
 
 export interface IReview {

@@ -11,6 +11,7 @@ const reviewState: IReviewState = {
   success: false,
   reviewRequest: false,
   reviewErrorMessage: null,
+  filterRate: null,
 };
 
 export const reviewSlice = createSlice({
@@ -19,6 +20,12 @@ export const reviewSlice = createSlice({
   reducers: {
     setReviewRequest: (state, action: PayloadAction<boolean>) => {
       state.reviewRequest = action.payload;
+    },
+    setFilterRate: (state, action: PayloadAction<number>) => {
+      state.filterRate = action.payload;
+    },
+    setFilterRateToNull: (state) => {
+      state.filterRate = null;
     },
     updateRateReview: (state, action: PayloadAction<Partial<IReview>>) => {
       const updatedReview = state.review.filter(
@@ -136,5 +143,7 @@ export const {
   setLikeReview,
   setDislikeReview,
   removeReview,
+  setFilterRate,
+  setFilterRateToNull,
 } = reviewSlice.actions;
 export const reviewReducer = reviewSlice.reducer;

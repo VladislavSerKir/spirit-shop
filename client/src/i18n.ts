@@ -333,6 +333,8 @@ const ENtranslation = {
   Date: "Date",
   "pcs.": "pcs.",
   "User quantity chart": "User quantity chart",
+  "No reviews": "No reviews",
+  "Rate filter": "Rate filter",
 };
 
 const RUtranslation = {
@@ -672,6 +674,8 @@ const RUtranslation = {
   Date: "Дата",
   "pcs.": "шт.",
   "User quantity chart": "График количества пользователей",
+  "No reviews": "Отзывов нет",
+  "Rate filter": "Фильтр по рейтингу",
 };
 
 export const ii18n = new I18n({
