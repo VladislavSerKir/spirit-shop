@@ -6,7 +6,7 @@
   
 ## 🛠 Используемые технологии
 
-Front-end: `React`, `Typescript`, `Redux toolkit`, `SASS`, `i18n`, `oauth2`, `google-oauth2`, `google-sheets`, `xlsx`, `recharts`, `toastify`
+Front-end: `React`, `Typescript`, `Redux toolkit`, `SASS`, `i18n`, `react-star-ratings`, `oauth2`, `google-oauth2`, `google-sheets`, `xlsx`, `recharts`, `toastify`
 
 Back-end: `PostgresSQL`, `NestJS`
 
@@ -15,6 +15,8 @@ Back-end: `PostgresSQL`, `NestJS`
 Около 90% содержимого адаптивно под разные разрешения (PC, планшеты, мобильные телефоны).
 
 Есть возможность смены светлой :sunny: и темной темы :waning_crescent_moon:.
+
+Есть возможность пареключения языка интерфейсов на русский :ru: и английский 🇬🇧.
 
 ## :wrench: Запуск проекта локально
 
@@ -191,6 +193,10 @@ Back-end: `PostgresSQL`, `NestJS`
 - График количества пользователей
 
 ![2025-01-19_22-21-14](https://github.com/user-attachments/assets/2d88b6df-7043-48bc-ac38-201cc4301ca5)
+
+Пример шаблона Google sheets (аналогично .xlsx): 
+
+![2025-01-19_23-20-52](https://github.com/user-attachments/assets/70a8d5e1-fc0a-4ef5-9f76-28190ab4cf86)
 
 Формирование сводной статистики по каждому продукту за весь / за указанный период. Фильтрация по колонкам для упрощенного поиска
 
