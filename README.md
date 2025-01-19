@@ -13,6 +13,7 @@ Back-end: `PostgresSQL`, `NestJS`
 Документация: `Swagger`, `Storybook`
 
 Около 90% содержимого адаптивно под разные разрешения (PC, планшеты, мобильные телефоны).
+
 Есть возможность смены светлой :sunny: и темной темы :waning_crescent_moon:.
 
 ## :wrench: Запуск проекта локально
@@ -61,9 +62,21 @@ Back-end: `PostgresSQL`, `NestJS`
 
 `GOOGLE_CLIENT_ID`, `GOOGLE_SECRET`, `GOOGLE_REDIRECT_URI`
 
+Ссылка Google oauth2 - https://console.cloud.google.com/apis/credentials
+
 Аналогично, для работы аутентификации Yandex, создайте новый проект в Yandex oauth API и заполните поля:
 
 `YANDEX_CLIENT_ID`, `YANDEX_CLIENT_SECRET`, `YANDEX_REDIRECT_URI`  
+
+Ссылка Yandex oauth - https://oauth.yandex.ru/
+
+Для экспорта аналитики магазина в `google-sheets` необходимо так же создать файл **.env** в кодовой базе фронтенда с указанием полей указанных ниже. Но перед этим настроить `google sheets API` с ключами доступа в `Google console` и создать новый документ в Google sheets. Скопировать ID документа из URL строки в переменную `REACT_APP_SPREADSHEET_ID`
+
+`REACT_APP_CLIENT_ID`
+`REACT_APP_API_KEY`
+`REACT_APP_SPREADSHEET_ID`
+
+Ссылка Google console - https://console.cloud.google.com/apis
 
 ## :factory: Диаграмма сущностей Plant UML
 
@@ -128,6 +141,61 @@ Back-end: `PostgresSQL`, `NestJS`
 
 ![2025-01-19_21-45-34](https://github.com/user-attachments/assets/66a9a2fb-a323-4369-a4ea-6ad7e7440bea)
 
-![2025-01-19_21-50-57](https://github.com/user-attachments/assets/fdfddf84-4771-4223-a67e-699ca13db34c)
-
 ![2025-01-19_21-49-41](https://github.com/user-attachments/assets/27c8f5b4-f687-41f8-846b-955d89d01d49)
+
+### Страница профиля с боковым меню
+
+Для обычного пользователя доступны разделы:
+
+- Профиль 
+- Моя страница
+- Мои заказы
+- Любимые продукты
+- Мои отзывы
+
+![2025-01-19_21-59-41](https://github.com/user-attachments/assets/907b2455-3f36-4454-81b6-218f43aeb7f2)
+
+Для админа добавляются разделы:
+
+- Управление категориями (изменения над категориями для их последующего присвоения продуктам)
+- Управлять продуктами (изменения над продуктами, для их выставления на продажу)
+- Все пользователи (просмотр основной информации о пользователях, назначение админа, активация / деактивация пользователя)
+- Статистика магазина (аналитика)
+
+![2025-01-19_22-05-24](https://github.com/user-attachments/assets/e2e6b9d1-a0bc-4236-a752-68f9d6a27368)
+
+### Редактирование категорий
+
+Есть возможность создавать, изменять существующие и удалять категории
+
+![2025-01-19_22-07-53](https://github.com/user-attachments/assets/5055c8cd-a085-405b-b8d2-112d67719713)
+
+### Редактирование продуктов
+
+Создание, изменение и удаление продуктов
+
+![2025-01-19_22-12-00](https://github.com/user-attachments/assets/89e8eacb-7d51-4a5b-85ba-58f703c103dc)
+
+### :star2: Статистика магазина (аналитика)
+
+Расчет основных показателей магазина за весь / за указанный период :dollar: :dollar: :dollar:
+
+![2025-01-19_22-18-22](https://github.com/user-attachments/assets/2987aeeb-4d14-4df0-8910-4822a3716a4b)
+
+Генерация и экспорт файлов `.xlsx` и `google-sheets` с показателями магазина за весь / за указанный период (отчеты так же доступны на :ru: 🇬🇧 языках).
+Формирование графиков к периодам:
+
+- График выручки
+- График продажи продуктов
+- График отзывов
+- График количества пользователей
+
+![2025-01-19_22-21-14](https://github.com/user-attachments/assets/2d88b6df-7043-48bc-ac38-201cc4301ca5)
+
+Формирование сводной статистики по каждому продукту за весь / за указанный период. Фильтрация по колонкам для упрощенного поиска
+
+![2025-01-19_22-26-03](https://github.com/user-attachments/assets/fa21ca2a-12f8-4b4b-aef3-e3091647dabb)
+
+## :incoming_envelope: Написать мне по вопросам сотрудничества
+[![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github)](https://github.com/VladislavSerKir)
+[![telegram](https://img.shields.io/badge/Telegram-68c4f0?style=for-the-badge&logo=telegram)](https://t.me/vl_kireev)
