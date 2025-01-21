@@ -29,7 +29,8 @@ export const ReviewFeed = ({ reviews }: IReviewFeedProps) => {
       <h3 className="section__title-center questions__title container">
         {t("Reviews")}
       </h3>
-      <ReviewFilter reviews={reviews} />
+      {reviews?.length ? <ReviewFilter reviews={reviews} /> : null}
+
       <hr />
       {reviewsToShow?.length ? (
         reviewsToShow?.map((review: IReview) => {

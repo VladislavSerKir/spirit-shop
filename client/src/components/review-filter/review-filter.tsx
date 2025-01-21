@@ -24,8 +24,6 @@ export const ReviewFilter = ({ reviews }: IReviewFilterProps) => {
     }
   });
 
-  console.log(rateCount, reviews);
-
   const handleFilterRate = (rate: number) => {
     if (rate === filterRate) {
       dispatch(setFilterRateToNull());

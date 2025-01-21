@@ -46,7 +46,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const BasicEditProfileForm: Story = {
-  args: { onClose() {} },
   decorators: [
     (story) => <Mockstore initialState={mockedUserState}>{story()}</Mockstore>,
   ],
