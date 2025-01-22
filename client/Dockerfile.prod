@@ -1,0 +1,25 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . ./
+
+#Создаем сборку
+RUN npm run build \ 
+#Удаляем исходники
+  && rm -rf ./src \
+  #Удаляем все зависимости на проде
+  && rm -rf node ./node_modules
+
+FROM nginx:1.25.1-alpine AS frontend
+WORKDIR /app
+
+# Копируем сборку в файловую систему nginx вместо заглушки
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY ./nginx/conf.d/default.conf /etc/nginx/conf.d
+
+#Открыть 80 порт
+EXPOSE 80
+
+CMD [ "nginx", "-g", "daemon off" ]

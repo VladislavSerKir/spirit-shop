@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Установите зависимости
-RUN npm install
+RUN npm ci
 
 # Скопируйте остальные файлы проекта
 COPY . ./

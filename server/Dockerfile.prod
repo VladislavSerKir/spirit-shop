@@ -1,0 +1,47 @@
+# Используйте базовый образ Node.js и создаем этап builder для получения сборки
+FROM node:20-alpine AS builder 
+
+# Установите bash
+RUN apk add --no-cache bash
+
+# Установите рабочую директорию
+WORKDIR /app
+
+# Скопируйте package.json и package-lock.json
+COPY package*.json ./
+
+# Установите зависимости
+RUN npm ci
+
+# Скопируйте остальные файлы проекта
+COPY . ./
+
+#Создаем сборку
+RUN npm run build \
+#Удаляем исходники
+&& rm -rf ./scr \
+#Удаляем все зависимости на проде
+&& rm -rf node ./node_modules
+
+FROM node:20-alpine AS backend
+WORKDIR /app
+COPY package*.json ./
+
+# Устанавливаем зависимости без установки dev зависимостей, без аудита
+RUN npm ci --omit=dev --no-audit --no-fund && npm i -g pm2
+
+#Копируем файлы сборки из этапа builder в текущий
+COPY --from=builder /app/dist ./dist
+
+# Копируем файл экосистемы
+COPY ./ecosystem.config.js ./dist
+
+# Скопируйте wait-for-it.sh и сделайте его исполняемым
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+# Открытие порта бэка на 3001 порту, обязательно если не используем docker compose
+EXPOSE 3001
+
+# Команда для запуска приложения, запуск pm2 в активном foreground режиме
+CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
