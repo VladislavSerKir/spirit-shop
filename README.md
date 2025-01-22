@@ -2,8 +2,8 @@
 <h1>Онлайн магазин Spirit shop</h1>
   </div>
 
-  ![image](https://github.com/user-attachments/assets/539c8899-3c2a-44f0-946c-61db6e2f50b7)
-  
+![image](https://github.com/user-attachments/assets/539c8899-3c2a-44f0-946c-61db6e2f50b7)
+
 ## 🛠 Используемые технологии
 
 Front-end: `React`, `Typescript`, `Redux toolkit`, `SASS`, `i18n`, `react-star-ratings`, `oauth2`, `google-oauth2`, `google-sheets`, `xlsx`, `recharts`, `toastify`
@@ -21,44 +21,60 @@ Back-end: `PostgresSQL`, `NestJS`
 ## :wrench: Запуск проекта локально
 
 Скопировать проект
+
 ```bash
   git clone https://github.com/VladislavSerKir/spirit-shop
 ```
+
 Перейти в директорию серверной кодовой базы
+
 ```bash
   cd spirit-shop/server
 ```
+
 Установить зависимости серверной части
+
 ```bash
   npm install
 ```
+
 Запустить серверную часть
+
 ```bash
   npm run start
 ```
+
 Перейти в директорию клиентской кодовой базы
+
 ```bash
   cd spirit-shop/client
 ```
+
 Установить зависимости клиентской части
+
 ```bash
   npm install
 ```
+
 Запустить клиентскую часть
+
 ```bash
   npm start start
 ```
+
 Для просмотра фронтенд документации Storybook (запуск по умолчанию на 3002 порту)
+
 ```bash
   npm start storybook
 ```
+
 Серверная документация Swagger доступна по URL `http://localhost:3001/api#/`
 
 ## :earth_asia: Переменные окружения
 
 Для того чтобы запустить проект, создайте базу данных PostgresSQL локально и скопируйте значения полей. Создайте в директории серверной кодовой базы файл **.env** и проставьте значения полей переменных, указанных ниже. Так же, вы можете воспользоваться значениями из **.env.template**:
 
-`DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `DATABASE_NAME`
+`POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_NAME`
 
 Для работы аутентификации через сторонние сервисы (Google, Yandex), создайте в Google console новый проект и скопируйте значения в поля:
 
@@ -68,7 +84,7 @@ Back-end: `PostgresSQL`, `NestJS`
 
 Аналогично, для работы аутентификации Yandex, создайте новый проект в Yandex oauth API и заполните поля:
 
-`YANDEX_CLIENT_ID`, `YANDEX_CLIENT_SECRET`, `YANDEX_REDIRECT_URI`  
+`YANDEX_CLIENT_ID`, `YANDEX_CLIENT_SECRET`, `YANDEX_REDIRECT_URI`
 
 Ссылка Yandex oauth - https://oauth.yandex.ru/
 
@@ -79,6 +95,11 @@ Back-end: `PostgresSQL`, `NestJS`
 `REACT_APP_SPREADSHEET_ID`
 
 Ссылка Google console - https://console.cloud.google.com/apis
+
+Для добавления админов в систему доступны 2 переменные в `.env` файле серверной директории. Роль админа присвоится автоматически при регистрации пользователя или при авторизации через Google, Yandex с одним из указанных email
+
+`ADMIN_EMAIL`
+`ADMIN_EMAIL_SECONDARY`
 
 ## :factory: Диаграмма сущностей Plant UML
 
@@ -112,21 +133,21 @@ Back-end: `PostgresSQL`, `NestJS`
 - Категории
 - По возрастанию :arrow_up: / убыванию цены :arrow_down:
 
-****Доступны действия пользователя над продуктом в случае авторизации:****
+\***\*Доступны действия пользователя над продуктом в случае авторизации:\*\***
 
 - Добавление или удаление из избранного
 - В случае если продукт когда-либо был куплен, проставление рейтинга
 - Просмотр рейтинга и количества отзывов
 - Просмотр основных параметров продукта
 - Добавление в корзину
-  
-    ![2025-01-19_21-16-18](https://github.com/user-attachments/assets/0fd557ca-1757-42ed-9f80-c658e4a284e3)
 
-****Для неавторизованного пользователя доступны:****
+  ![2025-01-19_21-16-18](https://github.com/user-attachments/assets/0fd557ca-1757-42ed-9f80-c658e4a284e3)
+
+\***\*Для неавторизованного пользователя доступны:\*\***
 
 - Просмотр рейтинга и количества отзывов
 - Просмотр основных параметров продукта
-  
+
 ![2025-01-19_21-20-27](https://github.com/user-attachments/assets/35bd59b5-3f7a-481e-a422-4abe63a96c40)
 
 ### Страница продукта
@@ -149,7 +170,7 @@ Back-end: `PostgresSQL`, `NestJS`
 
 Для обычного пользователя доступны разделы:
 
-- Профиль 
+- Профиль
 - Моя страница
 - Мои заказы
 - Любимые продукты
@@ -194,7 +215,7 @@ Back-end: `PostgresSQL`, `NestJS`
 
 ![2025-01-19_22-21-14](https://github.com/user-attachments/assets/2d88b6df-7043-48bc-ac38-201cc4301ca5)
 
-Пример шаблона Google sheets (аналогично .xlsx): 
+Пример шаблона Google sheets (аналогично .xlsx):
 
 ![2025-01-19_23-20-52](https://github.com/user-attachments/assets/70a8d5e1-fc0a-4ef5-9f76-28190ab4cf86)
 
@@ -203,5 +224,6 @@ Back-end: `PostgresSQL`, `NestJS`
 ![2025-01-19_22-26-03](https://github.com/user-attachments/assets/fa21ca2a-12f8-4b4b-aef3-e3091647dabb)
 
 ## :incoming_envelope: Написать мне по вопросам сотрудничества
+
 [![github](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github)](https://github.com/VladislavSerKir)
 [![telegram](https://img.shields.io/badge/Telegram-68c4f0?style=for-the-badge&logo=telegram)](https://t.me/vl_kireev)

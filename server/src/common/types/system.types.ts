@@ -5,11 +5,13 @@ export type ServerConfiguration = {
 };
 
 export type DatabaseConfiguration = {
+  type: string;
   host: string;
   port: number;
   username: string;
   password: string;
-  name: string;
+  database: string;
+  synchronize: boolean;
 };
 export type JWTConfiguration = {
   access: string;

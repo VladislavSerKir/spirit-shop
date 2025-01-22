@@ -1,0 +1,63 @@
+version: "3.2"
+
+services:
+  server:
+    container_name: spirit-shop-backend
+    build:
+      context: server
+      dockerfile: Dockerfile
+    env_file: ./server/.env
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    command:
+      ["/wait-for-it.sh", "postgres:5432", "--", "npm", "run", "start:dev"]
+    networks:
+      - backend_network
+
+  client:
+    container_name: spirit-shop-frontend
+    build:
+      context: client
+      dockerfile: Dockerfile
+    env_file: ./client/.env
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - frontend_network
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    env_file: ./server/.env
+    restart: unless-stopped
+    volumes:
+      - pg_data:/data/postgres
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data:
+
+networks:
+  backend_network:
+  frontend_network:

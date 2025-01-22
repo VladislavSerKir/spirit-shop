@@ -64,8 +64,8 @@ export class AuthService {
       password: hashedPassword,
       mobileNumber,
       role:
-        email === 'kireev.vladislav@yandex.ru' ||
-        email === 'kireew.vladislaw@gmail.com'
+        email === process.env.ADMIN_EMAIL_SECONDARY ||
+        email === process.env.ADMIN_EMAIL
           ? 'admin'
           : 'user',
     });
@@ -521,7 +521,11 @@ export class AuthService {
         email: default_email,
         password: hashedPassword,
         mobileNumber: '',
-        role: default_email === 'kireev.vladislav@yandex.ru' ? 'admin' : 'user',
+        role:
+          default_email === process.env.ADMIN_EMAIL_SECONDARY ||
+          default_email === process.env.ADMIN_EMAIL
+            ? 'admin'
+            : 'user',
       });
 
       const cart = new Cart();

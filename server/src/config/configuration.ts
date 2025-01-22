@@ -7,11 +7,13 @@ export default (): AppConfiguration => ({
     http_address: process.env.HTTP_ADDRESS,
   },
   database: {
-    host: process.env.DATABASE_HOST || '127.0.0.1',
-    port: Number(process.env.DATABASE_PORT) || 5432,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    name: process.env.DATABASE_NAME || 'shop_db',
+    type: 'postgres',
+    host: process.env.POSTGRES_HOST || '127.0.0.1',
+    port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB || 'shop_db',
+    synchronize: process.env.TYPEORM_SYNC === '1',
   },
   jwt: {
     access: process.env.JWT_ACCESS_SECRET || 'access-secret',
