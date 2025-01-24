@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a3ca75a0.css",
+    "main.js": "/static/js/main.996505e6.js",
+    "static/media/bubbles.png": "/static/media/bubbles.e8cf2254fcd0931fac46.png",
+    "static/media/SedumBurrito.jpg": "/static/media/SedumBurrito.5721401cbbfb395e89c7.jpg",
+    "static/media/home.png": "/static/media/home.e6a7f3331fafe41b1498.png",
+    "static/media/AeoniumGorgoneum.jpg": "/static/media/AeoniumGorgoneum.a3445892f322d60b1611.jpg",
+    "static/media/GoldenBarrelCactus.jpg": "/static/media/GoldenBarrelCactus.8574aea35f36148b4ede.jpg",
+    "static/media/EchinocereusBrandegeei.jpg": "/static/media/EchinocereusBrandegeei.b00af56f1ad668183cee.jpg",
+    "static/media/EcheveriaLimenChile.jpg": "/static/media/EcheveriaLimenChile.363dce2f62e151907c1f.jpg",
+    "static/media/SedumNussbaumerianum.jpg": "/static/media/SedumNussbaumerianum.d294d9c66a84886599d2.jpg",
+    "static/media/PilosocereusPachycladus.jpg": "/static/media/PilosocereusPachycladus.c0cf258ad52ab389e7db.jpg",
+    "static/media/EcheveriaGoochie.jpg": "/static/media/EcheveriaGoochie.82d103188c703923257e.jpg",
+    "static/media/HaworthiaFasciata.jpeg": "/static/media/HaworthiaFasciata.86ceab8dc3d938d4b35d.jpeg",
+    "static/media/PachyphytumCompactumVariegata.jpg": "/static/media/PachyphytumCompactumVariegata.06e0dd6b8d81259f83b8.jpg",
+    "static/media/RuffledEcheveria.jpeg": "/static/media/RuffledEcheveria.b003dfb620287a67cbd7.jpeg",
+    "static/media/AloeVariegata.jpg": "/static/media/AloeVariegata.00c408b2b24560cb8f7d.jpg",
+    "static/media/hidden.png": "/static/media/hidden.3e6d21cd147ecb5bf05b.png",
+    "static/media/about.png": "/static/media/about.85136cd592d60b37e882.png",
+    "static/media/BunnyEarCactus.jpg": "/static/media/BunnyEarCactus.46bd465647d5fde8310c.jpg",
+    "static/media/EcheveriaDorisTaylor.jpg": "/static/media/EcheveriaDorisTaylor.ea54aa3ef4ca8b88ee84.jpg",
+    "static/media/SedumMontanumSubspOrientale.jpg": "/static/media/SedumMontanumSubspOrientale.2cbfa08f60036101859d.jpg",
+    "static/media/shopping-cart-dark.png": "/static/media/shopping-cart-dark.9f9391f297d900b589ef.png",
+    "index.html": "/index.html",
+    "main.a3ca75a0.css.map": "/static/css/main.a3ca75a0.css.map",
+    "main.996505e6.js.map": "/static/js/main.996505e6.js.map"
+  },
+  "entrypoints": ["static/css/main.a3ca75a0.css", "static/js/main.996505e6.js"]
+}

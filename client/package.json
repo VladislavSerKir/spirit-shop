@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://VladislavSerKir.github.io/spirit-shop",
+  "homepage": "https://spirit-shop.vercel.app/",
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
