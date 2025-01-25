@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.a3ca75a0.css",
-    "main.js": "/static/js/main.996505e6.js",
+    "main.css": "/static/css/main.29c2b7c2.css",
+    "main.js": "/static/js/main.fcf0fcae.js",
     "static/media/bubbles.png": "/static/media/bubbles.e8cf2254fcd0931fac46.png",
     "static/media/SedumBurrito.jpg": "/static/media/SedumBurrito.5721401cbbfb395e89c7.jpg",
     "static/media/home.png": "/static/media/home.e6a7f3331fafe41b1498.png",
@@ -23,8 +23,11 @@
     "static/media/SedumMontanumSubspOrientale.jpg": "/static/media/SedumMontanumSubspOrientale.2cbfa08f60036101859d.jpg",
     "static/media/shopping-cart-dark.png": "/static/media/shopping-cart-dark.9f9391f297d900b589ef.png",
     "index.html": "/index.html",
-    "main.a3ca75a0.css.map": "/static/css/main.a3ca75a0.css.map",
-    "main.996505e6.js.map": "/static/js/main.996505e6.js.map"
+    "main.29c2b7c2.css.map": "/static/css/main.29c2b7c2.css.map",
+    "main.fcf0fcae.js.map": "/static/js/main.fcf0fcae.js.map"
   },
-  "entrypoints": ["static/css/main.a3ca75a0.css", "static/js/main.996505e6.js"]
+  "entrypoints": [
+    "static/css/main.29c2b7c2.css",
+    "static/js/main.fcf0fcae.js"
+  ]
 }

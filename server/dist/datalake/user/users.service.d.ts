@@ -1,0 +1,46 @@
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { EditAvatarDto } from './dto/edit-avatar.dto';
+import { AssignAdminDto } from './dto/assign-admin.dto';
+import { ManageAccountDto } from './dto/manage-account.dto';
+import { BasicUserInfoHiddenResponse, BasicUserInfoResponse, YandexUserResponseOKInterface } from 'src/common/types/interfaces';
+import { Order } from '../order/entities/order.entity';
+import { Review } from '../review/entities/review.entity';
+import { CartItem } from '../cart/entities/cart-item.entity';
+import { HideProfileDto } from './dto/hide-profile.dto';
+import { Category } from '../category/entities/category.entity';
+import { Product } from '../product/entities/product.entity';
+import { GetStatisticsPeriodDto } from './dto/period-statistics.dto';
+export declare class UsersService {
+    private jwtService;
+    private configService;
+    private orderRepo;
+    private reviewRepo;
+    private cartItemRepo;
+    private userRepo;
+    private categoryRepo;
+    private productRepo;
+    constructor(jwtService: JwtService, configService: ConfigService, orderRepo: Repository<Order>, reviewRepo: Repository<Review>, cartItemRepo: Repository<CartItem>, userRepo: Repository<User>, categoryRepo: Repository<Category>, productRepo: Repository<Product>);
+    getProfileInfo(email: string): Promise<User>;
+    getBasicUserInfo(id: number, accessToken: string): Promise<BasicUserInfoResponse | BasicUserInfoHiddenResponse>;
+    getUsers(accessToken: string): Promise<User[]>;
+    editProfile(accessToken: string, updateUserDto: Partial<User>): Promise<Partial<User>>;
+    editAvatar(accessToken: string, editAvatarDto: EditAvatarDto): Promise<Partial<User>>;
+    updateToken(id: number, userData: Partial<User>): Promise<User>;
+    findByEmail(email: string): Promise<User>;
+    findUserInfo({ query }: {
+        query: string;
+    }): Promise<User[]>;
+    getUserById(id: number): Promise<User>;
+    getUserByEmail(email: string): Promise<Partial<User>>;
+    hasAdminRole(accessToken: string): Promise<boolean>;
+    manageAdmin(accessToken: string, assignAdminDto: AssignAdminDto): Promise<AssignAdminDto>;
+    manageAccount(accessToken: string, manageAccountDto: ManageAccountDto): Promise<ManageAccountDto>;
+    hideAccount(accessToken: string, hideProfileDto: HideProfileDto): Promise<HideProfileDto>;
+    getShopStatisticsInfo(accessToken: string): Promise<any>;
+    getShopStatisticsPeriodInfo(accessToken: string, getStatisticsPeriodDto: GetStatisticsPeriodDto): Promise<any>;
+    findByYandexID(yandexProfile: any): Promise<string>;
+    createFromYandex(yandexProfile: any): Promise<YandexUserResponseOKInterface>;
+}

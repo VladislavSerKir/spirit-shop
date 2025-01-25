@@ -1,0 +1,48 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ServiceModule = void 0;
+const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const jwt_1 = require("@nestjs/jwt");
+const service_controller_1 = require("./service.controller");
+const service_service_1 = require("./service.service");
+const order_entity_1 = require("../order/entities/order.entity");
+const review_entity_1 = require("../review/entities/review.entity");
+const cart_item_entity_1 = require("../cart/entities/cart-item.entity");
+const product_entity_1 = require("../product/entities/product.entity");
+const category_entity_1 = require("../category/entities/category.entity");
+const user_entity_1 = require("../user/entities/user.entity");
+const users_module_1 = require("../user/users.module");
+const users_service_1 = require("../user/users.service");
+let ServiceModule = class ServiceModule {
+};
+exports.ServiceModule = ServiceModule;
+exports.ServiceModule = ServiceModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            jwt_1.JwtModule.register({
+                secret: 'access-secret',
+                signOptions: { expiresIn: '1d' },
+            }),
+            typeorm_1.TypeOrmModule.forFeature([
+                user_entity_1.User,
+                order_entity_1.Order,
+                review_entity_1.Review,
+                cart_item_entity_1.CartItem,
+                product_entity_1.Product,
+                category_entity_1.Category,
+            ]),
+            users_module_1.UsersModule,
+        ],
+        controllers: [service_controller_1.ServiceController],
+        providers: [service_service_1.ServiceService, users_service_1.UsersService],
+        exports: [typeorm_1.TypeOrmModule],
+    })
+], ServiceModule);
+//# sourceMappingURL=service.module.js.map
