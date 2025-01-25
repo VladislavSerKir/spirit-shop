@@ -1,9 +1,9 @@
 export const config = {
-  frontendEndPoint: "http://localhost:3000",
-  apiEndPoint: "http://localhost:3001",
+  frontendEndPoint: "https://spirit-shop.vercel.app/", // https://spirit-shop.vercel.app/   http://localhost:3001
+  apiEndPoint: "https://spirit-shop.onrender.com/", // https://spirit-shop.onrender.com/  http://localhost:3001
   clientId: "0236616fe6874009a8868ba166bad6ad",
   clientSecret: "e695b0ce7ee84949a67296bb96d8391f",
-  redirectURI: "http://localhost:3000/oauth/callback",
+  redirectURI: "https://spirit-shop.vercel.app//oauth/callback",
   googleClientId:
     "174103314432-7qmnrd8h4mkss63di8nhaajqbmg9re59.apps.googleusercontent.com",
   googleSecret: "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",
