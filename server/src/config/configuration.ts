@@ -2,7 +2,7 @@ import { AppConfiguration } from 'src/common/types/system.types';
 
 export default (): AppConfiguration => ({
   server: {
-    port: Number(process.env.SERVER_PORT) || 3001,
+    port: Number(process.env.PORT) || 3001,
     cors_origins: process.env.CORS_ORIGINS,
     http_address: process.env.HTTP_ADDRESS,
   },
