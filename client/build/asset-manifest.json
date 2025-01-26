@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.29c2b7c2.css",
-    "main.js": "/static/js/main.8b0092b9.js",
+    "main.js": "/static/js/main.a8ae82ac.js",
     "static/media/bubbles.png": "/static/media/bubbles.e8cf2254fcd0931fac46.png",
     "static/media/SedumBurrito.jpg": "/static/media/SedumBurrito.5721401cbbfb395e89c7.jpg",
     "static/media/home.png": "/static/media/home.e6a7f3331fafe41b1498.png",
@@ -24,10 +24,10 @@
     "static/media/shopping-cart-dark.png": "/static/media/shopping-cart-dark.9f9391f297d900b589ef.png",
     "index.html": "/index.html",
     "main.29c2b7c2.css.map": "/static/css/main.29c2b7c2.css.map",
-    "main.8b0092b9.js.map": "/static/js/main.8b0092b9.js.map"
+    "main.a8ae82ac.js.map": "/static/js/main.a8ae82ac.js.map"
   },
   "entrypoints": [
     "static/css/main.29c2b7c2.css",
-    "static/js/main.8b0092b9.js"
+    "static/js/main.a8ae82ac.js"
   ]
 }
