@@ -1,22 +1,28 @@
 <div align="center">
-<h1>Онлайн магазин Spirit shop</h1>
+<h1>🌿 ✨ Онлайн магазин Spirit shop</h1>
   </div>
 
 ![image](https://github.com/user-attachments/assets/539c8899-3c2a-44f0-946c-61db6e2f50b7)
 
-## 🛠 Используемые технологии
+## 🛠 Используемые технологии и описание
 
-Front-end: `React`, `Typescript`, `Redux toolkit`, `SASS`, `i18n`, `react-star-ratings`, `oauth2`, `google-oauth2`, `google-sheets`, `xlsx`, `recharts`, `toastify`
+Front-end: `React`, `Typescript`, `Redux toolkit`, `SASS`, `i18n`, `react-star-ratings`, `oauth2`, `google-oauth2`, `jwt-authentication`, `google-sheets`, `xlsx`, `recharts`, `toastify`, `yup`
 
-Back-end: `PostgresSQL`, `NestJS`
-
-Документация: `Swagger`, `Storybook`
+Back-end: `PostgresSQL`, `NestJS`, `TypeORM`
 
 Около 90% содержимого адаптивно под разные разрешения (PC, планшеты, мобильные телефоны).
 
 Есть возможность смены светлой :sunny: и темной темы :waning_crescent_moon:.
 
 Есть возможность пареключения языка интерфейсов на русский :ru: и английский 🇬🇧.
+
+Валидация полей на клиенте с помощью `yup`.
+
+Автоматическая генерация frontend (`Swagger`) и backend (`Storybook`) документации в режиме разработчика.
+
+Просмотр клиентской документации компонентов осуществляется запуском `Storybook` командой, указанной в разделе **Запуск проекта локально**.
+
+Серверная документация `Swagger` доступна по URL `Backend HOST/api#/`.
 
 ## :wrench: Запуск проекта локально
 
@@ -67,8 +73,6 @@ Back-end: `PostgresSQL`, `NestJS`
 ```bash
   npm start storybook
 ```
-
-Серверная документация Swagger доступна по URL `http://localhost:3001/api#/`
 
 ### :whale: Docker команды
 
@@ -153,7 +157,7 @@ Back-end: `PostgresSQL`, `NestJS`
 - Категории
 - По возрастанию :arrow_up: / убыванию цены :arrow_down:
 
-\***\*Доступны действия пользователя над продуктом в случае авторизации:\*\***
+Доступны действия пользователя над продуктом в случае авторизации:
 
 - Добавление или удаление из избранного
 - В случае если продукт когда-либо был куплен, проставление рейтинга
@@ -163,7 +167,7 @@ Back-end: `PostgresSQL`, `NestJS`
 
   ![2025-01-19_21-16-18](https://github.com/user-attachments/assets/0fd557ca-1757-42ed-9f80-c658e4a284e3)
 
-\***\*Для неавторизованного пользователя доступны:\*\***
+Для неавторизованного пользователя доступны:
 
 - Просмотр рейтинга и количества отзывов
 - Просмотр основных параметров продукта
@@ -183,6 +187,8 @@ Back-end: `PostgresSQL`, `NestJS`
 - Оценка отзывов других пользователей
 
 ![2025-01-19_21-45-34](https://github.com/user-attachments/assets/66a9a2fb-a323-4369-a4ea-6ad7e7440bea)
+
+![2025-01-19_21-50-57](https://github.com/user-attachments/assets/9bba18ac-13ab-4f21-98da-80cf83912bfe)
 
 ![2025-01-19_21-49-41](https://github.com/user-attachments/assets/27c8f5b4-f687-41f8-846b-955d89d01d49)
 
